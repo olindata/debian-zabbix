@@ -1,0 +1,32 @@
+Template: shared/zabbix/database-type
+Type: select
+Choices: POSTGRESQL, MySQL
+Default: MySQL
+_Description: What type of database server will be used?
+ Please choose which database you want to use to store Zabbix data.
+ For the moment, only MySQL is supported.
+
+Template: shared/zabbix/database-server
+Type: string
+Default: localhost
+_Description: What is your database server host address?
+ Please enter the host name or the address of the database server you
+ want to connect to.
+
+Template: shared/zabbix/database-name
+Type: string
+Default: zabbix
+_Description: What is your database name?
+ This is the database where your zabbix-server will store all data.
+
+Template: shared/zabbix/database-user
+Type: string
+Default: zabbix
+_Description: What is your database username?
+ This is the username used for accessing the zabbix-server database.
+
+Template: shared/zabbix/database-password
+Type: password
+Default: zabbix
+_Description: What is your database password?
+ Enter a password for the previously entered database user.

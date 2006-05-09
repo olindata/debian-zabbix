@@ -1,0 +1,31 @@
+#!/bin/sh
+
+CONFFILE1="/etc/zabbix/zabbix_agentd.conf"
+CONFFILE2="/etc/zabbix/zabbix_agent.conf"
+
+. /usr/share/debconf/confmodule
+db_version 2.0 || [ $? -lt 30 ]
+
+if [ "$1" = "configure" ] && [ `md5sum $CONFFILE1 | awk '{print $1}'` = "39cb77813663a807ee95195ef42d30e7" ]; then
+
+    RET=""
+	db_get zabbix-agent/server || true
+	zabbix_server="$RET"
+    perl -i -p -e "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE1 2> /dev/null
+    perl -i -p -e "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE2 2> /dev/null
+
+    if ! getent group zabbix > /dev/null 2>&1 ; then
+    addgroup --system --quiet zabbix
+    fi
+
+    if ! getent passwd zabbix > /dev/null 2>&1 ; then
+    adduser --quiet \
+        --system --disabled-login --ingroup zabbix \
+        --home /var/run/zabbix-server/ --no-create-home \
+        zabbix
+    fi
+fi
+
+#DEBHELPER#
+
+exit 0

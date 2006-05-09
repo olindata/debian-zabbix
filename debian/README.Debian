@@ -1,0 +1,10 @@
+zabbix for Debian
+-----------------
+
+ If you want to create your own Zabbix environment I suggest
+ to read the Zabbix Reference Manual. For more Information
+ see the Zabbix Homepage[0].
+
+ [0] http://www.zabbix.com
+
+ -- Michael Ablassmeier <abi@grinser.de> Tue, 23 Mar 2004 22:46:45 +0100

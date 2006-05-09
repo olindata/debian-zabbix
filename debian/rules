@@ -1,0 +1,193 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+#
+# Modified to make a template file for a multi-binary package with separated
+# build-arch and build-indep targets  by Bill Allombert 2001
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+PKG_CLIENT = zabbix-agent
+PKG_SERVER_MYSQL = zabbix-server-mysql
+PKG_FRONTEND = zabbix-frontend-php
+TMP_CLIENT = $(CURDIR)/debian/$(PKG_CLIENT)
+TMP_SERVER_MYSQL = $(CURDIR)/debian/$(PKG_SERVER_MYSQL)
+TMP_FRONTEND = $(CURDIR)/debian/$(PKG_FRONTEND)
+
+INSTALL = install
+INSTALL_FILE    = $(INSTALL) -p    -oroot -groot -m644
+INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
+INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
+INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
+
+include /usr/share/dpatch/dpatch.make
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+config.status: configure
+	dh_testdir
+	CFLAGS="$(CFLAGS)" ./configure 	--host=$(DEB_HOST_GNU_TYPE) \
+					--build=$(DEB_BUILD_GNU_TYPE) \
+					--prefix=/usr \
+					--mandir=\$${prefix}/share/man \
+					--infodir=\$${prefix}/share/info \
+					--enable-agent \
+					--enable-server \
+				 	--with-mysql \
+				 	--with-ldap \
+					--with-net-snmp
+
+build: patch build-arch build-indep
+
+build-arch: build-arch-stamp
+build-arch-stamp: config.status
+	$(MAKE) 
+	touch build-arch-stamp
+
+build-indep: build-indep-stamp
+build-indep-stamp: config.status
+	touch build-indep-stamp
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	debconf-updatepo
+	-$(MAKE) clean
+	rm -f build-arch-stamp build-indep-stamp \
+	      config.log config.status include/stamp-h1 include/config.h \
+	      src/zabbix_agent/zabbix_agent src/zabbix_agent/zabbix_agentd \
+	      src/zabbix_get/zabbix_get \
+		  src/zabbix_sender/zabbix_sender \
+		  src/zabbix_server/zabbix_server
+	find . -name 'Makefile' -exec rm -f {} \;
+	find . -name \*.o -exec rm {} \;
+	find . -name \*.a -exec rm {} \;
+	-find . -type d -a -name '.deps' -exec rm -fr {} \; 2>/dev/null
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+	dh_clean 
+
+install: install-indep install-arch
+install-indep:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -i 
+	dh_installdirs -i
+	$(INSTALL_DIR) $(TMP_FRONTEND)/etc/zabbix/
+	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/zabbix/
+	cp -a frontends/php/* $(TMP_FRONTEND)/usr/share/zabbix/
+	chmod 644 $(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head2.gif \
+	          $(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head.gif
+	$(INSTALL_FILE) debian/templates/db.inc.php.in $(TMP_FRONTEND)/etc/zabbix/db.inc.php
+	rm $(TMP_FRONTEND)/usr/share/zabbix/include/db.inc.php
+	dh_link -p $(PKG_FRONTEND) /etc/zabbix/db.inc.php /usr/share/zabbix/include/db.inc.php
+	dh_install -i
+
+install-arch:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s 
+	dh_installdirs -s
+
+	echo ""
+	echo $(PKG_CLIENT)
+	$(INSTALL_DIR) $(TMP_CLIENT)
+	$(INSTALL_DIR) $(TMP_CLIENT)/usr/bin
+	$(INSTALL_DIR) $(TMP_CLIENT)/usr/sbin
+	$(INSTALL_DIR) $(TMP_CLIENT)/etc/zabbix/
+	$(INSTALL_DIR) $(TMP_CLIENT)/usr/share/zabbix-agent/
+	$(INSTALL_DIR) $(TMP_CLIENT)/usr/share/man/man1/
+	$(INSTALL_DIR) $(TMP_CLIENT)/DEBIAN
+	$(INSTALL_PROGRAM) src/zabbix_agent/zabbix_agentd  $(TMP_CLIENT)/usr/sbin
+	$(INSTALL_PROGRAM) src/zabbix_agent/zabbix_agent $(TMP_CLIENT)/usr/bin
+	$(INSTALL_PROGRAM) src/zabbix_sender/zabbix_sender $(TMP_CLIENT)/usr/bin
+	
+	$(INSTALL_DIR) $(TMP_CLIENT)/var/log/zabbix-agent/
+	chmod 750 $(TMP_CLIENT)/var/log/zabbix-agent/
+	$(INSTALL_DIR) $(TMP_CLIENT)/var/run/zabbix-agent/
+	chmod 750 $(TMP_CLIENT)/var/run/zabbix-agent/
+	
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_CLIENT)/usr/share/man/man1/zabbix_agent.1
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_CLIENT)/usr/share/man/man1/zabbix_sender.1
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_CLIENT)/usr/share/man/man1/zabbix_agentd.1
+	
+	$(INSTALL_FILE) debian/templates/zabbix_agent.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agent.conf
+	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agentd.conf
+
+	echo ""
+	echo $(PKG_SERVER_MYSQL)
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/bin
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/sbin
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/alert.d/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/init.d/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/man/man1/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
+	chmod 750 $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
+	chmod 750 $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
+	
+	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_MYSQL)/usr/sbin
+
+	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
+	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
+	$(INSTALL_FILE) debian/templates/zabbix_server.mysql.conf.in $(TMP_SERVER_MYSQL)/etc/zabbix/zabbix_server.conf
+
+	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
+
+	dh_install -a
+
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs ChangeLog
+	dh_installdocs
+	dh_installdebconf 	
+	dh_installinit
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress 
+	dh_fixperms
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture independant packages using the common target.
+binary-indep: build-indep install-indep
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build-arch install-arch
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch patch unpatch 

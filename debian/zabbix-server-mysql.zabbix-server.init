@@ -1,0 +1,35 @@
+#! /bin/sh
+# Zabbix server start/stop script.
+
+DAEMON=/usr/bin/zabbix_agentd
+NAME=zabbix_serverd
+DESC="Zabbix server"
+PID=/var/run/zabbix-server/$NAME.pid
+
+test -f $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+  start)
+	echo "Starting $DESC: $NAME"
+	start-stop-daemon --oknodo --start --pidfile $PID \
+		--exec $DAEMON
+	;;
+  stop)
+	echo "Stopping $DESC: $NAME"
+	start-stop-daemon --oknodo --stop  --pidfile $PID \
+		--exec $DAEMON
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

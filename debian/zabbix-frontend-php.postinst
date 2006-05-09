@@ -1,0 +1,39 @@
+#!/bin/sh
+
+CONFFILE="/etc/zabbix/db.inc.php"
+
+. /usr/share/debconf/confmodule
+db_version 2.0 || [ $? -lt 30 ]
+
+if [ "$1" = "configure" ] && [ `md5sum $CONFFILE | awk '{print $1}'` = "f4455c45e07df14c498ce4889dfc4e62" ]; then
+
+    RET=""
+	db_get shared/zabbix/database-type || true
+	db_type="$RET"
+    perl -i -p -e "s/\@dbtype\@/$db_type/g" $CONFFILE 2> /dev/null
+
+    RET=""
+	db_get shared/zabbix/database-server || true
+	db_server="$RET"
+    perl -i -p -e "s/\@dbserver\@/$db_server/g" $CONFFILE 2> /dev/null
+
+    RET=""
+	db_get shared/zabbix/database-name || true
+	db_name="$RET"
+    perl -i -p -e "s/\@dbname\@/$db_name/g" $CONFFILE 2> /dev/null
+
+    RET=""
+	db_get shared/zabbix/database-user || true
+	db_user="$RET"
+    perl -i -p -e "s/\@dbuser\@/$db_user/g" $CONFFILE 2> /dev/null
+
+    RET=""
+	db_get shared/zabbix/database-password || true
+	db_password="$RET"
+    perl -i -p -e "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
+
+fi
+
+#DEBHELPER#
+
+exit 0
