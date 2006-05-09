@@ -65,7 +65,7 @@ PidFile=/var/run/zabbix-server/zabbix_server.pid
 # Name of log file
 # If not set, syslog is used
 
-LogFile=/tmp/zabbix_server.log
+LogFile=/var/log/zabbix-server/zabbix_server.log
 
 #Location for custom alert scripts
 AlertScriptsPath=/usr/local/sbin/

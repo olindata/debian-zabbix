@@ -5,7 +5,7 @@ CONFFILE="/etc/zabbix/zabbix_server.conf"
 . /usr/share/debconf/confmodule
 db_version 2.0 || [ $? -lt 30 ]
 
-if [ "$1" = "configure" ] && [ `md5sum $CONFFILE | awk '{print $1}'` = "5e4a09a51d8077d1be64434401abd64f" ]; then
+if [ "$1" = "configure" ] && [ `md5sum $CONFFILE | awk '{print $1}'` = "d5d8bfb688c0de7051329332c3389495" ]; then
 
     RET=""
 	db_get shared/zabbix/database-server || true
@@ -25,12 +25,24 @@ if [ "$1" = "configure" ] && [ `md5sum $CONFFILE | awk '{print $1}'` = "5e4a09a5
     RET=""
 	db_get shared/zabbix/database-password || true
 	db_password="$RET"
-    if [ -z "$db_password" ]; then
+    if [ -z "$db_password" ] || [ "$db_password" = "none" ]; then
       perl -i -p -e "s/DBPassword=\@dbpass\@/#DBPassword=/g" $CONFFILE 2> /dev/null
     else
       perl -i -p -e "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
     fi
 
+    if ! getent group zabbix > /dev/null 2>&1 ; then
+    addgroup --system --quiet zabbix
+    fi
+
+    if ! getent passwd zabbix > /dev/null 2>&1 ; then
+    adduser --quiet \
+        --system --disabled-login --ingroup zabbix \
+        --home /var/run/zabbix-server/ --no-create-home \
+        zabbix
+    fi
+    chown zabbix:zabbix /var/log/zabbix-server -R
+    chown zabbix:zabbix /var/run/zabbix-server -R
 fi
 
 #DEBHELPER#

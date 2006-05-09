@@ -1,7 +1,7 @@
 Template: shared/zabbix/database-type
 Type: select
-Choices: POSTGRESQL, MySQL
-Default: MySQL
+Choices: MYSQL, POSTGRESQL
+Default: MYSQL
 _Description: What type of database server will be used?
  Please choose which database you want to use to store Zabbix data.
  For the moment, only MySQL is supported.
@@ -30,3 +30,4 @@ Type: password
 Default: zabbix
 _Description: What is your database password?
  Enter a password for the previously entered database user.
+ If your passowrd is empty, type "none".

@@ -25,3 +25,4 @@ Default: zabbix
 _Description: What is your database password?
  Enter a password for the database user.
  This password will be used for the previously entered database user.
+ If your passowrd is empty, type "none".

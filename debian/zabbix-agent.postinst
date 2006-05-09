@@ -6,7 +6,7 @@ CONFFILE2="/etc/zabbix/zabbix_agent.conf"
 . /usr/share/debconf/confmodule
 db_version 2.0 || [ $? -lt 30 ]
 
-if [ "$1" = "configure" ] && [ `md5sum $CONFFILE1 | awk '{print $1}'` = "39cb77813663a807ee95195ef42d30e7" ]; then
+if [ "$1" = "configure" ] && [ `md5sum $CONFFILE1 | awk '{print $1}'` = "78ed313a55b9138b7a94085762e6bfa5" ]; then
 
     RET=""
 	db_get zabbix-agent/server || true
@@ -24,6 +24,8 @@ if [ "$1" = "configure" ] && [ `md5sum $CONFFILE1 | awk '{print $1}'` = "39cb778
         --home /var/run/zabbix-server/ --no-create-home \
         zabbix
     fi
+    chown zabbix:zabbix /var/log/zabbix-agent -R
+    chown zabbix:zabbix /var/run/zabbix-agent -R
 fi
 
 #DEBHELPER#

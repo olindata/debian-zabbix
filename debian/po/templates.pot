@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kobold@debian.org\n"
-"POT-Creation-Date: 2006-05-09 15:04+0200\n"
+"POT-Creation-Date: 2006-05-09 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,7 +91,9 @@ msgstr ""
 #. Type: password
 #. Description
 #: ../zabbix-frontend-php.templates:31
-msgid "Enter a password for the previously entered database user."
+msgid ""
+"Enter a password for the previously entered database user. If your passowrd "
+"is empty, type \"none\"."
 msgstr ""
 
 #. Type: string
@@ -115,5 +117,5 @@ msgstr ""
 #: ../zabbix-server-mysql.templates:25
 msgid ""
 "Enter a password for the database user. This password will be used for the "
-"previously entered database user."
+"previously entered database user. If your passowrd is empty, type \"none\"."
 msgstr ""

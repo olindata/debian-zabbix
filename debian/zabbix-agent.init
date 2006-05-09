@@ -1,7 +1,7 @@
 #! /bin/sh
 # Zabbix agent start/stop script.
 
-DAEMON=/usr/bin/zabbix_agentd
+DAEMON=/usr/sbin/zabbix_agentd
 NAME=zabbix_agentd
 DESC="Zabbix agent"
 PID=/var/run/zabbix-agent/$NAME.pid
@@ -12,6 +12,7 @@ set -e
 
 case "$1" in
   start)
+    rm -f $PID
 	echo "Starting $DESC: $NAME"
 	start-stop-daemon --oknodo --start --pidfile $PID \
 		--exec $DAEMON

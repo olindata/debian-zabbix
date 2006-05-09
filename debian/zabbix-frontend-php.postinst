@@ -30,6 +30,7 @@ if [ "$1" = "configure" ] && [ `md5sum $CONFFILE | awk '{print $1}'` = "f4455c45
     RET=""
 	db_get shared/zabbix/database-password || true
 	db_password="$RET"
+    [ "$db_password" = "none" ] && db_password=""
     perl -i -p -e "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
 
 fi
