@@ -8,7 +8,17 @@ Upstream Author: Alexei Vladishev <alex@gobbo.caves.lv>
 
 Copyright:
 
-    Alexei Vladishev <alex@gobbo.caves.lv>
+    Copyright (C) 2000-2005 SIA Zabbix
+    Author: Alexei Vladishev <alex@gobbo.caves.lv>
+
+    For the win32 agent:
+      Copyright (C) 2002,2003 Victor Kirhenshtein
+
+    For the md5 implementations:
+      Copyright (C) 1999, 2002 Aladdin Enterprises
+
+    For the init.d for SuSE in misc/init.d/suse:
+      Copyright (c) 07/2004 A.Tophofen, Germany
 
 License:
 

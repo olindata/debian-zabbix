@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kobold@debian.org\n"
-"POT-Creation-Date: 2006-05-09 17:49+0200\n"
+"POT-Creation-Date: 2006-05-10 14:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,13 +46,13 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:12 ../zabbix-server-mysql.templates:4
+#: ../zabbix-frontend-php.templates:12
 msgid "What is your database server host address?"
 msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:12 ../zabbix-server-mysql.templates:4
+#: ../zabbix-frontend-php.templates:12
 msgid ""
 "Please enter the host name or the address of the database server you want to "
 "connect to."
@@ -60,7 +60,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:19 ../zabbix-server-mysql.templates:11
+#: ../zabbix-frontend-php.templates:19
 msgid "What is your database name?"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:25 ../zabbix-server-mysql.templates:18
+#: ../zabbix-frontend-php.templates:25
 msgid "What is your database username?"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 
 #. Type: password
 #. Description
-#: ../zabbix-frontend-php.templates:31 ../zabbix-server-mysql.templates:25
+#: ../zabbix-frontend-php.templates:31
 msgid "What is your database password?"
 msgstr ""
 
@@ -94,28 +94,4 @@ msgstr ""
 msgid ""
 "Enter a password for the previously entered database user. If your passowrd "
 "is empty, type \"none\"."
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-server-mysql.templates:11
-msgid ""
-"This is the database where your zabbix-server will store all data. Note that "
-"it will be automatically created, so it should not exist."
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-server-mysql.templates:18
-msgid ""
-"This is the username used for accessing the zabbix-server database. Note "
-"that it should already exist."
-msgstr ""
-
-#. Type: password
-#. Description
-#: ../zabbix-server-mysql.templates:25
-msgid ""
-"Enter a password for the database user. This password will be used for the "
-"previously entered database user. If your passowrd is empty, type \"none\"."
 msgstr ""
