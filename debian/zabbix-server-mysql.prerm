@@ -2,4 +2,4 @@
 set -e
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/prerm.mysql
-dbc_go mydms $@
+dbc_go zabbix-server-mysql $@
