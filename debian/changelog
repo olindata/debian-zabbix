@@ -1,9 +1,9 @@
-zabbix (1.1beta9-1) unstable; urgency=low
+zabbix (1.1beta9-1) experimental; urgency=low
 
   * New upstream release.
   * First official debian release. (Closes: #188748)
 
- -- Fabio Tranchitella <kobold@debian.org>  Wed,  3 May 2006 13:37:09 +0200
+ -- Fabio Tranchitella <kobold@debian.org>  Wed, 10 May 2006 15:21:24 +0200
 
 zabbix (1.0-4) unstable; urgency=low
 
