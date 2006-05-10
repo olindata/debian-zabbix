@@ -54,7 +54,7 @@ Description: software for monitoring of your networks -- server
  This Package provides all binaries which are needed to run an
  Zabbix Server. The Server collects all Informations of your Zabbix 
  Client Systems and stores them in an DBMS. This Package is compiled
- with MySQL.
+ with MySQL support.
  
 
 Package: zabbix-frontend-php

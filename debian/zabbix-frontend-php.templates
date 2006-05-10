@@ -31,4 +31,4 @@ Default: zabbix
 _Description: Database password:
  What password does the previously entered database user use?
  .
- If your passowrd is empty, type "none".
+ If your password is empty, type "none".
