@@ -1,28 +1,3 @@
-Template: shared/zabbix/database-server
-Type: string
-Default: localhost
-_Description: What is your database server host address?
- Please enter the host name or the address of the database server you
- want to connect to.
-
-Template: shared/zabbix/database-name
-Type: string
-Default: zabbix
-_Description: What is your database name?
- This is the database where your zabbix-server will store all data.
- Note that it will be automatically created, so it should not exist.
-
-Template: shared/zabbix/database-user
-Type: string
-Default: zabbix
-_Description: What is your database username?
- This is the username used for accessing the zabbix-server database.
- Note that it should already exist.
-
-Template: shared/zabbix/database-password
-Type: password
-Default: zabbix
-_Description: What is your database password?
- Enter a password for the database user.
- This password will be used for the previously entered database user.
- If your passowrd is empty, type "none".
+Template: zabbix-server-mysql/internal
+Type: note
+Description: Internal use.
