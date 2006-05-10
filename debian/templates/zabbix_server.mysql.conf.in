@@ -79,20 +79,20 @@ FpingLocation=/usr/bin/fping
 # Database host name
 # Default is localhost
 
-DBHost=@dbserver@
+DBHost=_DBC_DBSERVER_
 
 # Database name
 
-DBName=@dbname@
+DBName=_DBC_DBNAME_
 
 # Database user
 
-DBUser=@dbuser@
+DBUser=_DBC_DBUSER_
 
 # Database password
 # Comment this line if no password used
 
-DBPassword=@dbpass@
+DBPassword=_DBC_DBPASS_
 
 # Connect to MySQL using Unix socket?
 

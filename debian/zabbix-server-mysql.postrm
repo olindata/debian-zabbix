@@ -1,4 +1,8 @@
 #!/bin/sh -e
+dbc_dbtypes="mysql"
+. /usr/share/debconf/confmodule
+. /usr/share/dbconfig-common/dpkg/postrm
+dbc_go zabbix-server-mysql $@
 
 case "$1" in
     failed-upgrade|abort-install|abort-upgrade|disappear|upgrade)
@@ -8,6 +12,7 @@ case "$1" in
     purge)
         rm -fr /var/log/zabbix-server
         rm -fr /var/run/zabbix-server
+        rm -f /etc/zabbix/zabbix_server.conf
     ;;
 
     *)
