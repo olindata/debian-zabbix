@@ -143,7 +143,6 @@ install-arch:
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/alert.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/init.d/
-	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/man/man1/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/
