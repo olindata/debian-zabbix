@@ -2,9 +2,9 @@ Source: zabbix
 Section: net
 Priority: optional
 Maintainer: Fabio Tranchitella <kobold@debian.org>
-Uploaders: Michael Ablassmeier <abi@grinser.de>
+Uploaders: Michael Ablassmeier <abi@debian.org>
 Build-Depends: debhelper (>= 5.0.0), po-debconf, libsnmp9-dev, libmysqlclient15-dev, libpq-dev, libldap2-dev, dpatch
-Standards-Version: 3.7.0
+Standards-Version: 3.7.2
  
 Package: zabbix-agent
 Architecture: any
