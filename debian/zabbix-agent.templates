@@ -1,5 +1,7 @@
 Template: zabbix-agent/server
 Type: string
-_Description: What is your Zabbix server host address?
+_Description: Zabbix server host address:
+ What is your Zabbix server host address?
+ .
  Please enter the host name or the address of the Zabbix server you 
  want to connect to.

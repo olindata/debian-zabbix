@@ -1,3 +1,4 @@
 Template: zabbix-server-mysql/internal
 Type: note
-Description: Internal use.
+_Description: Internal use:
+ Internal use.

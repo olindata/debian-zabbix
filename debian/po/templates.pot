@@ -8,13 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kobold@debian.org\n"
-"POT-Creation-Date: 2006-05-10 14:47+0200\n"
+"POT-Creation-Date: 2006-05-10 15:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../zabbix-agent.templates:3
+msgid "Zabbix server host address:"
+msgstr ""
 
 #. Type: string
 #. Description
@@ -33,7 +39,7 @@ msgstr ""
 #. Type: select
 #. Description
 #: ../zabbix-frontend-php.templates:5
-msgid "What type of database server will be used?"
+msgid "Type of Database Server:"
 msgstr ""
 
 #. Type: select
@@ -47,7 +53,7 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:12
-msgid "What is your database server host address?"
+msgid "Database Server Host Address:"
 msgstr ""
 
 #. Type: string
@@ -61,7 +67,7 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:19
-msgid "What is your database name?"
+msgid "Database name:"
 msgstr ""
 
 #. Type: string
@@ -73,7 +79,7 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:25
-msgid "What is your database username?"
+msgid "Database username:"
 msgstr ""
 
 #. Type: string
@@ -85,13 +91,29 @@ msgstr ""
 #. Type: password
 #. Description
 #: ../zabbix-frontend-php.templates:31
-msgid "What is your database password?"
+msgid "Database password:"
 msgstr ""
 
 #. Type: password
 #. Description
 #: ../zabbix-frontend-php.templates:31
-msgid ""
-"Enter a password for the previously entered database user. If your passowrd "
-"is empty, type \"none\"."
+msgid "What password does the previously entered database user use?"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../zabbix-frontend-php.templates:31
+msgid "If your passowrd is empty, type \"none\"."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:3
+msgid "Internal use:"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:3
+msgid "Internal use."
 msgstr ""
