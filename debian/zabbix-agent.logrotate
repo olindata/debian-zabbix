@@ -1,0 +1,12 @@
+/var/log/zabbix-agent/zabbix_agentd.log {
+    daily
+    rotate 7
+    compress
+    missingok
+    notifempty
+    create 0640 zabbix zabbix
+    sharedscripts
+    postrotate
+        /etc/init.d/zabbix-agent restart > /dev/null 2>&1
+    endscript
+}
