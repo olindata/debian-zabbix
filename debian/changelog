@@ -1,6 +1,5 @@
 zabbix (1.1beta9-2) experimental; urgency=low
 
- [abi]
   * set Maintainer field to forwarded mail address, move Fabio
     to Uploaders. 
   * templates: spelling fixes
