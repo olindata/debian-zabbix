@@ -158,7 +158,7 @@ install-arch:
 
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
-	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-server-mysql
+	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_MYSQL)/etc/logrotate.d/zabbix-server-mysql
 
 	# install schema + data sql files for dbc_config
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
