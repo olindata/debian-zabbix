@@ -11,8 +11,8 @@ if [ "$1" = "configure" ] && [ `md5sum $CONFFILE1 | awk '{print $1}'` = "78ed313
     RET=""
 	db_get zabbix-agent/server || true
 	zabbix_server="$RET"
-    perl -i -p -e "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE1 2> /dev/null
-    perl -i -p -e "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE2 2> /dev/null
+    sed -i "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE1 2> /dev/null
+    sed -i "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE2 2> /dev/null
 
     if ! getent group zabbix > /dev/null 2>&1 ; then
     addgroup --system --quiet zabbix

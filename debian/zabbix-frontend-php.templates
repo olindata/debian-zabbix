@@ -1,6 +1,6 @@
 Template: shared/zabbix/database-type
 Type: select
-Choices: MYSQL, POSTGRESQL
+Choices: MYSQL
 Default: MYSQL
 _Description: Type of Database Server:
  Please choose which database you want to use to store Zabbix data.
@@ -17,7 +17,7 @@ Template: shared/zabbix/database-name
 Type: string
 Default: zabbix
 _Description: Database name:
- This is the database where your zabbix-server will store all data.
+ This is the database where your zabbix-server stores all data.
 
 Template: shared/zabbix/database-user
 Type: string

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: kobold@debian.org\n"
-"POT-Creation-Date: 2006-05-10 16:24+0200\n"
+"Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
+"POT-Creation-Date: 2006-05-11 13:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:19
-msgid "This is the database where your zabbix-server will store all data."
+msgid "This is the database where your zabbix-server stores all data."
 msgstr ""
 
 #. Type: string
