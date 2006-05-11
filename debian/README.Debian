@@ -1,10 +1,10 @@
 zabbix for Debian
 -----------------
 
- If you want to create your own Zabbix environment I suggest
- to read the Zabbix Reference Manual. For more Information
- see the Zabbix Homepage[0].
+ The Zabbix Manual provides all necessary information to successfully install,
+ configure, and run Zabbix. The Manual is available online in HTML format and
+ can be found here:
 
- [0] http://www.zabbix.com
+ http://www.zabbix.com/manual/v1.1/
 
- -- Michael Ablassmeier <abi@grinser.de> Tue, 23 Mar 2004 22:46:45 +0100
+ -- Michael Ablassmeier <abi@debian.org>
