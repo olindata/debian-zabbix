@@ -135,7 +135,7 @@ install-arch:
 	
 	$(INSTALL_FILE) debian/templates/zabbix_agent.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agent.conf
 	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agentd.conf
-	$(INSTALL_FILE) debian/zabbix-agent.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-agent.logrotate
+	$(INSTALL_FILE) debian/zabbix-agent.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-agent
 
 	echo ""
 	echo $(PKG_SERVER_MYSQL)
@@ -158,7 +158,7 @@ install-arch:
 
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
-	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-server-mysql.logrotate
+	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-server-mysql
 
 	# install schema + data sql files for dbc_config
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
