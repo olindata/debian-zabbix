@@ -116,6 +116,7 @@ install-arch:
 	$(INSTALL_DIR) $(TMP_CLIENT)/usr/bin
 	$(INSTALL_DIR) $(TMP_CLIENT)/usr/sbin
 	$(INSTALL_DIR) $(TMP_CLIENT)/etc/zabbix/
+	$(INSTALL_DIR) $(TMP_CLIENT)/etc/logrotate.d/
 	$(INSTALL_DIR) $(TMP_CLIENT)/usr/share/zabbix-agent/
 	$(INSTALL_DIR) $(TMP_CLIENT)/usr/share/man/man1/
 	$(INSTALL_DIR) $(TMP_CLIENT)/DEBIAN
@@ -143,6 +144,7 @@ install-arch:
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/sbin
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/zabbix/alert.d/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/logrotate.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/init.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
