@@ -1,3 +1,9 @@
+zabbix (1.1beta9-3) experimental; urgency=low
+
+  * 
+
+ -- Zabbix Maintainers <kobold-zabbix@debian.org>  Thu, 11 May 2006 16:35:35 +0200
+
 zabbix (1.1beta9-2) experimental; urgency=low
 
   * set Maintainer field to forwarded mail address, move Fabio
