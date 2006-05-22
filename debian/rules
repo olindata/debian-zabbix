@@ -147,8 +147,10 @@ install-arch:
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/logrotate.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/init.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/man/man1/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/
 	chmod 750 $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
@@ -156,15 +158,18 @@ install-arch:
 	
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_MYSQL)/usr/sbin
 
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_SERVER_MYSQL)/usr/share/man/man1/zabbix_server.1
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_MYSQL)/etc/logrotate.d/zabbix-server-mysql
+	$(INSTALL_FILE) debian/templates/zabbix_server.mysql.conf.in $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/zabbix_server.conf
+
 
 	# install schema + data sql files for dbc_config
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	cat create/data/data.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
-		
-	$(INSTALL_FILE) debian/templates/zabbix_server.mysql.conf.in $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/zabbix_server.conf
+	# install upgrade patches from 1.1beta9 to 1.1beta10 for dbc_config
+	$(INSTALL_FILE) upgrades/dbpatches/1.1beta9_to_1.1beta10/mysql/patch.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1.1beta10
 
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 
