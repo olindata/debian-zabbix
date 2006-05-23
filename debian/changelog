@@ -11,6 +11,7 @@ zabbix (1.1beta10-1) UNRELEASED; urgency=low
     >= 4.1.16 already does so.
   * Install Database patches for 1.1beta10 for dbconfig-common
   * Install manpage template also to zabbix-server-mysql.
+  * Add debian/watch
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 22 May 2006 22:30:17 +0200
 
