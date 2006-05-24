@@ -15,7 +15,7 @@ Zabbix Database
 ----------------
 
  The debian Packages use dbconfig-common in order to setup the Database. If
- you have choosen to not setup your Database using dbconfig-common, the Package
+ you have chosen to not setup your Database using dbconfig-common, the Package
  ships all needed SQL Files in /usr/share/zabbix-server/.
 
  SQL Files for upgrades from previous versions can be found in: 
