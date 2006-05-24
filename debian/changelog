@@ -1,4 +1,4 @@
-zabbix (1.1beta10-1) UNRELEASED; urgency=low
+zabbix (1.1beta11-1) experimental; urgency=low
 
   * New upstream release
   * set Maintainer field to forwarded mail address, move Fabio
