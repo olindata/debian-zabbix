@@ -1,10 +1,10 @@
-zabbix (1.1beta11-1) experimental; urgency=low
+zabbix (1.1beta12-1) experimental; urgency=low
 
   * New upstream release
   * Minor update for README.Debian.
   * Remove unnecessary Build-Depend on po-debconf, debhelper version 
     >= 4.1.16 already does so.
-  * Install Database patches for upgrade from 1.1beta9 to 1.1beta10 for
+  * Install Database patches for upgrade from 1.1beta9 to 1.1beta12 for
     dbconfig-common (upgrade from 1.1beta10 to 1.1beta11 does not change
     anything in the database layout) 
   * Install manpage template also to zabbix-server-mysql.
