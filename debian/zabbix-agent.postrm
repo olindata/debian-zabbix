@@ -13,7 +13,6 @@ case "$1" in
         # no server package is installed.
         if [ ! -e /usr/sbin/zabbix_server ]; then
 		userdel zabbix || true
-		groupdel zabbix || true
         fi
     ;;
 
