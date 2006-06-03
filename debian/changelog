@@ -4,14 +4,15 @@ zabbix (1:1.1-1) experimental; urgency=low
   * Minor update for README.Debian.
   * Remove unnecessary Build-Depend on po-debconf, debhelper version 
     >= 4.1.16 already does so.
-  * Install Database patches for upgrade from 1.1beta9 to 1.1beta12 for
-    dbconfig-common (upgrade from 1.1beta10 to 1.1beta11 does not change
-    anything in the database layout) 
+  * Install Database patches for upgrade from 1.1beta9 to 1.1beta12 and
+    1:1.1 for dbconfig-common.
   * Install manpage template also to zabbix-server-mysql.
   * Add debian/watch
   * Remove zabbix user on purge
   * Purge debconf configuration for zabbix-agent on purge, fix postinst.
   * Update template for templates/zabbix_agentd.conf.in
+  * Fix zabbix-agent.init, we dont need --pidfile when stopping the 
+    daemon.
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 22 May 2006 22:30:17 +0200
 
