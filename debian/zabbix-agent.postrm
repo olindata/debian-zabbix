@@ -6,13 +6,18 @@ case "$1" in
     remove)
     ;;
     purge)
+        if [ -e /usr/share/debconf/confmodule ]; then
+           . /usr/share/debconf/confmodule
+           db_purge
+        fi
+
         rm -fr /var/log/zabbix-agent
         rm -fr /var/run/zabbix-agent
 
         # remove zabbix user on purge, but only if
         # no server package is installed.
         if [ ! -e /usr/sbin/zabbix_server ]; then
-		userdel zabbix || true
+            userdel zabbix || true
         fi
     ;;
 
