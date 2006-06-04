@@ -19,7 +19,7 @@ case "$1" in
 	;;
   stop)
 	echo "Stopping $DESC: $NAME"
-	start-stop-daemon --oknodo --stop  --pidfile $PID \
+	start-stop-daemon --oknodo --stop \
 		--exec $DAEMON
 	;;
   restart|force-reload)
