@@ -14,12 +14,6 @@ case "$1" in
         rm -fr /var/run/zabbix-server
         rm -f /etc/zabbix/zabbix_server.conf
         ucf --purge /etc/zabbix/zabbix_server.conf 
-	
-	# remove zabbix user on purge, but only if 
-	# no agent package is installed.
-	if [ ! -e /usr/sbin/zabbix_agentd ]; then
-		userdel zabbix || true
-	fi
     ;;
 
     *)

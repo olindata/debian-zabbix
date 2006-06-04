@@ -13,12 +13,6 @@ case "$1" in
 
         rm -fr /var/log/zabbix-agent
         rm -fr /var/run/zabbix-agent
-
-        # remove zabbix user on purge, but only if
-        # no server package is installed.
-        if [ ! -e /usr/sbin/zabbix_server ]; then
-            userdel zabbix || true
-        fi
     ;;
 
     *)
