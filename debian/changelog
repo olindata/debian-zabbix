@@ -5,7 +5,7 @@ zabbix (1:1.1-1) experimental; urgency=low
   * Remove unnecessary Build-Depend on po-debconf, debhelper version 
     >= 4.1.16 already does so.
   * Install Database patches for upgrade from 1.1beta9 to 1.1beta12 and
-    1.1final for dbconfig-common.
+    1:1.1 for dbconfig-common.
   * Install manpage template also to zabbix-server-mysql.
   * Add debian/watch
   * Purge debconf configuration for zabbix-agent on purge, fix postinst.
