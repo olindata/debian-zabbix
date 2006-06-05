@@ -5,7 +5,7 @@ zabbix (1:1.1-2) unstable; urgency=low
 
  -- Michael Ablassmeier <abi@debian.org>  Mon,  5 Jun 2006 18:07:16 +0200
 
-zabbix (1:1.1-1) experimental; urgency=low
+zabbix (1:1.1-1) unstable; urgency=low
 
   * New upstream release
   * Minor update for README.Debian.
