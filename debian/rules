@@ -174,7 +174,7 @@ install-arch:
 	$(INSTALL_FILE) upgrades/dbpatches/1.1beta11_to_1.1beta12/mysql/patch.sql \
 	 $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1.1beta12
 	$(INSTALL_FILE) upgrades/dbpatches/1.1beta12_to_1.1/mysql/patch.sql \
-	 $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1.1final-1
+	 $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1:1.1-1
 
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 

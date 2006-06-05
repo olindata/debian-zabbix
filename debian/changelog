@@ -1,4 +1,4 @@
-zabbix (1.1final-1) experimental; urgency=low
+zabbix (1:1.1-1) experimental; urgency=low
 
   * New upstream release
   * Minor update for README.Debian.
@@ -10,6 +10,7 @@ zabbix (1.1final-1) experimental; urgency=low
   * Add debian/watch
   * Purge debconf configuration for zabbix-agent on purge, fix postinst.
   * Update template for templates/zabbix_agentd.conf.in
+  * Versioned Dependency on dbconfig-common, >=1.8.15 (#370252)
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 22 May 2006 22:30:17 +0200
 
