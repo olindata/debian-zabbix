@@ -36,10 +36,10 @@ if [ "$1" = "configure" ]; then
         webserver=${webserver%,}
         test -x /usr/sbin/$webserver || continue
 	
-       if [ ! -f /etc/$webserver/conf.d/zabbix ] && [ ! -h /etc/$webserver/conf.d/zabbix ]; then
+        if [ ! -f /etc/$webserver/conf.d/zabbix ] && [ ! -h /etc/$webserver/conf.d/zabbix ]; then
             ln -s /etc/zabbix/apache.conf /etc/$webserver/conf.d/zabbix
             restart="$restart $webserver"
-       fi
+        fi
 	done
 
 	db_get zabbix-frontend-php/restart-webserver || true
