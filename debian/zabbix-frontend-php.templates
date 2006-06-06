@@ -33,16 +33,17 @@ _Description: Database password:
  If your password is empty, type "none".
 
 Template: zabbix-frontend-php/reconfigure-webserver
-Type: multiselect 
+Type: multiselect
 _Choices: apache, apache-ssl, apache-perl, apache2
 Default: apache, apache-ssl, apache-perl, apache2
-_Description: Which web server would you like to reconfigure automatically?
+_Description: Webserver Reconfiguration:
  Zabbix supports any web server that php4 does, but this automatic
- configuration process only supports Apache.
+ configuration process only supports Apache. Please select which 
+ apache version you want to configure the Zabbix frontend for.
 
 Template: zabbix-frontend-php/restart-webserver
 Type: boolean
-Default: true 
-_Description: Would you like to restart your webserver(s) now? 
+Default: true
+_Description: Would you like to restart your webserver(s) now?
  Remember that in order to apply the changes your webserver(s) has/have to
  be restarted. 
