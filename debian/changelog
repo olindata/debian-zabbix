@@ -1,3 +1,9 @@
+zabbix (1:1.1-3) unstable; urgency=low
+
+  * 
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue,  6 Jun 2006 15:49:39 +0200
+
 zabbix (1:1.1-2) unstable; urgency=low
 
   * Do not install database upgrades for older versions than 1:1.1-1,
