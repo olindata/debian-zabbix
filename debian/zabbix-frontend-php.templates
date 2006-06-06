@@ -1,4 +1,4 @@
-Template: shared/zabbix/database-type
+Template: zabbix-frontend-php/database-type
 Type: select
 Choices: MYSQL
 Default: MYSQL
@@ -6,29 +6,43 @@ _Description: Type of Database Server:
  Please choose which database you want to use to store Zabbix data.
  For the moment, only MySQL is supported.
 
-Template: shared/zabbix/database-server
+Template: zabbix-frontend-php/database-server
 Type: string
 Default: localhost
 _Description: Database Server Host Address:
  Please enter the host name or the address of the database server you
  want to connect to.
 
-Template: shared/zabbix/database-name
+Template: zabbix-frontend-php/database-name
 Type: string
 Default: zabbix
 _Description: Database name:
  This is the database where your zabbix-server stores all data.
 
-Template: shared/zabbix/database-user
+Template: zabbix-frontend-php/database-user
 Type: string
 Default: zabbix
 _Description: Database username:
  This is the username used for accessing the zabbix-server database.
 
-Template: shared/zabbix/database-password
+Template: zabbix-frontend-php/database-password
 Type: password
-Default: zabbix
 _Description: Database password:
  What password does the previously entered database user use?
  .
  If your password is empty, type "none".
+
+Template: zabbix-frontend-php/reconfigure-webserver
+Type: multiselect 
+_Choices: apache, apache-ssl, apache-perl, apache2
+Default: apache, apache-ssl, apache-perl, apache2
+_Description: Which web server would you like to reconfigure automatically?
+ Zabbix supports any web server that php4 does, but this automatic
+ configuration process only supports Apache.
+
+Template: zabbix-frontend-php/restart-webserver
+Type: boolean
+Default: true 
+_Description: Would you like to restart your webserver(s) now? 
+ Remember that in order to apply the changes your webserver(s) has/have to
+ be restarted. 

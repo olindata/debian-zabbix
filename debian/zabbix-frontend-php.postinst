@@ -7,32 +7,54 @@ db_version 2.0 || [ $? -lt 30 ]
 
 if [ "$1" = "configure" ]; then
 
+    # configuration for db.inc.php
     RET=""
-	db_get shared/zabbix/database-type || true
+	db_get zabbix-frontend-php/database-type || true
 	db_type="$RET"
     sed -i "s/\@dbtype\@/$db_type/g" $CONFFILE 2> /dev/null
 
     RET=""
-	db_get shared/zabbix/database-server || true
+	db_get zabbix-frontend-php/database-server || true
 	db_server="$RET"
     sed -i "s/\@dbserver\@/$db_server/g" $CONFFILE 2> /dev/null
 
     RET=""
-	db_get shared/zabbix/database-name || true
+	db_get zabbix-frontend-php/database-name || true
 	db_name="$RET"
     sed -i "s/\@dbname\@/$db_name/g" $CONFFILE 2> /dev/null
 
     RET=""
-	db_get shared/zabbix/database-user || true
+	db_get zabbix-frontend-php/database-user || true
 	db_user="$RET"
     sed -i "s/\@dbuser\@/$db_user/g" $CONFFILE 2> /dev/null
 
-    RET=""
-	db_get shared/zabbix/database-password || true
-	db_password="$RET"
-    [ "$db_password" = "none" ] && db_password=""
-    sed -i "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
+    db_get zabbix-frontend-php/reconfigure-webserver || true
+    webservers="$RET"
+    restart=""
 
+    for webserver in $webservers; do
+        webserver=${webserver%,}
+        test -x /usr/sbin/$webserver || continue
+	
+       if [ ! -f /etc/$webserver/conf.d/zabbix ] && [ ! -h /etc/$webserver/conf.d/zabbix ]; then
+            ln -s /etc/zabbix/apache.conf /etc/$webserver/conf.d/zabbix
+            restart="$restart $webserver"
+       fi
+	done
+
+	db_get zabbix-frontend-php/restart-webserver || true
+    res="$RET"
+    db_stop || true
+    if [ "$res" = "true" ]; then
+        for webserver in $restart; do
+            webserver=${webserver%,}
+            if [ -x /usr/sbin/invoke-rc.d ]; then
+                invoke-rc.d $webserver restart
+            else
+                /etc/init.d/$webserver restart
+            fi
+        done
+    fi
 fi
 
 #DEBHELPER#

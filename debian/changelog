@@ -1,9 +1,14 @@
 zabbix (1:1.1-2) unstable; urgency=low
 
-  * Add debian/zabbix-frontend-php.postrm: call db_purge on package
-    purge. 
   * Do not install database upgrades for older versions than 1:1.1-1,
     they have never been in unstable.
+  * Uge update for zabbix-frontend-php:
+     + introduce 2 more questions (restart/reconfigure-apache)
+	 + install apache configuration file and symlink it within
+	   /etc/apache[..]/conf.d/ (add debian/conf/apache.conf)
+     + handle apache restart if wanted (in postinst and postrm)
+     + own namespace for debconf questions, remove shared/.
+     + call db_purge on package purge.
 
  -- Michael Ablassmeier <abi@debian.org>  Mon,  5 Jun 2006 18:07:16 +0200
 

@@ -100,6 +100,7 @@ install-indep:
 	chmod 644 $(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head2.gif \
 	          $(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head.gif
 	$(INSTALL_FILE) debian/templates/db.inc.php.in $(TMP_FRONTEND)/etc/zabbix/db.inc.php
+	$(INSTALL_FILE) debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
 	rm $(TMP_FRONTEND)/usr/share/zabbix/include/db.inc.php
 	dh_link -p $(PKG_FRONTEND) /etc/zabbix/db.inc.php /usr/share/zabbix/include/db.inc.php
 	dh_install -i
