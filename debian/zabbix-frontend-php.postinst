@@ -28,6 +28,12 @@ if [ "$1" = "configure" ]; then
 	db_user="$RET"
     sed -i "s/\@dbuser\@/$db_user/g" $CONFFILE 2> /dev/null
 
+    RET=""
+    db_get zabbix-frontend-php/database-password || true
+    db_password="$RET"
+    [ "$db_password" = "none" ] && db_password=""
+    sed -i "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
+
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"
     restart=""
