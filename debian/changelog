@@ -1,7 +1,8 @@
 zabbix (1:1.1-3) unstable; urgency=low
 
   * zabbix-frontend-php:
-	 fix postinst file: replace password in db.inc.php
+      + fix postinst file: replace password in db.inc.php
+      + depend on php4-gd | php5-gd (needed for graph generation)
 
  -- Michael Ablassmeier <abi@debian.org>  Tue,  6 Jun 2006 15:49:39 +0200
 

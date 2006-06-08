@@ -59,7 +59,7 @@ Description: software for monitoring of your networks -- server
 
 Package: zabbix-frontend-php
 Architecture: all
-Depends: apache | httpd, php4 (>= 4:4.3.3-4) | php4-cgi (>= 4:4.3.3-4) | libapache2-mod-php4 (>= 4:4.3.3-4) | php5 | php5-cgi | libapache2-mod-php5, php4-mysql (>= 4:4.3.3-4) | php5-mysql, ${misc:Depends}
+Depends: apache | httpd, php4 (>= 4:4.3.3-4) | php4-cgi (>= 4:4.3.3-4) | libapache2-mod-php4 (>= 4:4.3.3-4) | php5 | php5-cgi | libapache2-mod-php5, php4-mysql (>= 4:4.3.3-4) | php5-mysql, php4-gd | php5-gd,  ${misc:Depends} 
 Recommends: zabbix-server-mysql, mysql-server (>= 4.0.16-2)
 Description: software for monitoring of your servers -- php frontend
  Zabbix is an all-in-one 24x7, free monitoring solution for both
