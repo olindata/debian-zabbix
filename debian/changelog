@@ -1,6 +1,8 @@
 zabbix (1:1.1-4) unstable; urgency=low
 
-  * 
+  * zabbix-frontend-php:
+	  + install /etc/zabbix/db.inc.php with more restrictive
+	    file permissions.
 
  -- Michael Ablassmeier <abi@debian.org>  Thu,  8 Jun 2006 09:33:06 +0200
 

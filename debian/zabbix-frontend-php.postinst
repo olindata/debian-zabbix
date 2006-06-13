@@ -34,6 +34,9 @@ if [ "$1" = "configure" ]; then
     [ "$db_password" = "none" ] && db_password=""
     sed -i "s/\@dbpass\@/$db_password/g" $CONFFILE 2> /dev/null
 
+    chown root:www-data $CONFFILE
+    chmod 640 $CONFFILE
+
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"
     restart=""
