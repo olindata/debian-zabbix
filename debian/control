@@ -33,7 +33,8 @@ Description: software for monitoring of your networks -- agent
 Package: zabbix-server-mysql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.15), logrotate
-Recommends: mysql-server (>= 4.0.16-2), zabbix-frontend-php | snmpd
+Recommends: mysql-server (>= 4.0.16-2), snmpd
+Suggests: zabbix-frontend-php
 Description: software for monitoring of your networks -- server
  Zabbix is an all-in-one 24x7, free monitoring solution for both
  commercial and non-commercial use. 
