@@ -21,15 +21,7 @@
 <?php
 
 // DATABASE CONFIGURATION
-
-//	$DB_TYPE	="POSTGRESQL";
-	$DB_TYPE	="@dbtype@";
-	$DB_SERVER	="@dbserver@";
-	$DB_DATABASE	="@dbname@";
-//	$DB_DATABASE	="osmiy";
-//	$DB_DATABASE	="demo";
-	$DB_USER	="@dbuser@";
-	$DB_PASSWORD	="@dbpass@";
+include_once("/etc/zabbix/dbconfig.php");
 // END OF DATABASE CONFIGURATION
 
 //	$USER_DETAILS	="";
