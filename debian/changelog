@@ -11,6 +11,9 @@ zabbix (1:1.1-5) unstable; urgency=low
       user.
   * zabbix-server-mysql:
     + move zabbix-frontend-php from Recommends to Suggests
+  * zabbix-agent
+    + fix zabbix-agent.config and zabbix-agent.postinst so the package
+      can be reconfigured.
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 13 Jun 2006 09:38:56 +0200
 

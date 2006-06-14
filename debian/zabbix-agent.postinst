@@ -11,8 +11,8 @@ if [ "$1" = "configure" ]; then
     RET=""
     db_get zabbix-agent/server || true
     zabbix_server="$RET"
-    sed -i "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE1 2> /dev/null
-    sed -i "s/\@zabbixserver\@/$zabbix_server/g" $CONFFILE2 2> /dev/null
+    sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE1 2> /dev/null;
+    sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE2 2> /dev/null;
 
     if ! getent group zabbix > /dev/null 2>&1 ; then
     addgroup --system --quiet zabbix
