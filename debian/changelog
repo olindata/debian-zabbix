@@ -1,6 +1,6 @@
 zabbix (1:1.1-5) unstable; urgency=low
 
-  * zabbix-frontend-php:
+  * zabbix-frontend-php: (Closes: 373566)
     + /usr/share/db.inc.php now includes its database configuration
 	    from /etc/zabbix/dbconfig.php (allowing the package to be
 		reconfigured)
