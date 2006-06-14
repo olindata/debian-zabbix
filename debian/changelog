@@ -2,8 +2,8 @@ zabbix (1:1.1-5) unstable; urgency=low
 
   * zabbix-frontend-php: (Closes: 373566)
     + /usr/share/db.inc.php now includes its database configuration
-	    from /etc/zabbix/dbconfig.php (allowing the package to be
-		reconfigured)
+      from /etc/zabbix/dbconfig.php (allowing the package to be
+      reconfigured)
     + Remove needless if statement from zabbix-frontend-php.config
     + Remove obsolete /etc/zabbix/db.inc.php on upgrade
     + use dbconfig-load-include if zabbix-server-mysql is installed
