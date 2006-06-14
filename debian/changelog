@@ -6,6 +6,9 @@ zabbix (1:1.1-5) unstable; urgency=low
 		reconfigured)
     + Remove needless if statement from zabbix-frontend-php.config
     + Remove obsolete /etc/zabbix/db.inc.php on upgrade
+    + use dbconfig-load-include if zabbix-server-mysql is installed
+      on the same host in order to get the password for the database 
+      user.
   * zabbix-server-mysql:
     + move zabbix-frontend-php from Recommends to Suggests
 

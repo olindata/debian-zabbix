@@ -32,10 +32,16 @@ if [ "$1" = "configure" ]; then
 	db_user="$RET"
     echo "\$DB_USER='$db_user';" >> $CONFFILE 2> /dev/null
 
-    RET=""
-    db_get zabbix-frontend-php/database-password || true
-    db_password="$RET"
-    [ "$db_password" = "none" ] && db_password=""
+	# lest check if zabbix-server-mysql is installed and use 
+	# its configure database password
+	if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
+		eval `dbconfig-load-include /etc/dbconfig-common/zabbix-server-mysql.conf -f sh -pdb_password`
+	else 
+		RET=""
+		db_get zabbix-frontend-php/database-password || true
+		db_password="$RET"
+		[ "$db_password" = "none" ] && db_password=""
+	fi
     echo "\$DB_PASSWORD='$db_password';" >> $CONFFILE 2> /dev/null
 	
     echo "?>" >> $CONFFILE 2> /dev/null
