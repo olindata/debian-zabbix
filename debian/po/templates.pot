@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2006-05-11 13:42+0200\n"
+"POT-Creation-Date: 2006-06-20 09:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,12 +20,6 @@ msgstr ""
 #. Description
 #: ../zabbix-agent.templates:3
 msgid "Zabbix server host address:"
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-agent.templates:3
-msgid "What is your Zabbix server host address?"
 msgstr ""
 
 #. Type: string
@@ -90,18 +84,47 @@ msgstr ""
 
 #. Type: password
 #. Description
-#: ../zabbix-frontend-php.templates:31
+#: ../zabbix-frontend-php.templates:30
 msgid "Database password:"
 msgstr ""
 
 #. Type: password
 #. Description
-#: ../zabbix-frontend-php.templates:31
-msgid "What password does the previously entered database user use?"
+#: ../zabbix-frontend-php.templates:30
+msgid "Please specifiy what password the previously entered database uses."
 msgstr ""
 
-#. Type: password
+#. Type: multiselect
+#. Choices
+#: ../zabbix-frontend-php.templates:35
+msgid "apache, apache-ssl, apache-perl, apache2"
+msgstr ""
+
+#. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:31
-msgid "If your password is empty, type \"none\"."
+#: ../zabbix-frontend-php.templates:37
+msgid "Webserver Reconfiguration:"
+msgstr ""
+
+#. Type: multiselect
+#. Description
+#: ../zabbix-frontend-php.templates:37
+msgid ""
+"Zabbix supports any web server that php4 does, but this automatic "
+"configuration process only supports Apache. Please select which  apache "
+"version you want to configure the Zabbix frontend for."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:45
+msgid "Would you like to restart your webserver(s) now?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:45
+msgid ""
+"Remember that in order to apply the changes your webserver(s) has/have to be "
+"restarted."
 msgstr ""
