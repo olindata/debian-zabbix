@@ -1,6 +1,7 @@
 zabbix (1:1.1-6) unstable; urgency=low
 
   * Adjust debconf templates (Closes: #374493) 
+  * Add French Translation, thanks Yves Rutschle (Closes: #375569)
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 15 Jun 2006 12:02:04 +0200
 
