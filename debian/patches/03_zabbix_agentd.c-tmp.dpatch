@@ -1,0 +1,21 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 03_zabbix_agentd.c-tmp by Michael Ablassmeier <abi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: unlink temporary file in /tmp on stop 
+
+@DPATCH@
+--- /home/abi/zabbix-1.1/src/zabbix_agent/zabbix_agentd.c	2006-05-29 14:19:49.000000000 +0200
++++ zabbix-1.1/src/zabbix_agent/zabbix_agentd.c	2006-07-04 14:30:29.000000000 +0200
+@@ -134,6 +135,11 @@
+ 			}
+ 		}
+ 
++		if( unlink("/tmp/zabbix_agentd.tmp") != 0) {
++			zabbix_log( LOG_LEVEL_WARNING, "Cannot remove STAT file [%s]",
++				"/tmp/zabbix_agentd.tmp");
++		}
++
+ 		if( unlink(CONFIG_PID_FILE) != 0)
+ 		{
+ 			zabbix_log( LOG_LEVEL_WARNING, "Cannot remove PID file [%s]",

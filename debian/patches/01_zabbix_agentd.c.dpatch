@@ -1,0 +1,33 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 02_zabbix_agentd.c.dpatch by Michael Ablassmeier <abi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: re-use socket on startup 
+
+@DPATCH@
+--- zabbix_agentd.c	2006/05/29 12:19:49	1.90
++++ zabbix-1.1/src/zabbix_agent/zabbix_agentd.c	2006/06/24 12:25:34	1.91
+@@ -400,6 +400,7 @@
+ {
+ 	int			sockfd;
+ 	struct sockaddr_in	serv_addr;
++	int			on;
+ 
+ /*	struct linger ling;*/
+ 
+@@ -409,6 +410,15 @@
+ 		exit(1);
+ 	}
+ 
++	/* Enable address reuse */
++	/* This is to immediately use the address even if it is in TIME_WAIT state */
++	/* http://www-128.ibm.com/developerworks/linux/library/l-sockpit/index.html */
++	on = 1;
++	if( -1 == setsockopt( sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on) ))
++	{
++		zabbix_log(LOG_LEVEL_WARNING, "Cannot setsockopt SO_REUSEADDR [%s]", strerror(errno));
++	}
++
+ 	/*
+ 	if(CONFIG_NOTIMEWAIT == 1)
+ 	{

@@ -30,6 +30,8 @@ INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
 
+include /usr/share/dpatch/dpatch.make
+
 CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -54,7 +56,7 @@ config.status: configure
 				 	--with-ldap \
 					--with-net-snmp
 
-build: build-arch build-indep
+build: patch build-arch build-indep
 
 build-arch: build-arch-stamp
 build-arch-stamp: config.status
@@ -65,7 +67,9 @@ build-indep: build-indep-stamp
 build-indep-stamp: config.status
 	touch build-indep-stamp
 
-clean: 
+clean: clean1 unpatch 
+
+clean1:
 	dh_testdir
 	dh_testroot
 	debconf-updatepo
@@ -202,4 +206,4 @@ binary-arch: build-arch install-arch
 	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
 
 binary: binary-arch binary-indep
-.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch 
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch patch unpatch clean1
