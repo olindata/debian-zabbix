@@ -28,7 +28,7 @@ _Description: Database username:
 Template: zabbix-frontend-php/database-password
 Type: password
 _Description: Database password:
- Please specifiy what password the previously entered database uses.
+ Please specify what password the previously entered database uses.
 
 Template: zabbix-frontend-php/reconfigure-webserver
 Type: multiselect

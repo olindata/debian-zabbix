@@ -1,6 +1,6 @@
 zabbix (1:1.1-7) unstable; urgency=low
 
-  * 
+  * Fix Typo in zabbix-frontend-php.templates (Closes: #377488)
 
  -- Michael Ablassmeier <abi@debian.org>  Fri,  7 Jul 2006 14:02:48 +0200
 
