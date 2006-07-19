@@ -1,5 +1,6 @@
 zabbix (1:1.1.1-1) unstable; urgency=low
 
+  * New Upstream Version
   * Fix Typo in zabbix-frontend-php.templates (Closes: #377488)
   * Relax Build-Dependency libsnmp9-dev | libsnmp-dev (Closes: #375811)
   * Remove debian/patches/*.dpatch, merged upstream.
