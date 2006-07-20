@@ -7,6 +7,12 @@
     create 0640 zabbix zabbix
     sharedscripts
     postrotate
-        /etc/init.d/zabbix-server restart > /dev/null 2>&1
+       if [ -f /var/run/zabbix-server/zabbix_server.pid ]; then \
+         if [ -x /usr/sbin/invoke-rc.d ]; then \
+           invoke-rc.d zabbix-server restart > /dev/null; \
+         else \
+           /etc/init.d/zabbix-server restart > /dev/null; \
+         fi; \
+       fi;
     endscript
 }

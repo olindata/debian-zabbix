@@ -1,6 +1,7 @@
 zabbix (1:1.1.1-2) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * zabbix-server-mysql/agent.postrotate:
+	 + only restart if agentd/server running (Closes: #378982)
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 19 Jul 2006 16:26:33 +0200
 
