@@ -1,7 +1,8 @@
 zabbix (1:1.1.1-2) unstable; urgency=low
 
   * zabbix-server-mysql/agent.postrotate:
-	 + only restart if agentd/server running (Closes: #378982)
+	 + only restart if agentd/server are running, prefer using invoke-rc.d
+	  (Closes: #378982)
   * debian/patches/01_log.c.dpatch:
      + disable zabbix-server and zabbix-agent internal logrotation, we use
        logrotate for this. 
