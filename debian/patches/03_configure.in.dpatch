@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 99-unnamed.dpatch by  <abi@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+--- configure.in.deb	2006-07-07 10:31:29.000000000 +0200
++++ zabbix-1.1.1/configure.in	2006-07-27 13:01:39.000000000 +0200
+@@ -600,9 +600,6 @@
+ 		AC_CHECK_FUNC(floor, , AC_CHECK_LIB(m, floor, MYSQL_LIBS="$MYSQL_LIBS -lm"))
+ 	    dnl MySQL 3.23 requires -lz sometime
+ 	dnl This does not work for some reason
+-	dnl    AC_CHECK_FUNC(compress, , AC_CHECK_LIB(z, compress, MYSQL_LFLAGS="$MYSQL_LFLAGS -lz"))
+-	dnl	AC_CHECK_LIB(z, compress, MYSQL_LFLAGS="$MYSQL_LFLAGS -lz")
+-		AC_CHECK_LIB(z, compress, MYSQL_LIBS="$MYSQL_LIBS -lz")
+ 
+ 		else
+ 			AC_MSG_RESULT(no)

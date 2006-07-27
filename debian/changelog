@@ -1,6 +1,10 @@
 zabbix (1:1.1.1-3) unstable; urgency=low
 
   * French po file update (Closes: #379995)
+  * patches/{02_configure.in.dpatch, 03_configure.in.dpatch}:
+     + remove check for libcrypto and zlib1g, we do not have to link
+       directly against them. (Closes: #375810)
+  * Add automake to build-depends and call it in debian/rules
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 25 Jul 2006 11:25:59 +0200
 
