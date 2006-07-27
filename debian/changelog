@@ -1,6 +1,6 @@
 zabbix (1:1.1.1-3) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * French po file update (Closes: #379995)
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 25 Jul 2006 11:25:59 +0200
 
