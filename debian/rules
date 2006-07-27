@@ -50,7 +50,6 @@ config.status: configure
 	autoconf
 	autoheader
 	automake -a
-	automake
 	CFLAGS="$(CFLAGS)" ./configure 	--host=$(DEB_HOST_GNU_TYPE) \
 					--build=$(DEB_BUILD_GNU_TYPE) \
 					--prefix=/usr \
