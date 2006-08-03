@@ -1,6 +1,7 @@
 zabbix (1:1.1.1-4) unstable; urgency=low
 
   * We dont need to call automake twice, sight.
+  * Really include recent fr.po file (Closes: #379995)
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 27 Jul 2006 13:17:02 +0200
 
