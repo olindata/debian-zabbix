@@ -46,11 +46,6 @@ if [ "$1" = "configure" ]; then
 	
     echo "?>" >> $CONFFILE 2> /dev/null
 
-    # remove obsolete db.inc.php
-    if [ -e /etc/zabbix/db.inc.php ]; then
-        rm -f /etc/zabbix/db.inc.php
-    fi
-
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"
     restart=""

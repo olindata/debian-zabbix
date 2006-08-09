@@ -1,3 +1,11 @@
+zabbix (1:1.1.1-5) unstable; urgency=low
+
+  * zabbix-frontend-php.postinst:
+    + Remove check for obsolete /etc/zabbix/db.inc.php, should
+      have already been removed in one of the last 3 uploads.
+
+ -- Michael Ablassmeier <abi@debian.org>  Wed,  9 Aug 2006 08:32:16 +0200
+
 zabbix (1:1.1.1-4) unstable; urgency=low
 
   * We dont need to call automake twice, sight.
