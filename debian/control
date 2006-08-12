@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Zabbix Maintainers <kobold-zabbix@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
-Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, libpq-dev, libldap2-dev, dpatch, automake1.9 
+Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, libldap2-dev, dpatch, automake1.9 
 Standards-Version: 3.7.2
  
 Package: zabbix-agent
