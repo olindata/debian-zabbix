@@ -1,3 +1,9 @@
+zabbix (1:1.1.1-6) unstable; urgency=low
+
+  * 
+
+ -- Michael Ablassmeier <abi@debian.org>  Mon, 14 Aug 2006 11:42:49 +0200
+
 zabbix (1:1.1.1-5) unstable; urgency=low
 
   * zabbix-frontend-php.postinst:
