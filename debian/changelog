@@ -4,6 +4,7 @@ zabbix (1:1.1.1-5) unstable; urgency=low
     + Remove check for obsolete /etc/zabbix/db.inc.php, should
       have already been removed in one of the last 3 uploads.
   * Remove unneccesary B-D on libpq-dev.
+  * Add Czech translation, thanks Martin (Closes: #382932)
 
  -- Michael Ablassmeier <abi@debian.org>  Wed,  9 Aug 2006 08:32:16 +0200
 
