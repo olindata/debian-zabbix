@@ -1,3 +1,9 @@
+zabbix (1:1.1.1-7) UNRELEASED; urgency=low
+
+  * 
+
+ -- Michael Ablassmeier <abi@debian.org>  Sun, 20 Aug 2006 00:13:26 +0200
+
 zabbix (1:1.1.1-6) unstable; urgency=low
 
   * check for dbconfig-common to be installed in postrm
