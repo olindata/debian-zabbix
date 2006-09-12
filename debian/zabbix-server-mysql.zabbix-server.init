@@ -1,6 +1,12 @@
 #! /bin/sh
-# Zabbix server start/stop script.
-
+### BEGIN INIT INFO
+# Provides:          zabbix-server
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:	     0 6
+# Short-Description: Start zabbix-server daemon
+### END INIT INFO
 DAEMON=/usr/sbin/zabbix_server
 NAME=zabbix_server
 DESC="Zabbix server"

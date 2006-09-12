@@ -1,6 +1,12 @@
 #! /bin/sh
-# Zabbix agent start/stop script.
-
+### BEGIN INIT INFO
+# Provides:          zabbix-agents
+# Required-Start:    $local_fs $network 
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Start zabbix-agent daemon
+### END INIT INFO
 DAEMON=/usr/sbin/zabbix_agentd
 NAME=zabbix_agentd
 DESC="Zabbix agent"

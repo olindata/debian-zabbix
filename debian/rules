@@ -111,6 +111,7 @@ install-indep:
 	$(INSTALL_FILE) debian/templates/db.inc.php.in $(TMP_FRONTEND)/usr/share/zabbix/include/db.inc.php 
 	$(INSTALL_FILE) debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
 	# empty dbconfig.php, will be filled while configuration.
+	chmod -x $(TMP_FRONTEND)/usr/share/zabbix/include/locales/pt_br.inc.php
 	touch $(TMP_FRONTEND) $(TMP_FRONTEND)/etc/zabbix/dbconfig.php
 	dh_install -i
 

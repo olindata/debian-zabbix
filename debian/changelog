@@ -1,6 +1,8 @@
 zabbix (1:1.1.2-1) unstable; urgency=low
 
   * New upstream release
+  * Fix lintian error about missing po-debconf B-D
+  * Add lsb section to agent and server's init scripts
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 12 Sep 2006 13:42:12 +0200
 
