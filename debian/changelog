@@ -3,6 +3,10 @@ zabbix (1:1.1.2-1) unstable; urgency=low
   * New upstream release
   * Fix lintian error about missing po-debconf B-D
   * Add lsb section to agent and server's init scripts
+  * Do not use dbconfig-load-include in zabbix-frontend-php
+    postinst anymore, simply source an existant config file.
+  * Do also preseed Database user(name) if zabbix-server-mysql
+    is installed on the same host.
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 12 Sep 2006 13:42:12 +0200
 

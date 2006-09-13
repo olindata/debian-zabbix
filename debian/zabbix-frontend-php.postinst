@@ -7,10 +7,15 @@ db_version 2.0 || [ $? -lt 30 ]
 
 if [ "$1" = "configure" ]; then
     
-	chown root:www-data $CONFFILE
+    chown root:www-data $CONFFILE
     chmod 640 $CONFFILE
 
-	echo "<?" > $CONFFILE 2> /dev/null
+    echo "<?" > $CONFFILE 2> /dev/null
+
+    # check for existing zabbix-server-mysql.conf
+    if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
+	. /etc/dbconfig-common/zabbix-server-mysql.conf
+    fi
 
     RET=""
 	db_get zabbix-frontend-php/database-type || true
@@ -22,29 +27,30 @@ if [ "$1" = "configure" ]; then
 	db_server="$RET"
     echo "\$DB_SERVER='$db_server';" >> $CONFFILE 2> /dev/null
 
-    RET=""
+    if [ ! $dbc_dbname ]; then
+	RET=""
 	db_get zabbix-frontend-php/database-name || true
-	db_name="$RET"
-    echo "\$DB_DATABASE='$db_name';" >> $CONFFILE 2> /dev/null
+	dbc_dbname="$RET"
+    fi
+    echo "\$DB_DATABASE='$dbc_dbname';" >> $CONFFILE 2> /dev/null
 
-    RET=""
+    if [ ! $dbc_dbuser ]; then
+	RET=""
 	db_get zabbix-frontend-php/database-user || true
-	db_user="$RET"
-    echo "\$DB_USER='$db_user';" >> $CONFFILE 2> /dev/null
+	dbc_dbuser="$RET"
+    fi
+    echo "\$DB_USER='$dbc_dbuser';" >> $CONFFILE 2> /dev/null
 
-	# lest check if zabbix-server-mysql is installed and use 
-	# its configure database password
-	if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
-		eval `dbconfig-load-include /etc/dbconfig-common/zabbix-server-mysql.conf -f sh -pdb_password`
-	else 
-		RET=""
-		db_get zabbix-frontend-php/database-password || true
-		db_password="$RET"
-		[ "$db_password" = "none" ] && db_password=""
-	fi
-    echo "\$DB_PASSWORD='$db_password';" >> $CONFFILE 2> /dev/null
+    if [ ! $dbc_dbpass ]; then
+	RET=""
+	db_get zabbix-frontend-php/database-password || true
+	dbc_dbpass="$RET"
+    fi
+
+    echo "\$DB_PASSWORD='$dbc_dbpass';" >> $CONFFILE 2> /dev/null
 	
     echo "?>" >> $CONFFILE 2> /dev/null
+
 
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"
