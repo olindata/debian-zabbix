@@ -1,5 +1,6 @@
 zabbix (1:1.1.2-1) unstable; urgency=low
 
+  [ Michael Ablassmeier ]
   * New upstream release
   * Fix lintian error about missing po-debconf B-D
   * Add lsb section to agent and server's init scripts
@@ -7,10 +8,14 @@ zabbix (1:1.1.2-1) unstable; urgency=low
     postinst anymore, simply source an existant config file.
   * Do also preseed Database user(name) if zabbix-server-mysql
     is installed on the same host.
-  * patches/04_expression.c.dpatch: Fix substitution of variables 
+  * patches/04_expression.c.dpatch: Fix substitution of variables
     in Actions, see dpatch Description for more Info.
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 12 Sep 2006 13:42:12 +0200
+  [ Fabio Tranchitella ]
+  * debian/control: modified to install apache2 and libapache2-mod-php5
+    by default.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Wed, 13 Sep 2006 14:35:58 +0200
 
 zabbix (1:1.1.1-6) unstable; urgency=low
 
