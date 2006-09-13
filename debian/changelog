@@ -7,6 +7,8 @@ zabbix (1:1.1.2-1) unstable; urgency=low
     postinst anymore, simply source an existant config file.
   * Do also preseed Database user(name) if zabbix-server-mysql
     is installed on the same host.
+  * patches/04_expression.c.dpatch: Fix substitution of variables 
+    in Actions, see dpatch Description for more Info.
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 12 Sep 2006 13:42:12 +0200
 
