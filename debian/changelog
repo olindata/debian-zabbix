@@ -10,6 +10,7 @@ zabbix (1:1.1.2-1) unstable; urgency=low
     is installed on the same host.
   * patches/04_expression.c.dpatch: Fix substitution of variables
     in Actions, see dpatch Description for more Info.
+  * Add Swedish po file, thanks Daniel Nylander (Closes: #387288)
 
   [ Fabio Tranchitella ]
   * debian/control: modified to install apache2 and libapache2-mod-php5
