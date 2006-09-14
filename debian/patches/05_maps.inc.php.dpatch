@@ -1,0 +1,17 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## DP: Fix reversed icons issue, see:
+## http://www.zabbix.com/forum/showthread.php?t=3986 
+## http://www.zabbix.com/forum/showthread.php?t=3979
+
+@DPATCH@
+--- zabbix-1.1.2/frontends/php/include/maps.inc.php.orig	2006-09-14 10:59:45.000000000 +0200
++++ zabbix-1.1.2/frontends/php/include/maps.inc.php	2006-09-14 11:00:04.000000000 +0200
+@@ -229,7 +229,7 @@
+ 		$element = DBfetch($elements);
+ 		if(!$element)	return FALSE;
+ 
+-		if(get_info_by_selementid($element["selementid"],$info,$color) == 0)
++		if(get_info_by_selementid($element["selementid"],$info,$color) != 0)
+ 			$icon = $element["icon_on"];
+ 		else
+ 			$icon = $element["icon"];
