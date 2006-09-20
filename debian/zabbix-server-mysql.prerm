@@ -2,8 +2,9 @@
 set -e
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/prerm.mysql
-dbc_go zabbix-server-mysql $@
 
 #DEBHELPER#
+
+dbc_go zabbix-server-mysql $@
 
 exit 0
