@@ -1,4 +1,4 @@
-zabbix (1:1.1.2-3) unstable; urgency=high
+zabbix (1:1.1.2-4) unstable; urgency=high
 
   * Move #DEBHELPER# stanza in zabbix-server-mysql.prerm
     above dbconfig-common call. Server prozess should be
