@@ -1,0 +1,605 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## fix security issues discovered by the debian-audit project
+
+@DPATCH@
+--- src/libs/zbxlog/log.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/libs/zbxlog/log.c	2006-10-05 20:45:04.000000000 +0200
+@@ -101,10 +101,10 @@ void zabbix_log(int level, const char *f
+ 	if(log_type == LOG_TYPE_SYSLOG)
+ 	{
+ 		va_start(ap,fmt);
+-		vsprintf(str,fmt,ap);
+-		strncat(str,"\n",MAX_BUF_LEN);
++		vsnprintf(str,sizeof(str)-2,fmt,ap);
++		strcat(str,"\n");
+ 		str[MAX_BUF_LEN-1]=0;
+-		syslog(LOG_DEBUG,str);
++		syslog(LOG_DEBUG,"%s",str);
+ 		va_end(ap);
+ 	}
+ 	else if(log_type == LOG_TYPE_FILE)
+--- src/zabbix_server/poller/checks_agent.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/poller/checks_agent.c	2006-10-05 20:48:56.000000000 +0200
+@@ -70,11 +70,11 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 	{
+ #ifdef	HAVE_HSTRERROR
+ 		snprintf(error,MAX_STRING_LEN-1,"gethostbyname() failed [%s]", hstrerror(h_errno));
+-		zabbix_log(LOG_LEVEL_WARNING, error);
++		zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 		result->msg=strdup(error);
+ #else
+ 		snprintf(error,MAX_STRING_LEN-1,"gethostbyname() failed [%d]", h_errno);
+-		zabbix_log(LOG_LEVEL_WARNING, error);
++		zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 		result->msg=strdup(error);
+ #endif
+ 		return	NETWORK_ERROR;
+@@ -98,7 +98,7 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 	if(s == -1)
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Cannot create socket [%s]", strerror(errno));
+-		zabbix_log(LOG_LEVEL_WARNING, error);
++		zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 		result->msg=strdup(error);
+ 		return	FAIL;
+ 	}
+@@ -109,17 +109,17 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 		{
+ 			case EINTR:
+ 				snprintf(error,MAX_STRING_LEN-1,"Timeout while connecting to [%s]",item->host);
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 				break;
+ 			case EHOSTUNREACH:
+ 				snprintf(error,MAX_STRING_LEN-1,"No route to host [%s]",item->host);
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 				break;
+ 			default:
+ 				snprintf(error,MAX_STRING_LEN-1,"Cannot connect to [%s] [%s]",item->host, strerror(errno));
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 		} 
+ 		close(s);
+@@ -134,12 +134,12 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 		{
+ 			case EINTR:
+ 				snprintf(error,MAX_STRING_LEN-1,"Timeout while sending data to [%s]",item->host);
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 				break;
+ 			default:
+ 				snprintf(error,MAX_STRING_LEN-1,"Error while sending data to [%s] [%s]",item->host, strerror(errno));
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 		} 
+ 		close(s);
+@@ -154,18 +154,18 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 		{
+ 			case 	EINTR:
+ 					snprintf(error,MAX_STRING_LEN-1,"Timeout while receiving data from [%s]",item->host);
+-					zabbix_log(LOG_LEVEL_WARNING, error);
++					zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 					result->msg=strdup(error);
+ 					break;
+ 			case	ECONNRESET:
+ 					snprintf(error,MAX_STRING_LEN-1,"Connection reset by peer.");
+-					zabbix_log(LOG_LEVEL_WARNING, error);
++					zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 					result->msg=strdup(error);
+ 					close(s);
+ 					return	NETWORK_ERROR;
+ 			default:
+ 				snprintf(error,MAX_STRING_LEN-1,"Error while receiving data from [%s] [%s]",item->host, strerror(errno));
+-				zabbix_log(LOG_LEVEL_WARNING, error);
++				zabbix_log(LOG_LEVEL_WARNING, "%s", error);
+ 				result->msg=strdup(error);
+ 		} 
+ 		close(s);
+@@ -204,7 +204,7 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 	else if(c[0]==0)
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Got empty string from [%s] IP [%s] Parameter [%s]", item->host, item->ip, item->key);
+-		zabbix_log( LOG_LEVEL_WARNING, error);
++		zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 		zabbix_log( LOG_LEVEL_WARNING, "Assuming that agent dropped connection because of access permissions");
+ 		result->msg=strdup(error);
+ 		return	NETWORK_ERROR;
+@@ -213,7 +213,7 @@ int	get_value_agent(DB_ITEM *item, AGENT
+ 	if(set_result_type(result, item->value_type, c) == FAIL)
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1, "Type of received value [%s] is not sutable for [%s@%s] having type [%d]", c, item->key, item->host, item->value_type);
+-		zabbix_log( LOG_LEVEL_WARNING, error);
++		zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 		zabbix_log( LOG_LEVEL_WARNING, "Returning NOTSUPPORTED");
+ 		result->msg=strdup(error);
+ 		return NOTSUPPORTED;
+--- src/zabbix_server/poller/checks_simple.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/poller/checks_simple.c	2006-10-05 20:50:55.000000000 +0200
+@@ -77,7 +77,7 @@ int	get_value_simple(DB_ITEM *item, AGEN
+ 		else
+ 		{
+ 			snprintf(error,MAX_STRING_LEN-1,"You must use IP address in Host %s definition", item->host);
+-			zabbix_log( LOG_LEVEL_WARNING, error);
++			zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 			result->str=strdup(error);
+ 			return NOTSUPPORTED;
+ 		}
+@@ -111,7 +111,7 @@ int	get_value_simple(DB_ITEM *item, AGEN
+ 			else
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"Port number must be numeric in [%s]", item->key);
+-				zabbix_log( LOG_LEVEL_WARNING, error);
++				zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 				result->str=strdup(error);
+ 				ret = NOTSUPPORTED;
+ 			}
+@@ -119,7 +119,7 @@ int	get_value_simple(DB_ITEM *item, AGEN
+ 		else
+ 		{
+ 			snprintf(error,MAX_STRING_LEN-1,"Too many parameters in [%s]", item->key);
+-			zabbix_log( LOG_LEVEL_WARNING, error);
++			zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 			result->str=strdup(error);
+ 			ret = NOTSUPPORTED;
+ 		}
+@@ -190,7 +190,7 @@ int	get_value_simple(DB_ITEM *item, AGEN
+ 	if(process(c, 0, result) == NOTSUPPORTED)
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Simple check [%s] is not supported", c);
+-		zabbix_log( LOG_LEVEL_WARNING, error);
++		zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 		result->str=strdup(error);
+ 		ret = NOTSUPPORTED;
+ 	}
+--- src/zabbix_server/poller/checks_internal.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/poller/checks_internal.c	2006-10-05 20:52:08.000000000 +0200
+@@ -82,7 +82,7 @@ int	get_value_internal(DB_ITEM *item, AG
+ 	else
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Internal check [%s] is not supported", item->key);
+-		zabbix_log( LOG_LEVEL_WARNING, error);
++		zabbix_log( LOG_LEVEL_WARNING, "%s", error);
+ 		SET_STR_RESULT(result, strdup(error));
+ 		return NOTSUPPORTED;
+ 	}
+--- src/zabbix_server/poller/checks_snmp.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/poller/checks_snmp.c	2006-10-05 20:54:55.000000000 +0200
+@@ -73,7 +73,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Error in get_value_SNMP. Wrong item type [%d]. Must be SNMP.", item->type);
+ 
+-		zabbix_log( LOG_LEVEL_ERR, error);
++		zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 		SET_MSG_RESULT(value, strdup(error));
+ 
+ 		return FAIL;
+@@ -138,7 +138,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"Error generating Ku from authentication pass phrase.");
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				return FAIL;
+@@ -161,7 +161,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"Error generating Ku from authentication pass phrase.");
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				return FAIL;
+@@ -180,7 +180,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"Error generating Ku from priv pass phrase.");
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				return FAIL;
+@@ -191,7 +191,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 	else
+ 	{
+ 		snprintf(error,MAX_STRING_LEN-1,"Error in get_value_SNMP. Unsupported session.version [%d]",(int)session.version);
+-		zabbix_log( LOG_LEVEL_ERR, error);
++		zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 		SET_MSG_RESULT(value, strdup(error));
+ 		
+ 		return FAIL;
+@@ -207,7 +207,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 		SOCK_CLEANUP;
+ 
+ 		snprintf(error,MAX_STRING_LEN-1,"Error doing snmp_open()");
+-		zabbix_log( LOG_LEVEL_ERR, error);
++		zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 		SET_MSG_RESULT(value, strdup(error));
+ 
+ 		return FAIL;
+@@ -323,14 +323,14 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 					else
+ 					{
+ 						snprintf(error,MAX_STRING_LEN-1,"Cannot allocate required memory");
+-						zabbix_log( LOG_LEVEL_ERR, error);
++						zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 						SET_MSG_RESULT(value, strdup(error));
+ 					}
+ 				}
+ 				else if(item->value_type != ITEM_VALUE_TYPE_STR)
+ 				{
+ 					snprintf(error,MAX_STRING_LEN-1,"Cannot store SNMP string value (ASN_OCTET_STR) in item having numeric type");
+-					zabbix_log( LOG_LEVEL_ERR, error);
++					zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 					SET_MSG_RESULT(value, strdup(error));
+ 
+ 					ret = NOTSUPPORTED;
+@@ -348,7 +348,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 					else
+ 					{
+ 						snprintf(error,MAX_STRING_LEN-1,"Cannot allocate required memory");
+-						zabbix_log( LOG_LEVEL_ERR, error);
++						zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 						SET_MSG_RESULT(value, strdup(error));
+ 					}
+ 				}
+@@ -364,7 +364,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 				if(item->value_type != ITEM_VALUE_TYPE_STR)
+ 				{
+ 					snprintf(error,MAX_STRING_LEN-1,"Cannot store SNMP string value (ASN_IPADDRESS) in item having numeric type");
+-					zabbix_log( LOG_LEVEL_ERR, error);
++					zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 					SET_MSG_RESULT(value, strdup(error));
+ 					ret = NOTSUPPORTED;
+ 				}
+@@ -381,7 +381,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 					else
+ 					{
+ 						snprintf(error,MAX_STRING_LEN-1,"Cannot allocate required memory");
+-						zabbix_log( LOG_LEVEL_ERR, error);
++						zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 						SET_MSG_RESULT(value, strdup(error));
+ 					}
+ 				}
+@@ -393,7 +393,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 
+ 				snprintf(error,MAX_STRING_LEN-1,"OID [%s] value #%d has unknow type [%X]",item->snmp_oid, count,vars->type);
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				ret  = NOTSUPPORTED;
+@@ -410,7 +410,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"SNMP error [%s]", snmp_errstring(response->errstat));
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				ret=NOTSUPPORTED;
+@@ -419,7 +419,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			{
+ 				snprintf(error,MAX_STRING_LEN-1,"SNMP error [%s]", snmp_errstring(response->errstat));
+ 
+-				zabbix_log( LOG_LEVEL_ERR, error);
++				zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 				SET_MSG_RESULT(value, strdup(error));
+ 
+ 				ret=FAIL;
+@@ -430,7 +430,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 			snprintf(error,MAX_STRING_LEN-1,"Timeout while connecting to [%s]",session.peername);
+ 
+ /*			snmp_sess_perror("snmpget", ss);*/
+-			zabbix_log( LOG_LEVEL_ERR, error);
++			zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 			SET_MSG_RESULT(value, strdup(error));
+ 
+ 			ret = NETWORK_ERROR;
+@@ -439,7 +439,7 @@ int	get_value_snmp(DB_ITEM *item, AGENT_
+ 		{
+ 			snprintf(error,MAX_STRING_LEN-1,"SNMP error [%d]",status);
+ 
+-			zabbix_log( LOG_LEVEL_ERR, error);
++			zabbix_log( LOG_LEVEL_ERR, "%s", error);
+ 			SET_MSG_RESULT(value, strdup(error));
+ 
+ 			ret=FAIL;
+--- src/zabbix_server/expression.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/expression.c	2006-10-05 21:04:21.000000000 +0200
+@@ -162,8 +162,8 @@ int	evaluate_simple (double *result,char
+ 		second[j]=0;*/
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( value1 == 1)
+@@ -173,8 +173,8 @@ int	evaluate_simple (double *result,char
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( value2 == 1)
+@@ -197,14 +197,14 @@ int	evaluate_simple (double *result,char
+ 		zabbix_log(LOG_LEVEL_DEBUG, "[%s] [%s]",first,second );
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( (value1 == 1) && (value2 == 1) )
+@@ -227,14 +227,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( value1 > value2 )
+@@ -258,14 +258,14 @@ int	evaluate_simple (double *result,char
+ 		zabbix_log(LOG_LEVEL_DEBUG, "[%s] [%s]",first,second );
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( value1 < value2 )
+@@ -289,14 +289,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		*result=value1*value2;
+@@ -312,21 +312,21 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if(cmp_double(value2,0) == 0)
+ 		{
+ 			snprintf(error,maxerrlen-1,"Division by zero. Cannot evaluate expression [%s/%s]", first,second);
+-			zabbix_log(LOG_LEVEL_WARNING, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_WARNING, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		else
+@@ -345,14 +345,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		*result=value1+value2;
+@@ -368,14 +368,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		*result=value1-value2;
+@@ -391,14 +391,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( cmp_double(value1,value2) ==0 )
+@@ -421,14 +421,14 @@ int	evaluate_simple (double *result,char
+ 		strscpy( second, p);
+ 		if( evaluate_simple(&value1,first,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( evaluate_simple(&value2,second,error,maxerrlen) == FAIL )
+ 		{
+-			zabbix_log(LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return FAIL;
+ 		}
+ 		if( cmp_double(value1,value2) != 0 )
+@@ -444,8 +444,8 @@ int	evaluate_simple (double *result,char
+ 	else
+ 	{
+ 		snprintf(error,maxerrlen-1,"Format error or unsupported operator.  Exp: [%s]", exp);
+-		zabbix_log(LOG_LEVEL_WARNING, error);
+-		zabbix_syslog(error);
++		zabbix_log(LOG_LEVEL_WARNING, "%s", error);
++		zabbix_syslog("%s", error);
+ 		return FAIL;
+ 	}
+ 	return SUCCEED;
+@@ -493,8 +493,8 @@ int	evaluate(int *result,char *exp, char
+ 		if( r == -1 )
+ 		{
+ 			snprintf(error, maxerrlen-1, "Cannot find left bracket [(]. Expression:[%s]", exp);
+-			zabbix_log(LOG_LEVEL_WARNING, error);
+-			zabbix_syslog(error);
++			zabbix_log(LOG_LEVEL_WARNING, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return	FAIL;
+ 		}
+ 		for(i=l+1;i<r;i++)
+@@ -506,8 +506,8 @@ int	evaluate(int *result,char *exp, char
+ 		if( evaluate_simple( &value, simple, error, maxerrlen ) != SUCCEED )
+ 		{
+ 			/* Changed to LOG_LEVEL_DEBUG */
+-			zabbix_log( LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log( LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return	FAIL;
+ 		}
+ 
+@@ -529,8 +529,8 @@ int	evaluate(int *result,char *exp, char
+ 	}
+ 	if( evaluate_simple( &value, res, error, maxerrlen ) != SUCCEED )
+ 	{
+-		zabbix_log(LOG_LEVEL_WARNING, error);
+-		zabbix_syslog(error);
++		zabbix_log(LOG_LEVEL_WARNING, "%s", error);
++		zabbix_syslog("%s", error);
+ 		return	FAIL;
+ 	}
+ 	zabbix_log( LOG_LEVEL_DEBUG, "Evaluate end:[%lf]", value );
+@@ -894,15 +894,15 @@ int	substitute_functions(char *exp, char
+ 		if( r == FAIL )
+ 		{
+ 			snprintf(error,maxerrlen-1,"Cannot find right bracket. Expression:[%s]", exp);
+-			zabbix_log( LOG_LEVEL_WARNING, error);
+-			zabbix_syslog(error);
++			zabbix_log( LOG_LEVEL_WARNING, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return	FAIL;
+ 		}
+ 		if( r < l )
+ 		{
+ 			snprintf(error,maxerrlen-1, "Right bracket is before left one. Expression:[%s]", exp);
+-			zabbix_log( LOG_LEVEL_WARNING, error);
+-			zabbix_syslog(error);
++			zabbix_log( LOG_LEVEL_WARNING, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return	FAIL;
+ 		}
+ 
+@@ -916,8 +916,8 @@ int	substitute_functions(char *exp, char
+ 		{
+ /* It may happen because of functions.lastvalue is NULL, so this is not warning  */
+ 			snprintf(error,maxerrlen-1, "Unable to get value for functionid [%s]", functionid);
+-			zabbix_log( LOG_LEVEL_DEBUG, error);
+-			zabbix_syslog(error);
++			zabbix_log( LOG_LEVEL_DEBUG, "%s", error);
++			zabbix_syslog("%s", error);
+ 			return	FAIL;
+ 		}
+ 
+--- src/zabbix_server/zlog.c.old	2006-09-12 13:09:35.000000000 +0200
++++ zabbix-1.1.2/src/zabbix_server/zlog.c	2006-10-05 21:08:18.000000000 +0200
+@@ -71,7 +71,7 @@ void zabbix_syslog(const char *fmt, ...)
+ 		DBget_item_from_db(&item,row);
+ 
+ 		va_start(ap,fmt);
+-		vsprintf(value_str,fmt,ap);
++		vsnprintf(value_str,sizeof(value_str),fmt,ap);
+ 		value_str[MAX_STRING_LEN-1]=0;
+ 		va_end(ap);
+ 

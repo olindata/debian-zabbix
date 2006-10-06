@@ -1,8 +1,11 @@
-zabbix (1:1.1.2-3) unstable; urgency=low
+zabbix (1:1.1.2-3) unstable; urgency=high
 
   * Move #DEBHELPER# stanza in zabbix-server-mysql.prerm
     above dbconfig-common call. Server prozess should be
     stopped before database is removed.
+  * debian/patches/07_security.dpatch: add patch for security
+    issues discovered by the Debian Audit Project. Thanks Ulf
+    Harnhammar for the audit.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 20 Sep 2006 15:18:55 +0200
 
