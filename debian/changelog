@@ -1,3 +1,12 @@
+zabbix (1:1.1.2-5) UNRELEASED; urgency=low
+
+  [ Michael Ablassmeier ]
+	* Zabbix agent and server fail to properly detach from console 
+	  after startup. Add work-around to both init scripts. Thanks
+	  Hannu Teulahti (Closes: #393623)
+
+ -- Michael Ablassmeier <abi@debian.org>  Fri,  6 Oct 2006 13:35:00 +0200
+
 zabbix (1:1.1.2-4) unstable; urgency=high
 
   * Move #DEBHELPER# stanza in zabbix-server-mysql.prerm

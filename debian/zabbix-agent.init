@@ -21,7 +21,7 @@ case "$1" in
     	rm -f $PID
 	echo "Starting $DESC: $NAME"
 	start-stop-daemon --oknodo --start --pidfile $PID \
-		--exec $DAEMON
+		--exec $DAEMON  < /dev/null &> /dev/null
 	;;
   stop)
 	echo "Stopping $DESC: $NAME"
