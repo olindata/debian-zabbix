@@ -179,6 +179,7 @@ install-arch:
 	# install schema + data sql files for dbc_config
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	cat create/data/data.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
+	cat create/data/images.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 
