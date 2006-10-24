@@ -1,7 +1,3 @@
-01_log.c
 02_configure.in
 03_configure.in
-04_expression.c
-05_maps.inc.php
 06_data.sql
-07_security

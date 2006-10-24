@@ -4,6 +4,10 @@ zabbix (1:1.1.3-1) UNRELEASED; urgency=low
 	* Zabbix agent and server fail to properly detach from console 
 	  after startup. Add work-around to both init scripts. Thanks
 	  Hannu Teulahti (Closes: #393623)
+    * patches/01_log.c.dpatch: remove, merged upstream
+    * patches/07_security.dpatch: remove, merged upstream
+    * patches/05_maps.inc.php.dpatch: remove, merged upstream
+    * patches/04_expression.c.dpatch: remove, merged upstream
 
  -- Michael Ablassmeier <abi@debian.org>  Fri,  6 Oct 2006 13:35:00 +0200
 
