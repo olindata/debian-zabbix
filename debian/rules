@@ -45,6 +45,21 @@ endif
 
 config.status: configure
 	dh_testdir
+
+	if test -e /usr/share/misc/config.guess ; then \
+		if ! test -e config.guess.orig; then \
+			mv config.guess config.guess.orig ; \
+			cp --remove-destination /usr/share/misc/config.guess config.guess ; \
+		fi ; \
+	fi
+
+	if test -e /usr/share/misc/config.sub ; then \
+		if ! test -e config.sub.orig; then \
+			mv config.sub config.sub.orig ; \
+			cp --remove-destination /usr/share/misc/config.sub config.sub ; \
+		fi ; \
+	fi
+
 	# we removed -lcrypto stuff so lets re-run autotools:
 	aclocal
 	autoconf
@@ -89,12 +104,14 @@ clean1:
 	find . -name \*.o -exec rm {} \;
 	find . -name \*.a -exec rm {} \;
 	-find . -type d -a -name '.deps' -exec rm -fr {} \; 2>/dev/null
-ifneq "$(wildcard /usr/share/misc/config.sub)" ""
-	cp -f /usr/share/misc/config.sub config.sub
-endif
-ifneq "$(wildcard /usr/share/misc/config.guess)" ""
-	cp -f /usr/share/misc/config.guess config.guess
-endif
+
+	if test -e config.guess.orig ; then \
+		mv config.guess.orig config.guess ; \
+	fi ;
+	if test -e config.sub.orig ; then \
+		mv config.sub.orig config.sub ; \
+	fi ; \
+
 	dh_clean 
 
 install: install-indep install-arch
