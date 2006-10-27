@@ -1,6 +1,6 @@
-zabbix (1:1.1.3-2) UNRELEASED; urgency=low
+zabbix (1:1.1.3-2) unstable; urgency=low
 
-  * Merge pgsql branch into trunk.
+  * Merge pgsql branch into trunk. (Closes: #382640)
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 26 Oct 2006 22:15:29 +0200
 
