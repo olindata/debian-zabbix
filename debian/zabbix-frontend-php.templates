@@ -1,10 +1,8 @@
 Template: zabbix-frontend-php/database-type
 Type: select
-Choices: MYSQL
-Default: MYSQL
+Choices: MYSQL, POSTGRESQL
 _Description: Type of Database Server:
  Please choose which database you want to use to store Zabbix data.
- For the moment, only MySQL is supported.
 
 Template: zabbix-frontend-php/database-server
 Type: string

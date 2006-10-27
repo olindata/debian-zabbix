@@ -1,6 +1,6 @@
 zabbix (1:1.1.3-2) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET -> lets begin the BIG BIG PGSQL MERGE (omgwtf).
+  * Merge pgsql branch into trunk.
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 26 Oct 2006 22:15:29 +0200
 
@@ -30,6 +30,22 @@ zabbix (1:1.1.2-4) unstable; urgency=high
     Harnhammar for the audit.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 20 Sep 2006 15:18:55 +0200
+
+zabbix (1:1.1.2-3) experimental; urgency=low
+
+  [ Michael Ablassmeier ]
+   * First steps in PostgreSQL implementation:
+     + add new Binary package zabbix-server-pgsql to control
+     + re-add Build-Dependency on libpq-dev 
+     + add zabbix-server-pgsql.{config,postinst,prerm,postrm,init}
+     + add PGSQL to selection in zabbix-frontend-php.templates
+     + Add conflicts from/to zabbix-server-mysql/pgsql
+     + Complete re-write of debian/rules in order to be able 
+       to build zabbix-server binaries both with mysql and pgsql
+       support (can not be linked to both libraries together)
+     + Remove config.sub and config.guess from .diff.gz.
+
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 14 Sep 2006 11:07:56 +0200
 
 zabbix (1:1.1.2-2) unstable; urgency=low
 

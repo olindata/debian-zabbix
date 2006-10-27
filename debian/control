@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Zabbix Maintainers <kobold-zabbix@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
-Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, libldap2-dev, dpatch, automake1.9, po-debconf 
+Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, libldap2-dev, dpatch, automake1.9, po-debconf, libpq-dev 
 Standards-Version: 3.7.2
  
 Package: zabbix-agent
@@ -35,6 +35,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.15), logrotate
 Recommends: mysql-server (>= 4.0.16-2), snmpd
 Suggests: zabbix-frontend-php
+Conflicts: zabbix-server-pgsql
 Description: software for monitoring of your networks -- server
  Zabbix is an all-in-one 24x7, free monitoring solution for both
  commercial and non-commercial use. 
@@ -56,12 +57,39 @@ Description: software for monitoring of your networks -- server
  Zabbix Server. The Server collects all Informations of your Zabbix 
  Client Systems and stores them in an DBMS. This Package is compiled
  with MySQL support.
- 
+
+Package: zabbix-server-pgsql
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.15), logrotate
+Recommends: postgresql-8.1, snmpd
+Suggests: zabbix-frontend-php
+Conflicts: zabbix-server-mysql
+Description: software for monitoring of your networks -- server
+ Zabbix is an all-in-one 24x7, free monitoring solution for both
+ commercial and non-commercial use. 
+ .
+ Zabbix can be installed on any UNIX platform. It acts as server 
+ that monitors client systems running on different platforms as 
+ well as other Network devices. The Software can be used for:
+ .
+  o high level monitoring of IT Services
+  o centralised monitoring of your servers and applications
+  o monitoring of SNMP-enabled devices
+  o performance monitoring (process load, network activity, disk
+    activity, memory usage, OS parameters etc.)
+  o data visualization
+ .
+ and much more.
+ .
+ This Package provides all binaries which are needed to run an
+ Zabbix Server. The Server collects all Informations of your Zabbix 
+ Client Systems and stores them in an DBMS. This Package is compiled
+ with PostgreSQL support.
 
 Package: zabbix-frontend-php
 Architecture: all
 Depends: apache2 | httpd, libapache2-mod-php5 | php5 | libapache2-mod-php4 (>= 4:4.3.3-4) | php4 (>= 4:4.3.3-4), php5-mysql | php4-mysql (>= 4:4.3.3-4), php5-gd | php4-gd,  ${misc:Depends} 
-Recommends: zabbix-server-mysql, mysql-server (>= 4.0.16-2)
+Recommends: zabbix-server-mysql | zabbix-server-pgsql, mysql-server (>= 4.0.16-2) | postgresql-8.1
 Description: software for monitoring of your servers -- php frontend
  Zabbix is an all-in-one 24x7, free monitoring solution for both
  commercial and non-commercial use. 

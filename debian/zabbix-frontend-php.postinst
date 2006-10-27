@@ -16,6 +16,9 @@ if [ "$1" = "configure" ]; then
     if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
 	. /etc/dbconfig-common/zabbix-server-mysql.conf
     fi
+    if [ -e /etc/dbconfig-common/zabbix-server-pgsql.conf ]; then
+	. /etc/dbconfig-common/zabbix-server-pgsql.conf
+    fi
 
     RET=""
 	db_get zabbix-frontend-php/database-type || true
