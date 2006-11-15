@@ -7,6 +7,7 @@ zabbix (1:1.1.4-1) unstable; urgency=low
     Yves Rutschle (Closes: #398514)
   * debian/patches/07_zabbix-delta.dpatch: remove,
     merged upstream
+  * Keep config templates in sync with upstream.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed,  8 Nov 2006 15:06:04 +0100
 
