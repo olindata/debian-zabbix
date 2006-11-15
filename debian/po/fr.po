@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2006-07-19 16:30+0200\n"
-"PO-Revision-Date: 2006-07-23 22:11+0200\n"
+"POT-Creation-Date: 2006-11-08 15:03+0100\n"
+"PO-Revision-Date: 2006-11-14 08:33+0100\n"
 "Last-Translator: Yves Rütschlé <l10n@rutschle.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -40,12 +40,10 @@ msgstr "Type du serveur de base de données :"
 #. Type: select
 #. Description
 #: ../zabbix-frontend-php.templates:1001
-msgid ""
-"Please choose which database you want to use to store Zabbix data. For the "
-"moment, only MySQL is supported."
+msgid "Please choose which database you want to use to store Zabbix data."
 msgstr ""
 "Veuillez choisir la base de données que vous désirez utiliser pour stocker "
-"les données de Zabbix. Pour le moment, seul MySQL est géré."
+"les données de Zabbix."
 
 #. Type: string
 #. Description
@@ -109,7 +107,7 @@ msgstr ""
 #. Choices
 #: ../zabbix-frontend-php.templates:6001
 msgid "apache, apache-ssl, apache-perl, apache2"
-msgstr "Apache, apache-ssl, apache-perl, apache2"
+msgstr "apache, apache-ssl, apache-perl, apache2"
 
 #. Type: multiselect
 #. Description
@@ -126,7 +124,7 @@ msgid ""
 "version you want to configure the Zabbix frontend for."
 msgstr ""
 "Zabbix gère les mêmes serveurs Web que php4, mais ce processus de "
-"configuration automatique ne fonctionne qu'avec Apache.  Veuillez "
+"configuration automatique ne fonctionne qu'avec Apache. Veuillez "
 "sélectionner la version d'Apache pour laquelle vous désirez configurer le "
 "frontal de Zabbix."
 
