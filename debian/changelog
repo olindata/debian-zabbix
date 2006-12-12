@@ -1,6 +1,7 @@
 zabbix (1:1.1.4-2) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Ship /usr/bin/zabbix_get in zabbix-server-* which is handy for debugging
+    purposes. (Closes: 402749)
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 27 Nov 2006 10:28:15 +0100
 

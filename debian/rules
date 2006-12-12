@@ -184,8 +184,10 @@ install-mysql-stamp: build-mysql
 	chmod 750 $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
 
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_MYSQL)/usr/sbin
+	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_MYSQL)/usr/bin
 
 	$(INSTALL_FILE) debian/manpage.1 $(TMP_SERVER_MYSQL)/usr/share/man/man1/zabbix_server.1
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_SERVER_MYSQL)/usr/share/man/man1/zabbix_get.1
 	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_MYSQL)/etc/logrotate.d/zabbix-server-mysql
@@ -223,8 +225,10 @@ install-pgsql-stamp: build-pgsql
 	chmod 750 $(TMP_SERVER_PGSQL)/var/run/zabbix-server/
 
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_PGSQL)/usr/sbin
+	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_PGSQL)/usr/bin
 
 	$(INSTALL_FILE) debian/manpage.1 $(TMP_SERVER_PGSQL)/usr/share/man/man1/zabbix_server.1
+	$(INSTALL_FILE) debian/manpage.1 $(TMP_SERVER_PGSQL)/usr/share/man/man1/zabbix_get.1
 	$(INSTALL_FILE) create/postgresql/schema.sql $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_PGSQL)/etc/logrotate.d/zabbix-server-pgsql
