@@ -1,3 +1,9 @@
+zabbix (1:1.1.4-3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Michael Ablassmeier <abi@debian.org>  Mon, 18 Dec 2006 10:36:28 +0100
+
 zabbix (1:1.1.4-2) unstable; urgency=low
 
   * Ship /usr/bin/zabbix_get in zabbix-server-* which is handy for debugging
