@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1.1.3-1\n"
 "Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2006-10-26 22:08+0200\n"
+"POT-Creation-Date: 2007-01-05 12:59+0100\n"
 "PO-Revision-Date: 2006-11-12 20:34-0000\n"
 "Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -25,10 +25,11 @@ msgstr "Endereço do servidor Zabbix:"
 #. Type: string
 #. Description
 #: ../zabbix-agent.templates:1001
-msgid "Please enter the host name or the address of the Zabbix server you  want "
-"to connect to."
-msgstr "Por favor, insira o nome ou endereço do servidor Zabbix, onde quer "
-"ligar."
+msgid ""
+"Please enter the host name or the address of the Zabbix server you  want to "
+"connect to."
+msgstr ""
+"Por favor, insira o nome ou endereço do servidor Zabbix, onde quer ligar."
 
 #. Type: select
 #. Description
@@ -39,10 +40,11 @@ msgstr "Tipo do servidor de Base de Dados:"
 #. Type: select
 #. Description
 #: ../zabbix-frontend-php.templates:1001
-msgid "Please choose which database you want to use to store Zabbix data. For "
-"the moment, only MySQL is supported."
-msgstr "Por favor, escolha a base de dados que quer usar, para guardar os dados "
-"do Zabbix. De momento, apenas é a MySQL é suportada."
+#, fuzzy
+msgid "Please choose which database you want to use to store Zabbix data."
+msgstr ""
+"Por favor, escolha a base de dados que quer usar, para guardar os dados do "
+"Zabbix. De momento, apenas é a MySQL é suportada."
 
 #. Type: string
 #. Description
@@ -53,10 +55,12 @@ msgstr "Endereço do Servidor da Base de Dados:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Please enter the host name or the address of the database server you "
-"want to connect to."
-msgstr "Por favor, insira o nome ou endereço do servidor de base de dados, onde "
-"quer ligar."
+msgid ""
+"Please enter the host name or the address of the database server you want to "
+"connect to."
+msgstr ""
+"Por favor, insira o nome ou endereço do servidor de base de dados, onde quer "
+"ligar."
 
 #. Type: string
 #. Description
@@ -80,8 +84,8 @@ msgstr "Utilizador da Base de Dados:"
 #. Description
 #: ../zabbix-frontend-php.templates:4001
 msgid "This is the username used for accessing the zabbix-server database."
-msgstr "Este é o utilizador usado para aceder à base de dados, do servidor "
-"zabbix."
+msgstr ""
+"Este é o utilizador usado para aceder à base de dados, do servidor zabbix."
 
 #. Type: password
 #. Description
@@ -93,8 +97,8 @@ msgstr "Palavra-chave da Base de Dados:"
 #. Description
 #: ../zabbix-frontend-php.templates:5001
 msgid "Please specify what password the previously entered database uses."
-msgstr "Por favor, indique qual a palavra-chave que a base de dados anterior "
-"usa."
+msgstr ""
+"Por favor, indique qual a palavra-chave que a base de dados anterior usa."
 
 #. Type: multiselect
 #. Choices
@@ -111,12 +115,13 @@ msgstr "Reconfiguração do servidor web:"
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:6002
-msgid "Zabbix supports any web server that php4 does, but this automatic "
+msgid ""
+"Zabbix supports any web server that php4 does, but this automatic "
 "configuration process only supports Apache. Please select which  apache "
 "version you want to configure the Zabbix frontend for."
-msgstr "O Zabbix suporta qualquer servidor web, que seja também suportado pelo "
-"php4. No entanto este processo automático de configuração apenas suporta o "
-"Apache."
+msgstr ""
+"O Zabbix suporta qualquer servidor web, que seja também suportado pelo php4. "
+"No entanto este processo automático de configuração apenas suporta o Apache."
 
 #. Type: boolean
 #. Description
@@ -127,7 +132,9 @@ msgstr "Quer reiniciar o(s) seu(s) servidor(es) web agora ?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:7001
-msgid "Remember that in order to apply the changes your webserver(s) has/have "
-"to be restarted."
-msgstr "Lembre-se, que para aplicar as alterações, o(s) seu(s) servidor(es) web "
-"tem/têm de ser reiniciado(s)."
+msgid ""
+"Remember that in order to apply the changes your webserver(s) has/have to be "
+"restarted."
+msgstr ""
+"Lembre-se, que para aplicar as alterações, o(s) seu(s) servidor(es) web tem/"
+"têm de ser reiniciado(s)."
