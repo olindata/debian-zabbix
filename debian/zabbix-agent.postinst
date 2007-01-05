@@ -11,6 +11,9 @@ if [ "$1" = "configure" ]; then
     RET=""
     db_get zabbix-agent/server || true
     zabbix_server="$RET"
+    if [ "$zabbix_server" = "" ]; then
+        zabbix_server="localhost"
+    fi
     sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE1 2> /dev/null;
     sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE2 2> /dev/null;
 

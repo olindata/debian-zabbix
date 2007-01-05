@@ -1,6 +1,8 @@
 zabbix (1:1.1.4-3) unstable; urgency=low
 
   * Do not install useless manpage templates.
+  * Set the default zabbix server in agent configuration
+    to "localhost".
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 18 Dec 2006 10:36:28 +0100
 
