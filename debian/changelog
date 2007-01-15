@@ -1,4 +1,4 @@
-zabbix (1:1.1.4-4) UNRELEASED; urgency=low
+zabbix (1:1.1.4-4) unstable; urgency=low
 
   [ Fabio Tranchitella ]
   * debian/control: zabbix-frontend-php should depend on both php[54]-mysql
