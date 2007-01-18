@@ -41,7 +41,7 @@ case "$1" in
 	    fi
     ;;
     purge)
-           db_purge
+           db_purge 2> /dev/null || true
     ;;
 
     *)
