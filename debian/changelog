@@ -3,6 +3,7 @@ zabbix (1:1.1.4-6) unstable; urgency=medium
   * Restarting zabbix agent and server after logrotation is not
     neccessary, should also resolve problems with agents stopping
     during said task (Closes: #398405)
+  * Disable internal logrotation again.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 24 Jan 2007 14:33:05 +0100
 
