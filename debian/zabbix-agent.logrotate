@@ -6,13 +6,4 @@
     notifempty
     create 0640 zabbix zabbix
     sharedscripts
-    postrotate
-       if [ -f /var/run/zabbix-agent/zabbix_agentd.pid ]; then \
-         if [ -x /usr/sbin/invoke-rc.d ]; then \
-           invoke-rc.d zabbix-agent restart > /dev/null; \
-         else \
-           /etc/init.d/zabbix-agent restart > /dev/null; \
-         fi; \
-       fi;
-    endscript
 }
