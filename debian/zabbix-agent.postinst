@@ -14,8 +14,13 @@ if [ "$1" = "configure" ]; then
     if [ "$zabbix_server" = "" ]; then
         zabbix_server="localhost"
     fi
-    sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE1 2> /dev/null;
-    sed -i "s/^[# ]*Server=.*/Server=$zabbix_server/g" $CONFFILE2 2> /dev/null;
+
+    sed "s/^[# ]*Server=.*/Server=$zabbix_server/g" < $CONFFILE1 > $CONFFILE1.new 
+    ucf --debconf-ok $CONFFILE1.new $CONFFILE1
+    rm -f $CONFFILE1.new
+    sed "s/^[# ]*Server=.*/Server=$zabbix_server/g" < $CONFFILE2 > $CONFFILE2.new
+    ucf --debconf-ok $CONFFILE2.new $CONFFILE2
+    rm -f $CONFFILE2.new
 
     if ! getent group zabbix > /dev/null 2>&1 ; then
     addgroup --system --quiet zabbix

@@ -1,6 +1,8 @@
-zabbix (1:1.1.4-7) UNRELEASED; urgency=low
+zabbix (1:1.1.4-7) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  * Manage /etc/zabbix/zabbix_agent*.conf with ucf in order to prevent
+    user specified data to be overwritten, add ucf to dependencies.
+    (Closes: #408489) 
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 24 Jan 2007 15:40:49 +0100
 

@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
  
 Package: zabbix-agent
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, logrotate
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, logrotate, ucf
 Description: software for monitoring of your networks -- agent
  Zabbix is an all-in-one 24x7 free monitoring solution for both
  commercial and non-commercial use. 
