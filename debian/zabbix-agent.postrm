@@ -6,12 +6,13 @@ case "$1" in
     remove)
     ;;
     purge)
-        rm -f /etc/zabbix/zabbix-agent.conf
-        rm -f /etc/zabbix/zabbix-agentd.conf
+
         if [ -x /usr/bin/ucf ]; then
-           ucf --purge /etc/zabbix/zabbix-agent.conf
-           ucf --purge /etc/zabbix/zabbix-agentd.conf
+           ucf --purge /etc/zabbix/zabbix_agent.conf
+           ucf --purge /etc/zabbix/zabbix_agentd.conf
         fi
+        rm -f /etc/zabbix/zabbix_agent.conf
+        rm -f /etc/zabbix/zabbix_agentd.conf
 
         rm -fr /var/log/zabbix-agent
         rm -fr /var/run/zabbix-agent
