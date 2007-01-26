@@ -6,11 +6,6 @@ case "$1" in
     remove)
     ;;
     purge)
-        if [ -e /usr/share/debconf/confmodule ]; then
-           . /usr/share/debconf/confmodule
-           db_purge
-        fi
-
         rm -f /etc/zabbix/zabbix-agent.conf
         rm -f /etc/zabbix/zabbix-agentd.conf
         if [ -x /usr/bin/ucf ]; then
