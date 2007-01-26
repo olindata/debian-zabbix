@@ -11,6 +11,8 @@ case "$1" in
            db_purge
         fi
 
+        rm -f /etc/zabbix/zabbix-agent.conf
+        rm -f /etc/zabbix/zabbix-agentd.conf
         if [ -x /usr/bin/ucf ]; then
            ucf --purge /etc/zabbix/zabbix-agent.conf
            ucf --purge /etc/zabbix/zabbix-agentd.conf
