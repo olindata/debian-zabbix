@@ -156,8 +156,8 @@ install-mysql-stamp: build-mysql
 	$(INSTALL_DIR) $(TMP_CLIENT)/var/run/zabbix-agent/
 	chmod 750 $(TMP_CLIENT)/var/run/zabbix-agent/
 
-	$(INSTALL_FILE) debian/templates/zabbix_agent.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agent.conf
-	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/etc/zabbix/zabbix_agentd.conf
+	$(INSTALL_FILE) debian/templates/zabbix_agent.conf.in $(TMP_CLIENT)/usr/share/zabbix-agent/zabbix_agent.conf
+	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/usr/share/zabbix-agent/zabbix_agentd.conf
 	$(INSTALL_FILE) debian/zabbix-agent.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-agent
 
 	echo ""
