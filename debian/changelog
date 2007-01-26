@@ -2,7 +2,7 @@ zabbix (1:1.1.4-7) unstable; urgency=high
 
   * Manage configuration files for zabbix-agent and zabbix-frontend-php 
 	with ucf in order to prevent user specified data to be overwritten on
-    packages Upgrades. (Closes: #408489)
+    package Upgrade. (Closes: #408489)
   * Add ucf to dependencies.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 24 Jan 2007 15:40:49 +0100
