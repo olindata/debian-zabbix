@@ -6,11 +6,12 @@ CONFFILE="/etc/zabbix/dbconfig.php"
 db_version 2.0 || [ $? -lt 30 ]
 
 if [ "$1" = "configure" ]; then
-    
-    chown root:www-data $CONFFILE
-    chmod 640 $CONFFILE
 
-    echo "<?" > $CONFFILE 2> /dev/null
+    touch $CONFFILE.ucftmp    
+    chown root:www-data $CONFFILE.ucftmp
+    chmod 640 $CONFFILE.ucftmp
+
+    echo "<?" > $CONFFILE.ucftmp 2> /dev/null
 
     # check for existing zabbix-server-mysql.conf
     if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
@@ -23,26 +24,26 @@ if [ "$1" = "configure" ]; then
     RET=""
 	db_get zabbix-frontend-php/database-type || true
 	db_type="$RET"
-    echo "\$DB_TYPE='$db_type';" >> $CONFFILE 2> /dev/null
+    echo "\$DB_TYPE='$db_type';" >> $CONFFILE.ucftmp 2> /dev/null
 
     RET=""
 	db_get zabbix-frontend-php/database-server || true
 	db_server="$RET"
-    echo "\$DB_SERVER='$db_server';" >> $CONFFILE 2> /dev/null
+    echo "\$DB_SERVER='$db_server';" >> $CONFFILE.ucftmp 2> /dev/null
 
     if [ ! $dbc_dbname ]; then
 	RET=""
 	db_get zabbix-frontend-php/database-name || true
 	dbc_dbname="$RET"
     fi
-    echo "\$DB_DATABASE='$dbc_dbname';" >> $CONFFILE 2> /dev/null
+    echo "\$DB_DATABASE='$dbc_dbname';" >> $CONFFILE.ucftmp 2> /dev/null
 
     if [ ! $dbc_dbuser ]; then
 	RET=""
 	db_get zabbix-frontend-php/database-user || true
 	dbc_dbuser="$RET"
     fi
-    echo "\$DB_USER='$dbc_dbuser';" >> $CONFFILE 2> /dev/null
+    echo "\$DB_USER='$dbc_dbuser';" >> $CONFFILE.ucftmp 2> /dev/null
 
     if [ ! $dbc_dbpass ]; then
 	RET=""
@@ -50,10 +51,11 @@ if [ "$1" = "configure" ]; then
 	dbc_dbpass="$RET"
     fi
 
-    echo "\$DB_PASSWORD='$dbc_dbpass';" >> $CONFFILE 2> /dev/null
+    echo "\$DB_PASSWORD='$dbc_dbpass';" >> $CONFFILE.ucftmp 2> /dev/null
 	
-    echo "?>" >> $CONFFILE 2> /dev/null
-
+    echo "?>" >> $CONFFILE.ucftmp 2> /dev/null
+	ucf --debconf-ok $CONFFILE.ucftmp $CONFFILE
+	rm -f $CONFFILE.ucftmp
 
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"

@@ -41,7 +41,10 @@ case "$1" in
 	    fi
     ;;
     purge)
-           db_purge 2> /dev/null || true
+           if [ -x /usr/bin/ucf ]; then
+                ucf --purge /etc/zabbix/dbconfig.php
+           fi
+           rm -f /etc/zabbix/dbconfig.php
     ;;
 
     *)
