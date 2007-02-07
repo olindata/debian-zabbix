@@ -5,27 +5,27 @@
 ## DP: disable zabbix internal log-rotation, we have logrotate.
 
 @DPATCH@
---- log.c	2006-07-07 10:31:30.000000000 +0200
-+++ zabbix-1.1.1/src/libs/zbxlog/log.c	2006-07-25 11:06:52.000000000 +0200
-@@ -127,7 +127,7 @@
+--- log.c.orig	2007-02-07 14:13:14.000000000 +0100
++++ zabbix-1.1.6/src/libs/zbxlog/log.c	2007-02-07 14:17:15.000000000 +0100
+@@ -144,21 +144,6 @@
+ 		fprintf(log_file,"%s",str);
  		fprintf(log_file,"\n");
  		fclose(log_file);
- 
 -
-+/*
- 		if(stat(log_filename,&buf) == 0)
- 		{
- 			if(buf.st_size > MAX_LOG_FILE_LEN)
-@@ -136,10 +136,11 @@
- 				strncat(filename_old,".old",MAX_STRING_LEN);
- 				if(rename(log_filename,filename_old) != 0)
- 				{
+-
+-		if(stat(log_filename,&buf) == 0)
+-		{
+-			if(buf.st_size > MAX_LOG_FILE_LEN)
+-			{
+-				strscpy(filename_old,log_filename);
+-				zbx_strlcat(filename_old,".old",MAX_STRING_LEN);
+-				if(rename(log_filename,filename_old) != 0)
+-				{
 -/*					exit(1);*/
-+					exit(1);
- 				}
- 			}
- 		}
-+*/
+-				}
+-				redirect_std(log_filename);
+-			}
+-		}
  	}
  	else
  	{
