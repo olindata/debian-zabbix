@@ -4,6 +4,14 @@ zabbix (1:1.1.6-1) UNRELEASED; urgency=low
 
  -- Michael Ablassmeier <abi@debian.org>  Wed,  7 Feb 2007 14:10:35 +0100
 
+zabbix (1:1.1.4-8) unstable; urgency=high
+
+  * debian/patches/CVE-2007-0640.dpatch: fix buffer overflow related
+    to SNMP IP Address Handling as described in  CVE-2007-0640.
+    Closes: #409257
+
+ -- Michael Ablassmeier <abi@debian.org>  Mon,  5 Feb 2007 09:47:09 +0100
+
 zabbix (1:1.1.4-7) unstable; urgency=high
 
   * Manage configuration files for zabbix-agent and zabbix-frontend-php 
