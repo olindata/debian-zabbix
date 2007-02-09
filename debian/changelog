@@ -1,6 +1,7 @@
-zabbix (1:1.1.6-1) UNRELEASED; urgency=low
+zabbix (1:1.1.6-1) unstable; urgency=low
 
-  * (NOT RELEASED YET) New upstream release
+  * New upstream release
+  * debian/patches/01_log.c.dpatch: update for new upstream version.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed,  7 Feb 2007 14:10:35 +0100
 
