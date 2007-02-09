@@ -1,2 +1,2 @@
 version=2
-http://prdownloads.sourceforge.net/zabbix/zabbix-(.*)\.tar\.gz
+http://sf.net/zabbix/zabbix-(1.1.*)\.tar\.gz debian uupdate
