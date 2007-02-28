@@ -1,7 +1,8 @@
 zabbix (1:1.1.6-2) UNRELEASED; urgency=low
 
   * debian/watch: fixed.
-  * debain/po/de.po: added, thanks to Helge Kreutzmann. (Closes: #411164)
+  * debian/po/de.po: added, thanks to Helge Kreutzmann. (Closes: #411164)
+  * debian/po/cs.po: updated version, thanks Martin (Closes:  #412735) 
 
  -- Fabio Tranchitella <kobold@debian.org>  Sat, 17 Feb 2007 01:00:56 +0100
 
