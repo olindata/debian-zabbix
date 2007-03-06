@@ -1,10 +1,15 @@
 zabbix (1:1.1.6-2) UNRELEASED; urgency=low
 
+  [ Fabio Tranchitella ]
   * debian/watch: fixed.
-  * debian/po/de.po: added, thanks to Helge Kreutzmann. (Closes: #411164)
-  * debian/po/cs.po: updated version, thanks Martin (Closes:  #412735) 
 
- -- Fabio Tranchitella <kobold@debian.org>  Sat, 17 Feb 2007 01:00:56 +0100
+  [ Michael Ablassmeier ]
+  * debian/po/de.po: added, thanks to Helge Kreutzmann. (Closes: #411164)
+  * debian/po/cs.po: updated version, thanks Martin (Closes:  #412735)
+  * chown /etc/zabbix/dbconfig.php root:www-data after ucf call
+	Closes: #413673
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue,  6 Mar 2007 16:00:34 +0100
 
 zabbix (1:1.1.6-1) unstable; urgency=low
 
