@@ -55,7 +55,7 @@ if [ "$1" = "configure" ]; then
 	
     echo "?>" >> $CONFFILE.ucftmp 2> /dev/null
 	ucf --debconf-ok $CONFFILE.ucftmp $CONFFILE
-    chown root:www-data $CONFFILE
+	chown root:www-data $CONFFILE
 	rm -f $CONFFILE.ucftmp
 
     db_get zabbix-frontend-php/reconfigure-webserver || true
