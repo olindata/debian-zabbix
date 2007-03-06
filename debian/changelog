@@ -1,4 +1,4 @@
-zabbix (1:1.1.6-2) UNRELEASED; urgency=low
+zabbix (1:1.1.6-2) unstable; urgency=medium
 
   [ Fabio Tranchitella ]
   * debian/watch: fixed.
