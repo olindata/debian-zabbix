@@ -1,6 +1,7 @@
 zabbix (1:1.1.6-3) unstable; urgency=low
 
   * Simplify depends for php (Closes: #413672)
+  * Add italian debconf translation (Closes: #413903)
 
  -- Michael Ablassmeier <abi@debian.org>  Wed,  7 Mar 2007 10:03:20 +0100
 
