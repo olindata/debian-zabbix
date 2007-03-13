@@ -16,6 +16,8 @@ test -f $DAEMON || exit 0
 
 set -e
 
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
 case "$1" in
   start)
     rm -f $PID

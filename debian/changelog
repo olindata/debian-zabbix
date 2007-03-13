@@ -1,3 +1,10 @@
+zabbix (1:1.1.6-4) UNRELEASED; urgency=low
+
+  * Init Scripts: Add /usr/sbin/ and /sbin to $PATH so zabbix can
+    be safely started from cron and the like. (Closes: #414509)
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 13 Mar 2007 10:42:57 +0100
+
 zabbix (1:1.1.6-3) unstable; urgency=low
 
   * Simplify depends for php (Closes: #413672)
