@@ -1,9 +1,14 @@
 zabbix (1:1.1.6-4) UNRELEASED; urgency=low
 
+  [ Michael Ablassmeier ]
   * Init Scripts: Add /usr/sbin/ and /sbin to $PATH so zabbix can
     be safely started from cron and the like. (Closes: #414509)
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 13 Mar 2007 10:42:57 +0100
+  [ Fabio Tranchitella ]
+  * debian/zabbix-server-{mysql,pgsql}.postinst: run dbc_go after creating the
+    system zabbix user. (Closes: #415745)
+
+ -- Fabio Tranchitella <kobold@debian.org>  Thu, 22 Mar 2007 11:41:09 +0100
 
 zabbix (1:1.1.6-3) unstable; urgency=low
 

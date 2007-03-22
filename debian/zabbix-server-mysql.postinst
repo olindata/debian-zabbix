@@ -9,8 +9,6 @@ dbc_generate_include_owner="zabbix"
 dbc_generate_include_perms="640"
 dbc_generate_include_args="-U -o template_infile=/usr/share/doc/zabbix-server-mysql/zabbix_server.conf"
 
-dbc_go zabbix-server-mysql $@
-
 if [ "$1" = "configure" ]; then
     if ! getent group zabbix > /dev/null 2>&1 ; then
     addgroup --system --quiet zabbix
@@ -25,6 +23,8 @@ if [ "$1" = "configure" ]; then
     chown zabbix:zabbix /var/log/zabbix-server -R
     chown zabbix:zabbix /var/run/zabbix-server -R
 fi
+
+dbc_go zabbix-server-mysql $@
 
 #DEBHELPER#
 
