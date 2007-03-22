@@ -1,4 +1,4 @@
-zabbix (1:1.1.6-4) UNRELEASED; urgency=low
+zabbix (1:1.1.6-4) unstable; urgency=low
 
   [ Michael Ablassmeier ]
   * Init Scripts: Add /usr/sbin/ and /sbin to $PATH so zabbix can
