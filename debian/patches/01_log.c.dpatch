@@ -5,8 +5,8 @@
 ## DP: disable zabbix internal log-rotation, we have logrotate.
 
 @DPATCH@
---- log.c.orig	2007-03-30 20:10:25.000000000 +0200
-+++ zabbix-1.1.5/log.c	2007-03-30 20:11:06.000000000 +0200
+--- log.c	2007-03-30 20:10:25.000000000 +0200
++++ zabbix-1.1.7/src/libs/zbxlog/log.c	2007-03-30 20:11:06.000000000 +0200
 @@ -127,59 +127,7 @@
  		syslog(LOG_DEBUG,"%s",str);
  		va_end(ap);
