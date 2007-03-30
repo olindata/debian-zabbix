@@ -4,6 +4,7 @@ zabbix (1:1.1.7-1) unstable; urgency=low
   * New Upstream release
   * Init Scripts: Add /usr/sbin/ and /sbin to $PATH so zabbix can
     be safely started from cron and the like. (Closes: #414509)
+  * update 01_log.c.dpatch
 
   [ Fabio Tranchitella ]
   * debian/zabbix-server-{mysql,pgsql}.postinst: run dbc_go after creating the
