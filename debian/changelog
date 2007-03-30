@@ -1,10 +1,12 @@
-zabbix (1:1.1.7-2) UNRELEASED; urgency=low
+zabbix (1:1.1.7-2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  [ Michael Ablassmeier ]
+  * New Upstream release
+  * update 01_log.c.dpatch
 
  -- Michael Ablassmeier <abi@debian.org>  Fri, 30 Mar 2007 20:28:35 +0200
 
-zabbix (1:1.1.7-1) unstable; urgency=low
+zabbix (1:1.1.6-4) unstable; urgency=low
 
   [ Michael Ablassmeier ]
   * New Upstream release
@@ -16,7 +18,7 @@ zabbix (1:1.1.7-1) unstable; urgency=low
   * debian/zabbix-server-{mysql,pgsql}.postinst: run dbc_go after creating the
     system zabbix user. (Closes: #415745)
 
- -- Michael Ablassmeier <abi@debian.org>  Fri, 30 Mar 2007 20:03:19 +0200
+ -- Fabio Tranchitella <kobold@debian.org>  Thu, 22 Mar 2007 11:41:09 +0100
 
 zabbix (1:1.1.6-3) unstable; urgency=low
 
