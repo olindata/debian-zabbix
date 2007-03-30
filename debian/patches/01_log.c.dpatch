@@ -7,31 +7,10 @@
 @DPATCH@
 --- log.c	2007-03-30 20:10:25.000000000 +0200
 +++ zabbix-1.1.7/src/libs/zbxlog/log.c	2007-03-30 20:11:06.000000000 +0200
-@@ -127,59 +127,7 @@
- 		syslog(LOG_DEBUG,"%s",str);
- 		va_end(ap);
- 	}
--	else if(log_type == LOG_TYPE_FILE)
--	{
--		t=time(NULL);
--		tm=localtime(&t);
--		snprintf(str2,sizeof(str2)-1,"%.6d:%.4d%.2d%.2d:%.2d%.2d%.2d ",(int)getpid(),tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,tm->tm_hour,tm->tm_min,tm->tm_sec);
+@@ -148,22 +148,6 @@
+ 		fclose(log_file);
  
--		va_start(ap,fmt);
--		vsnprintf(str,MAX_BUF_LEN,fmt,ap);
--		va_end(ap);
--
--		log_file = fopen(log_filename,"a+");
--		if(log_file == NULL)
--		{
--			return;
--		}
--		fprintf(log_file,"%s",str2);
--		fprintf(log_file,"%s",str);
--		fprintf(log_file,"\n");
--		fclose(log_file);
--
--
+ 
 -		if(stat(log_filename,&buf) == 0)
 -		{
 -			if(buf.st_size > MAX_LOG_FILE_LEN)
@@ -48,22 +27,6 @@
 -
 -			old_size = buf.st_size;
 -		}
--	}
--	else
--	{
--		t=time(NULL);
--		tm=localtime(&t);
--		/* Log is not opened */
--		fprintf(stderr, "%.6d:%.4d%.2d%.2d:%.2d%.2d%.2d ",(int)getpid(),tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,tm->tm_hour,tm->tm_min,tm->tm_sec);
--
--		va_start(ap,fmt);
--		vfprintf(stderr, fmt,ap);
--		va_end(ap);
--
--		fprintf(stderr, "\n");
--
--		fflush(stderr);
--	}	
-         return;
- }
- 
+ 	}
+ 	else
+ 	{
