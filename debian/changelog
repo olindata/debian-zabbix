@@ -1,8 +1,9 @@
 zabbix (1:1.1.7-3) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Replace Build-Dependency on libsnmp9-dev with libsnmp10-dev
+    Closes: #421062
 
- -- Michael Ablassmeier <abi@debian.org>  Sun, 22 Apr 2007 18:01:12 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 26 Apr 2007 10:49:35 +0200
 
 zabbix (1:1.1.7-2) unstable; urgency=low
 
