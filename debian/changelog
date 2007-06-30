@@ -14,9 +14,9 @@ zabbix (1:1.4.1-1) UNRELEASED; urgency=low
        + various changes to frontend installation
        + own binary-arch/install target for agent
   * debian/control:
-       + add libcurl3-dev to b-d
+       + add libcurl4-openssl-dev to b-d
 
- -- Michael Ablassmeier <abi@debian.org>  Fri, 11 May 2007 10:53:46 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Sat, 30 Jun 2007 11:58:38 +0200
 
 zabbix (1:1.1.7-3) unstable; urgency=low
 
