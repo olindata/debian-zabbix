@@ -1,16 +1,16 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          zabbix-agent
-# Required-Start:    $local_fs $network 
+# Provides:          zabbix-server
+# Required-Start:    $local_fs $network
 # Required-Stop:     $local_fs
 # Default-Start:     S
-# Default-Stop:      0 6
-# Short-Description: Start zabbix-agent daemon
+# Default-Stop:	     0 6
+# Short-Description: Start zabbix-server daemon
 ### END INIT INFO
-DAEMON=/usr/sbin/zabbix_agentd
-NAME=zabbix_agentd
-DESC="Zabbix agent"
-PID=/var/run/zabbix-agent/$NAME.pid
+DAEMON=/usr/sbin/zabbix_server
+NAME=zabbix_server
+DESC="Zabbix server"
+PID=/var/run/zabbix-server/$NAME.pid
 
 test -f $DAEMON || exit 0
 
@@ -20,17 +20,19 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
-    	rm -f $PID
+    rm -f $PID
 	echo "Starting $DESC: $NAME"
 	start-stop-daemon --oknodo --start --pidfile $PID \
-		--exec $DAEMON  < /dev/null &> /dev/null
+		--exec $DAEMON < /dev/null &> /dev/null
 	;;
   stop)
 	echo "Stopping $DESC: $NAME"
-	start-stop-daemon --oknodo --stop --exec $DAEMON 
+	start-stop-daemon --oknodo --stop --pidfile $PID \
+		--exec $DAEMON
 	;;
   restart|force-reload)
 	$0 stop
+	sleep 2
 	$0 start
 	;;
   *)

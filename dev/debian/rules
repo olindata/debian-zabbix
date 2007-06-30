@@ -35,17 +35,15 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
     INSTALL_PROGRAM += -s
 endif
 
-CONFFLAGS = --host=$(DEB_HOST_GNU_TYPE) \
+CONFFLAGS_SERVER  = --host=$(DEB_HOST_GNU_TYPE) \
                     --build=$(DEB_BUILD_GNU_TYPE) \
                     --prefix=/usr \
                     --mandir=\$${prefix}/share/man \
                     --infodir=\$${prefix}/share/info \
-                    --enable-agent \
                     --enable-server \
-                    --with-ldap \
                     --with-net-snmp
-## defines
 
+CONFFLAGS_AGENT  = --enable-agent --with-ldap
 
 build:
 
@@ -64,12 +62,23 @@ prepare: patch
 		fi ; \
 	fi
 
-	aclocal
-	autoconf
-	autoheader
-	automake -a
+#	aclocal -I m4 
+#	autoconf 
+#	autoheader 
+#	automake
 
 	touch prepare-stamp
+
+build-agent: config-agent
+	dh_testdir
+	$(MAKE)
+
+config-agent: prepare config-agent-stamp
+config-agent-stamp:
+	@echo "Configuring agent"
+	dh_testdir
+	rm -f config-*-stamp
+	LIBCURL_LDFLAGS="-lcurl" ./configure $(CONFFLAGS_AGENT)
 
 build-mysql: config-mysql
 	dh_testdir
@@ -80,8 +89,9 @@ config-mysql-stamp:
 	@echo "Configuring mysql" 
 	dh_testdir
 	rm -f config-*-stamp
-	./configure $(CONFFLAGS) --with-mysql
+	LIBCURL_LDFLAGS="-lcurl" ./configure $(CONFFLAGS_SERVER) --with-mysql
 	touch config-mysql-stamp
+	exit;
 
 build-pgsql: config-pgsql
 	dh_testdir
@@ -92,7 +102,7 @@ config-pgsql-stamp:
 	@echo "Configuring pgsql"
 	dh_testdir
 	rm -f config-*-stamp
-	./configure $(CONFFLAGS) --with-pgsql
+	LIBCURL_LDFLAGS="-lcurl" ./configure $(CONFFLAGS_SERVER) --with-pgsql
 	touch config-pgsql-stamp
 
 clean: unpatch
@@ -115,7 +125,7 @@ clean: unpatch
 	dh_clean
 
 
-install: install-indep install-mysql install-pgsql 
+install: install-indep install-agent install-mysql install-pgsql
 
 install-indep:
 	dh_testdir
@@ -125,16 +135,19 @@ install-indep:
 	$(INSTALL_DIR) $(TMP_FRONTEND)/etc/zabbix/
 	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/zabbix/
 	cp -a frontends/php/* $(TMP_FRONTEND)/usr/share/zabbix/
-	chmod 644 $(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head2.gif \
-	$(TMP_FRONTEND)/usr/share/zabbix/images/gradients/table_head.gif
-	$(INSTALL_FILE) debian/templates/db.inc.php.in $(TMP_FRONTEND)/usr/share/zabbix/include/db.inc.php
+	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
+
+	# disable installation frontend for now.
+	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
+
+	# link config file to /etc/zabbix/..
+	dh_link -pzabbix-frontend-php etc/zabbix/dbconfig.php usr/share/zabbix/conf/zabbix.conf.php
+
 	$(INSTALL_FILE) debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
-	chmod -x  $(TMP_FRONTEND)/usr/share/zabbix/include/locales/pt_br.inc.php
 	dh_install -i
 
-
-install-mysql: install-mysql-stamp
-install-mysql-stamp: build-mysql
+install-agent: install-agent-stamp
+install-agent-stamp: build-agent
 	echo ""
 	echo $(PKG_CLIENT)
 	$(INSTALL_DIR) $(TMP_CLIENT)
@@ -158,6 +171,9 @@ install-mysql-stamp: build-mysql
 	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/usr/share/zabbix-agent/zabbix_agentd.conf
 	$(INSTALL_FILE) debian/zabbix-agent.logrotate $(TMP_CLIENT)/etc/logrotate.d/zabbix-agent
 
+
+install-mysql: install-mysql-stamp
+install-mysql-stamp: build-mysql
 	echo ""
 	echo $(PKG_SERVER_MYSQL)
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)
@@ -180,16 +196,19 @@ install-mysql-stamp: build-mysql
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_MYSQL)/usr/sbin
 	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_MYSQL)/usr/bin
 
-	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
+	$(INSTALL_FILE) create/schema/mysql.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_MYSQL)/etc/logrotate.d/zabbix-server-mysql
-	$(INSTALL_FILE) debian/templates/zabbix_server.mysql.conf.in $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/zabbix_server.conf
+	$(INSTALL_FILE) debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/zabbix_server.conf
 
 
 	#install schema + data sql files for dbc_config
-	$(INSTALL_FILE) create/mysql/schema.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
+	$(INSTALL_FILE) create/schema/mysql.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	cat create/data/data.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
-	cat create/data/images.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
+
+	# install upgrade patch from 1.1.x to 1.4
+	$(INSTALL_FILE) upgrades/dbpatches/1.4/mysql/patch.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1:1.4
+
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_install -a
 	touch install-mysql-stamp
@@ -219,15 +238,18 @@ install-pgsql-stamp: build-pgsql
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_PGSQL)/usr/sbin
 	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_PGSQL)/usr/bin
 
-	$(INSTALL_FILE) create/postgresql/schema.sql $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
+	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
 	$(INSTALL_FILE) debian/zabbix-server-mysql.logrotate $(TMP_SERVER_PGSQL)/etc/logrotate.d/zabbix-server-pgsql
-	$(INSTALL_FILE) debian/templates/zabbix_server.mysql.conf.in $(TMP_SERVER_PGSQL)/usr/share/doc/zabbix-server-pgsql/zabbix_server.conf
+	$(INSTALL_FILE) debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/doc/zabbix-server-pgsql/zabbix_server.conf
 
 	#install schema + data sql files for dbc_config
-	$(INSTALL_FILE) create/postgresql/schema.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
+	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 	cat create/data/data.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
-	cat create/data/images_pgsql.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
+
+	# install upgrade patch from 1.1.x to 1.4
+	$(INSTALL_FILE) upgrades/dbpatches/1.4/postgresql/patch.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/1:1.4
+
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
 	dh_install -a
 	touch install-pgsql-stamp
@@ -254,7 +276,7 @@ binary-indep: install-indep
 	dh_builddeb -i
 
 # Build architecture-dependent files here.
-binary-arch: binary-arch-mysql binary-arch-pgsql
+binary-arch: binary-arch-agent binary-arch-mysql binary-arch-pgsql
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs ChangeLog -a
@@ -277,6 +299,8 @@ binary-arch-mysql: build-mysql install-mysql
 
 binary-arch-pgsql: build-pgsql install-pgsql
 
+binary-arch-agent: build-agent install-agent
+
 binary: binary-arch binary-indep
 
-.PHONY: build build-mysql build-pgsql config-mysql config-pgsql clean install install-indep install-mysql install-pgsql binary-indep binary-arch binary-arch-mysql binary-arch-pgsql binary
+.PHONY: build build-mysql build-pgsql config-mysql config-pgsql clean install install-indep install-mysql install-pgsql install-agent build-agent binary-indep binary-arch binary-arch-mysql binary-arch-pgsql binary-arch-agent binary

@@ -1,8 +1,22 @@
-zabbix (1:1.1.7-4) UNRELEASED; urgency=low
+zabbix (1:1.4.1-1) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  *  New upstream release (Closes #417417, #419042)
+       + ship database patches from 1.1.x to 1.4
+       + agent and server should restart nicely now (Closes: #413740)
+       + server survives mysqld restarts now (Closes: #414180, #415011)
+  * debian/patches:
+       + Upstream fixed the autotools so no patches
+         are needed, zabbbix is now correctly linking.
+  * debian/rules:
+       + dont install images.sql, has been merged
+       + fix path to database schemas
+       + override LIBCURL_LDFLAGS for curl-config
+       + various changes to frontend installation
+       + own binary-arch/install target for agent
+  * debian/control:
+       + add libcurl3-dev to b-d
 
- -- Michael Ablassmeier <abi@debian.org>  Thu, 26 Apr 2007 10:58:35 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Fri, 11 May 2007 10:53:46 +0200
 
 zabbix (1:1.1.7-3) unstable; urgency=low
 
@@ -28,10 +42,8 @@ zabbix (1:1.1.7-1) unstable; urgency=low
 zabbix (1:1.1.6-4) unstable; urgency=low
 
   [ Michael Ablassmeier ]
-  * New Upstream release
   * Init Scripts: Add /usr/sbin/ and /sbin to $PATH so zabbix can
     be safely started from cron and the like. (Closes: #414509)
-  * update 01_log.c.dpatch
 
   [ Fabio Tranchitella ]
   * debian/zabbix-server-{mysql,pgsql}.postinst: run dbc_go after creating the
