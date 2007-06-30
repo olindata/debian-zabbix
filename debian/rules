@@ -112,7 +112,7 @@ clean: unpatch
 	rm -f config-*-stamp
 	rm -f install-*-stamp
 	rm -f config.log
-	-make clean
+	[ ! -f Makefile ] || $(MAKE) clean
 	debconf-updatepo
 
 	if test -e config.guess.orig ; then \

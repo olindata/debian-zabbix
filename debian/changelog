@@ -1,6 +1,6 @@
-zabbix (1:1.4.1-1) UNRELEASED; urgency=low
+zabbix (1:1.4.1-1) unstable; urgency=low
 
-  *  New upstream release (Closes #417417, #419042)
+  *  New upstream release (Closes: #417417, #419042)
        + ship database patches from 1.1.x to 1.4
        + agent and server should restart nicely now (Closes: #413740)
        + server survives mysqld restarts now (Closes: #414180, #415011)
