@@ -139,7 +139,7 @@ install-indep:
 
 	# disable installation frontend for now.
 	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
-	chmod -x ($TMP_FRONTEND)/usr/share/zabbix/images/general/tick.png
+	chmod -x $(TMP_FRONTEND)/usr/share/zabbix/images/general/tick.png
 
 	# link config file to /etc/zabbix/..
 	dh_link -pzabbix-frontend-php etc/zabbix/dbconfig.php usr/share/zabbix/conf/zabbix.conf.php
