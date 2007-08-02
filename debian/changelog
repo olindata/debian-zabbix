@@ -2,6 +2,7 @@ zabbix (1:1.4.1-3) unstable; urgency=low
 
   * Dont print debug information on frontend when postgresql is used.
     debian/patches/db.inc.dpatch (Closes: #435609)
+  * If zabbix-server-pgsql's config is found set db_type to POSTGRESQL.
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 02 Aug 2007 10:26:44 +0200
 
