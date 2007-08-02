@@ -1,0 +1,15 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# dont print debug info when postgresql is used
+
+@DPATCH@
+--- db.inc.php	2007-08-02 10:25:01.000000000 +0200
++++ zabbix-1.4.1/frontends/php/include/db.inc.php	2007-08-02 10:25:18.000000000 +0200
+@@ -64,7 +64,7 @@
+ 						( !empty($DB_USER) ? 'user=\''.$DB_USER.'\' ' : '').
+ 						( !empty($DB_PASSWORD) ? 'password=\''.$DB_PASSWORD.'\' ' : '').
+ 						( !empty($DB_PORT) ? 'port='.$DB_PORT : '');
+-SDI($pg_connection_string);
++//SDI($pg_connection_string);
+ 					$DB=pg_pconnect($pg_connection_string);
+ 					if(!$DB)
+ 					{
