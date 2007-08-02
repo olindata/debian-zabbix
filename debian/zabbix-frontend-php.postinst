@@ -15,10 +15,12 @@ if [ "$1" = "configure" ]; then
 
     # check for existing zabbix-server-mysql.conf
     if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
-	. /etc/dbconfig-common/zabbix-server-mysql.conf
+		. /etc/dbconfig-common/zabbix-server-mysql.conf
+		db_type="MYSQL"
     fi
     if [ -e /etc/dbconfig-common/zabbix-server-pgsql.conf ]; then
-	. /etc/dbconfig-common/zabbix-server-pgsql.conf
+		. /etc/dbconfig-common/zabbix-server-pgsql.conf
+		db_type="POSTGRESQL"
     fi
 
     RET=""
