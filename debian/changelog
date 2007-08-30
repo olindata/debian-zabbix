@@ -1,6 +1,6 @@
 zabbix (1:1.4.2-1) unstable; urgency=low
 
-  * (NOT RELEASED YET) New upstream release
+  * New upstream release
   * debian/patches/db.inc.dpatch: removed, merged upstream.
   * debian/patches/param.dpatch: removed, merged upstream.
 
