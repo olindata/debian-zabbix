@@ -1,3 +1,9 @@
+zabbix (1:1.4.2-3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 04 Sep 2007 10:06:03 +0200
+
 zabbix (1:1.4.2-2) unstable; urgency=low
 
   * Add db_stop in front of debhelper generated init script code
