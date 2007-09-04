@@ -26,6 +26,8 @@ if [ "$1" = "configure" ]; then
     chown zabbix:zabbix /var/run/zabbix-server -R
 fi
 
+db_stop
+
 #DEBHELPER#
 
 exit 0

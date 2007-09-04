@@ -20,10 +20,9 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
-    	rm -f $PID
-	echo "Starting $DESC: $NAME"
-	start-stop-daemon --oknodo --start --pidfile $PID \
-		--exec $DAEMON  < /dev/null &> /dev/null
+   	rm -f $PID
+	echo "Starting $DESC: $NAME" >&2
+	start-stop-daemon --oknodo --start --pidfile $PID --exec $DAEMON
 	;;
   stop)
 	echo "Stopping $DESC: $NAME"
