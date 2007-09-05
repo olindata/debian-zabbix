@@ -1,33 +1,3 @@
-Template: zabbix-frontend-php/database-type
-Type: select
-Choices: MYSQL, POSTGRESQL
-_Description: Type of Database Server:
- Please choose which database you want to use to store Zabbix data.
-
-Template: zabbix-frontend-php/database-server
-Type: string
-Default: localhost
-_Description: Database Server Host Address:
- Please enter the host name or the address of the database server you
- want to connect to.
-
-Template: zabbix-frontend-php/database-name
-Type: string
-Default: zabbix
-_Description: Database name:
- This is the database where your zabbix-server stores all data.
-
-Template: zabbix-frontend-php/database-user
-Type: string
-Default: zabbix
-_Description: Database username:
- This is the username used for accessing the zabbix-server database.
-
-Template: zabbix-frontend-php/database-password
-Type: password
-_Description: Database password:
- Please specify what password the previously entered database uses.
-
 Template: zabbix-frontend-php/reconfigure-webserver
 Type: multiselect
 _Choices: apache, apache-ssl, apache-perl, apache2

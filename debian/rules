@@ -134,6 +134,7 @@ install-indep:
 	dh_installdirs -i
 	$(INSTALL_DIR) $(TMP_FRONTEND)/etc/zabbix/
 	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/zabbix/
+	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/doc/zabbix-frontend-php/
 	cp -a frontends/php/* $(TMP_FRONTEND)/usr/share/zabbix/
 	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
 
@@ -144,6 +145,7 @@ install-indep:
 	# link config file to /etc/zabbix/..
 	dh_link -pzabbix-frontend-php etc/zabbix/dbconfig.php usr/share/zabbix/conf/zabbix.conf.php
 
+	$(INSTALL_FILE) debian/templates/dbconfig.php.in $(TMP_FRONTEND)/usr/share/doc/zabbix-frontend-php/dbconfig.php
 	$(INSTALL_FILE) debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
 	dh_install -i
 

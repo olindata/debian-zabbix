@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2006-07-09 17:36+0200\n"
+"POT-Creation-Date: 2007-09-06 00:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,91 +24,27 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1002
+#: ../zabbix-agent.templates:1001
 msgid ""
 "Please enter the host name or the address of the Zabbix server you  want to "
 "connect to."
 msgstr ""
 
-#. Type: select
-#. Description
-#: ../zabbix-frontend-php.templates:1001
-msgid "Type of Database Server:"
-msgstr ""
-
-#. Type: select
-#. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid ""
-"Please choose which database you want to use to store Zabbix data. For the "
-"moment, only MySQL is supported."
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid "Database Server Host Address:"
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:2002
-msgid ""
-"Please enter the host name or the address of the database server you want to "
-"connect to."
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:3001
-msgid "Database name:"
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:3002
-msgid "This is the database where your zabbix-server stores all data."
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
-msgid "Database username:"
-msgstr ""
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4002
-msgid "This is the username used for accessing the zabbix-server database."
-msgstr ""
-
-#. Type: password
-#. Description
-#: ../zabbix-frontend-php.templates:5001
-msgid "Database password:"
-msgstr ""
-
-#. Type: password
-#. Description
-#: ../zabbix-frontend-php.templates:5002
-msgid "Please specify what password the previously entered database uses."
-msgstr ""
-
 #. Type: multiselect
 #. Choices
-#: ../zabbix-frontend-php.templates:6001
+#: ../zabbix-frontend-php.templates:1001
 msgid "apache, apache-ssl, apache-perl, apache2"
 msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:6002
+#: ../zabbix-frontend-php.templates:1002
 msgid "Webserver Reconfiguration:"
 msgstr ""
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:6003
+#: ../zabbix-frontend-php.templates:1002
 msgid ""
 "Zabbix supports any web server that php4 does, but this automatic "
 "configuration process only supports Apache. Please select which  apache "
@@ -117,13 +53,13 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:7001
+#: ../zabbix-frontend-php.templates:2001
 msgid "Would you like to restart your webserver(s) now?"
 msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:7002
+#: ../zabbix-frontend-php.templates:2001
 msgid ""
 "Remember that in order to apply the changes your webserver(s) has/have to be "
 "restarted."

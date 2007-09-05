@@ -5,60 +5,16 @@ CONFFILE="/etc/zabbix/dbconfig.php"
 . /usr/share/debconf/confmodule
 db_version 2.0 || [ $? -lt 30 ]
 
+. /usr/share/dbconfig-common/dpkg/postinst
+
+dbc_generate_include=template:/etc/zabbix/dbconfig.php
+dbc_generate_include_owner="root:www-data"
+dbc_generate_include_perms="640"
+dbc_generate_include_args="-U -o template_infile=/usr/share/doc/zabbix-frontend-php/dbconfig.php"
+
+dbc_go zabbix-frontend-php $@
+
 if [ "$1" = "configure" ]; then
-
-    touch $CONFFILE.ucftmp    
-    chown root:www-data $CONFFILE.ucftmp
-    chmod 640 $CONFFILE.ucftmp
-
-    echo "<?" > $CONFFILE.ucftmp 2> /dev/null
-
-    # check for existing zabbix-server-mysql.conf
-    if [ -e /etc/dbconfig-common/zabbix-server-mysql.conf ]; then
-		. /etc/dbconfig-common/zabbix-server-mysql.conf
-		db_type="MYSQL"
-    fi
-    if [ -e /etc/dbconfig-common/zabbix-server-pgsql.conf ]; then
-		. /etc/dbconfig-common/zabbix-server-pgsql.conf
-		db_type="POSTGRESQL"
-    fi
-
-    RET=""
-	db_get zabbix-frontend-php/database-type || true
-	db_type="$RET"
-    echo "\$DB_TYPE='$db_type';" >> $CONFFILE.ucftmp 2> /dev/null
-
-    RET=""
-	db_get zabbix-frontend-php/database-server || true
-	db_server="$RET"
-    echo "\$DB_SERVER='$db_server';" >> $CONFFILE.ucftmp 2> /dev/null
-
-    if [ ! $dbc_dbname ]; then
-	RET=""
-	db_get zabbix-frontend-php/database-name || true
-	dbc_dbname="$RET"
-    fi
-    echo "\$DB_DATABASE='$dbc_dbname';" >> $CONFFILE.ucftmp 2> /dev/null
-
-    if [ ! $dbc_dbuser ]; then
-	RET=""
-	db_get zabbix-frontend-php/database-user || true
-	dbc_dbuser="$RET"
-    fi
-    echo "\$DB_USER='$dbc_dbuser';" >> $CONFFILE.ucftmp 2> /dev/null
-
-    if [ ! $dbc_dbpass ]; then
-	RET=""
-	db_get zabbix-frontend-php/database-password || true
-	dbc_dbpass="$RET"
-    fi
-
-    echo "\$DB_PASSWORD='$dbc_dbpass';" >> $CONFFILE.ucftmp 2> /dev/null
-	
-    echo "?>" >> $CONFFILE.ucftmp 2> /dev/null
-	ucf --debconf-ok $CONFFILE.ucftmp $CONFFILE
-	chown root:www-data $CONFFILE
-	rm -f $CONFFILE.ucftmp
 
     db_get zabbix-frontend-php/reconfigure-webserver || true
     webservers="$RET"

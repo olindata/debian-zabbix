@@ -4,6 +4,12 @@ if [ -e /usr/share/debconf/confmodule ]; then
 	 . /usr/share/debconf/confmodule
 fi
 
+if [ -f /usr/share/dbconfig-common/dpkg/frontend.postrm ]; then
+    dbc_dbtypes="mysql, pgsql"
+    . /usr/share/dbconfig-common/dpkg/frontend.postrm
+    dbc_go zabbix-frontend-php $@
+fi
+
 case "$1" in
     failed-upgrade|abort-install|abort-upgrade|disappear|upgrade)
     ;;
@@ -41,10 +47,10 @@ case "$1" in
 	    fi
     ;;
     purge)
-           if [ -x /usr/bin/ucf ]; then
-                ucf --purge /etc/zabbix/dbconfig.php
-           fi
-           rm -f /etc/zabbix/dbconfig.php
+        if [ -x /usr/bin/ucf ]; then
+            ucf --purge /etc/zabbix/dbconfig.php
+        fi
+        rm -f /etc/zabbix/dbconfig.php
     ;;
 
     *)
