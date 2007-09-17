@@ -1,12 +1,17 @@
 zabbix (1:1.4.2-3) unstable; urgency=low
 
+  [ Fabio Tranchitella ]
   * debian/patches/vm-memory-size.dpatch: added patch to fix the linux
     available memory calculation. (Closes: #374767)
   * debian/control: depends on dbconfig-common >= 1.8.19.
   * Use dbconfig-common for database configuration and prompting for
     zabbix-frontend-php. (Closes: #372898)
 
- -- Fabio Tranchitella <kobold@debian.org>  Wed, 05 Sep 2007 20:35:58 +0200
+  [ Michael Ablassmeier ]
+  * Clean up src/ a bit more  in order to allow package to be built
+    several times in a row (Closes: #442777)
+
+ -- Michael Ablassmeier <abi@debian.org>  Mon, 17 Sep 2007 08:55:49 +0200
 
 zabbix (1:1.4.2-2) unstable; urgency=low
 
