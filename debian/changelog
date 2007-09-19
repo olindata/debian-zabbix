@@ -10,8 +10,9 @@ zabbix (1:1.4.2-3) unstable; urgency=low
   [ Michael Ablassmeier ]
   * Clean up src/ a bit more  in order to allow package to be built
     several times in a row (Closes: #442777)
+  * Update upstream Mail in debian/copyright
 
- -- Michael Ablassmeier <abi@debian.org>  Mon, 17 Sep 2007 08:55:49 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Wed, 19 Sep 2007 12:09:37 +0200
 
 zabbix (1:1.4.2-2) unstable; urgency=low
 
