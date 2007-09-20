@@ -6,13 +6,15 @@ zabbix (1:1.4.2-3) unstable; urgency=low
   * debian/control: depends on dbconfig-common >= 1.8.19.
   * Use dbconfig-common for database configuration and prompting for
     zabbix-frontend-php. (Closes: #372898)
+  * debian/rules: do not depend on umask for the package building.
+    (Closes: #443354)
 
   [ Michael Ablassmeier ]
   * Clean up src/ a bit more  in order to allow package to be built
     several times in a row (Closes: #442777)
   * Update upstream Mail in debian/copyright
 
- -- Michael Ablassmeier <abi@debian.org>  Wed, 19 Sep 2007 12:09:37 +0200
+ -- Fabio Tranchitella <kobold@debian.org>  Thu, 20 Sep 2007 23:22:43 +0200
 
 zabbix (1:1.4.2-2) unstable; urgency=low
 
