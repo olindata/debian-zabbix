@@ -1,3 +1,9 @@
+zabbix (1:1.4.2-5) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 06 Dec 2007 09:31:23 +0100
+
 zabbix (1:1.4.2-4) unstable; urgency=high
 
   * Fix execution of UserParameter with gid 0.
