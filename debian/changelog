@@ -6,6 +6,7 @@ zabbix (1:1.4.4-1) unstable; urgency=high
   * Compile server with jabber support, add libiksemel-dev to b-d
     Closes: #454541
   * Add nl.po (Closes: #448929)
+  * do not install empty directory for agent package
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Dec 2007 09:48:29 +0100
 
