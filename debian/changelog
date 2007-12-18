@@ -3,6 +3,9 @@ zabbix (1:1.4.4-1) unstable; urgency=low
   * New upstream release
   * Remove patch for vm memory size and CVE, both have been
     merged upstream.
+  * Compile server with jabber support, add jabber-dev to b-d
+    Closes: #454541
+  * Add nl.po (Closes: #448929)
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Dec 2007 09:48:29 +0100
 

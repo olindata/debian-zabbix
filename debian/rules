@@ -41,6 +41,7 @@ CONFFLAGS_SERVER  = --host=$(DEB_HOST_GNU_TYPE) \
                     --mandir=\$${prefix}/share/man \
                     --infodir=\$${prefix}/share/info \
                     --enable-server \
+                    --with-jabber \
                     --with-net-snmp
 
 CONFFLAGS_AGENT  = --enable-agent --with-ldap
