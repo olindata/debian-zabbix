@@ -1,6 +1,7 @@
-zabbix (1:1.4.4-2) UNRELEASED; urgency=low
+zabbix (1:1.4.4-2) unstable; urgency=high
 
-  * NOT RELEASED YET
+  * install images_mysql.sql and images_pgsql.sql
+    Closes: #456517
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Dec 2007 10:38:55 +0100
 
