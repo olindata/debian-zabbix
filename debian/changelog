@@ -1,6 +1,8 @@
 zabbix (1:1.4.4-1) unstable; urgency=low
 
   * New upstream release
+  * Remove patch for vm memory size and CVE, both have been
+    merged upstream.
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Dec 2007 09:48:29 +0100
 
