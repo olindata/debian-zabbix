@@ -1,4 +1,4 @@
-zabbix (1:1.4.4-1) unstable; urgency=low
+zabbix (1:1.4.4-1) unstable; urgency=high
 
   * New upstream release
   * Remove patch for vm memory size and CVE, both have been
