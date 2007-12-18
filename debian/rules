@@ -5,7 +5,7 @@ export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 ## exports
 
 ## includes
-include /usr/share/dpatch/dpatch.make
+#include /usr/share/dpatch/dpatch.make
 ##
 
 ## defines
