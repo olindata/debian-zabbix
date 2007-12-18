@@ -2,8 +2,7 @@ zabbix (1:1.4.4-1) unstable; urgency=high
 
   * New upstream release
   * Remove patch for vm memory size and CVE, both have been
-    merged upstream. Do not B-D on dpatch with empty patch 
-    list, in order to silence lintian.
+    merged upstream. 
   * Compile server with jabber support, add libiksemel-dev to b-d
     Closes: #454541
   * Add nl.po (Closes: #448929)
