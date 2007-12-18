@@ -190,7 +190,6 @@ install-mysql-stamp: build-mysql
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/logrotate.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/etc/init.d/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/
-	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/man/man1/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/
@@ -232,7 +231,6 @@ install-pgsql-stamp: build-pgsql
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/etc/logrotate.d/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/etc/init.d/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/
-	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/man/man1/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/var/log/zabbix-server/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/
