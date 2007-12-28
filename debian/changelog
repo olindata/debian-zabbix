@@ -1,8 +1,8 @@
 zabbix (1:1.4.4-3) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Add polish po file 
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Dec 2007 10:59:33 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Fri, 28 Dec 2007 08:45:16 +0100
 
 zabbix (1:1.4.4-2) unstable; urgency=high
 
