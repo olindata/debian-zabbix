@@ -2,6 +2,7 @@ zabbix (1:1.4.4-3) UNRELEASED; urgency=low
 
   * Add polish po file
   * sleep on agent restart (Closes: #459870)
+  * remove bashisms (Closes: #465381, #465382, #465383)
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 09 Jan 2008 09:40:55 +0100
 
