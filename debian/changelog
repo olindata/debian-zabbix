@@ -1,4 +1,4 @@
-zabbix (1:1.4.4-3) UNRELEASED; urgency=low
+zabbix (1:1.4.4-3) unstable; urgency=low
 
   * Add polish po file
   * sleep on agent restart (Closes: #459870)
