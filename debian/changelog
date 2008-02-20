@@ -1,4 +1,4 @@
-zabbix (1:1.4.4-4) UNRELEASED; urgency=low
+zabbix (1:1.4.4-4) unstable; urgency=low
 
   * Depend on php5 only (Closes: #466415)
 
