@@ -1,6 +1,7 @@
-zabbix (1:1.4.5-1) UNRELEASED; urgency=low
+zabbix (1:1.4.5-1) unstable; urgency=high
 
-  * (NOT RELEASED YET) New upstream release
+  * New upstream release
+  * Fixed remote DoS (CVE-2008-1353) Closes: #471678
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 27 Mar 2008 12:15:28 +0100
 
