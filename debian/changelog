@@ -1,3 +1,9 @@
+zabbix (1:1.4.5-1) UNRELEASED; urgency=low
+
+  * (NOT RELEASED YET) New upstream release
+
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 27 Mar 2008 12:15:28 +0100
+
 zabbix (1:1.4.4-5) UNRELEASED; urgency=low
 
   * NOT RELEASED YET
