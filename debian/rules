@@ -63,10 +63,12 @@ prepare: patch
 		fi ; \
 	fi
 
-#	aclocal -I m4 
-#	autoconf 
-#	autoheader 
-#	automake
+    # we removed -lcrypto stuff so lets re-run autotools:
+	aclocal -I m4
+	autoconf
+	autoheader
+	automake -a
+	automake
 
 	touch prepare-stamp
 

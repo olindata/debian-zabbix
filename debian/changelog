@@ -2,6 +2,8 @@ zabbix (1:1.4.6-1) UNRELEASED; urgency=low
 
   * New upstream release
   * Bump standards version
+  * debian/patches/netsnmp.m4.dpatch: do not directly link against
+    libcrypto .. that would be a gpl violation.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 23 Jul 2008 15:16:59 +0200
 

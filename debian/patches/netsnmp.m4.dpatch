@@ -1,0 +1,15 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## DP: no -lcrypto for you!
+
+@DPATCH@
+--- netsnmp.m4.orig	2008-07-23 15:49:13.000000000 +0200
++++ zabbix-1.4.6/m4/netsnmp.m4	2008-07-23 15:49:22.000000000 +0200
+@@ -58,7 +58,7 @@
+ 			esac
+ 		done
+ 
+-		_full_libnetsnmp_libs="`$_libnetsnmp_config --libs` -lcrypto"
++		_full_libnetsnmp_libs="`$_libnetsnmp_config --libs`"
+ 		for i in $_full_libnetsnmp_libs; do
+ 			case $i in
+ 				-l*)
