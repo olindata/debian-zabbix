@@ -1,4 +1,4 @@
-zabbix (1:1.4.6-1) UNRELEASED; urgency=low
+zabbix (1:1.4.6-1) unstable; urgency=low
 
   * New upstream release
   * Bump standards version
