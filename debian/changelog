@@ -1,6 +1,7 @@
 zabbix (1:1.6-1) UNRELEASED; urgency=low
 
   * (NOT RELEASED YET) New upstream release
+  * Enable IPMI Support, add libopenipmi-dev to Build-Depends
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 22 Sep 2008 09:37:23 +0200
 

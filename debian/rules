@@ -44,7 +44,7 @@ CONFFLAGS_SERVER  = --host=$(DEB_HOST_GNU_TYPE) \
                     --with-jabber \
                     --with-net-snmp
 
-CONFFLAGS_AGENT  = --enable-agent --with-ldap
+CONFFLAGS_AGENT  = --enable-agent --with-ldap --with-openipmi
 
 build:
 
@@ -256,7 +256,7 @@ install-pgsql-stamp: build-pgsql
 	cat create/data/images_pgsql.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 
 	# install upgrade patch from 1.4.x to 1.6
-	$(INSTALL_FILE) upgrades/dbpatches/1.4/postgresql/patch.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/1:1.6
+	$(INSTALL_FILE) upgrades/dbpatches/1.6/postgresql/patch.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/1:1.6
 
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
 	dh_install -a

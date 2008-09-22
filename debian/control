@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Zabbix Maintainers <kobold-zabbix@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
-Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, dpatch, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev, libldap2-dev,libiksemel-dev 
+Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, dpatch, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev
 Standards-Version: 3.8.0
  
 Package: zabbix-agent
