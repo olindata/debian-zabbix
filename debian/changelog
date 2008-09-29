@@ -1,6 +1,6 @@
-zabbix (1:1.6-1) UNRELEASED; urgency=low
+zabbix (1:1.6-1) unstable; urgency=low
 
-  * (NOT RELEASED YET) New upstream release (Closes: #500449)
+  * New upstream release (Closes: #500449, #497053)
   * Enable IPMI Support, add libopenipmi-dev to Build-Depends
   * Enable IPV6
 
