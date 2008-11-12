@@ -1,9 +1,11 @@
-zabbix (1:1.6.1-1) UNRELEASED; urgency=low
+zabbix (1:1.6.1-1) unstable; urgency=low
 
-  * (NOT RELEASED YET) New upstream release (Closes: #504565, #501776)
+  * New upstream release (Closes: #504565, #501776)
   * Depend on both php5 and php5-mysql not on only one 
     (Closes: #450525, #503433)
   * Build Packages with Zabbix Proxy Support, thanks to Bart Verwilst
+	for his patches
+  * Fix lintian warnings about -e flag in postinst/config scripts.
 
  -- Michael Ablassmeier <abi@debian.org>  Wed, 12 Nov 2008 08:24:53 +0100
 
