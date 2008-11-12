@@ -1,0 +1,51 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          zabbix-proxy
+# Required-Start:    $local_fs $network 
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Start zabbix-proxy daemon
+### END INIT INFO
+NAME=zabbix_proxy
+DAEMON=/usr/sbin/$NAME
+DESC="Zabbix proxy daemon"
+
+DIR=/var/run/zabbix-proxy
+PID=$DIR/$NAME.pid
+
+if test ! -d "$DIR"; then
+        mkdir "$DIR"
+        chown -R zabbix:zabbix "$DIR"
+fi
+
+test -f $DAEMON || exit 0
+
+set -e
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+   	rm -f $PID
+	echo "Starting $DESC: $NAME" >&2
+	start-stop-daemon --oknodo --start --pidfile $PID \
+	 --exec $DAEMON >/dev/null 2>&1
+	;;
+  stop)
+	echo "Stopping $DESC: $NAME"
+	start-stop-daemon --oknodo --stop --exec $DAEMON 
+	;;
+  restart|force-reload)
+	$0 stop
+	sleep 5
+	$0 start
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
