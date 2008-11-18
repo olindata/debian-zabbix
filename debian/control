@@ -5,6 +5,8 @@ Maintainer: Zabbix Maintainers <kobold-zabbix@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
 Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, dpatch, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev
 Standards-Version: 3.8.0
+Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/zabbix/trunk
+Vcs-Browser: http://svn.debian.org/wsvn/collab-maint/deb-maint/zabbix/trunk/?op=log
  
 Package: zabbix-agent
 Architecture: any
