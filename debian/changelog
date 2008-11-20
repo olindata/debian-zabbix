@@ -3,8 +3,10 @@ zabbix (1:1.6.1-2) UNRELEASED; urgency=low
   * NOT RELEASED YET
   * Add VCS Fields to debian/control (Closes: #506025)
   * Update Watch File (Closes: #506046)
+  * Fix Frontend README.Debian, default Login Password has changed
+    (Closes: #503452)
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 18 Nov 2008 13:10:50 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 20 Nov 2008 15:12:19 +0100
 
 zabbix (1:1.6.1-1) unstable; urgency=low
 
