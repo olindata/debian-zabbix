@@ -1,3 +1,9 @@
+zabbix (1:1.6.1-3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 25 Nov 2008 09:03:42 +0100
+
 zabbix (1:1.6.1-2) unstable; urgency=low
 
   * Add VCS Fields to debian/control (Closes: #506025)
