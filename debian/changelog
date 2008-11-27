@@ -1,8 +1,9 @@
 zabbix (1:1.6.1-3) UNRELEASED; urgency=low
 
   * NOT RELEASED YET
+  * remove versioned depends on postgreql-8.1
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 25 Nov 2008 09:03:42 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 27 Nov 2008 16:44:15 +0100
 
 zabbix (1:1.6.1-2) unstable; urgency=low
 

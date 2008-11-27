@@ -63,7 +63,7 @@ Description: software for monitoring of your networks -- server
 Package: zabbix-server-pgsql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
-Recommends: postgresql-8.1, snmpd
+Recommends: postgresql, snmpd
 Suggests: zabbix-frontend-php
 Conflicts: zabbix-server-mysql
 Description: software for monitoring of your networks -- server
@@ -91,7 +91,7 @@ Description: software for monitoring of your networks -- server
 Package: zabbix-frontend-php
 Architecture: all
 Depends: apache2 | httpd, php5, php5-mysql | php5-pgsql, php5-gd, ucf, dbconfig-common (>= 1.8.19), ${misc:Depends} 
-Recommends: zabbix-server-mysql | zabbix-server-pgsql, mysql-server (>= 4.0.16-2) | postgresql-8.1
+Recommends: zabbix-server-mysql | zabbix-server-pgsql, mysql-server (>= 4.0.16-2) | postgresql
 Description: software for monitoring of your servers -- php frontend
  Zabbix is an all-in-one 24x7, free monitoring solution for both
  commercial and non-commercial use. 
@@ -116,7 +116,7 @@ Description: software for monitoring of your servers -- php frontend
 Package: zabbix-proxy-pgsql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
-Recommends: postgresql-8.1
+Recommends: postgresql
 Conflicts: zabbix-proxy-mysql
 Description: software for monitoring of your networks -- proxy
  Zabbix is an all-in-one 24x7, free monitoring solution for both
