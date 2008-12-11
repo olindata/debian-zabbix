@@ -1,6 +1,5 @@
-zabbix (1:1.6.1-3) UNRELEASED; urgency=low
+zabbix (1:1.6.1-3) unstable; urgency=low
 
-  * NOT RELEASED YET
   * remove versioned depends on postgreql-8.1
 
  -- Michael Ablassmeier <abi@debian.org>  Thu, 27 Nov 2008 16:44:15 +0100
