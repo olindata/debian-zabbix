@@ -349,7 +349,7 @@ install-proxy-pgsql-stamp: build-proxy-pgsql
 	$(INSTALL_PROGRAM) src/zabbix_proxy/zabbix_proxy $(TMP_PROXY_PGSQL)/usr/sbin
 
 	$(INSTALL_FILE) debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
-	$(INSTALL_FILE) debian/zabbix-proxy-mysql.logrotate $(TMP_PROXY_MYSQL)/etc/logrotate.d/zabbix-proxy-pgsql
+	$(INSTALL_FILE) debian/zabbix-proxy-mysql.logrotate $(TMP_PROXY_PGSQL)/etc/logrotate.d/zabbix-proxy-pgsql
 
 	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/
 	$(INSTALL_FILE) create/data/data.sql $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/
