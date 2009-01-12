@@ -51,7 +51,7 @@ CONFFLAGS_SERVER  = --host=$(DEB_HOST_GNU_TYPE) \
 
 CONFFLAGS_AGENT  = --enable-agent --with-ldap --with-openipmi --enable-ipv6
 
-CONFFLAGS_PROXY  = --enable-proxy 
+CONFFLAGS_PROXY  = --enable-proxy --with-net-snmp --enable-ipv6 --with-openipmi
 
 build:
 
