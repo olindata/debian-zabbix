@@ -1,6 +1,6 @@
-zabbix (1:1.6.1-4) UNRELEASED; urgency=low
+zabbix (1:1.6.1-4) unstable; urgency=low
 
-  * Install zabbix-proxy-pgsql.lograte in the right package (Closes: #511379)
+  * Install zabbix-proxy-pgsql.logorate in the right package (Closes: #511379)
   * Build Proxy with openipmi, net-snmp and ipv6 support (Closes: #511123)
   * Add Japanese debconf template (Closes: #510715)
 
