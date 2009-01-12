@@ -2,6 +2,7 @@ zabbix (1:1.6.1-4) UNRELEASED; urgency=low
 
   * Install zabbix-proxy-pgsql.lograte in the right package (Closes: #511379)
   * Build Proxy with openipmi, net-snmp and ipv6 support (Closes: #511123)
+  * Add Japanese debconf template (Closes: #510715)
 
  -- Michael Ablassmeier <abi@debian.org>  Mon, 12 Jan 2009 10:10:51 +0100
 
