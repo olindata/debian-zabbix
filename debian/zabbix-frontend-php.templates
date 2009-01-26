@@ -13,3 +13,18 @@ Default: true
 _Description: Would you like to restart your webserver(s) now?
  Remember that in order to apply the changes your webserver(s) has/have to
  be restarted. 
+
+Template: zabbix-frontend-php/zabbix-server
+Type: string
+Default: 127.0.0.1
+_Description: Zabbix server host address:
+ Please enter the host name or the address of the Zabbix server you 
+ want to connect to. This is needed for some advanced Frontend 
+ functionality.
+
+Template: zabbix-frontend-php/zabbix-server-port
+Type: string
+Default: 10051
+_Description: Zabbix server port:
+ Please enter the port your Zabbix server is using.
+ This is needed for some advanced Frontend functionality.

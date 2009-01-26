@@ -5,6 +5,9 @@ $DB_DATABASE='_DBC_DBNAME_';
 $DB_USER='_DBC_DBUSER_';
 $DB_PASSWORD='_DBC_DBPASS_';
 
+$ZBX_SERVER="_ZBX_SERVER_";
+$ZBX_SERVER_PORT="_ZBX_SERVERPORT_";
+
 ## dont remove this!
 ## This is a work-around for dbconfig-common
 if($DB_TYPE == "mysql") 
