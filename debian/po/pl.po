@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.4.4-2\n"
-"Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2007-09-06 00:21+0200\n"
+"Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
+"POT-Creation-Date: 2009-01-26 11:13+0100\n"
 "PO-Revision-Date: 2007-12-21 16:05+0100\n"
 "Last-Translator: Michał Pena <mp@horisone.com>\n"
 "Language-Team: Polski <debian-l10n-polish@lists.debian.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
 msgid "Zabbix server host address:"
 msgstr "Adres hosta serwera Zabbix:"
 
@@ -28,8 +28,7 @@ msgstr "Adres hosta serwera Zabbix:"
 msgid ""
 "Please enter the host name or the address of the Zabbix server you  want to "
 "connect to."
-msgstr ""
-"Wprowadź adres serwera Zabbix, do którego chcesz się podłączyć."
+msgstr "Wprowadź adres serwera Zabbix, do którego chcesz się podłączyć."
 
 #. Type: multiselect
 #. Choices
@@ -51,10 +50,10 @@ msgid ""
 "configuration process only supports Apache. Please select which  apache "
 "version you want to configure the Zabbix frontend for."
 msgstr ""
-"Serwer Zabbix obsługuje dowolny serwer WWW, który posiada wsparcie "
-"dla PHP4, lecz ta automatyczna konfiguracja jest możliwa jedynie dla "
-"serwerów Apache. Proszę wybrać którą wersję apache chcesz "
-"skonfigurować interfejs użytkownika Zabbiksa."
+"Serwer Zabbix obsługuje dowolny serwer WWW, który posiada wsparcie dla PHP4, "
+"lecz ta automatyczna konfiguracja jest możliwa jedynie dla serwerów Apache. "
+"Proszę wybrać którą wersję apache chcesz skonfigurować interfejs użytkownika "
+"Zabbiksa."
 
 #. Type: boolean
 #. Description
@@ -71,3 +70,31 @@ msgid ""
 msgstr ""
 "Pamiętaj, że serwer WWW musi zostać uruchomiony ponownie aby wprowadzone "
 "zmiany zaczęły funkcjonować."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to."
+msgid ""
+"Please enter the host name or the address of the Zabbix server you  want to "
+"connect to. This is needed for some advanced Frontend  functionality."
+msgstr "Wprowadź adres serwera Zabbix, do którego chcesz się podłączyć."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid "Zabbix server host address:"
+msgid "Zabbix server port:"
+msgstr "Adres hosta serwera Zabbix:"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+msgid ""
+"Please enter the port your Zabbix server is using. This is needed for some "
+"advanced Frontend functionality."
+msgstr ""

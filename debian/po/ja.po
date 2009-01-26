@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.1-3\n"
-"Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2007-09-06 00:21+0200\n"
+"Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
+"POT-Creation-Date: 2009-01-26 11:13+0100\n"
 "PO-Revision-Date: 2008-12-28 22:26+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
 msgid "Zabbix server host address:"
 msgstr "Zabbix サーバのアドレス:"
 
@@ -66,3 +66,31 @@ msgid ""
 "restarted."
 msgstr ""
 "この設定を反映するにはウェブサーバを再起動する必要があることに注意ください。"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to."
+msgid ""
+"Please enter the host name or the address of the Zabbix server you  want to "
+"connect to. This is needed for some advanced Frontend  functionality."
+msgstr "接続先の Zabbix サーバのホスト名かアドレスを入力してください。"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid "Zabbix server host address:"
+msgid "Zabbix server port:"
+msgstr "Zabbix サーバのアドレス:"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+msgid ""
+"Please enter the port your Zabbix server is using. This is needed for some "
+"advanced Frontend functionality."
+msgstr ""

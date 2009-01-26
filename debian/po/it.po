@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1.1.6 italian debconf templates\n"
-"Report-Msgid-Bugs-To: kobold-zabbix@debian.org\n"
-"POT-Creation-Date: 2007-09-06 00:21+0200\n"
+"Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
+"POT-Creation-Date: 2009-01-26 11:13+0100\n"
 "PO-Revision-Date: 2007-03-07 20:23+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
 msgid "Zabbix server host address:"
 msgstr "Macchina o indirizzo per Zabbix:"
 
@@ -70,6 +70,36 @@ msgid ""
 msgstr ""
 "Per rendere effettive le modifiche fatte al web server è necessario "
 "riavviarlo."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to."
+msgid ""
+"Please enter the host name or the address of the Zabbix server you  want to "
+"connect to. This is needed for some advanced Frontend  functionality."
+msgstr ""
+"Inserire il nome della macchina o l'indirizzo del server Zabbix a cui "
+"connettersi."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid "Zabbix server host address:"
+msgid "Zabbix server port:"
+msgstr "Macchina o indirizzo per Zabbix:"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+msgid ""
+"Please enter the port your Zabbix server is using. This is needed for some "
+"advanced Frontend functionality."
+msgstr ""
 
 #~ msgid "Type of Database Server:"
 #~ msgstr "Tipo di database server:"
