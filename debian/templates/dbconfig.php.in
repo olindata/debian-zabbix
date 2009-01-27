@@ -1,19 +1,24 @@
 <?php
-$DB_TYPE='_DBC_DBTYPE_';
-$DB_SERVER='_DBC_DBSERVER_';
-$DB_DATABASE='_DBC_DBNAME_';
-$DB_USER='_DBC_DBUSER_';
-$DB_PASSWORD='_DBC_DBPASS_';
+global $DB;
 
-$ZBX_SERVER="_ZBX_SERVER_";
-$ZBX_SERVER_PORT="_ZBX_SERVERPORT_";
+$DB["TYPE"]      = "_DBC_DBTYPE_";
+$DB["SERVER"]    = "_DBC_DBSERVER_";
+$DB["PORT"]      = "0";
+$DB["DATABASE"]  = "_DBC_DBNAME_";
+$DB["USER"]      = "_DBC_DBUSER_";
+$DB["PASSWORD"]  = "_DBC_DBPASS_";
+$ZBX_SERVER      = "_ZBX_SERVER_";
+$ZBX_SERVER_PORT = "_ZBX_SERVERPORT_";
+
+$IMAGE_FORMAT_DEFAULT    = IMAGE_FORMAT_PNG;
+
 
 ## dont remove this!
 ## This is a work-around for dbconfig-common
-if($DB_TYPE == "mysql") 
-	$DB_TYPE = "MYSQL";
+if($DB["TYPE"] == "mysql") 
+	$DB["TYPE"] = "MYSQL";
 
-if($DB_TYPE == "pgsql")
-	$DB_TYPE = "POSTGRESQL";
+if($DB["TYPE"] == "pgsql")
+	$DB["TYPE"] = "POSTGRESQL";
 ##
 ?>
