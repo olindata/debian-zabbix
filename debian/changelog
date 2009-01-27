@@ -1,8 +1,8 @@
 zabbix (1:1.6.2-3) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * Update dbconfig.php to new config file layout.
 
- -- Michael Ablassmeier <abi@debian.org>  Mon, 26 Jan 2009 11:26:25 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 27 Jan 2009 09:46:00 +0100
 
 zabbix (1:1.6.2-2) unstable; urgency=low
 
