@@ -1,3 +1,20 @@
+zabbix (1:1.6.2-4) UNRELEASED; urgency=low
+
+ Several few new/updated pofiles:
+  * Update ja.po (Closes: #514510, #518503)
+  * Update cs.po (Closes: #517172)
+  * Update sv.po (Closes: #517200)
+  * Update it.po (Closes: #517711)
+  * Update pt.po (Closes: #518404)
+  * Update de.po (Closes: #518499)
+  * Add nb.po (Closes: #517266)
+  * Add ru.po (Closes: #517576)
+  * Add fi.po (Closes: #518195)
+  * Add eu.po (Closes: #518388)
+  * Add es.po (Closes: #518449)
+
+ -- Michael Ablassmeier <abi@debian.org>  Mon, 09 Mar 2009 09:28:11 +0100
+
 zabbix (1:1.6.2-3) UNRELEASED; urgency=low
 
   * Update dbconfig.php to new config file layout.

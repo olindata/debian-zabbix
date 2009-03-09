@@ -1,140 +1,84 @@
 # Swedish translation of zabbix debconf template.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the zabbix package.
+#
 # Daniel Nylander <po@danielnylander.se>, 2006.
+# Martin Bagge <brother@bsnet.se>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix debconf\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-01-26 11:13+0100\n"
-"PO-Revision-Date: 2006-09-13 14:16+0100\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"PO-Revision-Date: 2009-02-26 11:32+0100\n"
+"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
 msgstr "Värdadress till Zabbix-servern:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:2001
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
+"Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
 msgstr ""
 "Ange värdnamnet eller adressen till den Zabbix-server som du vill ansluta "
 "till."
 
 #. Type: multiselect
-#. Choices
-#: ../zabbix-frontend-php.templates:1001
-msgid "apache, apache-ssl, apache-perl, apache2"
-msgstr "apache, apache-ssl, apache-perl, apache2"
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid "Web server to reconfigure for zabbix:"
+msgstr "Omkonfiguration av webbserver för zabbix:"
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid "Webserver Reconfiguration:"
-msgstr "Omkonfiguration av webbserver:"
-
-#. Type: multiselect
-#. Description
-#: ../zabbix-frontend-php.templates:1002
+#: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server that php4 does, but this automatic "
-"configuration process only supports Apache. Please select which  apache "
-"version you want to configure the Zabbix frontend for."
+"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"configured automatically."
 msgstr ""
-"Zabbix har stöd för alla webbservrar som php4 har stöd för, men denna "
-"automatiska konfigurationsprocess har endast stöd för Apache. Välj vilken "
-"Apache-version som du vill konfigurera Zabbix-gränssnittet för."
+"Zabbix kan användas med webbservrar som har stöd för PHP4 men automatiska "
+"inställningarna kan endast göras för Apache."
+
+#. Type: multiselect
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid ""
+"Please select which Apache version you want to configure the Zabbix frontend "
+"for."
+msgstr "Ange vilken Apacheversion som Zabbix ska använda sig av."
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid "Would you like to restart your webserver(s) now?"
+#: ../zabbix-frontend-php.templates:3001
+msgid "Restart the web server(s) now?"
 msgstr "Vill du starta om din webbserver nu?"
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:2001
+#: ../zabbix-frontend-php.templates:3001
 msgid ""
-"Remember that in order to apply the changes your webserver(s) has/have to be "
-"restarted."
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
 msgstr ""
-"Kom ihåg att din webbserver måste startas om för att ändringarna ska bli "
-"aktiverade."
+"För att inställningarna för Zabbix ska börja gälla måste din webbserver "
+"startas om."
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or the address of the Zabbix server you  want "
-#| "to connect to."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
 msgstr ""
-"Ange värdnamnet eller adressen till den Zabbix-server som du vill ansluta "
-"till."
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
-#, fuzzy
-#| msgid "Zabbix server host address:"
-msgid "Zabbix server port:"
-msgstr "Värdadress till Zabbix-servern:"
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
-msgstr ""
-
-#~ msgid "Type of Database Server:"
-#~ msgstr "Typ av databasserver:"
-
-#, fuzzy
-#~ msgid "Please choose which database you want to use to store Zabbix data."
-#~ msgstr ""
-#~ "Välj vilken databas som du vill använda för att lagra Zabbix-data. För "
-#~ "tillfället stöds endast MySQL."
-
-#~ msgid "Database Server Host Address:"
-#~ msgstr "Värdadress till databasserver:"
-
-#~ msgid ""
-#~ "Please enter the host name or the address of the database server you want "
-#~ "to connect to."
-#~ msgstr ""
-#~ "Ange värdnamnet eller adressen till den databasserver som du vill ansluta "
-#~ "till."
-
-#~ msgid "Database name:"
-#~ msgstr "Databasnamn:"
-
-#~ msgid "This is the database where your zabbix-server stores all data."
-#~ msgstr "Det här är databasen där din zabbix-server lagrar alla data."
-
-#~ msgid "Database username:"
-#~ msgstr "Databasanvändare:"
-
-#~ msgid "This is the username used for accessing the zabbix-server database."
-#~ msgstr ""
-#~ "Det här är användarnamnet för att komma åt databasen för zabbix-server."
-
-#~ msgid "Database password:"
-#~ msgstr "Databaslösenord:"
-
-#~ msgid "Please specify what password the previously entered database uses."
-#~ msgstr "Ange lösenordet för den tidigare angivna databasanvändaren."
+"Ange om du vill genomföra automatiska inställningar eller om du föredrar att "
+"göra det manuellt senare."

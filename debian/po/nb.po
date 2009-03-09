@@ -1,25 +1,26 @@
-# Italian (it) translation of debconf templates for zabbix
-# Copyright (C) 2007 Software in the Public Interest
-# This file is distributed under the same license as the zabbix package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007-2009.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1.6.2 italian debconf templates\n"
+"Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-02-26 07:39+0100\n"
-"PO-Revision-Date: 2009-03-01 17:13+0100\n"
-"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
-"Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
+"PO-Revision-Date: 2009-02-26 20:08+0100\n"
+"Last-Translator: Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>\n"
+"Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
-msgstr "Nome macchina o indirizzo del server Zabbix:"
+msgstr "Vertsadresse for Zabbix-tjener:"
 
 #. Type: string
 #. Description
@@ -28,14 +29,13 @@ msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
 msgstr ""
-"Inserire il nome della macchina o l'indirizzo IP del server Zabbix a cui "
-"connettersi."
+"Oppgi vertsnavn eller IP-adresse til den Zabbix-tjeneren du vil kople til."
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Web server to reconfigure for zabbix:"
-msgstr "Server web da riconfigurare per Zabbix:"
+msgstr "Vevtjener som skal settes opp for zabbix:"
 
 #. Type: multiselect
 #. Description
@@ -44,8 +44,8 @@ msgid ""
 "Zabbix supports any web server supported by PHP4, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix supporta qualsiasi server web con PHP4, ma solo Apache può essere "
-"configurato automaticamente."
+"Zabbix støtter alle vevtjenere som har støtte i PHP4, men bare Apache kan "
+"settes opp automatisk."
 
 #. Type: multiselect
 #. Description
@@ -54,14 +54,13 @@ msgid ""
 "Please select which Apache version you want to configure the Zabbix frontend "
 "for."
 msgstr ""
-"Selezionare le versioni di Apache da configurare per l'interfaccia utente di "
-"Zabbix."
+"Velg hvilken versjon av Apache som du skal sette opp Zabbix-forstykket for."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
 msgid "Restart the web server(s) now?"
-msgstr "Riavviare i server web adesso?"
+msgstr "Skal vevtjener(ne) startes på nytt?"
 
 #. Type: boolean
 #. Description
@@ -70,8 +69,8 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Per rendere effettive le modifiche per la configurazione di Zabbix è "
-"necessario riavviare i server web."
+"For å ta i bruk endringene som trengs for Zabbix-oppsett må "
+"vevtjeneren startes på nytt."
 
 #. Type: boolean
 #. Description
@@ -79,5 +78,5 @@ msgstr ""
 msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
-msgstr ""
-"Scegliere se riavviarli automaticamente adesso oppure manualmente in seguito."
+msgstr "Velg om det skal gjøres automatisk nå, eller manuelt senere."
+

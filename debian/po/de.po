@@ -1,13 +1,13 @@
 # Translation of zabbix debconf templates to German
-# Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007.
+# Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007, 2008.
 # This file is distributed under the same license as the zabbix package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1:1.1.6-1\n"
+"Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-01-26 11:13+0100\n"
-"PO-Revision-Date: 2007-02-16 19:31+0100\n"
+"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"PO-Revision-Date: 2009-03-06 17:42+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,98 +16,87 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
 msgstr "Zabbix-Server Host-Adresse:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:2001
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
+"Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
 msgstr ""
 "Bitte geben Sie den Hostnamen oder die Adresse des Zabbix-Servers an, zu dem "
 "Sie sich verbinden wollen."
 
 #. Type: multiselect
-#. Choices
-#: ../zabbix-frontend-php.templates:1001
-msgid "apache, apache-ssl, apache-perl, apache2"
-msgstr "Apache, Apache-ssl, Apache-perl, Apache2"
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid "Web server to reconfigure for zabbix:"
+msgstr "Webserver, der für Zabbix neu konfiguriert werden soll:"
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid "Webserver Reconfiguration:"
-msgstr "Webserver-Rekonfiguration:"
+#: ../zabbix-frontend-php.templates:2001
+msgid ""
+"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"configured automatically."
+msgstr ""
+"Zabbix unterstützt jeden Webserver, der auch von PHP4 unterstützt wird, "
+"allerdings kann nur Apache automatisch konfiguriert werden."
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid ""
-"Zabbix supports any web server that php4 does, but this automatic "
-"configuration process only supports Apache. Please select which  apache "
-"version you want to configure the Zabbix frontend for."
-msgstr ""
-"Zabbix unterstützt jeden Webserver, den auch Php4 unterstützt, aber dieser "
-"automatische Konfigurationsprozess unterstützt nur Apache. Bitte wählen Sie "
-"aus, für welche Apache-Version Sie die Zabbix-Oberfläche konfigurieren "
-"wollen."
-
-#. Type: boolean
-#. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid "Would you like to restart your webserver(s) now?"
-msgstr "Möchten Sie Ihre(n) Webserver jetzt neu starten?"
-
-#. Type: boolean
-#. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Remember that in order to apply the changes your webserver(s) has/have to be "
-"restarted."
+"Please select which Apache version you want to configure the Zabbix frontend "
+"for."
 msgstr ""
-"Denken Sie daran, dass Ihr(e) Webserver neu gestartet werden müssen, damit "
-"die Änderungen angewandt werden."
+"Bitte wählen Sie die Version von Apache aus, für die die Zabbix-Oberfläche "
+"konfiguriert werden soll."
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or the address of the Zabbix server you  want "
-#| "to connect to."
-msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
-msgstr ""
-"Bitte geben Sie den Hostnamen oder die Adresse des Zabbix-Servers an, zu dem "
-"Sie sich verbinden wollen."
+msgid "Restart the web server(s) now?"
+msgstr "Den/Die Webserver jetzt neu starten?"
 
-#. Type: string
+#. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:4001
-#, fuzzy
-#| msgid "Zabbix server host address:"
-msgid "Zabbix server port:"
-msgstr "Zabbix-Server Host-Adresse:"
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
+#: ../zabbix-frontend-php.templates:3001
 msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
 msgstr ""
+"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, müssen "
+"die Webserver neu gestartet werden."
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+msgid ""
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
+msgstr ""
+"Bitte wählen sie aus, ob dies jetzt automatisch erfolgen soll oder später "
+"manuell."
+
+#~ msgid "apache, apache-ssl, apache-perl, apache2"
+#~ msgstr "Apache, Apache-ssl, Apache-perl, Apache2"
+
+#~ msgid ""
+#~ "Zabbix supports any web server that php4 does, but this automatic "
+#~ "configuration process only supports Apache. Please select which  apache "
+#~ "version you want to configure the Zabbix frontend for."
+#~ msgstr ""
+#~ "Zabbix unterstützt jeden Webserver, den auch Php4 unterstützt, aber "
+#~ "dieser automatische Konfigurationsprozess unterstützt nur Apache. Bitte "
+#~ "wählen Sie aus, für welche Apache-Version Sie die Zabbix-Oberfläche "
+#~ "konfigurieren wollen."
 
 #~ msgid "Type of Database Server:"
 #~ msgstr "Art des Datenbank-Servers:"
-
-#~ msgid "Please choose which database you want to use to store Zabbix data."
-#~ msgstr ""
-#~ "Bitte wählen Sie die Datenbank aus, die Sie zum Speichern von Zabbix-"
-#~ "Daten verwenden wollen."
 
 #~ msgid "Database Server Host Address:"
 #~ msgstr "Host-Adresse des Datenbank-Servers:"

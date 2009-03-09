@@ -1,13 +1,13 @@
-# Copyright (C) 2008 Zabbix Maintainers <kobold-zabbix@debian.org>
+# Copyright (C) 2008-2009 Zabbix Maintainers <kobold-zabbix@debian.org>
 # This file is distributed under the same license as zabbix package.
-# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008.
+# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008-2009.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1:1.6.1-3\n"
+"Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-01-26 11:13+0100\n"
-"PO-Revision-Date: 2008-12-28 22:26+0900\n"
+"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"PO-Revision-Date: 2009-03-01 12:26+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,81 +16,65 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
 msgstr "Zabbix サーバのアドレス:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
+#: ../zabbix-agent.templates:2001
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
+"Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
-msgstr "接続先の Zabbix サーバのホスト名かアドレスを入力してください。"
-
-#. Type: multiselect
-#. Choices
-#: ../zabbix-frontend-php.templates:1001
-msgid "apache, apache-ssl, apache-perl, apache2"
-msgstr "apache, apache-ssl, apache-perl, apache2"
+msgstr "接続先の Zabbix サーバのホスト名か IP アドレスを入力してください。"
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid "Webserver Reconfiguration:"
-msgstr "ウェブサーバの再設定:"
+#: ../zabbix-frontend-php.templates:2001
+msgid "Web server to reconfigure for zabbix:"
+msgstr "Zabbix のため、ウェブサーバの再設定:"
 
 #. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:1002
+#: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server that php4 does, but this automatic "
-"configuration process only supports Apache. Please select which  apache "
-"version you want to configure the Zabbix frontend for."
+"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"configured automatically."
 msgstr ""
-"Zabbix は php4 が動作するウェブサーバであればサポートしていますが、この自動設"
-"定でサポートしているのは Apache だけです。どのバージョンの Apache を Zabbix "
-"のフロントエンドとして設定したいかを選んでください。"
+"Zabbix は PHP4 をサポートしているウェブサーバであれば動作しますが、自動的に設定"
+"できるのは Apache のみです。"
+
+#. Type: multiselect
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid ""
+"Please select which Apache version you want to configure the Zabbix frontend "
+"for."
+msgstr ""
+"Zabbix のフロントエンドに設定する Apache のバージョンを選んでください。"
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid "Would you like to restart your webserver(s) now?"
+#: ../zabbix-frontend-php.templates:3001
+msgid "Restart the web server(s) now?"
 msgstr "今すぐウェブサーバを再起動しますか?"
 
 #. Type: boolean
 #. Description
-#: ../zabbix-frontend-php.templates:2001
+#: ../zabbix-frontend-php.templates:3001
 msgid ""
-"Remember that in order to apply the changes your webserver(s) has/have to be "
-"restarted."
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
 msgstr ""
-"この設定を反映するにはウェブサーバを再起動する必要があることに注意ください。"
+"Zabbix の設定のための変更を反映するにはウェブサーバを再起動する必要があります。"
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or the address of the Zabbix server you  want "
-#| "to connect to."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
-msgstr "接続先の Zabbix サーバのホスト名かアドレスを入力してください。"
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
-#, fuzzy
-#| msgid "Zabbix server host address:"
-msgid "Zabbix server port:"
-msgstr "Zabbix サーバのアドレス:"
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:4001
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
 msgstr ""
+"今自動的に設定をするか、後ほど手動で設定をするかを選んでください。"
+
+
