@@ -1,6 +1,6 @@
 zabbix (1:1.6.2-4) UNRELEASED; urgency=low
 
- Several few new/updated pofiles:
+ Several few new/updated pofiles, thanks to our brave translators
   * Update ja.po (Closes: #514510, #518503)
   * Update cs.po (Closes: #517172)
   * Update sv.po (Closes: #517200)
