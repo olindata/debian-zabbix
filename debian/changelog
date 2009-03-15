@@ -12,8 +12,9 @@ zabbix (1:1.6.2-4) UNRELEASED; urgency=low
   * Add fi.po (Closes: #518195)
   * Add eu.po (Closes: #518388)
   * Add es.po (Closes: #518449)
+  * Add bt_BR.po (Closes: #519795)
 
- -- Michael Ablassmeier <abi@debian.org>  Mon, 09 Mar 2009 09:28:11 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Sun, 15 Mar 2009 11:23:19 +0100
 
 zabbix (1:1.6.2-3) UNRELEASED; urgency=low
 
