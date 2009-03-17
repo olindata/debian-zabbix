@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-01 18:57+0100\n"
 "PO-Revision-Date: 2009-02-26 08:37+0100\n"
 "Last-Translator: Francisco Javier Cuadrado <fcocuadrado@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -45,26 +45,37 @@ msgstr "Dirección de la máquina del servidor de Zabbix:"
 #. Type: string
 #. Description
 #: ../zabbix-agent.templates:2001
-msgid "Please enter the host name or IP address of the Zabbix server you want to connect to."
-msgstr "Introduzca el nombre de la máquina o la dirección IP del servidor de Zabbix al que quiere conectarse."
+msgid ""
+"Please enter the host name or IP address of the Zabbix server you want to "
+"connect to."
+msgstr ""
+"Introduzca el nombre de la máquina o la dirección IP del servidor de Zabbix "
+"al que quiere conectarse."
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
-msgstr "Reconfiguración del servidor web que utiliza zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
+msgstr "Reconfiguración del servidor web que utiliza Zabbix:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Zabbix supports any web server supported by PHP4, however only Apache can be configured automatically."
-msgstr "Zabbix permite utilizar cualquier servidor web que pueda utilizar PHP4, sin embargo sólo se puede configurar automáticamente Apache."
+msgid ""
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
+"configured automatically."
+msgstr ""
+"Zabbix permite utilizar cualquier servidor web que pueda utilizar PHP5, sin "
+"embargo sólo se puede configurar automáticamente Apache."
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Please select which Apache version you want to configure the Zabbix frontend for."
-msgstr "Elija que versión de Apache quiere configurar para la interfaz de Zabbix."
+msgid ""
+"Please select which Apache version you want to configure the Zabbix frontend "
+"for."
+msgstr ""
+"Elija que versión de Apache quiere configurar para la interfaz de Zabbix."
 
 #. Type: boolean
 #. Description
@@ -75,17 +86,25 @@ msgstr "¿Desea reiniciar el/los servidor/es web ahora?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "In order to apply the changes needed for Zabbix configuration, the web server needs to be restarted."
-msgstr "Para poder aplicar los cambios necesarios en la configuración de Zabbix, el servidor web se tiene que reiniciar."
+msgid ""
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
+msgstr ""
+"Para poder aplicar los cambios necesarios en la configuración de Zabbix, el "
+"servidor web se tiene que reiniciar."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "Please choose whether you prefer doing it automatically now or manually later."
-msgstr "Elija si prefiere realizarlo automáticamente ahora o manualmente más tarde."
+msgid ""
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
+msgstr ""
+"Elija si prefiere realizarlo automáticamente ahora o manualmente más tarde."
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"
+
 #~ msgid ""
 #~ "Zabbix supports any web server that php4 does, but this automatic "
 #~ "configuration process only supports Apache. Please select which  apache "
@@ -95,6 +114,7 @@ msgstr "Elija si prefiere realizarlo automáticamente ahora o manualmente más t
 #~ "este proceso de configuración automática sólo se puede realizar con "
 #~ "Apache. Seleccione que versión de apache quiere configurar para la "
 #~ "interfaz («frontend») de Zabbix."
+
 #~ msgid ""
 #~ "Please enter the host name or the address of the Zabbix server you  want "
 #~ "to connect to. This is needed for some advanced Frontend  functionality."
@@ -102,8 +122,10 @@ msgstr "Elija si prefiere realizarlo automáticamente ahora o manualmente más t
 #~ "Introduzca el nombre de la máquina o la dirección del servidor de Zabbix "
 #~ "al que quiere conectarse. Esto es necesario para algunas funcionalidades "
 #~ "avanzadas de la interfaz («frontend»)."
+
 #~ msgid "Zabbix server port:"
 #~ msgstr "Puerto del servidor de Zabbix:"
+
 #~ msgid ""
 #~ "Please enter the port your Zabbix server is using. This is needed for "
 #~ "some advanced Frontend functionality."
@@ -111,4 +133,3 @@ msgstr "Elija si prefiere realizarlo automáticamente ahora o manualmente más t
 #~ "Introduzca el puerto que está utilizando el servidor Zabbix. Esto es "
 #~ "necesario para algunas funcionalidades avanzadas de la interfaz "
 #~ "(«frontend»)."
-

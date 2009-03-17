@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-06 18:20+0100\n"
 "PO-Revision-Date: 2009-02-26 20:08+0100\n"
 "Last-Translator: Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -34,17 +34,17 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
-msgstr "Vevtjener som skal settes opp for zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
+msgstr "Vevtjener som skal settes opp for Zabbix:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix støtter alle vevtjenere som har støtte i PHP4, men bare Apache kan "
+"Zabbix støtter alle vevtjenere som har støtte i PHP5, men bare Apache kan "
 "settes opp automatisk."
 
 #. Type: multiselect
@@ -69,8 +69,8 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"For å ta i bruk endringene som trengs for Zabbix-oppsett må "
-"vevtjeneren startes på nytt."
+"For å ta i bruk endringene som trengs for Zabbix-oppsett må vevtjeneren "
+"startes på nytt."
 
 #. Type: boolean
 #. Description
@@ -79,4 +79,3 @@ msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
 msgstr "Velg om det skal gjøres automatisk nå, eller manuelt senere."
-

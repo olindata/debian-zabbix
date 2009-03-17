@@ -1,12 +1,12 @@
 # Copyright (C) 2008-2009 Zabbix Maintainers <kobold-zabbix@debian.org>
 # This file is distributed under the same license as zabbix package.
 # Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008-2009.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-06 18:20+0100\n"
 "PO-Revision-Date: 2009-03-01 12:26+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -31,18 +31,18 @@ msgstr "接続先の Zabbix サーバのホスト名か IP アドレスを入力
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
 msgstr "Zabbix のため、ウェブサーバの再設定:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix は PHP4 をサポートしているウェブサーバであれば動作しますが、自動的に設定"
-"できるのは Apache のみです。"
+"Zabbix は PHP5 をサポートしているウェブサーバであれば動作しますが、自動的に設"
+"定できるのは Apache のみです。"
 
 #. Type: multiselect
 #. Description
@@ -66,7 +66,8 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Zabbix の設定のための変更を反映するにはウェブサーバを再起動する必要があります。"
+"Zabbix の設定のための変更を反映するにはウェブサーバを再起動する必要がありま"
+"す。"
 
 #. Type: boolean
 #. Description
@@ -74,7 +75,4 @@ msgstr ""
 msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
-msgstr ""
-"今自動的に設定をするか、後ほど手動で設定をするかを選んでください。"
-
-
+msgstr "今自動的に設定をするか、後ほど手動で設定をするかを選んでください。"

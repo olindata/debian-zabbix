@@ -1,26 +1,25 @@
-zabbix (1:1.6.2-4) UNRELEASED; urgency=low
-
- Several few new/updated pofiles, thanks to our brave translators
-  * Update ja.po (Closes: #514510, #518503)
-  * Update cs.po (Closes: #517172)
-  * Update sv.po (Closes: #517200)
-  * Update it.po (Closes: #517711)
-  * Update pt.po (Closes: #518404)
-  * Update de.po (Closes: #518499)
-  * Add nb.po (Closes: #517266)
-  * Add ru.po (Closes: #517576)
-  * Add fi.po (Closes: #518195)
-  * Add eu.po (Closes: #518388)
-  * Add es.po (Closes: #518449)
-  * Add bt_BR.po (Closes: #519795)
-
- -- Michael Ablassmeier <abi@debian.org>  Sun, 15 Mar 2009 11:23:19 +0100
-
 zabbix (1:1.6.2-3) UNRELEASED; urgency=low
-
+  
   * Update dbconfig.php to new config file layout.
+  * Debconf templates and debian/control reviewed by the debian-l10n-
+    english team as part of the Smith review project.
+    Closes: #516074, #518501
+  * [Debconf translation updates]
+    - Czech. Closes: #517172
+    - Swedish. Closes: #517200
+    - Bokmål, Norwegian. Closes: #517266
+    - Russian. Closes: #517576
+    - Italian. Closes: #517711
+    - Finnish. Closes: #518195
+    - Portuguese. Closes: #518404
+    - Basque. Closes: #518388
+    - Spanish. Closes: #518449
+    - German. Closes: #518499
+    - Japanese. Closes: #518503
+    - French. Closes: #518522
+    - Brazilian Portuguese. Closes: #519795
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 27 Jan 2009 09:46:00 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 17 Mar 2009 11:20:36 +0100
 
 zabbix (1:1.6.2-2) unstable; urgency=low
 

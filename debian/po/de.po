@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-06 18:20+0100\n"
 "PO-Revision-Date: 2009-03-06 17:42+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -33,17 +33,17 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
 msgstr "Webserver, der für Zabbix neu konfiguriert werden soll:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix unterstützt jeden Webserver, der auch von PHP4 unterstützt wird, "
+"Zabbix unterstützt jeden Webserver, der auch von PHP5 unterstützt wird, "
 "allerdings kann nur Apache automatisch konfiguriert werden."
 
 #. Type: multiselect
@@ -69,8 +69,8 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, müssen "
-"die Webserver neu gestartet werden."
+"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, "
+"müssen die Webserver neu gestartet werden."
 
 #. Type: boolean
 #. Description

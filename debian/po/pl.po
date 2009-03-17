@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.4.4-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-01-26 11:13+0100\n"
+"POT-Creation-Date: 2009-03-01 18:57+0100\n"
 "PO-Revision-Date: 2007-12-21 16:05+0100\n"
 "Last-Translator: Michał Pena <mp@horisone.com>\n"
 "Language-Team: Polski <debian-l10n-polish@lists.debian.org>\n"
@@ -18,83 +18,85 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
 msgstr "Adres hosta serwera Zabbix:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001
-msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to."
-msgstr "Wprowadź adres serwera Zabbix, do którego chcesz się podłączyć."
-
-#. Type: multiselect
-#. Choices
-#: ../zabbix-frontend-php.templates:1001
-msgid "apache, apache-ssl, apache-perl, apache2"
-msgstr "apache, apache-ssl, apache-perl, apache2"
-
-#. Type: multiselect
-#. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid "Webserver Reconfiguration:"
-msgstr "Zmiana konfiguracji serwera WWW:"
-
-#. Type: multiselect
-#. Description
-#: ../zabbix-frontend-php.templates:1002
-msgid ""
-"Zabbix supports any web server that php4 does, but this automatic "
-"configuration process only supports Apache. Please select which  apache "
-"version you want to configure the Zabbix frontend for."
-msgstr ""
-"Serwer Zabbix obsługuje dowolny serwer WWW, który posiada wsparcie dla PHP4, "
-"lecz ta automatyczna konfiguracja jest możliwa jedynie dla serwerów Apache. "
-"Proszę wybrać którą wersję apache chcesz skonfigurować interfejs użytkownika "
-"Zabbiksa."
-
-#. Type: boolean
-#. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid "Would you like to restart your webserver(s) now?"
-msgstr "Czy chcesz teraz uruchomić ponownie serwer(y) WWW?"
-
-#. Type: boolean
-#. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid ""
-"Remember that in order to apply the changes your webserver(s) has/have to be "
-"restarted."
-msgstr ""
-"Pamiętaj, że serwer WWW musi zostać uruchomiony ponownie aby wprowadzone "
-"zmiany zaczęły funkcjonować."
-
-#. Type: string
-#. Description
-#: ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 #, fuzzy
 #| msgid ""
 #| "Please enter the host name or the address of the Zabbix server you  want "
 #| "to connect to."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or IP address of the Zabbix server you want to "
+"connect to."
 msgstr "Wprowadź adres serwera Zabbix, do którego chcesz się podłączyć."
 
-#. Type: string
+#. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:4001
+#: ../zabbix-frontend-php.templates:2001
 #, fuzzy
-#| msgid "Zabbix server host address:"
-msgid "Zabbix server port:"
-msgstr "Adres hosta serwera Zabbix:"
+#| msgid "Webserver Reconfiguration:"
+msgid "Web server to reconfigure for Zabbix:"
+msgstr "Zmiana konfiguracji serwera WWW:"
 
-#. Type: string
+#. Type: multiselect
 #. Description
-#: ../zabbix-frontend-php.templates:4001
+#: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
+"configured automatically."
 msgstr ""
+
+#. Type: multiselect
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid ""
+"Please select which Apache version you want to configure the Zabbix frontend "
+"for."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+#, fuzzy
+#| msgid "Would you like to restart your webserver(s) now?"
+msgid "Restart the web server(s) now?"
+msgstr "Czy chcesz teraz uruchomić ponownie serwer(y) WWW?"
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+#, fuzzy
+#| msgid ""
+#| "Remember that in order to apply the changes your webserver(s) has/have to "
+#| "be restarted."
+msgid ""
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
+msgstr ""
+"Pamiętaj, że serwer WWW musi zostać uruchomiony ponownie aby wprowadzone "
+"zmiany zaczęły funkcjonować."
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:3001
+msgid ""
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
+msgstr ""
+
+#~ msgid "apache, apache-ssl, apache-perl, apache2"
+#~ msgstr "apache, apache-ssl, apache-perl, apache2"
+
+#~ msgid ""
+#~ "Zabbix supports any web server that php4 does, but this automatic "
+#~ "configuration process only supports Apache. Please select which  apache "
+#~ "version you want to configure the Zabbix frontend for."
+#~ msgstr ""
+#~ "Serwer Zabbix obsługuje dowolny serwer WWW, który posiada wsparcie dla "
+#~ "PHP5, lecz ta automatyczna konfiguracja jest możliwa jedynie dla serwerów "
+#~ "Apache. Proszę wybrać którą wersję apache chcesz skonfigurować interfejs "
+#~ "użytkownika Zabbiksa."

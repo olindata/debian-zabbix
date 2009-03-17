@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix debconf\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-01 18:57+0100\n"
 "PO-Revision-Date: 2009-02-26 11:32+0100\n"
 "Last-Translator: Martin Bagge <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -36,17 +36,17 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
-msgstr "Omkonfiguration av webbserver för zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
+msgstr "Omkonfiguration av webbserver för Zabbix:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix kan användas med webbservrar som har stöd för PHP4 men automatiska "
+"Zabbix kan användas med webbservrar som har stöd för PHP5 men automatiska "
 "inställningarna kan endast göras för Apache."
 
 #. Type: multiselect

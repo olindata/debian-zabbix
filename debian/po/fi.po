@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-01 18:57+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
@@ -31,17 +31,17 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
 msgstr "Verkkopalvelimet, jonka asetuksia muokataan Zabbiksia varten:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix tukee kaikkia verkkopalvelimia, jotka tukevat PHP4:ää. Kuitenkin vain "
+"Zabbix tukee kaikkia verkkopalvelimia, jotka tukevat PHP5:ää. Kuitenkin vain "
 "Apachen asetukset voidaan tehdä automaattisesti."
 
 #. Type: multiselect

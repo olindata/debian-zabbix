@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1.6.2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-02-26 07:39+0100\n"
+"POT-Creation-Date: 2009-03-01 18:57+0100\n"
 "PO-Revision-Date: 2009-03-01 17:13+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:1001 ../zabbix-frontend-php.templates:3001
+#: ../zabbix-agent.templates:2001
 msgid "Zabbix server host address:"
 msgstr "Nome macchina o indirizzo del server Zabbix:"
 
@@ -34,17 +34,17 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for zabbix:"
+msgid "Web server to reconfigure for Zabbix:"
 msgstr "Server web da riconfigurare per Zabbix:"
 
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Zabbix supports any web server supported by PHP4, however only Apache can be "
+"Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix supporta qualsiasi server web con PHP4, ma solo Apache può essere "
+"Zabbix supporta qualsiasi server web con PHP5, ma solo Apache può essere "
 "configurato automaticamente."
 
 #. Type: multiselect
