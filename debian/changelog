@@ -18,8 +18,10 @@ zabbix (1:1.6.2-3) UNRELEASED; urgency=low
     - Japanese. Closes: #518503
     - French. Closes: #518522
     - Brazilian Portuguese. Closes: #519795
+  * Don't execute mysql script in zabbix-proxy-pgsql prerm/postinst
+    (Closes: #520420)
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 17 Mar 2009 11:20:36 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Thu, 19 Mar 2009 17:17:09 +0100
 
 zabbix (1:1.6.2-2) unstable; urgency=low
 
