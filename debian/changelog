@@ -1,4 +1,4 @@
-zabbix (1:1.6.2-3) UNRELEASED; urgency=low
+zabbix (1:1.6.2-3) unstable; urgency=low
   
   * Update dbconfig.php to new config file layout.
   * Debconf templates and debian/control reviewed by the debian-l10n-
@@ -21,7 +21,7 @@ zabbix (1:1.6.2-3) UNRELEASED; urgency=low
   * Don't execute mysql script in zabbix-proxy-pgsql prerm/postinst
     (Closes: #520420)
 
- -- Michael Ablassmeier <abi@debian.org>  Thu, 19 Mar 2009 17:17:09 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 24 Mar 2009 20:02:22 +0100
 
 zabbix (1:1.6.2-2) unstable; urgency=low
 
