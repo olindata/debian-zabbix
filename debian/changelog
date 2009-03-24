@@ -23,6 +23,7 @@ zabbix (1:1.6.2-3) unstable; urgency=low
   * Move .pid files to /var/run, no need to create a own directory for
     each zabbix component. Does also mean we dont have to care about
     those directories beeing there, silences lintian.
+  * Bump Standards Version
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 24 Mar 2009 20:20:33 +0100
 
