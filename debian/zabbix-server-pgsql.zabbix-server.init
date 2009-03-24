@@ -10,9 +10,16 @@
 DAEMON=/usr/sbin/zabbix_server
 NAME=zabbix_server
 DESC="Zabbix server"
-PID=/var/run/$NAME.pid
 
 test -f $DAEMON || exit 0
+
+DIR=/var/run/zabbix-server
+PID=$DIR/$NAME.pid
+
+if test ! -d "$DIR"; then
+        mkdir "$DIR"
+        chown -R zabbix:zabbix "$DIR"
+fi
 
 set -e
 

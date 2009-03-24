@@ -204,6 +204,8 @@ install-agent-stamp: build-agent
 
 	$(INSTALL_DIR) $(TMP_CLIENT)/var/log/zabbix-agent/
 	chmod 750 $(TMP_CLIENT)/var/log/zabbix-agent/
+	$(INSTALL_DIR) $(TMP_CLIENT)/var/run/zabbix-agent/
+	chmod 750 $(TMP_CLIENT)/var/run/zabbix-agent/
 
 	$(INSTALL_FILE) debian/templates/zabbix_agent.conf.in $(TMP_CLIENT)/usr/share/zabbix-agent/zabbix_agent.conf
 	$(INSTALL_FILE) debian/templates/zabbix_agentd.conf.in $(TMP_CLIENT)/usr/share/zabbix-agent/zabbix_agentd.conf
@@ -227,6 +229,8 @@ install-server-mysql-stamp: build-server-mysql
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/
 	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/usr/share/doc/zabbix-server-mysql/
 	chmod 750 $(TMP_SERVER_MYSQL)/var/log/zabbix-server/
+	$(INSTALL_DIR) $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
+	chmod 750 $(TMP_SERVER_MYSQL)/var/run/zabbix-server/
 
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_MYSQL)/usr/sbin
 	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_MYSQL)/usr/bin
@@ -268,6 +272,8 @@ install-server-pgsql-stamp: build-server-pgsql
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/
 	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/usr/share/doc/zabbix-server-pgsql/
 	chmod 750 $(TMP_SERVER_PGSQL)/var/log/zabbix-server/
+	$(INSTALL_DIR) $(TMP_SERVER_PGSQL)/var/run/zabbix-server/
+	chmod 750 $(TMP_SERVER_PGSQL)/var/run/zabbix-server/
 
 	$(INSTALL_PROGRAM) src/zabbix_server/zabbix_server $(TMP_SERVER_PGSQL)/usr/sbin
 	$(INSTALL_PROGRAM) src/zabbix_get/zabbix_get $(TMP_SERVER_PGSQL)/usr/bin
@@ -303,6 +309,8 @@ install-proxy-mysql-stamp: build-proxy-mysql
 	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/
 	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/var/log/zabbix-proxy/
 	chmod 750 $(TMP_PROXY_MYSQL)/var/log/zabbix-proxy/
+	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/var/run/zabbix-proxy/
+	chmod 750 $(TMP_PROXY_MYSQL)/var/run/zabbix-proxy/
 
 	$(INSTALL_PROGRAM) src/zabbix_proxy/zabbix_proxy $(TMP_PROXY_MYSQL)/usr/sbin
 
@@ -335,6 +343,8 @@ install-proxy-pgsql-stamp: build-proxy-pgsql
 	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/
 	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/var/log/zabbix-proxy/
 	chmod 750 $(TMP_PROXY_PGSQL)/var/log/zabbix-proxy/
+	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/var/run/zabbix-proxy/
+	chmod 750 $(TMP_PROXY_PGSQL)/var/run/zabbix-proxy/
 
 	$(INSTALL_PROGRAM) src/zabbix_proxy/zabbix_proxy $(TMP_PROXY_PGSQL)/usr/sbin
 

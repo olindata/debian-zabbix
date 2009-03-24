@@ -10,9 +10,16 @@
 DAEMON=/usr/sbin/zabbix_agentd
 NAME=zabbix_agentd
 DESC="Zabbix agent"
-PID=/var/run/$NAME.pid
 
 test -f $DAEMON || exit 0
+
+DIR=/var/run/zabbix-agent
+PID=$DIR/$NAME.pid
+
+if test ! -d "$DIR"; then
+        mkdir "$DIR"
+        chown -R zabbix:zabbix "$DIR"
+fi
 
 set -e
 
