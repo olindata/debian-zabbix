@@ -11,13 +11,7 @@ NAME=zabbix_proxy
 DAEMON=/usr/sbin/$NAME
 DESC="Zabbix proxy daemon"
 
-DIR=/var/run/zabbix-proxy
-PID=$DIR/$NAME.pid
-
-if test ! -d "$DIR"; then
-        mkdir "$DIR"
-        chown -R zabbix:zabbix "$DIR"
-fi
+PID=/var/run/$NAME.pid
 
 test -f $DAEMON || exit 0
 

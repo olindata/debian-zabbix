@@ -10,7 +10,7 @@
 DAEMON=/usr/sbin/zabbix_agentd
 NAME=zabbix_agentd
 DESC="Zabbix agent"
-PID=/var/run/zabbix-agent/$NAME.pid
+PID=/var/run/$NAME.pid
 
 test -f $DAEMON || exit 0
 

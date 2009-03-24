@@ -20,8 +20,11 @@ zabbix (1:1.6.2-3) unstable; urgency=low
     - Brazilian Portuguese. Closes: #519795
   * Don't execute mysql script in zabbix-proxy-pgsql prerm/postinst
     (Closes: #520420)
+  * Move .pid files to /var/run, no need to create a own directory for
+    each zabbix component. Does also mean we dont have to care about
+    those directories beeing there, silences lintian.
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 24 Mar 2009 20:02:22 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 24 Mar 2009 20:20:33 +0100
 
 zabbix (1:1.6.2-2) unstable; urgency=low
 

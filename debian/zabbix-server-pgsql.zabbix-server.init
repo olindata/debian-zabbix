@@ -10,7 +10,7 @@
 DAEMON=/usr/sbin/zabbix_server
 NAME=zabbix_server
 DESC="Zabbix server"
-PID=/var/run/zabbix-server/$NAME.pid
+PID=/var/run/$NAME.pid
 
 test -f $DAEMON || exit 0
 
