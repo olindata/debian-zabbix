@@ -1,8 +1,8 @@
-zabbix (1:1.6.2-4) UNRELEASED; urgency=low
+zabbix (1:1.6.3-1) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release.
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 24 Mar 2009 21:44:37 +0100
+ -- Fabio Tranchitella <kobold@debian.org>  Fri, 27 Mar 2009 15:29:42 +0100
 
 zabbix (1:1.6.2-3) unstable; urgency=low
   
