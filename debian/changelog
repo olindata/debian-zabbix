@@ -5,6 +5,7 @@ zabbix (1:1.6.3-1) unstable; urgency=low
 
   [ Michael Ablassmeier ]
   * Includes fix for security issues in frontend (SA34091)
+    (Closes: #518193)
   * Don't install directories in /var/run, they are created on boot time
     by our init scripts.
 
