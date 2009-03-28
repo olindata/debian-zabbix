@@ -5,8 +5,10 @@ zabbix (1:1.6.3-1) UNRELEASED; urgency=low
 
   [ Michael Ablassmeier ]
   * Includes fix for security issues in frontend (SA34091)
+  * Don't install directories in /var/run, they are created on boot time
+    by our init scripts.
 
- -- Michael Ablassmeier <abi@debian.org>  Fri, 27 Mar 2009 16:47:54 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Sat, 28 Mar 2009 16:11:34 +0100
 
 zabbix (1:1.6.2-3) unstable; urgency=low
   
