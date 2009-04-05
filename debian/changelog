@@ -1,5 +1,6 @@
-zabbix (1:1.6.3-2) unstable; urgency=low
+zabbix (1:1.6.4-1) unstable; urgency=low
 
+  * New upstream release.
   * Fix zabbix-frontend-php.template, add missing questions for
     zabbix-server and port (Closes: #522076)
   * Loosen up depends for libgnutls (Closes: #522074)

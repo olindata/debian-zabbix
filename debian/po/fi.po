@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-03-01 18:57+0100\n"
+"POT-Creation-Date: 2009-04-05 19:14+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid "Zabbix server host address:"
 msgstr "Zabbix-palvelimen verkko-osoite:"
 
@@ -79,3 +79,33 @@ msgid ""
 msgstr ""
 "Valitse tehdäänkö uudelleenkäynnistys automaattisesti nyt vai myöhemmin "
 "käsin."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or IP address of the Zabbix server you want to "
+#| "connect to."
+msgid ""
+"Please enter the host name or the address of the Zabbix server you  want to "
+"connect to. This is needed for some advanced Frontend  functionality."
+msgstr ""
+"Anna sen Zabbix-palvelimen verkkonimi tai IP-osoite, johon haluat ottaa "
+"yhteyden."
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid "Zabbix server host address:"
+msgid "Zabbix server port:"
+msgstr "Zabbix-palvelimen verkko-osoite:"
+
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:5001
+msgid ""
+"Please enter the port your Zabbix server is using. This is needed for some "
+"advanced Frontend functionality."
+msgstr ""
