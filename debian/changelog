@@ -1,8 +1,11 @@
-zabbix (1:1.6.3-2) UNRELEASED; urgency=low
+zabbix (1:1.6.3-2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * Fix zabbix-frontend-php.template, add missing questions for
+    zabbix-server and port.
+    Closes: #522076
+  * Loosen up depends for libgnutls (Closes: #522074)
 
- -- Michael Ablassmeier <abi@debian.org>  Sat, 28 Mar 2009 17:15:48 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Sun, 05 Apr 2009 19:10:27 +0200
 
 zabbix (1:1.6.3-1) unstable; urgency=low
 
