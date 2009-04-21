@@ -4,8 +4,9 @@ zabbix (1:1.6.4-1) unstable; urgency=low
   * Fix zabbix-frontend-php.template, add missing questions for
     zabbix-server and port (Closes: #522076)
   * Loosen up depends for libgnutls (Closes: #522074)
+  * Build zabbix-server with ipmi too (Closes: #524884)
 
- -- Michael Ablassmeier <abi@debian.org>  Sun, 05 Apr 2009 19:10:27 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 21 Apr 2009 20:58:09 +0200
 
 zabbix (1:1.6.3-1) unstable; urgency=low
 
