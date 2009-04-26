@@ -6,8 +6,9 @@ zabbix (1:1.6.4-1) unstable; urgency=low
   * Loosen up depends for libgnutls (Closes: #522074)
   * Build zabbix-server with ipmi too (Closes: #524884)
   * Update sv.po (Closes: #522978)
+  * Some template fixing
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 21 Apr 2009 21:12:35 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Sun, 26 Apr 2009 20:03:47 +0200
 
 zabbix (1:1.6.3-1) unstable; urgency=low
 
