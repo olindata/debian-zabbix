@@ -1,3 +1,9 @@
+zabbix (1:1.6.4-3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 05 May 2009 22:26:38 +0200
+
 zabbix (1:1.6.4-2) unstable; urgency=low
 
   * Some template fixing (Closes: #525739)
