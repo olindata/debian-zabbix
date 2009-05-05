@@ -16,7 +16,7 @@ zabbix (1:1.6.4-2) unstable; urgency=low
 
  -- Michael Ablassmeier <abi@debian.org>  Tue, 05 May 2009 20:22:08 +0200
 
-zabbix  (1:1.6.4-1) unstable; urgency=low
+zabbix (1:1.6.4-1) unstable; urgency=low
 
    * New upstream release.
    * Fix zabbix-frontend-php.template, add missing questions for
