@@ -1,12 +1,12 @@
 # Copyright (C) 2008-2009 Zabbix Maintainers <kobold-zabbix@debian.org>
 # This file is distributed under the same license as zabbix package.
 # Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008-2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.4-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-04-05 19:14+0200\n"
+"POT-Creation-Date: 2009-05-05 20:29+0200\n"
 "PO-Revision-Date: 2009-04-22 15:26+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -80,12 +80,16 @@ msgstr "今自動的に設定をするか、後ほど手動で設定をするか
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or the IP address of the Zabbix server you want "
+"to connect to. This is needed for some advanced frontend functionality."
 msgstr ""
-"接続先の Zabbix サーバのホスト名か IP アドレスを入力してください。"
-"これは複雑なフロントエンドのうちのいくつかが動作するのに必要です。"
+"接続先の Zabbix サーバのホスト名か IP アドレスを入力してください。これは複雑"
+"なフロントエンドのうちのいくつかが動作するのに必要です。"
 
 #. Type: string
 #. Description
@@ -96,10 +100,13 @@ msgstr "Zabbix サーバのポート番号:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"advanced frontend functionality."
 msgstr ""
-"Zabbix サーバが使っているポート番号を入力してください。これは複雑なフロント"
-"エンドのうちのいくつかが動作するのに必要です。"
-
+"Zabbix サーバが使っているポート番号を入力してください。これは複雑なフロントエ"
+"ンドのうちのいくつかが動作するのに必要です。"

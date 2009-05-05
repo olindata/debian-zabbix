@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.4-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-04-05 19:14+0200\n"
+"POT-Creation-Date: 2009-05-05 20:29+0200\n"
 "PO-Revision-Date: 2009-04-26 22:59+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -69,8 +69,8 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, "
-"muß der Webserver neu gestartet werden."
+"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, muß "
+"der Webserver neu gestartet werden."
 
 #. Type: boolean
 #. Description
@@ -85,9 +85,13 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or the IP address of the Zabbix server you want "
+"to connect to. This is needed for some advanced frontend functionality."
 msgstr ""
 "Bitte geben Sie den Hostnamen oder die Adresse des Zabbix-Servers an, zu dem "
 "Sie sich verbinden wollen. Dies wird für bestimmte Funktionen der "
@@ -102,9 +106,13 @@ msgstr "Port des Zabbix-Servers:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"advanced frontend functionality."
 msgstr ""
 "Bitte geben Sie den Port Ihres Zabbix-Servers an. Dieser wird für bestimmte "
 "Funktionen der fortgeschrittenen Oberfläche benötigt."

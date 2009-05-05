@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.1.1-3\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-04-05 19:14+0200\n"
+"POT-Creation-Date: 2009-05-05 20:29+0200\n"
 "PO-Revision-Date: 2009-04-26 20:13+0200\n"
 "Last-Translator: Martin Sin <martin.sin@zshk.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -34,7 +34,6 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#| msgid "Web server to reconfigure for zabbix:"
 msgid "Web server to reconfigure for Zabbix:"
 msgstr "Přenastavení webového serveru pro použití Zabbix:"
 
@@ -84,12 +83,13 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
+#, fuzzy
 #| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or the IP address of the Zabbix server you want "
+"to connect to. This is needed for some advanced frontend functionality."
 msgstr ""
 "Zadejte prosím název nebo IP adresu počítače se serverem Zabbix, ke kterému "
 "se chcete připojit. Tuto informaci požadují některé pokročilé funkce "
@@ -98,19 +98,22 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
 msgstr "Port serveru Zabbix:"
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"advanced frontend functionality."
 msgstr ""
-"Zadejte prosím port, na kterém běží váš server Zabbix. Tato informace "
-"je důležitá pro pokročilé funkce Frontendu."
+"Zadejte prosím port, na kterém běží váš server Zabbix. Tato informace je "
+"důležitá pro pokročilé funkce Frontendu."
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"

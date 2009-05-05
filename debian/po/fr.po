@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-04-05 19:14+0200\n"
+"POT-Creation-Date: 2009-05-05 20:29+0200\n"
 "PO-Revision-Date: 2009-04-28 13:21+0100\n"
 "Last-Translator: Guillaume Delacour <gui@iroqwa.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -87,12 +87,13 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
+#, fuzzy
 #| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or the IP address of the Zabbix server you want "
+"to connect to. This is needed for some advanced frontend functionality."
 msgstr ""
 "Veuillez entrer le nom ou l'adresse du serveur Zabbix auquel vous voulez "
 "vous connecter. Ceci est requis pour certaines fonctionnalités avancées du "
@@ -101,16 +102,19 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
 msgstr "Port du serveur Zabbix :"
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"advanced frontend functionality."
 msgstr ""
 "Veuillez entrer le port du serveur Zabbix auquel vous voulez vous connecter. "
 "Ceci est requis pour certaines fonctionnalités avancées du frontal."

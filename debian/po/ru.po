@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.2-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-04-05 19:14+0200\n"
+"POT-Creation-Date: 2009-05-05 20:29+0200\n"
 "PO-Revision-Date: 2009-04-26 13:13+0400\n"
-"Last-Translator: Sergey Alyoshin <alyoshin.s@gmail.com>\n" 
+"Last-Translator: Sergey Alyoshin <alyoshin.s@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,12 +87,13 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
+#, fuzzy
 #| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
+#| "Please enter the host name or the address of the Zabbix server you  want "
+#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
-"Please enter the host name or the address of the Zabbix server you  want to "
-"connect to. This is needed for some advanced Frontend  functionality."
+"Please enter the host name or the IP address of the Zabbix server you want "
+"to connect to. This is needed for some advanced frontend functionality."
 msgstr ""
 "Введите имя машины или адрес сервера Zabbix, к которому вы хотите "
 "подключиться. Это необходимо для расширенного графического интерфейса."
@@ -100,16 +101,19 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
 msgstr "Порт сервера Zabbix:"
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
-"advanced Frontend functionality."
+"advanced frontend functionality."
 msgstr ""
-"Введите номер порта используемый сервером Zabbix. Это необходимо для расширенного "
-"графического интерфейса."
+"Введите номер порта используемый сервером Zabbix. Это необходимо для "
+"расширенного графического интерфейса."
