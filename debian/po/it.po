@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1.6.2 italian debconf templates\n"
+"Project-Id-Version: zabbix 1:1.6.4 italian debconf templates\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-04-05 19:14+0200\n"
-"PO-Revision-Date: 2009-03-01 17:13+0100\n"
+"PO-Revision-Date: 2009-04-26 12:11+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -85,24 +85,19 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid ""
 "Please enter the host name or the address of the Zabbix server you  want to "
 "connect to. This is needed for some advanced Frontend  functionality."
 msgstr ""
 "Inserire il nome della macchina o l'indirizzo IP del server Zabbix a cui "
-"connettersi."
+"connettersi. Questo è necessario per alcune delle fuzionalità avanzate "
+"dell'interfaccia."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
-msgstr "Nome macchina o indirizzo del server Zabbix:"
+msgstr "Porta del server Zabbix:"
 
 #. Type: string
 #. Description
@@ -111,3 +106,5 @@ msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
 "advanced Frontend functionality."
 msgstr ""
+"Inserire la porta del server Zabbix in uso. Questo è necessario per alcune "
+"delle fuzionalità avanzate dell'interfaccia."

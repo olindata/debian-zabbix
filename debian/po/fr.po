@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2009 Debian French l10n team <debian-l10n-french@lists.debian.org>
 # This file is distributed under the same license as the zabbix package.
 #
-# Translators: 
+# Translators:
 #  Yves Rütschlé <l10n@rutschle.net>, 2006.
 #  Guillaume Delacour <gui@iroqwa.org>, 2009.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-04-05 19:14+0200\n"
-"PO-Revision-Date: 2009-03-01 14:16+0100\n"
+"PO-Revision-Date: 2009-04-28 13:21+0100\n"
 "Last-Translator: Guillaume Delacour <gui@iroqwa.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Web server to reconfigure for Zabbix:"
-msgstr "Serveur(s) web à reconfigurer pour Zabbix:"
+msgstr "Serveur(s) web à reconfigurer pour Zabbix :"
 
 #. Type: multiselect
 #. Description
@@ -56,14 +56,13 @@ msgid ""
 "Please select which Apache version you want to configure the Zabbix frontend "
 "for."
 msgstr ""
-"Veuillez choisir quelle version d'Apache vous voulez configurer pour le "
-"frontal Zabbix."
+"Veuillez choisir la version d'Apache à configurer pour le frontal Zabbix."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
 msgid "Restart the web server(s) now?"
-msgstr "Faut-il redémarrer le(s) serveur(s) web maintenant ?"
+msgstr "Faut-il redémarrer le(s) serveur(s) web maintenant ?"
 
 #. Type: boolean
 #. Description
@@ -82,13 +81,12 @@ msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
 msgstr ""
-"Veuillez choisir ce que vous préférez faire automatiquement maintenant ou "
-"manuellement plus tard."
+"Veuillez choisir si vous souhaitez le redémarrer automatiquement maintenant "
+"ou vous-même plus tard."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
-#, fuzzy
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
@@ -97,15 +95,15 @@ msgid ""
 "connect to. This is needed for some advanced Frontend  functionality."
 msgstr ""
 "Veuillez entrer le nom ou l'adresse du serveur Zabbix auquel vous voulez "
-"vous connecter."
+"vous connecter. Ceci est requis pour certaines fonctionnalités avancées du "
+"frontal."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
 #| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
-msgstr "Adresse du serveur Zabbix :"
+msgstr "Port du serveur Zabbix :"
 
 #. Type: string
 #. Description
@@ -114,6 +112,8 @@ msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
 "advanced Frontend functionality."
 msgstr ""
+"Veuillez entrer le port du serveur Zabbix auquel vous voulez vous connecter. "
+"Ceci est requis pour certaines fonctionnalités avancées du frontal."
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"

@@ -140,7 +140,7 @@ AlertScriptsPath=/home/zabbix/bin/
 
 # Location of 'fping. Default is /usr/sbin/fping
 # Make sure that fping binary has root permissions and SUID flag set
-#FpingLocation=/usr/sbin/fping
+FpingLocation=/usr/bin/fping
 
 # Location of fping6. Default is /usr/sbin/fping6
 # Make sure that fping binary has root permissions and SUID flag set

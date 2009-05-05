@@ -1,9 +1,10 @@
+# Esko Arajärvi <edu@iki.fi>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-04-05 19:14+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2009-04-29 22:33+0300\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -11,6 +12,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Finnish\n"
 "X-Poedit-Country: FINLAND\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: string
 #. Description
@@ -32,7 +35,7 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Web server to reconfigure for Zabbix:"
-msgstr "Verkkopalvelimet, jonka asetuksia muokataan Zabbiksia varten:"
+msgstr "WWW-palvelimet, jonka asetuksia muokataan Zabbixia varten:"
 
 #. Type: multiselect
 #. Description
@@ -41,7 +44,7 @@ msgid ""
 "Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix tukee kaikkia verkkopalvelimia, jotka tukevat PHP5:ää. Kuitenkin vain "
+"Zabbix tukee kaikkia WWW-palvelimia, jotka tukevat PHP5:tä. Kuitenkin vain "
 "Apachen asetukset voidaan tehdä automaattisesti."
 
 #. Type: multiselect
@@ -51,14 +54,14 @@ msgid ""
 "Please select which Apache version you want to configure the Zabbix frontend "
 "for."
 msgstr ""
-"Valitse minkä Apachen version asetuksia muokataan Zabbiksin käyttöliittymää "
-"varten. "
+"Valitse minkä Apachen version asetuksia muokataan Zabbixin käyttöliittymää "
+"varten."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
 msgid "Restart the web server(s) now?"
-msgstr "Käynnistetäänkö verkkopalvelimet uudelleen nyt?"
+msgstr "Käynnistetäänkö WWW-palvelimet uudelleen nyt?"
 
 #. Type: boolean
 #. Description
@@ -67,7 +70,7 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Verkkopalvelimet täytyy käynnistää uudelleen Zabbiksia varten tehtyjen "
+"WWW-palvelimet täytyy käynnistää uudelleen Zabbixia varten tehtyjen "
 "asetusten ottamiseksi käyttöön."
 
 #. Type: boolean
@@ -83,24 +86,18 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid ""
 "Please enter the host name or the address of the Zabbix server you  want to "
 "connect to. This is needed for some advanced Frontend  functionality."
 msgstr ""
 "Anna sen Zabbix-palvelimen verkkonimi tai IP-osoite, johon haluat ottaa "
-"yhteyden."
+"yhteyden. Eräät käyttöliittymätoiminnot tarvitsevat tätä."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
-msgstr "Zabbix-palvelimen verkko-osoite:"
+msgstr "Zabbix-palvelimen portti:"
 
 #. Type: string
 #. Description
@@ -109,3 +106,5 @@ msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
 "advanced Frontend functionality."
 msgstr ""
+"Anna portti, jota Zabbix-palvelin käyttää. Eräät käyttöliittymätoiminnot "
+"tarvitsevat tätä."

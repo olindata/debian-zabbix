@@ -6,9 +6,18 @@ zabbix (1:1.6.4-1) unstable; urgency=low
   * Loosen up depends for libgnutls (Closes: #522074)
   * Build zabbix-server with ipmi too (Closes: #524884)
   * Update sv.po (Closes: #522978)
-  * Some template fixing
+  * Some template fixing (Closes: #525739)
+  * Set right path to fping binary in .conf templates (Closes: #526694)
+  * Update ja.po (Closes: #525099)
+  * Update cs.po (Closes: #525104, #525715)
+  * Update it.po (Closes: #525640)
+  * Update de.po (Closes: #525738)
+  * Update pt.po (Closes: #526178)
+  * Update fi.po (Closes: #526191)
+  * Update ro.po (Closes: #526754)
+  * Update fr.po (Closes: #526771)
 
- -- Michael Ablassmeier <abi@debian.org>  Sun, 26 Apr 2009 20:03:47 +0200
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 05 May 2009 20:22:08 +0200
 
 zabbix (1:1.6.3-1) unstable; urgency=low
 

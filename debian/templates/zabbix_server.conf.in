@@ -109,7 +109,7 @@ AlertScriptsPath=/etc/zabbix/alert.d/
 
 # Location of 'fping. Default is /usr/sbin/fping
 # Make sure that fping binary has root permissions and SUID flag set
-#FpingLocation=/usr/sbin/fping
+FpingLocation=/usr/bin/fping
 
 # Frequency of ICMP pings (item keys 'icmpping' and 'icmppingsec'). Defauls is 60 seconds.
 #PingerFrequency=60
