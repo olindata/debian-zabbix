@@ -3,7 +3,8 @@ zabbix (1:1.6.5-1) unstable; urgency=low
   * New upstream release
   * Merge upstream config file to template (Closes: #528426)
   * Move logrotate from Depends to Suggests (Closes: #534096)
-  * Server should not crash anymore if postgresql transaction fails (Closes: #520197)
+  * Server should not crash anymore if postgresql transaction fails
+    (Closes: #520197)
   * Update fr.po (Closes: #527559)
   * Update es.po (Closes: #527600)
   * Update sv.po (Closes: #528571)

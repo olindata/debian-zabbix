@@ -1,15 +1,15 @@
 # Swedish translation of zabbix debconf template.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the zabbix package.
-#
+# 
 # Daniel Nylander <po@danielnylander.se>, 2006.
 # Martin Bagge <brother@bsnet.se>, 2009.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix debconf\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-05-05 20:29+0200\n"
+"POT-Creation-Date: 2009-06-28 19:29+0200\n"
 "PO-Revision-Date: 2009-05-12 20:06+0100\n"
 "Last-Translator: Martin Bagge <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -87,9 +87,6 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001
-#| msgid ""
-#| "Please enter the host name or the address of the Zabbix server you  want "
-#| "to connect to. This is needed for some advanced Frontend  functionality."
 msgid ""
 "Please enter the host name or the IP address of the Zabbix server you want "
 "to connect to. This is needed for some advanced frontend functionality."
@@ -106,9 +103,6 @@ msgstr "Port för Zabbix-servern:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid ""
-#| "Please enter the port your Zabbix server is using. This is needed for "
-#| "some advanced Frontend functionality."
 msgid ""
 "Please enter the port your Zabbix server is using. This is needed for some "
 "advanced frontend functionality."
