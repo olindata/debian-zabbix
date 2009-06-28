@@ -10,7 +10,8 @@ Vcs-Browser: http://svn.debian.org/wsvn/collab-maint/deb-maint/zabbix/trunk/?op=
  
 Package: zabbix-agent
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, logrotate, ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, ucf
+Suggests: logrotate
 Description: network monitoring solution - agent
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
@@ -27,9 +28,9 @@ Description: network monitoring solution - agent
 
 Package: zabbix-server-mysql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
+Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19)
 Recommends: mysql-server (>= 4.0.16-2), snmpd
-Suggests: zabbix-frontend-php
+Suggests: zabbix-frontend-php, logrotate
 Conflicts: zabbix-server-pgsql
 Description: network monitoring solution - server (using MySQL)
  Zabbix is a server/client network monitoring system with many features.
@@ -48,9 +49,9 @@ Description: network monitoring solution - server (using MySQL)
 
 Package: zabbix-server-pgsql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
+Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19)
 Recommends: postgresql, snmpd
-Suggests: zabbix-frontend-php
+Suggests: zabbix-frontend-php, logrotate
 Conflicts: zabbix-server-mysql
 Description: network monitoring solution - server (using PostgreSQL)
  Zabbix is a server/client network monitoring system with many features.
@@ -87,9 +88,10 @@ Description: network monitoring solution - PHP front-end
 
 Package: zabbix-proxy-pgsql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
+Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19)
 Recommends: postgresql
 Conflicts: zabbix-proxy-mysql
+Suggests: logrotate
 Description: network monitoring solution - proxy (using MySQL)
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
@@ -107,8 +109,9 @@ Description: network monitoring solution - proxy (using MySQL)
 
 Package: zabbix-proxy-mysql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), logrotate
+Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19)
 Recommends: mysql-server (>= 4.0.16-2)
+Suggests: logrotate
 Conflicts: zabbix-proxy-pgsql
 Description: network monitoring solution - proxy (using PostgreSQL)
  Zabbix is a server/client network monitoring system with many features.
