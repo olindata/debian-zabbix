@@ -11,10 +11,14 @@ DAEMON=/usr/sbin/zabbix_server
 NAME=zabbix_server
 DESC="Zabbix server"
 
-test -f $DAEMON || exit 0
+test -x $DAEMON || exit 0
 
+# time to wait for daemons death, in seconds
+# don't set it too low or you might not let it die gracefully
+DODTIME=2
+MAX_DIETIME=5
 DIR=/var/run/zabbix-server
-PID=$DIR/$NAME.pid
+PIDFILE=$DIR/$NAME.pid
 
 if test ! -d "$DIR"; then
         mkdir "$DIR"
@@ -23,28 +27,133 @@ fi
 
 set -e
 
+# Check if a given process pid's cmdline matches a given name
+running()
+{
+    # No pidfile, probably no daemon present
+    [ ! -f "$PIDFILE" ] && return 1
+    pid=`cat $PIDFILE`
+
+    # No pid, probably no daemon present
+    [ -z "$pid" ] && return 1
+
+    [ ! -d /proc/$pid ] &&  return 1
+    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
+    # Is this the expected child?
+    [ "$cmd" != "$DAEMON" ] &&  return 1
+
+    return 0
+}
+
+# Check if a given process' childrens are running
+running_child()
+{
+    [ -z "$NAME" ] && return 1
+    if ps -eo ppid,pid,comm |grep -q $NAME; then
+        return 0
+    fi
+    return 1
+}
+
+
+
+force_stop() {
+        [ ! -e "$PIDFILE" ] && return
+        if running ; then
+                pid=`cat $PIDFILE`
+                kill -15 $pid
+        # Is it really dead?
+                [ -n "$DODTIME" ] && sleep "$DODTIME"s
+                if running ; then
+                        kill -9 $pid
+                        [ -n "$DODTIME" ] && sleep "$DODTIME"s
+                        if running ; then
+                                echo "Cannot kill $DESC (pid=$pid)!"
+                                exit 1
+                        fi
+                fi
+        fi
+        rm -f $PIDFILE
+}
+
+# Maybe the process is not running, but its children are
+force_child_stop()
+{
+# Kill the children by name, it's safer not to use a variable here
+    killall -15 zabbix_server
+}
+
+# Checks if the process is properly dead
+check_death()
+{
+        [ -n "$DODTIME" ] && DODTIME=2
+        [ -n "$MAX_DIETIME" ] &&  MAX_DIETIME=15
+        sleep "$DODTIME"s
+        if running; then
+            echo "$DESC did not stop in $DODTIME seconds, forcing it to stop"
+            force_stop
+        fi
+        if running; then
+            echo "ERROR: $DESC did not die in the expected time, consider increasing DODTIME (currently $DODTIME)"
+            exit 1
+        fi
+# Wait for the children to stop
+        if running_child; then
+            echo -n "Waiting for child processes to die"
+            force_child_stop
+            for wait in `seq $MAX_DIETIME`; do
+                if ! running_child; then break ; fi
+                echo -n "."
+                force_child_stop
+                sleep $wait
+            done
+            echo
+        fi
+        if running_name; then
+            echo "ERROR: $DESC's children processes did not die in the expected time, consider increasing MAX_DIETIME (currently $MAX_DIETIME)"
+            exit 1
+        fi
+}
+
+
+
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
-    rm -f $PID
+    rm -f $PIDFILE
 	echo "Starting $DESC: $NAME"
-	start-stop-daemon --oknodo --start --pidfile $PID \
+	start-stop-daemon --oknodo --start --pidfile $PIDFILE \
 		--exec $DAEMON >/dev/null 2>&1
+        if ! running; then
+            echo "ERROR: $DESC did not start"
+            exit 1
+        fi
 	;;
   stop)
 	echo "Stopping $DESC: $NAME"
-	start-stop-daemon --oknodo --stop --pidfile $PID \
+        if running ; then
+            start-stop-daemon --oknodo --stop --pidfile $PIDFILE \
 		--exec $DAEMON
+        fi
 	;;
   restart|force-reload)
 	$0 stop
-	sleep 2
+        check_death
 	$0 start
 	;;
+  status)
+        echo -n "$DESC is "
+        if running ;  then
+            echo "running."
+        else
+            echo "not running."
+            exit 1
+        fi
+        ;;
   *)
 	N=/etc/init.d/$NAME
-	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	echo "Usage: $N {start|stop|restart|status|force-reload}" >&2
 	exit 1
 	;;
 esac

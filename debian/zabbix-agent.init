@@ -36,6 +36,16 @@ case "$1" in
 	echo "Stopping $DESC: $NAME"
 	start-stop-daemon --oknodo --stop --exec $DAEMON 
 	;;
+  status)
+   ls -l /proc/`cat $PID`/exe &> /dev/null
+   if [ $? -eq 0 ]; then
+       echo "Zabbix agent is running"
+       exit 0
+   else
+       echo "Zabbix agent is NOT running"
+       exit 1
+   fi
+   ;;
   restart|force-reload)
 	$0 stop
 	sleep 5

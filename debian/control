@@ -92,7 +92,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>=
 Recommends: postgresql
 Conflicts: zabbix-proxy-mysql
 Suggests: logrotate
-Description: network monitoring solution - proxy (using MySQL)
+Description: network monitoring solution - proxy (using PostgreSQL)
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
  .
@@ -113,7 +113,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>=
 Recommends: mysql-server (>= 4.0.16-2)
 Suggests: logrotate
 Conflicts: zabbix-proxy-pgsql
-Description: network monitoring solution - proxy (using PostgreSQL)
+Description: network monitoring solution - proxy (using MySQL)
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
  .
