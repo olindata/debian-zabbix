@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.4-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-05-05 20:29+0200\n"
+"POT-Creation-Date: 2009-09-27 23:05+0200\n"
 "PO-Revision-Date: 2009-06-08 19:02+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -22,7 +22,7 @@ msgstr "Host-Adresse des Zabbix-Server:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
@@ -84,14 +84,17 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:4001
-msgid ""
-"Please enter the host name or the IP address of the Zabbix server you want "
-"to connect to. This is needed for some advanced frontend functionality."
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
+#, fuzzy
+#| msgid ""
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced frontend functionality."
+msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
-"Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, zu "
-"dem Sie sich verbinden wollen. Dies wird für bestimmte Funktionen der "
-"fortgeschrittenen Oberfläche benötigt."
+"Bitte geben Sie den Port Ihres Zabbix-Servers an. Dieser wird für bestimmte "
+"Funktionen der fortgeschrittenen Oberfläche benötigt."
 
 #. Type: string
 #. Description
@@ -102,12 +105,23 @@ msgstr "Port des Zabbix-Servers:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced frontend functionality."
+#, fuzzy
+#| msgid ""
+#| "Please enter the host name or IP address of the Zabbix server you want to "
+#| "connect to."
+msgid "Please enter the port used by the Zabbix server."
 msgstr ""
-"Bitte geben Sie den Port Ihres Zabbix-Servers an. Dieser wird für bestimmte "
-"Funktionen der fortgeschrittenen Oberfläche benötigt."
+"Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, zu "
+"dem Sie sich verbinden wollen."
+
+#~ msgid ""
+#~ "Please enter the host name or the IP address of the Zabbix server you "
+#~ "want to connect to. This is needed for some advanced frontend "
+#~ "functionality."
+#~ msgstr ""
+#~ "Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, "
+#~ "zu dem Sie sich verbinden wollen. Dies wird für bestimmte Funktionen der "
+#~ "fortgeschrittenen Oberfläche benötigt."
 
 #~ msgid ""
 #~ "Zabbix supports any web server that php4 does, but this automatic "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1.1.3-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-05-05 20:29+0200\n"
+"POT-Creation-Date: 2009-09-27 23:05+0200\n"
 "PO-Revision-Date: 2009-04-28 20:24+0100\n"
 "Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -25,7 +25,7 @@ msgstr "Endereço do servidor Zabbix:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
@@ -86,18 +86,17 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:4001
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
 #, fuzzy
 #| msgid ""
-#| "Please enter the host name or the address of the Zabbix server you  want "
-#| "to connect to. This is needed for some advanced Frontend  functionality."
-msgid ""
-"Please enter the host name or the IP address of the Zabbix server you want "
-"to connect to. This is needed for some advanced frontend functionality."
+#| "Please enter the port your Zabbix server is using. This is needed for "
+#| "some advanced Frontend functionality."
+msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
-"Por favor, insira o nome ou endereço do servidor Zabbix ao qual deseja "
-"deseja ligar. Isto é necessário para algumas funcionalidades avançadas do "
-"Interface."
+"Por favor, insira casa a porta que o seu servidor Zabbix está a usar. Isto é "
+"necessário para algumas funcionalidades avançadas do Interface."
 
 #. Type: string
 #. Description
@@ -110,14 +109,24 @@ msgstr "Porta do servidor Zabbix:"
 #: ../zabbix-frontend-php.templates:5001
 #, fuzzy
 #| msgid ""
-#| "Please enter the port your Zabbix server is using. This is needed for "
-#| "some advanced Frontend functionality."
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced frontend functionality."
+#| "Please enter the host name or IP address of the Zabbix server you want to "
+#| "connect to."
+msgid "Please enter the port used by the Zabbix server."
 msgstr ""
-"Por favor, insira casa a porta que o seu servidor Zabbix está a usar. Isto é "
-"necessário para algumas funcionalidades avançadas do Interface."
+"Por favor, insira o nome ou endereço do servidor Zabbix que deseja ligar."
+
+#, fuzzy
+#~| msgid ""
+#~| "Please enter the host name or the address of the Zabbix server you  want "
+#~| "to connect to. This is needed for some advanced Frontend  functionality."
+#~ msgid ""
+#~ "Please enter the host name or the IP address of the Zabbix server you "
+#~ "want to connect to. This is needed for some advanced frontend "
+#~ "functionality."
+#~ msgstr ""
+#~ "Por favor, insira o nome ou endereço do servidor Zabbix ao qual deseja "
+#~ "deseja ligar. Isto é necessário para algumas funcionalidades avançadas do "
+#~ "Interface."
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"

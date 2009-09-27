@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix-eu\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-05-05 20:29+0200\n"
+"POT-Creation-Date: 2009-09-27 23:05+0200\n"
 "PO-Revision-Date: 2009-03-05 21:12+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -24,7 +24,7 @@ msgstr "Zabbix zerbitzariaren ostalari helbidea:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
@@ -85,14 +85,14 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:4001
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
 #, fuzzy
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
-msgid ""
-"Please enter the host name or the IP address of the Zabbix server you want "
-"to connect to. This is needed for some advanced frontend functionality."
+msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
 "Mesedez zehaztu konektatu nahi duzun Zabbix zerbitzariaren ostalari izena "
 "edo IP helbidea."
@@ -112,9 +112,19 @@ msgstr "Zabbix zerbitzariaren ostalari helbidea:"
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced frontend functionality."
+msgid "Please enter the port used by the Zabbix server."
 msgstr ""
 "Mesedez zehaztu konektatu nahi duzun Zabbix zerbitzariaren ostalari izena "
 "edo IP helbidea."
+
+#, fuzzy
+#~| msgid ""
+#~| "Please enter the host name or IP address of the Zabbix server you want "
+#~| "to connect to."
+#~ msgid ""
+#~ "Please enter the host name or the IP address of the Zabbix server you "
+#~ "want to connect to. This is needed for some advanced frontend "
+#~ "functionality."
+#~ msgstr ""
+#~ "Mesedez zehaztu konektatu nahi duzun Zabbix zerbitzariaren ostalari izena "
+#~ "edo IP helbidea."

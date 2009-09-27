@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-05-05 20:29+0200\n"
+"POT-Creation-Date: 2009-09-27 23:05+0200\n"
 "PO-Revision-Date: 2009-03-15 21:56+0900\n"
 "Last-Translator: Eder L. Marques <eder@edermarques.net>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -26,7 +26,7 @@ msgstr "Endereço de máquina do servidor Zabbix:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
@@ -88,14 +88,14 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:4001
+#. Type: string
+#. Description
+#: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
 #, fuzzy
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
-msgid ""
-"Please enter the host name or the IP address of the Zabbix server you want "
-"to connect to. This is needed for some advanced frontend functionality."
+msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
 "Por favor, informe o nome de máquina ou o endereço IP do servidor Zabbix ao "
 "qual você quer conectar."
@@ -115,9 +115,19 @@ msgstr "Endereço de máquina do servidor Zabbix:"
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
-msgid ""
-"Please enter the port your Zabbix server is using. This is needed for some "
-"advanced frontend functionality."
+msgid "Please enter the port used by the Zabbix server."
 msgstr ""
 "Por favor, informe o nome de máquina ou o endereço IP do servidor Zabbix ao "
 "qual você quer conectar."
+
+#, fuzzy
+#~| msgid ""
+#~| "Please enter the host name or IP address of the Zabbix server you want "
+#~| "to connect to."
+#~ msgid ""
+#~ "Please enter the host name or the IP address of the Zabbix server you "
+#~ "want to connect to. This is needed for some advanced frontend "
+#~ "functionality."
+#~ msgstr ""
+#~ "Por favor, informe o nome de máquina ou o endereço IP do servidor Zabbix "
+#~ "ao qual você quer conectar."
