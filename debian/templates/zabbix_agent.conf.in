@@ -1,4 +1,6 @@
 # This is config file for zabbix_agent
+# in case the agent gets started from inetd.
+#
 # To get more information about ZABBIX, 
 # go http://www.zabbix.com
 

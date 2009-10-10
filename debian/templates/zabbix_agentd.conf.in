@@ -1,4 +1,6 @@
 # This is config file for zabbix_agentd
+# in case the agent is started standalone from init.d (not via inetd).
+#
 # To get more information about ZABBIX, go http://www.zabbix.com
 
 ############ GENERAL PARAMETERS #################

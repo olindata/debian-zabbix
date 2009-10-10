@@ -10,6 +10,8 @@ zabbix (1:1.6.6-2) unstable; urgency=low
   * debian/po/es.po updated (Closes: #550173)
   * debian/po/fr.po updated (Closes: #550315)
   * Manpages for zabbix_server and zabbix_agent added (Closes: #496696)
+  * Added hint about the difference of the zabbix_agent.conf and
+    zabbix_agentd.conf in each config file as a comment. (Closes: #548701)
 
  -- Christoph Haas <haas@debian.org>  Sat, 10 Oct 2009 12:21:16 +0200
 
