@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1:1.6.4-1\n"
+"Project-Id-Version: zabbix 1:1.6.6-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-09-27 23:05+0200\n"
-"PO-Revision-Date: 2009-06-08 19:02+0200\n"
+"PO-Revision-Date: 2009-10-01 21:57+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Web server to reconfigure for Zabbix:"
-msgstr "Webserver, der für Zabbix neu konfiguriert werden soll:"
+msgstr "Webserver, der fÃ¼r Zabbix neu konfiguriert werden soll:"
 
 #. Type: multiselect
 #. Description
@@ -43,7 +43,7 @@ msgid ""
 "Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix unterstützt jeden Webserver, der auch von PHP5 unterstützt wird, "
+"Zabbix unterstÃ¼tzt jeden Webserver, der auch von PHP5 unterstÃ¼tzt wird, "
 "allerdings kann nur Apache automatisch konfiguriert werden."
 
 #. Type: multiselect
@@ -53,7 +53,7 @@ msgid ""
 "Please select which Apache version you want to configure the Zabbix frontend "
 "for."
 msgstr ""
-"Bitte wählen Sie die Version von Apache aus, für die die Zabbix-Oberfläche "
+"Bitte wÃ¤hlen Sie die Version von Apache aus, fÃ¼r die die Zabbix-OberflÃ¤che "
 "konfiguriert werden soll."
 
 #. Type: boolean
@@ -69,7 +69,7 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, muß "
+"Damit die Ã„nderungen an der Konfiguration von Zabbix aktiviert werden, muÃŸ "
 "der Webserver neu gestartet werden."
 
 #. Type: boolean
@@ -79,7 +79,7 @@ msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
 msgstr ""
-"Bitte wählen Sie aus, ob dies jetzt automatisch erfolgen soll oder später "
+"Bitte wÃ¤hlen Sie aus, ob dies jetzt automatisch erfolgen soll oder spÃ¤ter "
 "manuell."
 
 #. Type: string
@@ -87,14 +87,10 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid ""
-#| "Please enter the port your Zabbix server is using. This is needed for "
-#| "some advanced frontend functionality."
 msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
-"Bitte geben Sie den Port Ihres Zabbix-Servers an. Dieser wird für bestimmte "
-"Funktionen der fortgeschrittenen Oberfläche benötigt."
+"Dieser wird fÃ¼r bestimmte Funktionen der fortgeschrittenen OberflÃ¤che "
+"benÃ¶tigt."
 
 #. Type: string
 #. Description
@@ -105,14 +101,8 @@ msgstr "Port des Zabbix-Servers:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid "Please enter the port used by the Zabbix server."
-msgstr ""
-"Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, zu "
-"dem Sie sich verbinden wollen."
+msgstr "Bitte geben Sie den Port Ihres Zabbix-Servers an."
 
 #~ msgid ""
 #~ "Please enter the host name or the IP address of the Zabbix server you "
@@ -120,17 +110,17 @@ msgstr ""
 #~ "functionality."
 #~ msgstr ""
 #~ "Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, "
-#~ "zu dem Sie sich verbinden wollen. Dies wird für bestimmte Funktionen der "
-#~ "fortgeschrittenen Oberfläche benötigt."
+#~ "zu dem Sie sich verbinden wollen. Dies wird fÃ¼r bestimmte Funktionen der "
+#~ "fortgeschrittenen OberflÃ¤che benÃ¶tigt."
 
 #~ msgid ""
 #~ "Zabbix supports any web server that php4 does, but this automatic "
 #~ "configuration process only supports Apache. Please select which  apache "
 #~ "version you want to configure the Zabbix frontend for."
 #~ msgstr ""
-#~ "Zabbix unterstützt jeden Webserver, den auch Php4 unterstützt, aber "
-#~ "dieser automatische Konfigurationsprozess unterstützt nur Apache. Bitte "
-#~ "wählen Sie aus, für welche Apache-Version Sie die Zabbix-Oberfläche "
+#~ "Zabbix unterstÃ¼tzt jeden Webserver, den auch Php4 unterstÃ¼tzt, aber "
+#~ "dieser automatische Konfigurationsprozess unterstÃ¼tzt nur Apache. Bitte "
+#~ "wÃ¤hlen Sie aus, fÃ¼r welche Apache-Version Sie die Zabbix-OberflÃ¤che "
 #~ "konfigurieren wollen."
 
 #~ msgid "Type of Database Server:"

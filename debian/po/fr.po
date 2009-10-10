@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the zabbix package.
 #
 # Translators:
-#  Yves Rütschlé <l10n@rutschle.net>, 2006.
+#  Yves R??tschl?? <l10n@rutschle.net>, 2006.
 #  Guillaume Delacour <gui@iroqwa.org>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-09-27 23:05+0200\n"
-"PO-Revision-Date: 2009-04-28 13:21+0100\n"
+"PO-Revision-Date: 2009-09-28 19:56+0100\n"
 "Last-Translator: Guillaume Delacour <gui@iroqwa.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #. Description
 #: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid "Zabbix server host address:"
-msgstr "Adresse du serveur Zabbix :"
+msgstr "Adresse du serveur Zabbix??:"
 
 #. Type: string
 #. Description
@@ -37,7 +37,7 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Web server to reconfigure for Zabbix:"
-msgstr "Serveur(s) web à reconfigurer pour Zabbix :"
+msgstr "Serveur(s) web ?? reconfigurer??pour Zabbix??:"
 
 #. Type: multiselect
 #. Description
@@ -46,8 +46,8 @@ msgid ""
 "Zabbix supports any web server supported by PHP5, however only Apache can be "
 "configured automatically."
 msgstr ""
-"Zabbix gère n'importe quel serveur web géré par PHP5, cependant seulement "
-"Apache sera configuré automatiquement."
+"Zabbix g??re n'importe quel serveur web g??r?? par PHP5, cependant seul Apache "
+"sera configur?? automatiquement."
 
 #. Type: multiselect
 #. Description
@@ -56,13 +56,13 @@ msgid ""
 "Please select which Apache version you want to configure the Zabbix frontend "
 "for."
 msgstr ""
-"Veuillez choisir la version d'Apache à configurer pour le frontal Zabbix."
+"Veuillez choisir la version d'Apache ?? configurer pour le frontal Zabbix."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
 msgid "Restart the web server(s) now?"
-msgstr "Faut-il redémarrer le(s) serveur(s) web maintenant ?"
+msgstr "Faut-il red??marrer le(s) serveur(s) web??maintenant???"
 
 #. Type: boolean
 #. Description
@@ -71,7 +71,7 @@ msgid ""
 "In order to apply the changes needed for Zabbix configuration, the web "
 "server needs to be restarted."
 msgstr ""
-"Les changements ne seront pris en compte qu'après le redémarrage du serveur "
+"Les changements ne seront pris en compte qu'apr??s le red??marrage du serveur "
 "web."
 
 #. Type: boolean
@@ -81,40 +81,34 @@ msgid ""
 "Please choose whether you prefer doing it automatically now or manually "
 "later."
 msgstr ""
-"Veuillez choisir si vous souhaitez le redémarrer automatiquement maintenant "
-"ou vous-même plus tard."
+"Veuillez choisir si vous souhaitez le red??marrer automatiquement maintenant "
+"ou vous-m??me plus tard."
 
 #. Type: string
 #. Description
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
-#, fuzzy
 #| msgid ""
 #| "Please enter the port your Zabbix server is using. This is needed for "
 #| "some advanced frontend functionality."
 msgid "This is needed for some advanced frontend functionalities."
-msgstr ""
-"Veuillez entrer le port du serveur Zabbix auquel vous voulez vous connecter. "
-"Ceci est requis pour certaines fonctionnalités avancées du frontal."
+msgstr "Cela est requis pour certaines fonctionnalit??s avanc??es du frontal."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
 msgid "Zabbix server port:"
-msgstr "Port du serveur Zabbix :"
+msgstr "Port du serveur Zabbix??:"
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
 msgid "Please enter the port used by the Zabbix server."
-msgstr ""
-"Veuillez entrer le nom ou l'adresse du serveur Zabbix auquel vous voulez "
-"vous connecter."
+msgstr "Veuillez entrer le port utilis?? par le serveur Zabbix."
 
 #~ msgid ""
 #~ "Please enter the host name or the IP address of the Zabbix server you "
@@ -122,8 +116,8 @@ msgstr ""
 #~ "functionality."
 #~ msgstr ""
 #~ "Veuillez entrer le nom ou l'adresse IP du serveur Zabbix auquel vous "
-#~ "voulez vous connecter. Ceci est requis pour certaines fonctionnalités "
-#~ "avancées du frontal."
+#~ "voulez vous connecter. Ceci est requis pour certaines fonctionnalit??s "
+#~ "avanc??es du frontal."
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"
@@ -133,50 +127,50 @@ msgstr ""
 #~ "configuration process only supports Apache. Please select which  apache "
 #~ "version you want to configure the Zabbix frontend for."
 #~ msgstr ""
-#~ "Zabbix gère les mêmes serveurs Web que php4, mais ce processus de "
+#~ "Zabbix g??re les m??mes serveurs Web que php4, mais ce processus de "
 #~ "configuration automatique ne fonctionne qu'avec Apache. Veuillez "
-#~ "sélectionner la version d'Apache pour laquelle vous désirez configurer le "
+#~ "s??lectionner la version d'Apache pour laquelle vous d??sirez configurer le "
 #~ "frontal de Zabbix."
 
 #~ msgid "Type of Database Server:"
-#~ msgstr "Type du serveur de base de données :"
+#~ msgstr "Type du serveur de base de donn??es??:"
 
 #~ msgid "Database Server Host Address:"
-#~ msgstr "Adresse du serveur de bases de données :"
+#~ msgstr "Adresse du serveur de bases de donn??es??:"
 
 #~ msgid ""
 #~ "Please enter the host name or the address of the database server you want "
 #~ "to connect to."
 #~ msgstr ""
-#~ "Veuillez entrer le nom ou l'adresse du serveur de base de données que "
-#~ "vous désirez utiliser."
+#~ "Veuillez entrer le nom ou l'adresse du serveur de base de donn??es que "
+#~ "vous d??sirez utiliser."
 
 #~ msgid "Database name:"
-#~ msgstr "Nom de la base de données :"
+#~ msgstr "Nom de la base de donn??es??:"
 
 #~ msgid "This is the database where your zabbix-server stores all data."
 #~ msgstr ""
-#~ "Veuillez entrer le nom de la base de données où votre serveur Zabbix "
-#~ "stocke ses données."
+#~ "Veuillez entrer le nom de la base de donn??es o?? votre serveur Zabbix "
+#~ "stocke ses donn??es."
 
 #~ msgid "Database username:"
-#~ msgstr "Nom de l'utilisateur de la base de données :"
+#~ msgstr "Nom de l'utilisateur de la base de donn??es??:"
 
 #~ msgid "This is the username used for accessing the zabbix-server database."
 #~ msgstr ""
-#~ "Veuillez entrer le nom d'utilisateur pour accéder à la base de données de "
+#~ "Veuillez entrer le nom d'utilisateur pour acc??der ?? la base de donn??es de "
 #~ "Zabbix."
 
 #~ msgid "Database password:"
-#~ msgstr "Mot de passe :"
+#~ msgstr "Mot de passe??:"
 
 #~ msgid "Please specify what password the previously entered database uses."
 #~ msgstr ""
-#~ "Veuillez entrer le mot de passe de l'utilisateur qui accédera à la base "
-#~ "de données."
+#~ "Veuillez entrer le mot de passe de l'utilisateur qui acc??dera ?? la base "
+#~ "de donn??es."
 
 #~ msgid "What is your Zabbix server host address?"
 #~ msgstr " "
 
 #~ msgid "If your password is empty, type \"none\"."
-#~ msgstr "Si le mot de passe est vide, entrez « none »."
+#~ msgstr "Si le mot de passe est vide, entrez ????none????."

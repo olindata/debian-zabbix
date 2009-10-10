@@ -1,14 +1,17 @@
-# translation of ru.po to Russian
+# Translation of ru.po to Russian
+#
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Yuri Kozlov <yuray@komyakino.ru>, 2009.
+# Sergey Alyoshin <alyoshin.s@gmail.com>, 2009.
+
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix 1:1.6.2-2\n"
+"Project-Id-Version: zabbix 1:1.6.6-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-09-27 23:05+0200\n"
-"PO-Revision-Date: 2009-04-26 13:13+0400\n"
+"PO-Revision-Date: 2009-10-04 13:02+0400\n" 
 "Last-Translator: Sergey Alyoshin <alyoshin.s@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -86,17 +89,10 @@ msgstr ""
 
 #. Type: string
 #. Description
-#. Type: string
-#. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid ""
-#| "Please enter the port your Zabbix server is using. This is needed for "
-#| "some advanced Frontend functionality."
 msgid "This is needed for some advanced frontend functionalities."
 msgstr ""
-"Введите номер порта используемый сервером Zabbix. Это необходимо для "
-"расширенного графического интерфейса."
+"Это необходимо для расширенного графического интерфейса."
 
 #. Type: string
 #. Description
@@ -107,23 +103,6 @@ msgstr "Порт сервера Zabbix:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid "Please enter the port used by the Zabbix server."
-msgstr ""
-"Введите имя машины или IP-адрес сервера Zabbix, к которому вы хотите "
-"подключиться."
+msgstr "Введите порт используемый сервером Zabbix."
 
-#, fuzzy
-#~| msgid ""
-#~| "Please enter the host name or the address of the Zabbix server you  want "
-#~| "to connect to. This is needed for some advanced Frontend  functionality."
-#~ msgid ""
-#~ "Please enter the host name or the IP address of the Zabbix server you "
-#~ "want to connect to. This is needed for some advanced frontend "
-#~ "functionality."
-#~ msgstr ""
-#~ "Введите имя машины или адрес сервера Zabbix, к которому вы хотите "
-#~ "подключиться. Это необходимо для расширенного графического интерфейса."

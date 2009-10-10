@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: zabbix 1:1.1.1-3\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2009-09-27 23:05+0200\n"
-"PO-Revision-Date: 2009-05-19 19:28+0200\n"
+"PO-Revision-Date: 2009-09-28 08:03+0200\n"
 "Last-Translator: Martin Sin <martin.sin@zshk.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -85,14 +85,11 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
-#, fuzzy
 #| msgid ""
 #| "Please enter the port your Zabbix server is using. This is needed for "
 #| "some advanced frontend functionality."
 msgid "This is needed for some advanced frontend functionalities."
-msgstr ""
-"Zadejte prosím port, na kterém běží váš server Zabbix. Tato informace je "
-"důležitá pro pokročilé frontendové funkce."
+msgstr "Je to potřeba pro některé pokročilé funkce frontendu."
 
 #. Type: string
 #. Description
@@ -103,14 +100,11 @@ msgstr "Port serveru Zabbix:"
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#, fuzzy
 #| msgid ""
 #| "Please enter the host name or IP address of the Zabbix server you want to "
 #| "connect to."
 msgid "Please enter the port used by the Zabbix server."
-msgstr ""
-"Zadejte prosím název nebo IP adresu počítače se serverem Zabbix, ke kterému "
-"se chcete připojit."
+msgstr "Zadejte prosím port používaný serverem Zabbix."
 
 #~ msgid ""
 #~ "Please enter the host name or the IP address of the Zabbix server you "
