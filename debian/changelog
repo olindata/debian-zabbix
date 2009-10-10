@@ -1,3 +1,18 @@
+zabbix (1:1.6.6-2) unstable; urgency=low
+
+  * debian/po/ja.po updated (Closes: #548651)
+  * debian/po/cs.po updated (Closes: #548675)
+  * debian/po/sv.po updated (Closes: #548796)
+  * debian/po/de.po updated (Closes: #549248)
+  * debian/po/it.po updated (Closes: #549579)
+  * debian/po/pt.po updated (Closes: #550087)
+  * debian/po/ru.po updated (Closes: #550102)
+  * debian/po/es.po updated (Closes: #550173)
+  * debian/po/fr.po updated (Closes: #550315)
+  * Manpages for zabbix_server and zabbix_agent added (Closes: #496696)
+
+ -- Christoph Haas <haas@debian.org>  Sat, 10 Oct 2009 12:21:16 +0200
+
 zabbix (1:1.6.6-1) unstable; urgency=low
 
   * New upstream release.
