@@ -1,3 +1,9 @@
+zabbix (1:1.6.6-3) unstable; urgency=low
+
+  * debian/po/fi.po updated (Closes: #549855)
+
+ -- Christoph Haas <haas@debian.org>  Sun, 11 Oct 2009 12:51:45 +0200
+
 zabbix (1:1.6.6-2) unstable; urgency=low
 
   * debian/po/ja.po updated (Closes: #548651)
