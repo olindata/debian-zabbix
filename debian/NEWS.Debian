@@ -1,0 +1,12 @@
+zabbix (1:1.6.6-4) unstable; urgency=low
+
+  The zabbix_agent has been removed which could be used to start the Zabbix
+  agent from inetd or xinetd. It is recommended to use the zabbix_agentd
+  instead which is a standalone agent process running permanently which is
+  started from /etc/init.d/zabbix-agent by default.
+
+  It is safe to remove the /etc/zabbix/zabbix_agent.conf. The standalone
+  zabbix_agentd process only uses the /etc/zabbix/zabbix_agentd.conf file.
+
+ -- Christoph Haas <haas@debian.org>  Thu, 29 Oct 2009 21:28:03 +0100
+

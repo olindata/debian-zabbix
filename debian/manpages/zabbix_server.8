@@ -6,8 +6,8 @@ The Zabbix server is the central component of Zabbix that is deemed the actual
 "monitoring station". It talks to proxies and agents to gather system
 information and evaluates triggers to alert users in case of problems.
 It depends on a database backend like MySQL or PostgreSQL.
-.PP
-usage: zabbix_server [\-hV] [\-c <file>] [\-n <nodeid>]
+.SH USAGE
+zabbix_server [\-hV] [\-c <file>] [\-n <nodeid>]
 .SH OPTIONS
 .TP
 \fB\-c\fR \fB\-\-config\fR <file>
@@ -20,4 +20,7 @@ give this help
 .TP
 \fB\-V\fR \fB\-\-version\fR
 display version number
+.SH NOTES
+This man page was written by Christoph Haas <haas@debian.org> for the Debian
+GNU/Linux distribution but may be freely used by anyone.
 

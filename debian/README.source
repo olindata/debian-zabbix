@@ -1,0 +1,7 @@
+This package uses 'dpatch' to add patches. See
+/usr/share/doc/dpatch/README.source.gz on how this works.
+
+Currently we use it to avoid building with libssl. The libssl
+license is not GPL compatible and thus linking against it is
+a GPL violation.
+

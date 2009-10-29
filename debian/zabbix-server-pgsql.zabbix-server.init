@@ -109,7 +109,7 @@ check_death()
             done
             echo
         fi
-        if running_name; then
+        if running_child; then
             echo "ERROR: $DESC's children processes did not die in the expected time, consider increasing MAX_DIETIME (currently $MAX_DIETIME)"
             exit 1
         fi

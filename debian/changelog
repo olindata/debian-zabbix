@@ -1,3 +1,16 @@
+zabbix (1:1.6.6-4) unstable; urgency=low
+
+  * Added README.source describing the patch and used.
+  * Removed zabbix_agent. By default the zabbix_agentd is used
+    by default anyway.
+  * Added manpage for zabbix_sender.
+  * Using the prototype.js from the libjs-prototype package.
+  * Typo in init.d scripts for zabbix-server-mysql and zabbix-server-pgsql
+    fixed to remove"/etc/init.d/zabbix-server: line 112: running_name:
+    command not found" warning when starting the server.
+
+ -- Christoph Haas <haas@debian.org>  Thu, 29 Oct 2009 21:28:03 +0100
+
 zabbix (1:1.6.6-3) unstable; urgency=low
 
   * debian/po/fi.po updated (Closes: #549855)
