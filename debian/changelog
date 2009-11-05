@@ -1,3 +1,10 @@
+zabbix (1:1.6.6-5) unstable; urgency=low
+
+  * Set Default-Start to "2 3 4 5" and Default-Stop to "0 1 6" for all the init
+    scripts.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Thu, 05 Nov 2009 14:07:01 +0100
+
 zabbix (1:1.6.6-4) unstable; urgency=low
 
   * Added README.source describing the patch and used.
