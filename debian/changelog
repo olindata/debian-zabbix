@@ -14,7 +14,7 @@ zabbix (1:1.6.6-4) unstable; urgency=low
   * Using the prototype.js from the libjs-prototype package.
   * Typo in init.d scripts for zabbix-server-mysql and zabbix-server-pgsql
     fixed to remove"/etc/init.d/zabbix-server: line 112: running_name:
-    command not found" warning when starting the server.
+    command not found" warning when restarting the server.
 
  -- Christoph Haas <haas@debian.org>  Thu, 29 Oct 2009 21:28:03 +0100
 
