@@ -1,3 +1,10 @@
+zabbix (1:1.6.6-6) unstable; urgency=low
+
+  * debian/po/pt_BR.po updated (Closes: #551944)
+  * Maintainer address changed due to amount of spam on the former address.
+
+ -- Christoph Haas <haas@debian.org>  Wed, 11 Nov 2009 16:58:43 +0100
+
 zabbix (1:1.6.6-5) unstable; urgency=low
 
   * Set Default-Start to "2 3 4 5" and Default-Stop to "0 1 6" for all the init
