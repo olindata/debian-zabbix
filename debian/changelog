@@ -1,3 +1,9 @@
+zabbix (1:1.8-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Christoph Haas <haas@debian.org>  Tue, 08 Dec 2009 22:19:57 +0100
+
 zabbix (1:1.6.6-6) unstable; urgency=low
 
   * debian/po/pt_BR.po updated (Closes: #551944)

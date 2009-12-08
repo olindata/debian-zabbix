@@ -1,0 +1,236 @@
+-- CREATE INDEX actions_1 on actions (eventsource,status);
+CREATE TABLE auditlog_details (
+      auditdetailid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      auditid         bigint unsigned         DEFAULT '0'     NOT NULL,
+      table_name              varchar(64)             DEFAULT ''      NOT NULL,
+      field_name              varchar(64)             DEFAULT ''      NOT NULL,
+      oldvalue                blob                    NOT NULL,
+      newvalue                blob                    NOT NULL,
+      PRIMARY KEY (auditdetailid)
+) type=InnoDB;
+CREATE INDEX auditlog_details_1 on auditlog_details (auditid);
+alter table auditlog add ip              varchar(39)             DEFAULT ''      NOT NULL;
+alter table auditlog add resourceid              bigint unsigned         DEFAULT '0'     NOT NULL;
+alter table auditlog add resourcename            varchar(255)            DEFAULT ''      NOT NULL;
+CREATE TABLE autoreg_host (
+      autoreg_hostid          bigint unsigned         DEFAULT '0'     NOT NULL,
+      proxy_hostid            bigint unsigned         DEFAULT '0'     NOT NULL,
+      host            varchar(64)             DEFAULT ''      NOT NULL,
+      PRIMARY KEY (autoreg_hostid)
+) type=InnoDB;
+CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
+alter table config add dropdown_first_entry integer DEFAULT '1' NOT NULL;
+alter table config add dropdown_first_remember integer DEFAULT '1' NOT NULL;
+alter table config add discovery_groupid bigint unsigned DEFAULT '0' NOT NULL;
+alter table config add max_in_table integer DEFAULT '50' NOT NULL;
+alter table config add search_limit integer DEFAULT '1000' NOT NULL;
+alter table dchecks add snmpv3_securityname varchar(64) DEFAULT '' NOT NULL;
+alter table dchecks add snmpv3_securitylevel integer DEFAULT '0' NOT NULL;
+alter table dchecks add snmpv3_authpassphrase varchar(64) DEFAULT '' NOT NULL;
+alter table dchecks add snmpv3_privpassphrase varchar(64) DEFAULT '' NOT NULL;
+
+CREATE INDEX dchecks_1 on dchecks (druleid);
+alter table dservices add dcheckid                bigint unsigned         DEFAULT '0'     NOT NULL;
+alter table dservices add ip              varchar(39)             DEFAULT ''      NOT NULL;
+
+update dservices set ip=(select dhosts.ip from dhosts where dservices.dhostid=dhosts.dhostid);
+
+alter table dhosts drop ip;
+
+CREATE INDEX dhosts_1 on dhosts (druleid);
+alter table drules add unique_dcheckid bigint unsigned DEFAULT '0' NOT NULL;
+-- See also dhosts.sql
+
+CREATE UNIQUE INDEX dservices_1 on dservices (dcheckid,type,key_,ip,port);
+CREATE INDEX dservices_2 on dservices (dhostid);
+-- CREATE INDEX escalations_2 on escalations (status,nextcheck);
+-- alter table events DROP INDEX events_2;
+CREATE INDEX events_2 on events (clock, objectid);
+CREATE TABLE expressions (
+      expressionid            bigint unsigned         DEFAULT '0'     NOT NULL,
+      regexpid                bigint unsigned         DEFAULT '0'     NOT NULL,
+      expression              varchar(255)            DEFAULT ''      NOT NULL,
+      expression_type         integer         DEFAULT '0'     NOT NULL,
+      exp_delimiter           varchar(1)              DEFAULT ''      NOT NULL,
+      case_sensitive          integer         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (expressionid)
+) type=InnoDB;
+CREATE INDEX expressions_1 on expressions (regexpid);
+CREATE TABLE globalmacro (
+      globalmacroid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      macro           varchar(64)             DEFAULT ''      NOT NULL,
+      value           varchar(255)            DEFAULT ''      NOT NULL,
+      PRIMARY KEY (globalmacroid)
+) type=InnoDB;
+CREATE INDEX globalmacro_1 on globalmacro (macro);
+alter table graphs_items alter color           varchar(6)              DEFAULT '009600'        NOT NULL;
+
+CREATE INDEX graphs_items_1 on graphs_items (itemid);
+CREATE INDEX graphs_items_2 on graphs_items (graphid);
+alter table graphs add ymin_type               integer         DEFAULT '0'     NOT NULL;
+alter table graphs add ymax_type               integer         DEFAULT '0'     NOT NULL;
+alter table graphs add ymin_itemid             bigint unsigned         DEFAULT '0'     NOT NULL;
+alter table graphs add ymax_itemid             bigint unsigned         DEFAULT '0'     NOT NULL;
+
+update graphs set ymin_type=yaxistype;
+update graphs set ymax_type=yaxistype;
+
+alter table graphs drop yaxistype;
+CREATE TABLE graph_theme (
+      graphthemeid            bigint unsigned         DEFAULT '0'     NOT NULL,
+      description             varchar(64)             DEFAULT ''      NOT NULL,
+      theme           varchar(64)             DEFAULT ''      NOT NULL,
+      backgroundcolor         varchar(6)              DEFAULT 'F0F0F0'        NOT NULL,
+      graphcolor              varchar(6)              DEFAULT 'FFFFFF'        NOT NULL,
+      graphbordercolor                varchar(6)              DEFAULT '222222'        NOT NULL,
+      gridcolor               varchar(6)              DEFAULT 'CCCCCC'        NOT NULL,
+      maingridcolor           varchar(6)              DEFAULT 'AAAAAA'        NOT NULL,
+      gridbordercolor         varchar(6)              DEFAULT '000000'        NOT NULL,
+      textcolor               varchar(6)              DEFAULT '202020'        NOT NULL,
+      highlightcolor          varchar(6)              DEFAULT 'AA4444'        NOT NULL,
+      leftpercentilecolor             varchar(6)              DEFAULT '11CC11'        NOT NULL,
+      rightpercentilecolor            varchar(6)              DEFAULT 'CC1111'        NOT NULL,
+      noneworktimecolor               varchar(6)              DEFAULT 'CCCCCC'        NOT NULL,
+      gridview                integer         DEFAULT 1       NOT NULL,
+      legendview              integer         DEFAULT 1       NOT NULL,
+      PRIMARY KEY (graphthemeid)
+) type=InnoDB;
+CREATE INDEX graph_theme_1 on graph_theme (description);
+CREATE INDEX graph_theme_2 on graph_theme (theme);
+
+INSERT INTO graph_theme VALUES (1,'Original Blue','css_ob.css','F0F0F0','FFFFFF','333333','CCCCCC','AAAAAA','000000','222222','AA4444','11CC11','CC1111','FFFFFF',1,1);
+INSERT INTO graph_theme VALUES (2,'Black & Blue','css_bb.css','333333','0A0A0A','888888','222222','4F4F4F','EFEFEF','0088FF','CC4444','1111FF','FF1111','1F1F1F',1,1);
+alter table groups add internal                integer         DEFAULT '0'     NOT NULL;
+alter table history_log add logeventid              integer         DEFAULT '0'     NOT NULL;
+
+-- CREATE UNIQUE INDEX history_log_2 on history_log (itemid,id);
+-- CREATE UNIQUE INDEX history_text_2 on history_text (itemid,id);
+CREATE TABLE hostmacro (
+      hostmacroid             bigint unsigned         DEFAULT '0'     NOT NULL,
+      hostid          bigint unsigned         DEFAULT '0'     NOT NULL,
+      macro           varchar(64)             DEFAULT ''      NOT NULL,
+      value           varchar(255)            DEFAULT ''      NOT NULL,
+      PRIMARY KEY (hostmacroid)
+) type=InnoDB;
+CREATE INDEX hostmacro_1 on hostmacro (hostid,macro);
+alter table hosts_groups drop index hosts_groups_groups_1;
+CREATE INDEX hosts_groups_1 on hosts_groups (hostid,groupid);
+CREATE INDEX hosts_groups_2 on hosts_groups (groupid);
+alter table hosts add maintenanceid bigint unsigned DEFAULT '0' NOT NULL;
+alter table hosts add maintenance_status integer DEFAULT '0' NOT NULL;
+alter table hosts add maintenance_type integer DEFAULT '0' NOT NULL;
+alter table hosts add maintenance_from integer DEFAULT '0' NOT NULL;
+alter table hosts add ipmi_ip varchar(64) DEFAULT '127.0.0.1' NOT NULL;
+alter table hosts add ipmi_errors_from integer DEFAULT '0' NOT NULL;
+alter table hosts add snmp_errors_from integer DEFAULT '0' NOT NULL;
+alter table hosts add ipmi_error varchar(128) DEFAULT '' NOT NULL;
+alter table hosts add snmp_error varchar(128) DEFAULT '' NOT NULL;
+alter table httptest add authentication          integer         DEFAULT '0'     NOT NULL;
+alter table httptest add http_user               varchar(64)             DEFAULT ''      NOT NULL;
+alter table httptest add http_password           varchar(64)             DEFAULT ''      NOT NULL;
+
+-- CREATE INDEX httptest_2 on httptest (name);
+-- CREATE INDEX httptest_3 on httptest (status);
+alter table items drop nextcheck;
+alter table items add data_type  integer     DEFAULT '0' NOT NULL;
+alter table items add authtype   integer     DEFAULT '0' NOT NULL;
+alter table items add username   varchar(64) DEFAULT ''  NOT NULL;
+alter table items add password   varchar(64) DEFAULT ''  NOT NULL;
+alter table items add publickey  varchar(64) DEFAULT ''  NOT NULL;
+alter table items add privatekey varchar(64) DEFAULT ''  NOT NULL;
+alter table items add mtime      integer     DEFAULT '0' NOT NULL;
+CREATE TABLE maintenances_groups (
+      maintenance_groupid             bigint unsigned         DEFAULT '0'     NOT NULL,
+      maintenanceid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      groupid         bigint unsigned         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (maintenance_groupid)
+) type=InnoDB;
+CREATE INDEX maintenances_groups_1 on maintenances_groups (maintenanceid,groupid);
+CREATE TABLE maintenances_hosts (
+      maintenance_hostid              bigint unsigned         DEFAULT '0'     NOT NULL,
+      maintenanceid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      hostid          bigint unsigned         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (maintenance_hostid)
+) type=InnoDB;
+CREATE INDEX maintenances_hosts_1 on maintenances_hosts (maintenanceid,hostid);
+CREATE TABLE maintenances (
+      maintenanceid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      name            varchar(128)            DEFAULT ''      NOT NULL,
+      maintenance_type                integer         DEFAULT '0'     NOT NULL,
+      description             blob                    NOT NULL,
+      active_since            integer         DEFAULT '0'     NOT NULL,
+      active_till             integer         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (maintenanceid)
+) type=InnoDB;
+CREATE INDEX maintenances_1 on maintenances (active_since,active_till);
+CREATE TABLE maintenances_windows (
+      maintenance_timeperiodid                bigint unsigned         DEFAULT '0'     NOT NULL,
+      maintenanceid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      timeperiodid            bigint unsigned         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (maintenance_timeperiodid)
+) type=InnoDB;
+CREATE INDEX maintenances_windows_1 on maintenances_windows (maintenanceid,timeperiodid);
+DELETE FROM node_cksum;
+CREATE TABLE opmediatypes (
+      opmediatypeid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      operationid             bigint unsigned         DEFAULT '0'     NOT NULL,
+      mediatypeid             bigint unsigned         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (opmediatypeid)
+) type=InnoDB;
+CREATE UNIQUE INDEX opmediatypes_1 on opmediatypes (operationid);
+CREATE INDEX profiles_2 on profiles (userid,profileid);
+CREATE TABLE proxy_autoreg_host (
+      id              bigint unsigned                 NOT NULL        auto_increment unique,
+      clock           integer         DEFAULT '0'     NOT NULL,
+      host            varchar(64)             DEFAULT ''      NOT NULL,
+      PRIMARY KEY (id)
+) type=InnoDB;
+CREATE INDEX proxy_autoreg_host_1 on proxy_autoreg_host (clock);
+alter table proxy_dhistory alter key_            varchar(255)            DEFAULT ''      NOT NULL;
+alter table proxy_dhistory alter value           varchar(255)            DEFAULT ''      NOT NULL;
+
+alter table proxy_dhistory add         dcheckid                bigint unsigned         DEFAULT '0'     NOT NULL;
+alter table proxy_history add logeventid              integer         DEFAULT '0'     NOT NULL;
+CREATE TABLE regexps (
+      regexpid                bigint unsigned         DEFAULT '0'     NOT NULL,
+      name            varchar(128)            DEFAULT ''      NOT NULL,
+      test_string             blob                    NOT NULL,
+      PRIMARY KEY (regexpid)
+) type=InnoDB;
+CREATE INDEX regexps_1 on regexps (name);
+CREATE INDEX rights_2 on rights (id);
+-- CREATE INDEX services_1 on services (triggerid);
+CREATE INDEX sessions_1 on sessions (userid, status);
+alter table sysmaps_elements  alter label           varchar(255)            DEFAULT ''      NOT NULL;
+ALTER TABLE sysmaps_elements ADD iconid_maintenance BIGINT unsigned DEFAULT '0' NOT NULL;
+alter table sysmaps_links  add label           varchar(255)            DEFAULT ''      NOT NULL;ALTER TABLE sysmaps ADD highlight INTEGER DEFAULT '1' NOT NULL;CREATE TABLE timeperiods (
+      timeperiodid            bigint unsigned         DEFAULT '0'     NOT NULL,
+      timeperiod_type         integer         DEFAULT '0'     NOT NULL,
+      every           integer         DEFAULT '0'     NOT NULL,
+      month           integer         DEFAULT '0'     NOT NULL,
+      dayofweek               integer         DEFAULT '0'     NOT NULL,
+      day             integer         DEFAULT '0'     NOT NULL,
+      start_time              integer         DEFAULT '0'     NOT NULL,
+      period          integer         DEFAULT '0'     NOT NULL,
+      start_date              integer         DEFAULT '0'     NOT NULL,
+      PRIMARY KEY (timeperiodid)
+) type=InnoDB;
+CREATE TABLE user_history (
+      userhistoryid           bigint unsigned         DEFAULT '0'     NOT NULL,
+      userid          bigint unsigned         DEFAULT '0'     NOT NULL,
+      title1          varchar(255)            DEFAULT ''      NOT NULL,
+      url1            varchar(255)            DEFAULT ''      NOT NULL,
+      title2          varchar(255)            DEFAULT ''      NOT NULL,
+      url2            varchar(255)            DEFAULT ''      NOT NULL,
+      title3          varchar(255)            DEFAULT ''      NOT NULL,
+      url3            varchar(255)            DEFAULT ''      NOT NULL,
+      title4          varchar(255)            DEFAULT ''      NOT NULL,
+      url4            varchar(255)            DEFAULT ''      NOT NULL,
+      title5          varchar(255)            DEFAULT ''      NOT NULL,
+      url5            varchar(255)            DEFAULT ''      NOT NULL,
+      PRIMARY KEY (userhistoryid)
+) type=InnoDB;
+CREATE UNIQUE INDEX user_history_1 on user_history (userid);
+alter table users add rows_per_page           integer         DEFAULT 50      NOT NULL;
+alter table usrgrp add api_access              integer         DEFAULT '0'     NOT NULL;
+alter table usrgrp add debug_mode              integer         DEFAULT '0'     NOT NULL;
