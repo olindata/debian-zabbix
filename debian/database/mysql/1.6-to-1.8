@@ -44,7 +44,7 @@ alter table drules add unique_dcheckid bigint unsigned DEFAULT '0' NOT NULL;
 CREATE UNIQUE INDEX dservices_1 on dservices (dcheckid,type,key_,ip,port);
 CREATE INDEX dservices_2 on dservices (dhostid);
 -- CREATE INDEX escalations_2 on escalations (status,nextcheck);
--- alter table events DROP INDEX events_2;
+alter table events DROP INDEX events_2;
 CREATE INDEX events_2 on events (clock, objectid);
 CREATE TABLE expressions (
       expressionid            bigint unsigned         DEFAULT '0'     NOT NULL,
@@ -63,10 +63,12 @@ CREATE TABLE globalmacro (
       PRIMARY KEY (globalmacroid)
 ) type=InnoDB;
 CREATE INDEX globalmacro_1 on globalmacro (macro);
-alter table graphs_items alter color           varchar(6)              DEFAULT '009600'        NOT NULL;
+-- alter table graphs_items alter color           varchar(6)              DEFAULT '009600'        NOT NULL;
+alter table graphs_items alter color SET  DEFAULT '009600';
+alter table graphs_items change color color varchar(6) not null;
 
-CREATE INDEX graphs_items_1 on graphs_items (itemid);
-CREATE INDEX graphs_items_2 on graphs_items (graphid);
+-- CREATE INDEX graphs_items_1 on graphs_items (itemid);
+-- CREATE INDEX graphs_items_2 on graphs_items (graphid);
 alter table graphs add ymin_type               integer         DEFAULT '0'     NOT NULL;
 alter table graphs add ymax_type               integer         DEFAULT '0'     NOT NULL;
 alter table graphs add ymin_itemid             bigint unsigned         DEFAULT '0'     NOT NULL;
@@ -186,8 +188,10 @@ CREATE TABLE proxy_autoreg_host (
       PRIMARY KEY (id)
 ) type=InnoDB;
 CREATE INDEX proxy_autoreg_host_1 on proxy_autoreg_host (clock);
-alter table proxy_dhistory alter key_            varchar(255)            DEFAULT ''      NOT NULL;
-alter table proxy_dhistory alter value           varchar(255)            DEFAULT ''      NOT NULL;
+-- alter table proxy_dhistory alter key_            varchar(255)            DEFAULT ''      NOT NULL;
+-- alter table proxy_dhistory alter value           varchar(255)            DEFAULT ''      NOT NULL;
+alter table proxy_dhistory alter key_ set default '';
+alter table proxy_dhistory alter value set default '';
 
 alter table proxy_dhistory add         dcheckid                bigint unsigned         DEFAULT '0'     NOT NULL;
 alter table proxy_history add logeventid              integer         DEFAULT '0'     NOT NULL;
@@ -201,7 +205,10 @@ CREATE INDEX regexps_1 on regexps (name);
 CREATE INDEX rights_2 on rights (id);
 -- CREATE INDEX services_1 on services (triggerid);
 CREATE INDEX sessions_1 on sessions (userid, status);
-alter table sysmaps_elements  alter label           varchar(255)            DEFAULT ''      NOT NULL;
+-- alter table sysmaps_elements  alter label           varchar(255)            DEFAULT ''      NOT NULL;
+alter table sysmaps_elements alter label set default '';
+alter table sysmaps_elements change label label varchar(255) not null;
+
 ALTER TABLE sysmaps_elements ADD iconid_maintenance BIGINT unsigned DEFAULT '0' NOT NULL;
 alter table sysmaps_links  add label           varchar(255)            DEFAULT ''      NOT NULL;ALTER TABLE sysmaps ADD highlight INTEGER DEFAULT '1' NOT NULL;CREATE TABLE timeperiods (
       timeperiodid            bigint unsigned         DEFAULT '0'     NOT NULL,
