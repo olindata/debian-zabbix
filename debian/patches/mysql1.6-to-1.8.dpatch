@@ -10,24 +10,102 @@
 
 @DPATCH@
 diff -urNad zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql zabbix-1.8/upgrades/dbpatches/1.8/mysql/patch.sql
---- zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-07 19:44:58.000000000 +0000
-+++ zabbix-1.8/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-09 21:14:34.000000000 +0000
-@@ -1,4 +1,4 @@
--CREATE INDEX actions_1 on actions (eventsource,status);
-+-- CREATE INDEX actions_1 on actions (eventsource,status);
+--- zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-10 15:24:33.000000000 +0000
++++ zabbix-1.8/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-10 15:42:40.000000000 +0000
+@@ -1,3 +1,92 @@
++-- Drop indexes according to
++-- http://www.zabbix.com/documentation/1.8/manual/installation/upgrading
++-- chapter 2.5.6.6
++alter table dhosts drop index dhosts_1;
++alter table dservices drop index dservices_1;
++alter table httptest drop index httptest_2;
++alter table httptest drop index httptest_3;
++alter table history_log drop index history_log_2;
++alter table history_text drop index history_text_2;
++alter table actions drop index actions_1;
++alter table escalations drop index escalations_2;
++alter table graphs_items drop index graphs_items_1;
++alter table graphs_items drop index graphs_items_2;
++alter table services drop index services_1; 
++-- Change encoding according to upstream's migration script
++ALTER TABLE acknowledges           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE actions                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE alerts                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE applications           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE auditlog               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE conditions             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE config                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE dchecks                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE dhosts                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE drules                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE dservices              CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE escalations            CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE events                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE functions              CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE graphs                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE graphs_items           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE groups                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE help_items             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_log            CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_str            CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_str_sync       CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_sync           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_text           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_uint           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE history_uint_sync      CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE hosts                  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE hosts_groups           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE hosts_profiles         CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE hosts_profiles_ext     CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE hosts_templates        CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE housekeeper            CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE httpstep               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE httpstepitem           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE httptest               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE httptestitem           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE ids                    CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE images                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE items                  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE items_applications     CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE mappings               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE media                  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE media_type             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE node_cksum             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE nodes                  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE opconditions           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE operations             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE profiles               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE proxy_dhistory         CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE proxy_history          CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE rights                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE screens                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE screens_items          CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE scripts                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE service_alarms         CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE services               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE services_links         CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE services_times         CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE sessions               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE slides                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE slideshows             CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE sysmaps                CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE sysmaps_elements       CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE sysmaps_link_triggers  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE sysmaps_links          CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE trends                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE trends_uint            CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE trigger_depends        CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE triggers               CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE users                  CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE users_groups           CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE usrgrp                 CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++ALTER TABLE valuemaps              CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
++--
+ CREATE INDEX actions_1 on actions (eventsource,status);
  CREATE TABLE auditlog_details (
        auditdetailid           bigint unsigned         DEFAULT '0'     NOT NULL,
-       auditid         bigint unsigned         DEFAULT '0'     NOT NULL,
-@@ -43,7 +43,7 @@
- 
- CREATE UNIQUE INDEX dservices_1 on dservices (dcheckid,type,key_,ip,port);
- CREATE INDEX dservices_2 on dservices (dhostid);
--CREATE INDEX escalations_2 on escalations (status,nextcheck);
-+-- CREATE INDEX escalations_2 on escalations (status,nextcheck);
- alter table events DROP INDEX events_2;
- CREATE INDEX events_2 on events (clock, objectid);
- CREATE TABLE expressions (
-@@ -63,10 +63,12 @@
+@@ -63,7 +152,9 @@
        PRIMARY KEY (globalmacroid)
  ) type=InnoDB;
  CREATE INDEX globalmacro_1 on globalmacro (macro);
@@ -36,36 +114,9 @@ diff -urNad zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql zabbix-1.8/upgrad
 +alter table graphs_items alter color SET  DEFAULT '009600';
 +alter table graphs_items change color color varchar(6) not null;
  
--CREATE INDEX graphs_items_1 on graphs_items (itemid);
--CREATE INDEX graphs_items_2 on graphs_items (graphid);
-+-- CREATE INDEX graphs_items_1 on graphs_items (itemid);
-+-- CREATE INDEX graphs_items_2 on graphs_items (graphid);
- alter table graphs add ymin_type               integer         DEFAULT '0'     NOT NULL;
- alter table graphs add ymax_type               integer         DEFAULT '0'     NOT NULL;
- alter table graphs add ymin_itemid             bigint unsigned         DEFAULT '0'     NOT NULL;
-@@ -243,8 +245,8 @@
- insert into help_items values(7,'eventlog[logtype,&lt;pattern&gt;,&lt;severity&gt;,&lt;source&gt;,&lt;eventid&gt;,&lt;maxlines&gt;]','Monitoring of Windows event logs. pattern, severity, eventid - regular expressions');
- alter table history_log add logeventid              integer         DEFAULT '0'     NOT NULL;
- 
--CREATE UNIQUE INDEX history_log_2 on history_log (itemid,id);
--CREATE UNIQUE INDEX history_text_2 on history_text (itemid,id);
-+-- CREATE UNIQUE INDEX history_log_2 on history_log (itemid,id);
-+-- CREATE UNIQUE INDEX history_text_2 on history_text (itemid,id);
- CREATE TABLE hostmacro (
-       hostmacroid             bigint unsigned         DEFAULT '0'     NOT NULL,
-       hostid          bigint unsigned         DEFAULT '0'     NOT NULL,
-@@ -269,8 +271,8 @@
- alter table httptest add http_user               varchar(64)             DEFAULT ''      NOT NULL;
- alter table httptest add http_password           varchar(64)             DEFAULT ''      NOT NULL;
- 
--CREATE INDEX httptest_2 on httptest (name);
--CREATE INDEX httptest_3 on httptest (status);
-+-- CREATE INDEX httptest_2 on httptest (name);
-+-- CREATE INDEX httptest_3 on httptest (status);
- alter table items drop nextcheck;
- alter table items add data_type  integer     DEFAULT '0' NOT NULL;
- alter table items add authtype   integer     DEFAULT '0' NOT NULL;
-@@ -326,8 +328,10 @@
+ CREATE INDEX graphs_items_1 on graphs_items (itemid);
+ CREATE INDEX graphs_items_2 on graphs_items (graphid);
+@@ -326,8 +417,10 @@
        PRIMARY KEY (id)
  ) type=InnoDB;
  CREATE INDEX proxy_autoreg_host_1 on proxy_autoreg_host (clock);
@@ -78,12 +129,9 @@ diff -urNad zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql zabbix-1.8/upgrad
  
  alter table proxy_dhistory add dcheckid bigint unsigned DEFAULT '0' NOT NULL;
  alter table proxy_history add logeventid              integer         DEFAULT '0'     NOT NULL;
-@@ -339,9 +343,11 @@
- ) type=InnoDB;
- CREATE INDEX regexps_1 on regexps (name);
+@@ -341,7 +434,9 @@
  CREATE INDEX rights_2 on rights (id);
--CREATE INDEX services_1 on services (triggerid);
-+-- CREATE INDEX services_1 on services (triggerid);
+ CREATE INDEX services_1 on services (triggerid);
  CREATE INDEX sessions_1 on sessions (userid, status);
 -alter table sysmaps_elements change label label varchar(255) DEFAULT '' NOT NULL;
 +-- alter table sysmaps_elements  alter label           varchar(255)            DEFAULT ''      NOT NULL;
