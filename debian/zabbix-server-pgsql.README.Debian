@@ -2,10 +2,10 @@ zabbix-sever for Debian
 -----------------------
 
  In order to use zabbix-server you have to configure the connection to
- the MySQL server modifying /etc/zabbix/zabbix_server.conf to fit your
+ the PostgreSQL server modifying /etc/zabbix/zabbix_server.conf to fit your
  setup.
 
- Debian zabbix-server-mysql package uses dbconfig-common to setup the
+ Debian zabbix-server-pgsql package uses dbconfig-common to setup the
  database, but the system administrator can choose to skip the 
  auto-configuration and proceed manually. 
 
@@ -24,7 +24,7 @@ Upgrading from 1.6 to 1.8 manually
  on your database. Backing up the database is nonetheless recommended.
 
  Upgrading huge databases is much faster this way. Because dbconfig
- will try to backup your database first to /var/cache. And using mysqldump
+ will try to backup your database first to /var/cache. And using pg_dump
  with large databases (like Zabbix uses) will take hours or even days.
 
  It is a good idea to stop the Zabbix server while you apply the SQL

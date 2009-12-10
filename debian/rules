@@ -363,6 +363,7 @@ binary-indep: install-indep
 	dh_installdebconf -i
 	dh_installinit -i
 	dh_installman -i
+	dh_installexamples -i
 	dh_link -i
 	dh_strip -i
 	dh_compress -i
@@ -383,6 +384,7 @@ binary-arch: binary-arch-agent binary-arch-server-mysql binary-arch-server-pgsql
 	dh_installdebconf -a
 	dh_installinit -a
 	dh_installman -a
+	dh_installexamples -a
 	dh_link -a
 	dh_strip -a
 	dh_compress -a
