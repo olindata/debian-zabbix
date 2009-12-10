@@ -244,7 +244,7 @@ install-server-mysql-stamp: build-server-mysql
 	cat create/data/images_mysql.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 
 	# install upgrade patch from 1.6 to 1.8
-	$(INSTALL_FILE) debian/database/mysql/1.6-to-1.8 $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1:1.8
+	$(INSTALL_FILE) upgrades/dbpatches/1.8/mysql/patch.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/upgrade/mysql/1:1.8
 
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_install -a
@@ -283,7 +283,6 @@ install-server-pgsql-stamp: build-server-pgsql
 	cat create/data/images_pgsql.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 
     # install upgrade patch from 1.6 to 1.8
-	# TODO: verify that this migration SQL file works (MySQL's statements didn't)
 	$(INSTALL_FILE) upgrades/dbpatches/1.8/postgresql/patch.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/upgrade/pgsql/1:1.8
 
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server

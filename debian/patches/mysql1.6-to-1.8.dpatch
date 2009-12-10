@@ -1,0 +1,94 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## mysql1.6-to-1.8.dpatch by  <haas@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: The upstream recommends to ignore all errors that appear when
+## DP: running the MySQL upgrade statements when upgrading from 1.6 to 1.8.
+## DP: This patch removes all the statements that would lead to an error.
+## DP: Apparently upstream uses SQL statements here that were necessary
+## DP: when upgrading from 1.4 to 1.6.
+
+@DPATCH@
+diff -urNad zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql zabbix-1.8/upgrades/dbpatches/1.8/mysql/patch.sql
+--- zabbix-1.8~/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-07 19:44:58.000000000 +0000
++++ zabbix-1.8/upgrades/dbpatches/1.8/mysql/patch.sql	2009-12-09 21:14:34.000000000 +0000
+@@ -1,4 +1,4 @@
+-CREATE INDEX actions_1 on actions (eventsource,status);
++-- CREATE INDEX actions_1 on actions (eventsource,status);
+ CREATE TABLE auditlog_details (
+       auditdetailid           bigint unsigned         DEFAULT '0'     NOT NULL,
+       auditid         bigint unsigned         DEFAULT '0'     NOT NULL,
+@@ -43,7 +43,7 @@
+ 
+ CREATE UNIQUE INDEX dservices_1 on dservices (dcheckid,type,key_,ip,port);
+ CREATE INDEX dservices_2 on dservices (dhostid);
+-CREATE INDEX escalations_2 on escalations (status,nextcheck);
++-- CREATE INDEX escalations_2 on escalations (status,nextcheck);
+ alter table events DROP INDEX events_2;
+ CREATE INDEX events_2 on events (clock, objectid);
+ CREATE TABLE expressions (
+@@ -63,10 +63,12 @@
+       PRIMARY KEY (globalmacroid)
+ ) type=InnoDB;
+ CREATE INDEX globalmacro_1 on globalmacro (macro);
+-alter table graphs_items change color color varchar(6) DEFAULT '009600' NOT NULL;
++-- alter table graphs_items alter color           varchar(6)              DEFAULT '009600'        NOT NULL;
++alter table graphs_items alter color SET  DEFAULT '009600';
++alter table graphs_items change color color varchar(6) not null;
+ 
+-CREATE INDEX graphs_items_1 on graphs_items (itemid);
+-CREATE INDEX graphs_items_2 on graphs_items (graphid);
++-- CREATE INDEX graphs_items_1 on graphs_items (itemid);
++-- CREATE INDEX graphs_items_2 on graphs_items (graphid);
+ alter table graphs add ymin_type               integer         DEFAULT '0'     NOT NULL;
+ alter table graphs add ymax_type               integer         DEFAULT '0'     NOT NULL;
+ alter table graphs add ymin_itemid             bigint unsigned         DEFAULT '0'     NOT NULL;
+@@ -243,8 +245,8 @@
+ insert into help_items values(7,'eventlog[logtype,&lt;pattern&gt;,&lt;severity&gt;,&lt;source&gt;,&lt;eventid&gt;,&lt;maxlines&gt;]','Monitoring of Windows event logs. pattern, severity, eventid - regular expressions');
+ alter table history_log add logeventid              integer         DEFAULT '0'     NOT NULL;
+ 
+-CREATE UNIQUE INDEX history_log_2 on history_log (itemid,id);
+-CREATE UNIQUE INDEX history_text_2 on history_text (itemid,id);
++-- CREATE UNIQUE INDEX history_log_2 on history_log (itemid,id);
++-- CREATE UNIQUE INDEX history_text_2 on history_text (itemid,id);
+ CREATE TABLE hostmacro (
+       hostmacroid             bigint unsigned         DEFAULT '0'     NOT NULL,
+       hostid          bigint unsigned         DEFAULT '0'     NOT NULL,
+@@ -269,8 +271,8 @@
+ alter table httptest add http_user               varchar(64)             DEFAULT ''      NOT NULL;
+ alter table httptest add http_password           varchar(64)             DEFAULT ''      NOT NULL;
+ 
+-CREATE INDEX httptest_2 on httptest (name);
+-CREATE INDEX httptest_3 on httptest (status);
++-- CREATE INDEX httptest_2 on httptest (name);
++-- CREATE INDEX httptest_3 on httptest (status);
+ alter table items drop nextcheck;
+ alter table items add data_type  integer     DEFAULT '0' NOT NULL;
+ alter table items add authtype   integer     DEFAULT '0' NOT NULL;
+@@ -326,8 +328,10 @@
+       PRIMARY KEY (id)
+ ) type=InnoDB;
+ CREATE INDEX proxy_autoreg_host_1 on proxy_autoreg_host (clock);
+-alter table proxy_dhistory change key_ key_ varchar(255) DEFAULT '' NOT NULL;
+-alter table proxy_dhistory change value value varchar(255) DEFAULT '' NOT NULL;
++-- alter table proxy_dhistory alter key_            varchar(255)            DEFAULT ''      NOT NULL;
++-- alter table proxy_dhistory alter value           varchar(255)            DEFAULT ''      NOT NULL;
++alter table proxy_dhistory alter key_ set default '';
++alter table proxy_dhistory alter value set default '';
+ 
+ alter table proxy_dhistory add dcheckid bigint unsigned DEFAULT '0' NOT NULL;
+ alter table proxy_history add logeventid              integer         DEFAULT '0'     NOT NULL;
+@@ -339,9 +343,11 @@
+ ) type=InnoDB;
+ CREATE INDEX regexps_1 on regexps (name);
+ CREATE INDEX rights_2 on rights (id);
+-CREATE INDEX services_1 on services (triggerid);
++-- CREATE INDEX services_1 on services (triggerid);
+ CREATE INDEX sessions_1 on sessions (userid, status);
+-alter table sysmaps_elements change label label varchar(255) DEFAULT '' NOT NULL;
++-- alter table sysmaps_elements  alter label           varchar(255)            DEFAULT ''      NOT NULL;
++alter table sysmaps_elements alter label set default '';
++alter table sysmaps_elements change label label varchar(255) not null;
+ 
+ ALTER TABLE sysmaps_elements ADD iconid_maintenance BIGINT unsigned DEFAULT '0' NOT NULL;
+ alter table sysmaps_links  add label           varchar(255)            DEFAULT ''      NOT NULL;ALTER TABLE sysmaps ADD highlight INTEGER DEFAULT '1' NOT NULL;CREATE TABLE timeperiods (
