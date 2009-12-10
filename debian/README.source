@@ -5,3 +5,8 @@ Currently we use it to avoid building with libssl. The libssl
 license is not GPL compatible and thus linking against it is
 a GPL violation.
 
+Todos:
+- ucf complains about not using "--debconf-ok"
+- use the font from the appropriate Debian package
+- refactor debian/rules
+
