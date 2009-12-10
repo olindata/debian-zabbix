@@ -175,6 +175,10 @@ install-indep:
 	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/zabbix/
 	$(INSTALL_DIR) $(TMP_FRONTEND)/usr/share/doc/zabbix-frontend-php/
 	cp -a frontends/php/* $(TMP_FRONTEND)/usr/share/zabbix/
+	# Javscript libraries come from the respective Debian packages.
+	# They get linked later with dh_link.
+	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/prototype.js
+	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/scriptaculous*
 	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
 
 	# disable installation frontend for now.
