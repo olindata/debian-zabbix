@@ -1,32 +1,27 @@
-zabbix-sever for Debian
------------------------
+ZABBIX server for Debian
+-------------------------
 
- In order to use zabbix-server you have to configure the connection to
- the MySQL server modifying /etc/zabbix/zabbix_server.conf to fit your
- setup.
-
- Debian zabbix-server-mysql package uses dbconfig-common to setup the
- database, but the system administrator can choose to skip the 
- auto-configuration and proceed manually. 
-
- The SQL scripts for the schema and the base data are stored in
- /usr/share/zabbix-server/.
-
- -- Fabio Tranchitella <kobold@debian.org> Tue, 10 May 2006 14:16:00 +0200
+ This zabbix-server-mysql package will offer to create the database
+ automatically during the installation. If you chose to do this step
+ manually then please find the SQL scripts in /usr/share/zabbix-server.
+ Please configure the database access in the /etc/zabbix/zabbix_server.conf
+ so that Zabbix knows where to find the database.
 
 
 Upgrading from 1.6 to 1.8 manually
 ----------------------------------
 
- If during the upgrade from 1.6 to 1.8 you decided to not let dbconfig
- do the database schema upgrade automatically then you can do that
- yourself. Just apply the SQL statements from examples/patch.sql.gz
- on your database. Backing up the database is nonetheless recommended.
+ THIS STEP IS IMPORTANT FOR EVERYBODY WHO UPGRADES FROM <1.8 to 1.8!
 
- Upgrading huge databases is much faster this way. Because dbconfig
- will try to backup your database first to /var/cache. And using mysqldump
- with large databases (like Zabbix uses) will take hours or even days.
+ Unfortunately the database can not be upgraded automatically from
+ Zabbix server installations earlier than 1.8 to version 1.8.
+ Please run the necessary SQL queries manually. They are found in
+ the /usr/share/doc/zabbix-server-mysql/examples directory.
 
  It is a good idea to stop the Zabbix server while you apply the SQL
- commands to prevent locks on the table.
+ commands to prevent locks on the table. You will also want to backup
+ the database before doing the upgrade.
+
+ Sorry for the inconvenience. Due to several possible database schemas
+ it was not possible to offer you a more convenient way.
 
