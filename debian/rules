@@ -231,9 +231,6 @@ install-server-mysql-stamp: build-server-mysql
 	$(INSTALL_FILE) create/schema/mysql.sql $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	cat create/data/data.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	cat create/data/images_mysql.sql >> $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
-	# install upgrade patch from 1.6 to 1.8
-	$(INSTALL_FILE) upgrades/dbpatches/1.8/mysql/patch.sql \
-        $(TMP_SERVER_MYSQL)/usr/share/doc/$(PKG_SERVER_MYSQL)/upgrade-mysql-1.8.sql
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_install -a
 	touch install-server-mysql-stamp
@@ -265,9 +262,6 @@ install-server-pgsql-stamp: build-server-pgsql
 	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 	cat create/data/data.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 	cat create/data/images_pgsql.sql >> $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
-	# install upgrade patch from 1.6 to 1.8
-	$(INSTALL_FILE) upgrades/dbpatches/1.8/postgresql/patch.sql \
-        $(TMP_SERVER_PGSQL)/usr/share/doc/$(PKG_SERVER_PGSQL)/upgrade-postgresql-1.8.sql
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
 	dh_install -a
 	touch install-server-pgsql-stamp
