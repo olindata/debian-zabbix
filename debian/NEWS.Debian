@@ -1,3 +1,11 @@
+zabbix (1:1.8-1) unstable; urgency=low
+
+  The SQL database used by Zabbix must be upgraded manually using the scripts
+  available in /usr/share/zabbix-server. Zabbix will not work properly until
+  the database upgrade is completed.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Wed, 30 Dec 2009 13:32:13 +0100
+
 zabbix (1:1.6.6-4) unstable; urgency=low
 
   The zabbix_agent has been removed which could be used to start the Zabbix
