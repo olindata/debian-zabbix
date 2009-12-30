@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-09-27 23:05+0200\n"
+"POT-Creation-Date: 2009-12-30 18:48+0100\n"
 "PO-Revision-Date: 2009-10-17 08:58-0300\n"
 "Last-Translator: Eder L. Marques <eder@edermarques.net>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -91,25 +91,18 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid "This is needed for some advanced frontend functionalities."
 msgstr "Isto é necessário para algumas funcionalidades avançadas da interface."
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid "Zabbix server host address:"
 msgid "Zabbix server port:"
 msgstr "Porta do servidor Zabbix:"
 
 #. Type: string
 #. Description
 #: ../zabbix-frontend-php.templates:5001
-#| msgid ""
-#| "Please enter the host name or IP address of the Zabbix server you want to "
-#| "connect to."
 msgid "Please enter the port used by the Zabbix server."
 msgstr "Por favor informe a porta usada pelo servidor Zabbix."
 

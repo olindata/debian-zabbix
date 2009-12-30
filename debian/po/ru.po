@@ -5,13 +5,12 @@
 #
 # Yuri Kozlov <yuray@komyakino.ru>, 2009.
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2009.
-
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.6-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2009-09-27 23:05+0200\n"
-"PO-Revision-Date: 2009-10-04 13:02+0400\n" 
+"POT-Creation-Date: 2009-12-30 18:48+0100\n"
+"PO-Revision-Date: 2009-10-04 13:02+0400\n"
 "Last-Translator: Sergey Alyoshin <alyoshin.s@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,10 +88,11 @@ msgstr ""
 
 #. Type: string
 #. Description
+#. Type: string
+#. Description
 #: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
 msgid "This is needed for some advanced frontend functionalities."
-msgstr ""
-"Это необходимо для расширенного графического интерфейса."
+msgstr "Это необходимо для расширенного графического интерфейса."
 
 #. Type: string
 #. Description
@@ -105,4 +105,3 @@ msgstr "Порт сервера Zabbix:"
 #: ../zabbix-frontend-php.templates:5001
 msgid "Please enter the port used by the Zabbix server."
 msgstr "Введите порт используемый сервером Zabbix."
-
