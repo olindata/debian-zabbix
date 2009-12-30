@@ -7,53 +7,63 @@
 # Default-Stop:      0 1 6
 # Short-Description: Start zabbix-agent daemon
 ### END INIT INFO
-DAEMON=/usr/sbin/zabbix_agentd
-NAME=zabbix_agentd
-DESC="Zabbix agent"
-
-test -f $DAEMON || exit 0
-
-DIR=/var/run/zabbix-agent
-PID=$DIR/$NAME.pid
-
-if test ! -d "$DIR"; then
-        mkdir "$DIR"
-        chown -R zabbix:zabbix "$DIR"
-fi
 
 set -e
 
+NAME=zabbix_agentd
+DAEMON=/usr/sbin/$NAME
+DESC="Zabbix agent"
+
+test -x $DAEMON || exit 0
+
+DIR=/var/run/zabbix-agent
+PID=$DIR/$NAME.pid
+RETRY=15
+
+if test ! -d "$DIR"; then
+  mkdir "$DIR"
+  chown -R zabbix:zabbix "$DIR"
+fi
+
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+# define LSB log_* functions.
+. /lib/lsb/init-functions
 
 case "$1" in
   start)
-   	rm -f $PID
-	echo "Starting $DESC: $NAME" >&2
+    log_daemon_msg "Starting $DESC" "$NAME"
 	start-stop-daemon --oknodo --start --pidfile $PID \
-	 --exec $DAEMON >/dev/null 2>&1
+	  --exec $DAEMON >/dev/null 2>&1
+    case "$?" in
+        0) log_end_msg 0 ;;
+        *) log_end_msg 1; exit 1 ;;
+    esac
 	;;
   stop)
-	echo "Stopping $DESC: $NAME"
-	start-stop-daemon --oknodo --stop --exec $DAEMON 
+    log_daemon_msg "Stopping $DESC" "$NAME"
+	start-stop-daemon --oknodo --stop --exec $DAEMON --retry $RETRY
+    case "$?" in
+        0) log_end_msg 0 ;;
+        *) log_end_msg 1; exit 1 ;;
+    esac
 	;;
   status)
    ls -l /proc/`cat $PID`/exe &> /dev/null
    if [ $? -eq 0 ]; then
-       echo "Zabbix agent is running"
+       echo "$DESC is running"
        exit 0
    else
-       echo "Zabbix agent is NOT running"
+       echo "$DESC is NOT running"
        exit 1
    fi
    ;;
   restart|force-reload)
 	$0 stop
-	sleep 5
 	$0 start
 	;;
   *)
-	N=/etc/init.d/$NAME
-	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
 	exit 1
 	;;
 esac

@@ -1,12 +1,25 @@
 zabbix (1:1.8-1) unstable; urgency=low
 
   [ Christoph Haas ]
-  * New upstream release.
+  * New upstream release; it fixes the following vulnerabilities:
+    - https://support.zabbix.com/browse/ZBX-1030
+    - https://support.zabbix.com/browse/ZBX-1031
+    - https://support.zabbix.com/browse/ZBX-993
+    - https://support.zabbix.com/browse/ZBX-1355
+    (Closes: #562613)
 
   [ Fabio Tranchitella ]
   * debian/watch: updated for the 1.8 branch.
+  * debian/*.init: rewrote init scripts to use the "--retry N" option from
+    start-stop-daemon; this should fix the timing issues.
+    (Closes: #557760, #473911)
+  * debian/rules:
+    - do not ship usr/share/zabbix/fonts/DejaVuSans.ttf, link it from the
+      ttf-dejavu-core package instead.
+    - do not ship the database upgrade scripts for dbconfig-common, they
+      contains errors that dbconfig-common cannot ignore.
 
- -- Fabio Tranchitella <kobold@debian.org>  Wed, 30 Dec 2009 13:09:46 +0100
+ -- Fabio Tranchitella <kobold@debian.org>  Wed, 30 Dec 2009 13:32:13 +0100
 
 zabbix (1:1.6.6-6) unstable; urgency=low
 
