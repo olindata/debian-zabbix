@@ -23,11 +23,6 @@ if [ "$1" = "configure" ]; then
         zabbix
     fi
     chown zabbix:zabbix /var/log/zabbix-server -R
-    if [ -n "$2" ] && dpkg --compare-versions "$2" lt "1.8"; then
-      db_fset zabbix-server-pgsql/server seen false
-      db_input critical zabbix-server-pgsql/server
-      db_go
-    fi
 fi
 
 db_stop

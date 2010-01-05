@@ -48,7 +48,7 @@ CONFFLAGS_SERVER  = --host=$(DEB_HOST_GNU_TYPE) \
                     --with-jabber \
                     --enable-ipv6 \
                     --with-net-snmp \
-		    --with-openipmi
+                    --with-openipmi
 
 CONFFLAGS_AGENT  = --enable-agent --with-ldap --with-openipmi --enable-ipv6
 
