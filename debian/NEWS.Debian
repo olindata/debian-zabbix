@@ -1,3 +1,19 @@
+zabbix (1:1.8.1-1) unstable; urgency=low
+
+  The Zabbix developers note that if Zabbix 1.8 is used with a node-based
+  distributed setup then running these SQL queries will improve the
+  performance of configuration syncing:
+
+  MySQL:
+  DROP INDEX node_cksum_cksum_1 ON node_cksum;
+  CREATE INDEX node_cksum_1 on node_cksum
+  (nodeid,cksumtype,tablename,recordid);
+
+  PostgeSQL:
+  DROP INDEX node_cksum_cksum_1;
+  CREATE INDEX node_cksum_1 on node_cksum
+  (nodeid,cksumtype,tablename,recordid);
+
 zabbix (1:1.8-1) unstable; urgency=low
 
   The SQL database used by Zabbix must be upgraded manually using the scripts
