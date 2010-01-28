@@ -1,6 +1,7 @@
 zabbix (1:1.8.1-1) unstable; urgency=low
 
   * New upstream release
+  * Javascript library path fixed (Closes: #564029)
 
  -- Christoph Haas <haas@debian.org>  Thu, 28 Jan 2010 10:42:04 +0100
 
