@@ -4,10 +4,6 @@ export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 ## exports
 
-## includes
-include /usr/share/dpatch/dpatch.make
-##
-
 ## defines
 PKG_CLIENT = zabbix-agent
 PKG_SERVER_MYSQL = zabbix-server-mysql
@@ -56,7 +52,7 @@ CONFFLAGS_PROXY  = --enable-proxy --with-net-snmp --enable-ipv6 --with-openipmi
 
 build:
 
-prepare: patch
+prepare:
 	if test -e /usr/share/misc/config.guess ; then \
 		if ! test -e config.guess.orig; then \
 			mv config.guess config.guess.orig ; \
@@ -137,7 +133,7 @@ build-proxy-pgsql: config-proxy-pgsql
 	dh_testdir
 	$(MAKE)
 
-clean: unpatch
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp

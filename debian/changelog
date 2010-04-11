@@ -1,3 +1,13 @@
+zabbix (1:1.8.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Policy version is now 3.8.4 - no changes were needed.
+  * SQL injection bug fixed in 1.8.2 (closes: #577058)
+  * init.d scripts now depend on "remote_fs" instead of "local_fs"
+    as /usr may be a remote file system (fixes lintian warning).
+
+ -- Christoph Haas <haas@debian.org>  Sat, 10 Apr 2010 12:04:06 +0200
+
 zabbix (1:1.8.1-1) unstable; urgency=low
 
   * New upstream release

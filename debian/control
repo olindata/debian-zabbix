@@ -3,8 +3,8 @@ Section: net
 Priority: optional
 Maintainer: Christoph Haas <haas@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
-Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, dpatch, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev | libcurl3-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev
-Standards-Version: 3.8.3
+Build-Depends: debhelper (>= 5.0.0), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev | libcurl3-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev
+Standards-Version: 3.8.4
 Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/zabbix/trunk
 Vcs-Browser: http://svn.debian.org/wsvn/collab-maint/deb-maint/zabbix/trunk/?op=log
  
@@ -29,6 +29,7 @@ Description: network monitoring solution - agent
 Package: zabbix-server-mysql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), lsb-base
+Pre-Depends: debconf
 Recommends: mysql-server (>= 4.0.16-2), snmpd
 Suggests: zabbix-frontend-php, logrotate
 Conflicts: zabbix-server-pgsql
@@ -50,6 +51,7 @@ Description: network monitoring solution - server (using MySQL)
 Package: zabbix-server-pgsql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), lsb-base
+Pre-Depends: debconf
 Recommends: postgresql, snmpd
 Suggests: zabbix-frontend-php, logrotate
 Conflicts: zabbix-server-mysql
