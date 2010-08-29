@@ -1,3 +1,10 @@
+zabbix (1:1.8.3-1) unstable; urgency=low
+
+  * New upstream release
+  * New binary packages with SQLite support
+
+ -- Christoph Haas <haas@debian.org>  Sat, 21 Aug 2010 15:41:19 +0200
+
 zabbix (1:1.8.2-1) unstable; urgency=low
 
   * New upstream release
