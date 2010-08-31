@@ -25,3 +25,12 @@ Upgrading from 1.6 to 1.8 manually
  Sorry for the inconvenience. Due to several possible database schemas
  it was not possible to offer you a more convenient way.
 
+Performance hint
+----------------
+If you are using Zabbix 1.8 with node-based distributed setup, please run the
+following SQL patch. It should improve performance of configuration syncing a
+lot.
+
+DROP INDEX node_cksum_cksum_1;
+CREATE INDEX node_cksum_1 on node_cksum (nodeid,cksumtype,tablename,recordid);
+

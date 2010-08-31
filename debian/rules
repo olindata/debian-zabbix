@@ -310,46 +310,46 @@ clean: unpatch
 #	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
 #	dh_install -a
 #	touch install-proxy-pgsql-stamp
-#
-## Build architecture-independent files here.
-#binary-indep: install-indep
-#	dh_testdir -i
-#	dh_testroot -i
-#	dh_prep -i
-#	dh_installdirs -i
-#	dh_install -i
-#	# --------------------------------
-#	# Rename during install
-#	# zabbix-frontend-php
-#	cp debian/templates/dbconfig.php.in $(TMP_FRONTEND)/usr/share/doc/zabbix-frontend-php/dbconfig.php
-#	cp debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
-#	# --------------------------------
-#	# zabbix-frontend-php
-#	# javscript libraries and fonts come from the respective Debian packages.
-#	# they get linked later with dh_link.
-#	rm -r $(TMP_FRONTEND)/usr/share/zabbix/fonts/DejaVuSans.ttf
-#	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/prototype.js
-#	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/scriptaculous*
-#	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
-#	# --------------------------------
-#	# zabbix-frontend-php
-#	# disable frontend-based installation
-#	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
-#	# --------------------------------
-#	dh_installdocs -i
-#	dh_installchangelogs -i ChangeLog
-#	dh_installexamples -i
-#	dh_installman -i
-#	dh_installdebconf -i
-#	dh_installinit -i
-#	dh_installlogrotate -i
-#	dh_link -i
-#	dh_compress -i
-#	dh_fixperms -i
-#	dh_installdeb -i
-#	dh_gencontrol -i
-#	dh_md5sums -i
-#	dh_builddeb -i
+
+# Build architecture-independent files here.
+binary-indep: build
+	dh_testdir -i
+	dh_testroot -i
+	dh_prep -i
+	dh_installdirs -i
+	dh_install -i
+	# --------------------------------
+	# Rename during install
+	# zabbix-frontend-php
+	cp debian/templates/dbconfig.php.in $(TMP_FRONTEND)/usr/share/doc/zabbix-frontend-php/dbconfig.php
+	cp debian/conf/apache.conf $(TMP_FRONTEND)/etc/zabbix/apache.conf
+	# --------------------------------
+	# zabbix-frontend-php
+	# javscript libraries and fonts come from the respective Debian packages.
+	# they get linked later with dh_link.
+	rm -r $(TMP_FRONTEND)/usr/share/zabbix/fonts/DejaVuSans.ttf
+	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/prototype.js
+	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/scriptaculous*
+	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
+	# --------------------------------
+	# zabbix-frontend-php
+	# disable frontend-based installation
+	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
+	# --------------------------------
+	dh_installdocs -i
+	dh_installchangelogs -i ChangeLog
+	dh_installexamples -i
+	dh_installman -i
+	dh_installdebconf -i
+	dh_installinit -i
+	dh_installlogrotate -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
 
 # Build architecture-dependent files here.
 #binary-arch: binary-arch-agent binary-arch-server-mysql binary-arch-server-pgsql binary-arch-proxy-mysql binary-arch-proxy-pgsql
