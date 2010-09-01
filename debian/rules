@@ -27,48 +27,6 @@
 # a sever. We are building the zabbix-proxy-sqlite3 package though because
 # a Zabbix proxy just stores little information.
 
-# Dependency graph:
-# - build (configure)
-# - install (make)
-# - binary (make install)
-#   - binary-arch (platform-dependent)
-#     - binary-arch-agent 
-#       - build-agent
-#         - config-agent
-#           - prepare
-#             - patch
-#       - install-agent
-#     - binary-arch-server-mysql 
-#       - build-server-mysql
-#         - config-server-mysql
-#           - prepare
-#             - patch
-#           - config-server-mysql-stamp
-#       - install-server-mysql
-#     - binary-arch-server-pgsql 
-#       - build-server-pgsql
-#         - config-server-pgsql
-#           - prepare
-#             - patch
-#           - config-server-pgsql-stamp
-#       - install-server-pgsql
-#     - binary-arch-proxy-mysql 
-#       - build-proxy-mysql
-#         - config-proxy-mysql
-#           - prepare
-#             - patch
-#           - config-proxy-mysql-stamp
-#       - install-proxy-mysql
-#     - binary-arch-proxy-pgsql
-#       - build-proxy-pgsql
-#         - config-proxy-pgsql
-#           - prepare
-#             - patch
-#           - config-proxy-pgsql-stamp
-#       - install-proxy-pgsql
-#   - binary-indep (platform-independent)
-#     - install-indep
-
 # Enable this export to get more detailed information about what debhelper does
 #export DH_VERBOSE=1
 
