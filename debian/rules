@@ -215,10 +215,10 @@ binary-arch: build
 	cp debian/templates/zabbix_agent.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agent.conf
 	cp debian/templates/zabbix_agentd.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agentd.conf
 	# zabbix-server-mysql
-	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/zabbix_server.conf
+	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/$(PKG_SERVER_MYSQL)/zabbix_server.conf
 	cat create/schema/mysql.sql create/data/data.sql create/data/images_mysql.sql > $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	# zabbix-server-pgsql
-	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/zabbix_server.conf
+	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/$(PKG_SERVER_PGSQL)/zabbix_server.conf
 	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 	# zabbix-proxy-mysql
 	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
