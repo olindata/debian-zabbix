@@ -1,6 +1,8 @@
 This package was debianized by Michael Ablassmeier <abi@debian.org> on
 Tue, 23 Mar 2004 22:46:45 +0100. It is actually maintained by Michael
-Ablassmeier and Fabio Tranchitella <kobold@debian.org>.
+Ablassmeier and Fabio Tranchitella <kobold@debian.org>. Today it is mainly
+maintained by Christoph Haas <haas@debian.org> and Fabio Tranchitella
+<kobold@debian.org>.
 
 It was downloaded from http://www.zabbix.com/download.php 
 
@@ -28,3 +30,4 @@ License:
 
   On Debian GNU/Linux systems, the complete text of the GNU General
   Public License can be found in `/usr/share/common-licenses/GPL-2'.
+
