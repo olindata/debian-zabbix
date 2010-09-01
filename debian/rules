@@ -146,63 +146,6 @@ build-%-stamp: configure-%-stamp
 	$(MAKE) -C $(BUILDDIR)-$(*)
 	touch $@
 
-#-------------------------
-
-#build-agent: prepare build-agent-stamp
-#build-agent-stamp:
-#	@echo "--------------------------"
-#	@echo "Building agent"
-#	@echo "--------------------------"
-#	dh_testdir
-#	./configure $(CONFFLAGS_AGENT)
-#	dh_testdir
-#	$(MAKE)
-#	touch $@
-#
-#build-server-mysql: config-server-mysql
-#	dh_testdir
-#	$(MAKE)
-#
-#config-server-mysql: prepare config-server-mysql-stamp
-#config-server-mysql-stamp:
-#	@echo "Configuring server mysql" 
-#	dh_testdir
-#	./configure $(CONFFLAGS_SERVER) --with-mysql
-#	touch config-server-mysql-stamp
-#
-#build-server-pgsql: config-server-pgsql
-#	dh_testdir
-#	$(MAKE)
-#
-#config-server-pgsql: prepare config-server-pgsql-stamp
-#config-server-pgsql-stamp:
-#	@echo "Configuring server pgsql"
-#	dh_testdir
-#	./configure $(CONFFLAGS_SERVER) --with-pgsql
-#	touch config-server-pgsql-stamp
-#
-#config-proxy-mysql: prepare config-proxy-mysql-stamp
-#config-proxy-mysql-stamp:
-#	@echo "Configuring proxy mysql"
-#	dh_testdir
-#	./configure $(CONFFLAGS_PROXY) --with-mysql
-#	touch config-proxy-mysql-stamp
-#
-#build-proxy-mysql: config-proxy-mysql
-#	dh_testdir
-#	$(MAKE)
-#
-#config-proxy-pgsql: prepare config-proxy-pgsql-stamp
-#config-proxy-pgsql-stamp:
-#	@echo "Configuring proxy pgsql"
-#	dh_testdir
-#	./configure $(CONFFLAGS_PROXY) --with-pgsql
-#	touch config-proxy-pgsql-stamp
-#
-#build-proxy-pgsql: config-proxy-pgsql
-#	dh_testdir
-#	$(MAKE)
-
 clean: unpatch
 	dh_testdir
 	dh_testroot
@@ -218,60 +161,6 @@ clean: unpatch
 	# Remove build directories in $BUILDDIR
 	$(RM) -r debian/tmp*
 	dh_clean
-
-#install-proxy-mysql: install-proxy-mysql-stamp
-#install-proxy-mysql-stamp: build-proxy-mysql
-#	echo ""
-#	echo $(PKG_PROXY_MYSQL)
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/usr/sbin
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/etc/zabbix/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/etc/logrotate.d/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/etc/init.d/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/usr/share/doc/zabbix-proxy-mysql/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/
-#	$(INSTALL_DIR) $(TMP_PROXY_MYSQL)/var/log/zabbix-proxy/
-#	chmod 750 $(TMP_PROXY_MYSQL)/var/log/zabbix-proxy/
-#	$(INSTALL_PROGRAM) src/zabbix_proxy/zabbix_proxy $(TMP_PROXY_MYSQL)/usr/sbin
-#	#install schema + data sql files for dbc_config
-#	$(INSTALL_FILE) create/schema/mysql.sql $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
-#	cat create/data/data.sql >> $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
-#	cat create/data/images_mysql.sql >> $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
-#	$(INSTALL_FILE) debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
-#	$(INSTALL_FILE) debian/zabbix-proxy-mysql.logrotate $(TMP_PROXY_MYSQL)/etc/logrotate.d/zabbix-proxy-mysql
-#	$(INSTALL_FILE) create/schema/mysql.sql $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/
-#	$(INSTALL_FILE) create/data/data.sql $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/
-#	dh_installinit -p $(PKG_PROXY_MYSQL) --name zabbix-proxy
-#	dh_install -a
-#	touch install-proxy-mysql-stamp
-#
-#install-proxy-pgsql: install-proxy-pgsql-stamp
-#install-proxy-pgsql-stamp: build-proxy-pgsql
-#	echo ""
-#	echo $(PKG_PROXY_PGSQL)
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/usr/sbin
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/etc/zabbix/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/etc/logrotate.d/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/etc/init.d/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/usr/share/doc/zabbix-proxy-pgsql/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/
-#	$(INSTALL_DIR) $(TMP_PROXY_PGSQL)/var/log/zabbix-proxy/
-#	chmod 750 $(TMP_PROXY_PGSQL)/var/log/zabbix-proxy/
-#	$(INSTALL_PROGRAM) src/zabbix_proxy/zabbix_proxy $(TMP_PROXY_PGSQL)/usr/sbin
-#	$(INSTALL_FILE) debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
-#	$(INSTALL_FILE) debian/zabbix-proxy-mysql.logrotate $(TMP_PROXY_PGSQL)/etc/logrotate.d/zabbix-proxy-pgsql
-#	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/
-#	$(INSTALL_FILE) create/data/data.sql $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/
-#	# install schema + data sql files for dbc_config
-#	$(INSTALL_FILE) create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
-#	cat create/data/data.sql >> $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
-#	cat create/data/images_pgsql.sql >> $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
-#	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
-#	dh_install -a
-#	touch install-proxy-pgsql-stamp
 
 # Build architecture-independent files here.
 binary-indep: build
@@ -294,10 +183,6 @@ binary-indep: build
 	rm -r $(TMP_FRONTEND)/usr/share/zabbix/js/scriptaculous*
 	rm -f $(TMP_FRONTEND)/usr/share/zabbix/conf/COPYING
 	# --------------------------------
-	# zabbix-frontend-php
-	# disable frontend-based installation
-	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
-	# --------------------------------
 	dh_installdocs -i
 	dh_installchangelogs -i ChangeLog
 	dh_installexamples -i
@@ -308,13 +193,17 @@ binary-indep: build
 	dh_link -i
 	dh_compress -i
 	dh_fixperms -i
+	# --------------------------------
+	# zabbix-frontend-php
+	# disable frontend-based installation
+	# --------------------------------
+	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
 	dh_builddeb -i
 
 # Build architecture-dependent files here.
-#binary-arch: binary-arch-agent binary-arch-server-mysql binary-arch-server-pgsql binary-arch-proxy-mysql binary-arch-proxy-pgsql
 binary-arch: build
 	dh_testdir -a
 	dh_testroot -a
@@ -326,11 +215,20 @@ binary-arch: build
 	cp debian/templates/zabbix_agent.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agent.conf
 	cp debian/templates/zabbix_agentd.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agentd.conf
 	# zabbix-server-mysql
-	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/doc/$(PKG_SERVER_MYSQL)/zabbix_server.conf
+	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/zabbix-server/zabbix_server.conf
 	cat create/schema/mysql.sql create/data/data.sql create/data/images_mysql.sql > $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	# zabbix-server-pgsql
-	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/doc/$(PKG_SERVER_PGSQL)/zabbix_server.conf
+	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/zabbix-server/zabbix_server.conf
 	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
+	# zabbix-proxy-mysql
+	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
+	cp create/schema/mysql.sql $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
+	# zabbix-proxy-pgsql
+	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
+	cp create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
+	# zabbix-proxy-sqlite3
+	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_SQLITE3)/usr/share/zabbix-proxy/zabbix_proxy.conf
+	cp create/schema/sqlite.sql $(TMP_PROXY_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_PROXY_SQLITE3)/install/sqlite3
 	# --------------------------------
 	dh_installdocs -a
 	dh_installchangelogs -a ChangeLog
@@ -340,6 +238,8 @@ binary-arch: build
 	#dh_installinit -a
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
+	dh_installinit -p $(PKG_PROXY_MYSQL) --name zabbix-proxy
+	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
 	dh_installlogrotate -a
 	dh_link -a
 	dh_compress -a
