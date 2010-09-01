@@ -49,7 +49,7 @@ case "$1" in
     esac
 	;;
   status)
-   ls -l /proc/`cat $PID`/exe &> /dev/null
+   ls -l /proc/`cat $PID`/exe > /dev/null 2>&1
    if [ $? -eq 0 ]; then
        echo "$DESC is running"
        exit 0

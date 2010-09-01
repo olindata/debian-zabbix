@@ -5,6 +5,8 @@
 # Required-Stop:     $remote_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:	     0 1 6
+# Should-Start:      mysql
+# Should-Stop:       mysql
 # Short-Description: Start zabbix-server daemon
 ### END INIT INFO
 
@@ -49,7 +51,7 @@ case "$1" in
     esac
 	;;
   status)
-   ls -l /proc/`cat $PID`/exe &> /dev/null
+   ls -l /proc/`cat $PID`/exe > /dev/null 2>&1
    if [ $? -eq 0 ]; then
        echo "$DESC is running"
        exit 0

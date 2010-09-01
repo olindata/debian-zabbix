@@ -5,6 +5,13 @@ zabbix (1:1.8.3-1) unstable; urgency=low
   * Removed flash clock applet that upstream ships without source
     (closes: #591967)
   * Removed bashism from zabbix agent init.d file (closes: #581148)
+  * Removed bashism from zabbix proxy mysql init.d file (closes: #581149)
+  * Removed bashism from zabbix proxy pgsql init.d file (closes: #581150)
+  * Removed bashism from zabbix server mysql init.d file (closes: #581151)
+  * Removed bashism from zabbix server pgsql init.d file (closes: #581152)
+  * Added weak dependency on mysql/postgresql in the LSB section of the
+    init.d scripts for zabbix-server-mysql and zabbix-server-pgsql
+    (closes: #578879)
 
  -- Christoph Haas <haas@debian.org>  Sat, 21 Aug 2010 15:41:19 +0200
 
