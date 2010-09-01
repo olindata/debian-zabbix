@@ -20,6 +20,12 @@
 # (4) build
 #
 #     Compile the actual sources for each database backend flavor.
+#
+# Note:
+# We are not building the zabbix-server-sqlite3 package. SQLite3 is not
+# a useful backend for a database-hungry application like Zabbix on a
+# a sever. We are building the zabbix-proxy-sqlite3 package though because
+# a Zabbix proxy just stores little information.
 
 # Dependency graph:
 # - build (configure)
@@ -78,7 +84,6 @@ include /usr/share/quilt/quilt.make
 PKG_AGENT = zabbix-agent
 PKG_SERVER_MYSQL = zabbix-server-mysql
 PKG_SERVER_PGSQL = zabbix-server-pgsql
-PKG_SERVER_SQLITE3 = zabbix-server-sqlite3
 PKG_FRONTEND = zabbix-frontend-php
 PKG_PROXY_MYSQL = zabbix-proxy-mysql
 PKG_PROXY_PGSQL = zabbix-proxy-pgsql
@@ -88,7 +93,6 @@ PKG_PROXY_SQLITE3 = zabbix-proxy-sqlite3
 TMP_AGENT = $(CURDIR)/debian/$(PKG_AGENT)
 TMP_SERVER_MYSQL = $(CURDIR)/debian/$(PKG_SERVER_MYSQL)
 TMP_SERVER_PGSQL = $(CURDIR)/debian/$(PKG_SERVER_PGSQL)
-TMP_SERVER_SQLITE3 = $(CURDIR)/debian/$(PKG_SERVER_SQLITE3)
 TMP_FRONTEND = $(CURDIR)/debian/$(PKG_FRONTEND)
 TMP_PROXY_MYSQL = $(CURDIR)/debian/$(PKG_PROXY_MYSQL)
 TMP_PROXY_PGSQL = $(CURDIR)/debian/$(PKG_PROXY_PGSQL)
@@ -369,9 +373,6 @@ binary-arch: build
 	# zabbix-server-pgsql
 	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/doc/$(PKG_SERVER_PGSQL)/zabbix_server.conf
 	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
-	# zabbix-server-sqlite3
-	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_SQLITE3)/usr/share/doc/$(PKG_SERVER_SQLITE3)/zabbix_server.conf
-	cat create/schema/sqlite.sql create/data/data.sql create/data/images_sqlite3.sql > $(TMP_SERVER_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_SERVER_SQLITE3)/install/sqlite3
 	# --------------------------------
 	dh_installdocs -a
 	dh_installchangelogs -a ChangeLog
@@ -381,7 +382,6 @@ binary-arch: build
 	#dh_installinit -a
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
-	dh_installinit -p $(PKG_SERVER_SQLITE3) --name zabbix-server
 	dh_installlogrotate -a
 	dh_link -a
 	dh_compress -a

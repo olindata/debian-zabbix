@@ -32,7 +32,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>=
 Pre-Depends: debconf
 Recommends: mysql-server (>= 4.0.16-2), snmpd
 Suggests: zabbix-frontend-php, logrotate
-Conflicts: zabbix-server-pgsql, zabbix-server-sqlite3
+Conflicts: zabbix-server-pgsql
 Description: network monitoring solution - server (using MySQL)
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
@@ -54,7 +54,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>=
 Pre-Depends: debconf
 Recommends: postgresql, snmpd
 Suggests: zabbix-frontend-php, logrotate
-Conflicts: zabbix-server-mysql, zabbix-server-sqlite3
+Conflicts: zabbix-server-mysql
 Description: network monitoring solution - server (using PostgreSQL)
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
@@ -70,35 +70,10 @@ Description: network monitoring solution - server (using PostgreSQL)
  client. It collects information from Zabbix clients and stores it in a
  PostgreSQL database.
 
-Package: zabbix-server-sqlite3
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), lsb-base
-Pre-Depends: debconf
-Recommends: snmpd
-Suggests: zabbix-frontend-php, logrotate
-Conflicts: zabbix-server-mysql, zabbix-server-pgsql
-Description: network monitoring solution - server (using SQLite3)
- Zabbix is a server/client network monitoring system with many features.
- It can be used for:
- .
-  - high level monitoring of IT services;
-  - centralized monitoring of your servers and applications;
-  - monitoring of SNMP-enabled devices;
-  - performance monitoring (process load, network activity, disk
-    activity, memory usage, OS parameters etc.);
-  - data visualization.
- .
- This package provides the software needed to integrate a host as a Zabbix
- client. It collects information from Zabbix clients and stores it in a
- SQLite3 database back-end. Be aware that SQLite3 should only be used for
- very small installations or trying out the software. Zabbix databases
- quickly grow to a few gigabytes. Consider installing zabbix-server-mysql
- or zabbix-server-pgsql instead.
-
 Package: zabbix-frontend-php
 Architecture: all
 Depends: ${misc:Depends}, apache2 | httpd, php5, php5-mysql | php5-pgsql | php5-sqlite3, php5-gd, ucf, dbconfig-common (>= 1.8.19), libjs-prototype (>= 1.6.0.3), libjs-scriptaculous (>= 1.8.2), ttf-dejavu-core
-Recommends: zabbix-server-mysql | zabbix-server-pgsql | zabbix-server-sqlite3, mysql-server (>= 4.0.16-2) | postgresql | sqlite3
+Recommends: zabbix-server-mysql | zabbix-server-pgsql, mysql-server (>= 4.0.16-2) | postgresql | sqlite3
 Description: network monitoring solution - PHP front-end
  Zabbix is a server/client network monitoring system with many features.
  It can be used for:
