@@ -1,8 +1,8 @@
-usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf usr/share/zabbix/fonts/
-usr/share/javascript/prototype/prototype.js usr/share/zabbix/js/
-usr/share/javascript/scriptaculous/scriptaculous.js usr/share/zabbix/js/
-usr/share/javascript/scriptaculous/dragdrop.js usr/share/zabbix/js
-usr/share/javascript/scriptaculous/effects.js usr/share/zabbix/js/
-usr/share/javascript/scriptaculous/sound.js usr/share/zabbix/js/
-usr/share/javascript/scriptaculous/slider.js usr/share/zabbix/js/
+usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf usr/share/zabbix/fonts/DejaVuSans.ttf
+usr/share/javascript/prototype/prototype.js usr/share/zabbix/js/prototype.js
+usr/share/javascript/scriptaculous/scriptaculous.js usr/share/zabbix/js/scriptaculous.js
+usr/share/javascript/scriptaculous/dragdrop.js usr/share/zabbix/js/dragdrop.js
+usr/share/javascript/scriptaculous/effects.js usr/share/zabbix/js/effects.js
+usr/share/javascript/scriptaculous/sound.js usr/share/zabbix/js/sound.js
+usr/share/javascript/scriptaculous/slider.js usr/share/zabbix/js/slider.js
 etc/zabbix/dbconfig.php usr/share/zabbix/conf/zabbix.conf.php
