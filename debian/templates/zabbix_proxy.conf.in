@@ -133,7 +133,7 @@ LogFile=/var/log/zabbix-proxy/zabbix_proxy.log
 #LogFileSize=1
 
 # Location for custom alert scripts
-AlertScriptsPath=/home/zabbix/bin/
+AlertScriptsPath=/etc/zabbix/alert.d/
 
 # Location of external scripts
 #ExternalScripts=/etc/zabbix/externalscripts
