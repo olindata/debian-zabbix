@@ -196,8 +196,10 @@ binary-indep: build
 	# --------------------------------
 	# zabbix-frontend-php
 	# disable frontend-based installation
-	# --------------------------------
 	chmod 000 $(TMP_FRONTEND)/usr/share/zabbix/setup.php
+	# remove executable permissions on PNG file
+	find $(TMP_FRONTEND) -type f -name '*.png' -print0 | xargs -0r chmod a-x
+	# --------------------------------
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
