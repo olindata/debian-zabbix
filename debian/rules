@@ -240,6 +240,8 @@ binary-arch: build
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
 	dh_installinit -p $(PKG_PROXY_MYSQL) --name zabbix-proxy
 	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
+	dh_installinit -p $(PKG_PROXY_SQLITE3) --name zabbix-proxy
+	dh_installinit -p $(PKG_AGENT)
 	dh_installlogrotate -a
 	dh_link -a
 	dh_compress -a
@@ -252,6 +254,7 @@ binary-arch: build
 	dh_md5sums -a
 	dh_builddeb -a
 
-binary: binary-arch binary-indep
+binary: binary-arch binary-indep 
 
-#.PHONY: build build-server-mysql build-server-pgsql build-proxy-mysql build-proxy-pgsql config-server-mysql config-server-pgsql config-proxy-mysql config-proxy-pgsql clean install install-indep install-server-mysql install-server-pgsql install-proxy-mysql install-proxy-pgsql install-agent build-agent binary-indep binary-arch binary-arch-server-mysql binary-arch-server-pgsql binary-arch-agent binary-arch-proxy-mysql binary-arch-proxy-pgsql binary
+.PHONY: clean build configure extract binary-arch binary-indep binary
+
