@@ -1,0 +1,31 @@
+Index: zabbix-1.8.3/configure
+===================================================================
+--- zabbix-1.8.3.orig/configure	2010-09-11 09:29:55.700236638 +0200
++++ zabbix-1.8.3/configure	2010-09-11 09:30:20.583902195 +0200
+@@ -12323,7 +12323,7 @@
+ 			esac
+ 		done
+ 
+-		_full_libnetsnmp_libs="`$_libnetsnmp_config --libs` -lcrypto"
++		_full_libnetsnmp_libs="`$_libnetsnmp_config --libs`"
+ 		for i in $_full_libnetsnmp_libs; do
+ 			case $i in
+ 				-l*)
+@@ -12666,7 +12666,6 @@
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lcrypto  $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+ _ACEOF
+@@ -12715,9 +12714,6 @@
+ fi
+ { echo "$as_me:$LINENO: result: $ac_cv_lib_crypto_main" >&5
+ echo "${ECHO_T}$ac_cv_lib_crypto_main" >&6; }
+-if test $ac_cv_lib_crypto_main = yes; then
+-  SNMP_LIBS="$SNMP_LIBS -lcrypto"
+-fi
+ 
+ 
+                 SNMP_CPPFLAGS=-I$SNMP_INCDIR
