@@ -1,3 +1,4 @@
+etc/zabbix
 usr/sbin
 usr/share/zabbix-proxy
 var/log/zabbix-proxy

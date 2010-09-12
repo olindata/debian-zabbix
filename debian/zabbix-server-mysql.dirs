@@ -1,3 +1,4 @@
+etc/zabbix
 usr/bin
 usr/sbin
 etc/zabbix/alert.d

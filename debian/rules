@@ -149,7 +149,7 @@ clean: unpatch
 	[ ! -f src/zabbix_proxy/Makefile ] || $(MAKE) -C src/zabbix_proxy/ clean
 	debconf-updatepo
 	dh_autotools-dev_restoreconfig
-	# Remove build directories in $BUILDDIR
+	@echo Removing build directories in $(BUILDDIR)
 	$(RM) -r debian/tmp*
 	dh_clean
 
