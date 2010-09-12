@@ -4,9 +4,9 @@ if [ -f /usr/share/debconf/confmodule ]; then
     . /usr/share/debconf/confmodule
 fi
 
-if [ -f /usr/share/dbconfig-common/dpkg/postrm.sqlite ]; then
-    dbc_dbtypes="pgsql"
-    . /usr/share/dbconfig-common/dpkg/postrm.sqlite
+if [ -f /usr/share/dbconfig-common/dpkg/postrm.sqlite3 ]; then
+    dbc_dbtypes="sqlite3"
+    . /usr/share/dbconfig-common/dpkg/postrm.sqlite3
     dbc_go zabbix-proxy-sqlite3 $@
 fi
 
