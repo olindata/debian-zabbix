@@ -1,7 +1,6 @@
 zabbix (1:1.8.3-1) unstable; urgency=low
 
   * New upstream release fixes security issue CVE-2010-2790 (closes: #594304)
-  * New zabbix-proxy-sqlite3 package (Zabbix proxy with SQLite3 support)
   * Removed flash clock applet that upstream ships without source
     (closes: #591967)
   * Removed bashism from zabbix agent init.d file (closes: #581148)

@@ -21,12 +21,6 @@
 #
 #     Compile the actual sources for each database backend flavor.
 #
-# Note:
-# We are not building the zabbix-server-sqlite3 package. SQLite3 is not
-# a useful backend for a database-hungry application like Zabbix on a
-# a sever. We are building the zabbix-proxy-sqlite3 package though because
-# a Zabbix proxy just stores little information.
-
 # Enable this export to get more detailed information about what debhelper does
 #export DH_VERBOSE=1
 
@@ -45,7 +39,6 @@ PKG_SERVER_PGSQL = zabbix-server-pgsql
 PKG_FRONTEND = zabbix-frontend-php
 PKG_PROXY_MYSQL = zabbix-proxy-mysql
 PKG_PROXY_PGSQL = zabbix-proxy-pgsql
-PKG_PROXY_SQLITE3 = zabbix-proxy-sqlite3
 
 # Define the directories where the binary packages' files are assembled
 TMP_AGENT = $(CURDIR)/debian/$(PKG_AGENT)
@@ -54,7 +47,6 @@ TMP_SERVER_PGSQL = $(CURDIR)/debian/$(PKG_SERVER_PGSQL)
 TMP_FRONTEND = $(CURDIR)/debian/$(PKG_FRONTEND)
 TMP_PROXY_MYSQL = $(CURDIR)/debian/$(PKG_PROXY_MYSQL)
 TMP_PROXY_PGSQL = $(CURDIR)/debian/$(PKG_PROXY_PGSQL)
-TMP_PROXY_SQLITE3 = $(CURDIR)/debian/$(PKG_PROXY_SQLITE3)
 
 # Deprecated: formerly this script didn't use dh_install
 INSTALL = install
@@ -78,7 +70,7 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 endif
 
 # Zabbix server and proxy packages will be built for these database backends
-VARIANTS := SQLITE3 PGSQL MYSQL
+VARIANTS := PGSQL MYSQL
 
 CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
                     --build=$(DEB_BUILD_GNU_TYPE) \
@@ -96,7 +88,6 @@ CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
 
 CONFFLAGS_SERVER_MYSQL = $(CONFFLAGS_COMMON) --with-mysql
 CONFFLAGS_SERVER_PGSQL = $(CONFFLAGS_COMMON) --with-pgsql
-CONFFLAGS_SERVER_SQLITE3 = $(CONFFLAGS_COMMON) --with-sqlite3
 
 # The source package will be compiled for each database flavor in
 # subdirectories of this directory:
@@ -228,9 +219,6 @@ binary-arch: build
 	# zabbix-proxy-pgsql
 	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
 	cp create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
-	# zabbix-proxy-sqlite3
-	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_SQLITE3)/usr/share/zabbix-proxy/zabbix_proxy.conf
-	cp create/schema/sqlite.sql $(TMP_PROXY_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_PROXY_SQLITE3)/install/sqlite3
 	# --------------------------------
 	dh_installdocs -a
 	dh_installchangelogs -a ChangeLog
@@ -242,7 +230,6 @@ binary-arch: build
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
 	dh_installinit -p $(PKG_PROXY_MYSQL) --name zabbix-proxy
 	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
-	dh_installinit -p $(PKG_PROXY_SQLITE3) --name zabbix-proxy
 	dh_installinit -p $(PKG_AGENT)
 	dh_installlogrotate -a
 	dh_link -a
