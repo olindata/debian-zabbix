@@ -1,3 +1,9 @@
+zabbix (1:1.8.3-2) unstable; urgency=low
+
+  * Added versioned build depdency on autotools-dev (closes: #598578)
+
+ -- Christoph Haas <haas@debian.org>  Thu, 30 Sep 2010 21:59:34 +0200
+
 zabbix (1:1.8.3-1) unstable; urgency=low
 
   * New upstream release fixes security issue CVE-2010-2790 (closes: #594304)

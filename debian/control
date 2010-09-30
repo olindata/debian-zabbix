@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Christoph Haas <haas@debian.org>
 Uploaders: Fabio Tranchitella <kobold@debian.org>, Michael Ablassmeier <abi@debian.org>
-Build-Depends: debhelper (>= 7), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev | libcurl3-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev, quilt (>=0.40), autotools-dev
+Build-Depends: debhelper (>= 7), libsnmp9-dev | libsnmp-dev, libmysqlclient15-dev, automake1.9, po-debconf, libpq-dev, libcurl4-gnutls-dev | libcurl3-gnutls-dev, libldap2-dev,libiksemel-dev, libopenipmi-dev, quilt (>=0.40), autotools-dev (>= 20100122.1)
 Standards-Version: 3.9.1
 Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/zabbix/trunk
 Vcs-Browser: http://svn.debian.org/wsvn/collab-maint/deb-maint/zabbix/trunk/?op=log
