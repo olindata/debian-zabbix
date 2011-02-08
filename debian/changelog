@@ -2,8 +2,9 @@ zabbix (1:1.8.3-3) unstable; urgency=low
 
   [ Michael Ablassmeier ]
   * zabbix-proxy-psql/mysql: Fix package description (Closes: #586961) 
+  * debian/po/da.po: added (Closes: #585485)
 
- -- Michael Ablassmeier <abi@debian.org>  Tue, 08 Feb 2011 21:24:22 +0100
+ -- Michael Ablassmeier <abi@debian.org>  Tue, 08 Feb 2011 21:27:46 +0100
 
 zabbix (1:1.8.3-2) unstable; urgency=low
 
