@@ -107,7 +107,7 @@ Description: network monitoring solution - proxy (using PostgreSQL)
  .
  This package provides the software needed to integrate a host as a Zabbix
  proxy. It collects information from Zabbix clients and passes it to a
- server running a MySQL database back-end.
+ server running a PostgreSQL database back-end.
 
 Package: zabbix-proxy-mysql
 Architecture: any
@@ -128,5 +128,5 @@ Description: network monitoring solution - proxy (using MySQL)
  .
  This package provides the software needed to integrate a host as a Zabbix
  proxy. It collects information from Zabbix clients and passes it to a
- server running a PostgreSQL database back-end.
+ server running a MySQL database back-end.
 
