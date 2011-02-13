@@ -84,7 +84,8 @@ CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
                     --with-ldap \
                     --enable-ipv6 \
                     --with-net-snmp \
-                    --with-openipmi
+                    --with-openipmi \
+                    --with-opencurl
 
 CONFFLAGS_SERVER_MYSQL = $(CONFFLAGS_COMMON) --with-mysql
 CONFFLAGS_SERVER_PGSQL = $(CONFFLAGS_COMMON) --with-pgsql
