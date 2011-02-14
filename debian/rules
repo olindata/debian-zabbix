@@ -55,9 +55,6 @@ INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
 
-# Deprecated: use unknown
-#export LIBCURL_LDFLAGS="-lcurl" 
-
 CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -85,7 +82,7 @@ CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
                     --enable-ipv6 \
                     --with-net-snmp \
                     --with-openipmi \
-                    --with-opencurl
+                    --with-libcurl
 
 CONFFLAGS_SERVER_MYSQL = $(CONFFLAGS_COMMON) --with-mysql
 CONFFLAGS_SERVER_PGSQL = $(CONFFLAGS_COMMON) --with-pgsql
