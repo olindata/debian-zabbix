@@ -22,7 +22,6 @@
 #include "zbxmacros.h"
 #include "db.h"
 #include "log.h"
-#include "zlog.h"
 
 #define ZBX_MACRO_ALLOC_STEP		4
 #define ZBX_MACRO_UPDATE_INTERVAL	300	/* refresh macros every 5min */
@@ -37,7 +36,7 @@
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -65,7 +64,7 @@ void	zbxmacros_init(DB_MACROS **macros)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -91,7 +90,7 @@ static void	zbxmacros_init_host(DB_MACRO_HOST *host)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -120,7 +119,7 @@ static void	zbxmacros_clean_host(DB_MACRO_HOST *host)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -177,7 +176,7 @@ static int	zbxmacros_get_host_nearestindex(DB_MACROS *macros, zbx_uint64_t hosti
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -244,7 +243,7 @@ static int	zbxmacros_get_macro_nearestindex(DB_MACRO_HOST *host, const char *mac
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -283,7 +282,7 @@ static DB_MACRO	*zbxmacros_get_macro(DB_MACRO_HOST *host, const char *macro, con
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -318,7 +317,7 @@ static void	zbxmacros_update_global(DB_MACRO_HOST *host)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -436,7 +435,7 @@ static void	zbxmacros_get_value_global(DB_MACROS *macros, const char *macro, cha
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -469,7 +468,7 @@ void	zbxmacros_get_value(DB_MACROS *macros, zbx_uint64_t *hostids, int host_num,
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *

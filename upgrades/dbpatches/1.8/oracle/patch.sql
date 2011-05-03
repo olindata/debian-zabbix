@@ -33,7 +33,7 @@ CREATE TABLE autoreg_host (
         host            nvarchar2(64)           DEFAULT ''      ,
         PRIMARY KEY (autoreg_hostid)
 );
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
 alter table conditions modify value           nvarchar2(255)          DEFAULT '';
 alter table config add dropdown_first_entry number(10) DEFAULT '1' NOT NULL;
 alter table config add dropdown_first_remember number(10) DEFAULT '1' NOT NULL;
@@ -481,6 +481,7 @@ alter table hosts modify ipmi_username           nvarchar2(16)           DEFAULT
 alter table hosts modify ipmi_password           nvarchar2(20)           DEFAULT '';
 alter table hosts modify ipmi_ip         nvarchar2(64)           DEFAULT '127.0.0.1';
 
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid);
 alter table housekeeper modify tablename               nvarchar2(64)           DEFAULT '';
 alter table housekeeper modify field           nvarchar2(64)           DEFAULT '';
 alter table httpstep modify name            nvarchar2(64)           DEFAULT '';

@@ -35,7 +35,7 @@
  * Return value:  SUCCEED - host is found                                     *
  *                FAIL - an error occurred or host not found                  *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -47,7 +47,13 @@ static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *erro
 	DB_ROW		row;
 	int		res = FAIL;
 
-	zabbix_log(LOG_LEVEL_DEBUG, "In get_hostid_by_host(host:'%s')", host);
+	zabbix_log(LOG_LEVEL_DEBUG, "In get_hostid_by_host() host:'%s'", host);
+
+	if (FAIL == zbx_check_hostname(host))
+	{
+		zbx_snprintf(error, MAX_STRING_LEN, "host name [%s] contains invalid characters", host);
+		return res;
+	}
 
 	host_esc = DBdyn_escape_string(host);
 
@@ -240,7 +246,7 @@ static void	add_regexp_name(char ***regexp, int *regexp_alloc, int *regexp_num, 
  * Return value:  SUCCEED - list of active checks sent successfully           *
  *                FAIL - an error occurred                                    *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -325,6 +331,7 @@ int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *jp,
 			zbx_json_addstring(&json, ZBX_PROTO_TAG_KEY_ORIG, item.key_orig, ZBX_JSON_TYPE_STRING);
 		zbx_snprintf(tmp, sizeof(tmp), "%d", item.delay);
 		zbx_json_addstring(&json, ZBX_PROTO_TAG_DELAY, tmp, ZBX_JSON_TYPE_STRING);
+		/* The agent expects ALWAYS to have lastlogsize and mtime tags. Removing those would cause older agents to fail. */
 		zbx_snprintf(tmp, sizeof(tmp), "%d", item.lastlogsize);
 		zbx_json_addstring(&json, ZBX_PROTO_TAG_LOGLASTSIZE, tmp, ZBX_JSON_TYPE_STRING);
 		zbx_snprintf(tmp, sizeof(tmp), "%d", item.mtime);

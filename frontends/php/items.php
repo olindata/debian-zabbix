@@ -66,7 +66,7 @@ switch($itemType) {
 
 		'groupid'=>			array(T_ZBX_INT, O_OPT,	 P_SYS,	DB_ID,			null),
 		'hostid'=>			array(T_ZBX_INT, O_OPT,  P_SYS,	DB_ID,			null),
-		'form_hostid'=>			array(T_ZBX_INT, O_OPT,  null,	DB_ID.NOT_ZERO,		'isset({save})', S_HOST),
+		'form_hostid'=>			array(T_ZBX_INT, O_OPT,  null,	DB_ID,		'isset({save})', S_HOST),
 
 
 		'add_groupid'=>		array(T_ZBX_INT, O_OPT,	 P_SYS,	DB_ID,			'(isset({register})&&({register}=="go"))'),
@@ -135,8 +135,8 @@ switch($itemType) {
 
 		'snmpv3_securitylevel'=>array(T_ZBX_INT, O_OPT,  null,  IN('0,1,2'),	'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.'))'),
 		'snmpv3_securityname'=>	array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.'))'),
-		'snmpv3_authpassphrase'=>array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.'))'),
-		'snmpv3_privpassphrase'=>array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.'))'),
+		'snmpv3_authpassphrase'=>array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.')&&({snmpv3_securitylevel}=='.ITEM_SNMPV3_SECURITYLEVEL_AUTHPRIV.'||{snmpv3_securitylevel}=='.ITEM_SNMPV3_SECURITYLEVEL_AUTHNOPRIV.'))'),
+		'snmpv3_privpassphrase'=>array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_SNMPV3.')&&({snmpv3_securitylevel}=='.ITEM_SNMPV3_SECURITYLEVEL_AUTHPRIV.'))'),
 
 		'ipmi_sensor'=>		array(T_ZBX_STR, O_OPT,  null,  NOT_EMPTY,	'isset({save})&&(isset({type})&&({type}=='.ITEM_TYPE_IPMI.'))', S_IPMI_SENSOR),
 
@@ -145,7 +145,7 @@ switch($itemType) {
 		'multiplier'=>		array(T_ZBX_INT, O_OPT,  null,  null,		null),
 		'delta'=>		array(T_ZBX_INT, O_OPT,  null,  IN('0,1,2'),	'isset({save})&&isset({value_type})&&'.IN('0,3','value_type')),
 
-		'formula'=>		array(T_ZBX_DBL, O_OPT,  null,  NOT_ZERO,	'isset({save})&&isset({multiplier})&&({multiplier}==1)&&'.IN('0,3','value_type'), S_CUSTOM_MULTIPLIER),
+		'formula'=>		array(T_ZBX_DBL, O_OPT,  null,  '({value_type}==0&&{}!=0)||({value_type}==3&&{}>0)',	'isset({save})&&isset({multiplier})&&({multiplier}==1)', S_CUSTOM_MULTIPLIER),
 		'logtimefmt'=>		array(T_ZBX_STR, O_OPT,  null,  null,		'isset({save})&&(isset({value_type})&&({value_type}==2))'),
 
 		'group_itemid'=>	array(T_ZBX_INT, O_OPT,	null,	DB_ID, null),
@@ -218,7 +218,6 @@ switch($itemType) {
 
 	check_fields($fields);
 	validate_sort_and_sortorder('description', ZBX_SORT_UP);
-
 	$_REQUEST['go'] = get_request('go', 'none');
 
 // PERMISSIONS
@@ -512,7 +511,6 @@ switch($itemType) {
 
 	}
 	else if(isset($_REQUEST['update']) && isset($_REQUEST['massupdate']) && isset($_REQUEST['group_itemid'])){
-
 		$delay_flex = get_request('delay_flex',array());
 		$db_delay_flex = '';
 		foreach($delay_flex as $val)
@@ -812,7 +810,7 @@ switch($itemType) {
 		$items_wdgt->addItem(insert_item_form());
 	}
 	else if((($_REQUEST['go'] == 'massupdate') || isset($_REQUEST['massupdate'])) && isset($_REQUEST['group_itemid'])){
-		$items_wdgt->addItem(insert_mass_update_item_form('group_itemid'));
+		$items_wdgt->addItem(insert_mass_update_item_form());
 	}
 	else if(($_REQUEST['go'] == 'copy_to') && isset($_REQUEST['group_itemid'])){
 		$items_wdgt->addItem(insert_copy_elements_to_forms('group_itemid'));
@@ -846,7 +844,7 @@ switch($itemType) {
 			'output' => API_OUTPUT_EXTEND,
 			'editable' => 1,
 			'select_hosts' => API_OUTPUT_EXTEND,
-			'select_triggers' => API_OUTPUT_EXTEND,
+			'select_triggers' => API_OUTPUT_REFER,
 			'select_applications' => API_OUTPUT_EXTEND,
 			'sortfield' => $sortfield,
 			'sortorder' => $sortorder,
@@ -1021,6 +1019,22 @@ switch($itemType) {
 		$paging = getPagingLine($items);
 //---------
 
+		$itemTriggerIds = array();
+		foreach($items as $num => $item)
+			$itemTriggerIds = array_merge($itemTriggerIds, zbx_objectValues($item['triggers'], 'triggerid'));
+
+		$itemTriggers = CTrigger::get(array(
+			'triggerids' => $itemTriggerIds,
+			'expandDescription' => true,
+			'output' => API_OUTPUT_EXTEND,
+			'select_hosts' => array('hostid','host','status'),
+			'select_functions' => API_OUTPUT_EXTEND,
+			'select_items' => API_OUTPUT_EXTEND,
+			'preservekeys' => true
+		));
+
+		$trigRealHosts = getParentHostsByTriggers($itemTriggers);
+
 		foreach($items as $inum => $item){
 
 			if($show_host){
@@ -1074,19 +1088,29 @@ switch($itemType) {
 			));
 
 // TRIGGERS INFO
-			foreach($item['triggers'] as $tnum => $trigger){
+			foreach($item['triggers'] as $tnum => &$trigger){
 				$triggerid = $trigger['triggerid'];
-				$tr_description = array();
+				$trigger = $itemTriggers[$triggerid];
 
+				$trigger['hosts'] = zbx_toHash($trigger['hosts'], 'hostid');
+				$trigger['items'] = zbx_toHash($trigger['items'], 'itemid');
+				$trigger['functions'] = zbx_toHash($trigger['functions'], 'functionid');
+
+				$tr_description = array();
 				if($trigger['templateid'] > 0){
-					$real_hosts = get_realhosts_by_triggerid($triggerid);
-					$real_host = DBfetch($real_hosts);
-					$tr_description[] = new CLink($real_host['host'], 'triggers.php?&hostid='.$real_host['hostid'], 'unknown');
-					$tr_description[] = ':';
+					if(!isset($trigRealHosts[$triggerid])){
+						$tr_description[] = new CSpan('HOST','unknown');
+						$tr_description[] = ':';
+					}
+					else{
+						$real_hosts = $trigRealHosts[$triggerid];
+						$real_host = reset($real_hosts);
+						$tr_description[] = new CLink($real_host['host'], 'triggers.php?&hostid='.$real_host['hostid'], 'unknown');
+						$tr_description[] = ':';
+					}
 				}
 
-				$trigger['description_expanded'] = expand_trigger_description($triggerid);
-				$tr_description[] = new CLink($trigger['description_expanded'], 'triggers.php?form=update&triggerid='.$triggerid);
+				$tr_description[] = new CLink($trigger['description'], 'triggers.php?form=update&triggerid='.$triggerid);
 
 				if($trigger['value'] != TRIGGER_VALUE_UNKNOWN) $trigger['error'] = '';
 
@@ -1110,12 +1134,13 @@ switch($itemType) {
 				$trigger_hint->addRow(array(
 					$priority,
 					$tr_description,
-					explode_exp($trigger['expression'], 1),
+					triggerExpression($trigger,1),
 					$tstatus,
 				));
 
 				$item['triggers'][$tnum] = $trigger;
 			}
+			unset($trigger);
 
 			if(!empty($item['triggers'])){
 				$trigger_info = new CSpan(S_TRIGGERS,'link_menu');
@@ -1129,14 +1154,17 @@ switch($itemType) {
 				$trigger_info = SPACE;
 			}
 //-------
-			//if item type is 'Log' we must show log menu
+// if item type is 'Log' we must show log menu
 			if($item['value_type'] == ITEM_VALUE_TYPE_LOG || $item['value_type'] == ITEM_VALUE_TYPE_STR || $item['value_type'] == ITEM_VALUE_TYPE_TEXT){
 
 				$triggers_flag = false;
 				$triggers="Array('".S_EDIT_TRIGGER."',null,null,{'outer' : 'pum_o_submenu','inner' : ['pum_i_submenu']}\n";
 
 				foreach($item['triggers'] as $num => $trigger){
-					$triggers .= ',["'.$trigger['description_expanded'].'",'.
+					foreach($trigger['functions'] as $fnum => $function)
+						if(!str_in_array($function['function'], array('regexp','iregexp'))) continue 2;
+
+					$triggers .= ',["'.$trigger['description'].'",'.
 										zbx_jsvalue("javascript: openWinCentered('tr_logform.php?sform=1&itemid=".$item['itemid'].
 																"&triggerid=".$trigger['triggerid'].
 																"','TriggerLog',760,540,".
@@ -1166,7 +1194,7 @@ switch($itemType) {
 				$description,
 				$trigger_info,
 				$item['key_'],
-				$item['delay'],
+				($item['type'] == ITEM_TYPE_TRAPPER ? '' : $item['delay']),
 				$item['history'],
 				(in_array($item['value_type'], array(ITEM_VALUE_TYPE_STR, ITEM_VALUE_TYPE_LOG, ITEM_VALUE_TYPE_TEXT)) ? '' : $item['trends']),
 				item_type2str($item['type']),

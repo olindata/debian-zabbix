@@ -676,6 +676,7 @@ CREATE TABLE hosts_templates (
 	PRIMARY KEY (hosttemplateid)
 ) with OIDS;
 CREATE UNIQUE INDEX hosts_templates_1 on hosts_templates (hostid,templateid);
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid);
 CREATE TABLE housekeeper (
 	housekeeperid		bigint		DEFAULT '0'	NOT NULL,
 	tablename		varchar(64)		DEFAULT ''	NOT NULL,
@@ -1065,7 +1066,7 @@ CREATE TABLE autoreg_host (
 	host		varchar(64)		DEFAULT ''	NOT NULL,
 	PRIMARY KEY (autoreg_hostid)
 ) with OIDS;
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
 CREATE TABLE proxy_autoreg_host (
 	id		serial			NOT NULL,
 	clock		integer		DEFAULT '0'	NOT NULL,

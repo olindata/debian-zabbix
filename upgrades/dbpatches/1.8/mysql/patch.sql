@@ -18,7 +18,7 @@ CREATE TABLE autoreg_host (
       host            varchar(64)             DEFAULT ''      NOT NULL,
       PRIMARY KEY (autoreg_hostid)
 ) type=InnoDB;
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
 alter table config add dropdown_first_entry integer DEFAULT '1' NOT NULL;
 alter table config add dropdown_first_remember integer DEFAULT '1' NOT NULL;
 alter table config add discovery_groupid bigint unsigned DEFAULT '0' NOT NULL;
@@ -273,6 +273,7 @@ alter table hosts add ipmi_errors_from integer DEFAULT '0' NOT NULL;
 alter table hosts add snmp_errors_from integer DEFAULT '0' NOT NULL;
 alter table hosts add ipmi_error varchar(128) DEFAULT '' NOT NULL;
 alter table hosts add snmp_error varchar(128) DEFAULT '' NOT NULL;
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid);
 alter table httptest add authentication          integer         DEFAULT '0'     NOT NULL;
 alter table httptest add http_user               varchar(64)             DEFAULT ''      NOT NULL;
 alter table httptest add http_password           varchar(64)             DEFAULT ''      NOT NULL;

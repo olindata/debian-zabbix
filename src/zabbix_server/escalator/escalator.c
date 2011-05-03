@@ -23,6 +23,7 @@
 #include "zlog.h"
 #include "daemon.h"
 #include "zbxserver.h"
+#include "zbxself.h"
 
 #include "escalator.h"
 #include "../operations.h"
@@ -40,6 +41,9 @@ typedef struct
 	void		*next;
 }
 ZBX_USER_MSG;
+
+extern unsigned char	process_type;
+extern int		process_num;
 
 /******************************************************************************
  *                                                                            *
@@ -337,11 +341,9 @@ static void	add_message_alert(DB_ESCALATION *escalation, DB_EVENT *event, DB_ACT
 		severity	= atoi(row[2]);
 
 		zabbix_log(LOG_LEVEL_DEBUG, "Trigger severity [%d] Media severity [%d] Period [%s]",
-			event->trigger_priority,
-			severity,
-			row[3]);
+				(int)event->trigger.priority, severity, row[3]);
 
-		if (((1 << event->trigger_priority) & severity) == 0)
+		if (((1 << event->trigger.priority) & severity) == 0)
 		{
 			zabbix_log(LOG_LEVEL_DEBUG, "Won't send message (severity)");
 			continue;
@@ -556,8 +558,10 @@ static void	execute_operations(DB_ESCALATION *escalation, DB_EVENT *event, DB_AC
 		{
 			zabbix_log(LOG_LEVEL_DEBUG, "Conditions match our event. Execute operation.");
 
-			substitute_macros(event, NULL, &operation.shortdata);
-			substitute_macros(event, NULL, &operation.longdata);
+			substitute_simple_macros(event, NULL, NULL, NULL, NULL, &operation.shortdata,
+					MACRO_TYPE_MESSAGE, NULL, 0);
+			substitute_simple_macros(event, NULL, NULL, NULL, NULL, &operation.longdata,
+					MACRO_TYPE_MESSAGE, NULL, 0);
 
 			if (0 == esc_period || esc_period > operation.esc_period)
 				esc_period = operation.esc_period;
@@ -710,24 +714,23 @@ static int	get_event_info(zbx_uint64_t eventid, DB_EVENT *event)
 
 		res = SUCCEED;
 	}
-
 	DBfree_result(result);
 
 	if (res == SUCCEED && event->object == EVENT_OBJECT_TRIGGER)
 	{
-		result = DBselect("select description,priority,comments,url,type"
+		result = DBselect("select description,expression,priority,comments,url"
 				" from triggers where triggerid=" ZBX_FS_UI64,
 				event->objectid);
 
 		if (NULL != (row = DBfetch(result)))
 		{
-			zbx_strlcpy(event->trigger_description, row[0], sizeof(event->trigger_description));
-			event->trigger_priority = atoi(row[1]);
-			event->trigger_comments	= strdup(row[2]);
-			event->trigger_url	= strdup(row[3]);
-			event->trigger_type	= atoi(row[4]);
+			event->trigger.triggerid = event->objectid;
+			strscpy(event->trigger.description, row[0]);
+			strscpy(event->trigger.expression, row[1]);
+			event->trigger.priority = (unsigned char)atoi(row[2]);
+			event->trigger.comments = zbx_strdup(event->trigger.comments, row[3]);
+			event->trigger.url = zbx_strdup(event->trigger.url, row[4]);
 		}
-
 		DBfree_result(result);
 	}
 	return res;
@@ -750,8 +753,8 @@ static int	get_event_info(zbx_uint64_t eventid, DB_EVENT *event)
  ******************************************************************************/
 static void	free_event_info(DB_EVENT *event)
 {
-	zbx_free(event->trigger_comments);
-	zbx_free(event->trigger_url);
+	zbx_free(event->trigger.comments);
+	zbx_free(event->trigger.url);
 }
 
 static void	execute_escalation(DB_ESCALATION *escalation)
@@ -858,8 +861,10 @@ static void	execute_escalation(DB_ESCALATION *escalation)
 			case ESCALATION_STATUS_ACTIVE:
 				if (SUCCEED == get_event_info(escalation->eventid, &event))
 				{
-					substitute_macros(&event, NULL, &action.shortdata);
-					substitute_macros(&event, NULL, &action.longdata);
+					substitute_simple_macros(&event, NULL, NULL, NULL, NULL,
+							&action.shortdata, MACRO_TYPE_MESSAGE, NULL, 0);
+					substitute_simple_macros(&event, NULL, NULL, NULL, NULL,
+							&action.longdata, MACRO_TYPE_MESSAGE, NULL, 0);
 
 					execute_operations(escalation, &event, &action);
 				}
@@ -868,8 +873,10 @@ static void	execute_escalation(DB_ESCALATION *escalation)
 			case ESCALATION_STATUS_RECOVERY:
 				if (SUCCEED == get_event_info(escalation->r_eventid, &event))
 				{
-					substitute_macros(&event, escalation, &action.shortdata);
-					substitute_macros(&event, escalation, &action.longdata);
+					substitute_simple_macros(&event, NULL, NULL, NULL, escalation,
+							&action.shortdata, MACRO_TYPE_MESSAGE, NULL, 0);
+					substitute_simple_macros(&event, NULL, NULL, NULL, escalation,
+							&action.longdata, MACRO_TYPE_MESSAGE, NULL, 0);
 
 					process_recovery_msg(escalation, &event, &action);
 				}
@@ -984,50 +991,36 @@ static void	process_escalations(int now)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments: never returns                                                    *
  *                                                                            *
  ******************************************************************************/
-int	main_escalator_loop()
+void	main_escalator_loop()
 {
-	int			now;
-	double			sec;
-	struct sigaction	phan;
+	int	now;
+	double	sec;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_escalator_loop()");
 
-        phan.sa_sigaction = child_signal_handler;
-	sigemptyset(&phan.sa_mask);
-	phan.sa_flags = SA_SIGINFO;
-	sigaction(SIGALRM, &phan, NULL);
+	set_child_signal_handler();
 
-	zbx_setproctitle("escalator [connecting to the database]");
+	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 
 	DBconnect(ZBX_DB_CONNECT_NORMAL);
 
 	for (;;)
 	{
+		zbx_setproctitle("%s [processing escalations]", get_process_type_string(process_type));
+
 		now = time(NULL);
 		sec = zbx_time();
-
-		zbx_setproctitle("escalator [processing escalations]");
-
 		process_escalations(now);
-
 		sec = zbx_time() - sec;
 
-		zabbix_log(LOG_LEVEL_DEBUG, "Escalator spent " ZBX_FS_DBL " seconds while processing escalation items."
-				" Nextcheck after %d sec.",
-				sec,
-				CONFIG_ESCALATOR_FREQUENCY);
+		zabbix_log(LOG_LEVEL_DEBUG, "%s #%d spent " ZBX_FS_DBL " seconds while processing escalations",
+				get_process_type_string(process_type), process_num, sec);
 
-		zbx_setproctitle("escalator [sleeping for %d seconds]",
-				CONFIG_ESCALATOR_FREQUENCY);
-
-		sleep(CONFIG_ESCALATOR_FREQUENCY);
+		zbx_sleep_loop(CONFIG_ESCALATOR_FREQUENCY);
 	}
-
-	/* Never reached */
-	DBclose();
 }

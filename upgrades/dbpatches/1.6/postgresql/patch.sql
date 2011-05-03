@@ -85,6 +85,7 @@ insert into drules_tmp select druleid,0,name,iprange,delay,nextcheck,status from
 drop table drules;
 alter table drules_tmp rename to drules;
 CREATE INDEX dservices_1 on dservices (dhostid,type,key_,port);
+DROP TABLE IF EXISTS escalations;
 CREATE TABLE escalations (
         escalationid            bigint          DEFAULT '0'     NOT NULL,
         actionid                bigint          DEFAULT '0'     NOT NULL,
@@ -392,6 +393,7 @@ alter table services_tmp rename to services;
 CREATE INDEX services_1 on services (triggerid);
 alter table sessions add status          integer         DEFAULT '0'     NOT NULL;
 alter table sysmaps_elements add iconid_disabled         bigint         DEFAULT '0'     NOT NULL;
+update sysmaps_elements set iconid_disabled=iconid_off;
 CREATE TABLE sysmaps_link_triggers (
         linktriggerid bigint     DEFAULT '0'      NOT NULL,
         linkid        bigint     DEFAULT '0'      NOT NULL,

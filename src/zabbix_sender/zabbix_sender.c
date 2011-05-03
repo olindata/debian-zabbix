@@ -33,7 +33,7 @@ const char	usage_message[] = "[-Vhv] {[-zpsI] -ko | [-zpI] -T -i <file> -r} [-c 
 #ifdef HAVE_GETOPT_LONG
 const char	*help_message[] = {
 	"Options:",
-	"  -c --config <file>                   Specify configuration file",
+	"  -c --config <file>                   Specify absolute path to the configuration file",
 	"",
 	"  -z --zabbix-server <server>          Hostname or IP address of Zabbix Server",
 	"  -p --port <server port>              Specify port number of server trapper running on the server. Default is 10051",
@@ -62,7 +62,7 @@ const char	*help_message[] = {
 #else
 const char	*help_message[] = {
 	"Options:",
-	"  -c <file>                    Specify configuration file",
+	"  -c <file>                    Specify absolute path to the configuration file",
 	"",
 	"  -z <server>                  Hostname or IP address of Zabbix Server",
 	"  -p <server port>             Specify port number of server trapper running on the server. Default is 10051",
@@ -142,18 +142,19 @@ static void	send_signal_handler(int sig)
 
 #endif /* NOT _WINDOWS */
 
-typedef struct zbx_active_metric_type
+typedef struct
 {
 	char		*source_ip, *server;
 	unsigned short	port;
 	struct zbx_json	json;
-} ZBX_THREAD_SENDVAL_ARGS;
+}
+ZBX_THREAD_SENDVAL_ARGS;
 
 /******************************************************************************
  *                                                                            *
  * Function: check_response                                                   *
  *                                                                            *
- * Purpose: Check if json response is SUCCEED                                 *
+ * Purpose: Check whether JSON response is SUCCEED                            *
  *                                                                            *
  * Parameters: result SUCCEED or FAIL                                         *
  *                                                                            *
@@ -162,60 +163,41 @@ typedef struct zbx_active_metric_type
  *                                                                            *
  * Author: Alexei Vladishev                                                   *
  *                                                                            *
- * Comments:                                                                  *
+ * Comments: active agent has almost the same function!                       *
  *                                                                            *
  ******************************************************************************/
 static int	check_response(char *response)
 {
-	struct		zbx_json_parse jp;
-	const char 	*p;
-	char		value[MAX_STRING_LEN];
-	char		info[MAX_STRING_LEN];
-
-	int	ret = SUCCEED;
+	struct zbx_json_parse	jp;
+	char			value[MAX_STRING_LEN];
+	char			info[MAX_STRING_LEN];
+	int			ret = SUCCEED;
 
 	ret = zbx_json_open(response, &jp);
 
-	if(SUCCEED == ret)
-	{
-		if (NULL == (p = zbx_json_pair_by_name(&jp, ZBX_PROTO_TAG_RESPONSE))
-				|| NULL == zbx_json_decodevalue(p, value, sizeof(value)))
-		{
-			ret = FAIL;
-		}
-	}
+	if (SUCCEED == ret)
+		ret = zbx_json_value_by_name(&jp, ZBX_PROTO_TAG_RESPONSE, value, sizeof(value));
 
-	if(SUCCEED == ret)
-	{
-		if(strcmp(value, ZBX_PROTO_VALUE_SUCCESS) != 0)
-		{
-			ret = FAIL;
-		}
-	}
+	if (SUCCEED == ret && 0 != strcmp(value, ZBX_PROTO_VALUE_SUCCESS))
+		ret = FAIL;
 
-	if (NULL != (p = zbx_json_pair_by_name(&jp, ZBX_PROTO_TAG_INFO))
-			&& NULL != zbx_json_decodevalue(p, info, sizeof(info)))
-	{
-		printf("Info from server: \"%s\"\n",
-			info);
-	}
+	if (SUCCEED == zbx_json_value_by_name(&jp, ZBX_PROTO_TAG_INFO, info, sizeof(info)))
+		printf("Info from server: \"%s\"\n", info);
 
 	return ret;
 }
 
 static	ZBX_THREAD_ENTRY(send_value, args)
 {
-	ZBX_THREAD_SENDVAL_ARGS *sentdval_args;
-
-	zbx_sock_t	sock;
-
-	char	*answer = NULL;
-
-	int	tcp_ret = FAIL, ret = FAIL;
+	ZBX_THREAD_SENDVAL_ARGS	*sentdval_args;
+	zbx_sock_t		sock;
+	char			*answer = NULL;
+	int			tcp_ret = FAIL, ret = FAIL;
 
 	assert(args);
+	assert(((zbx_thread_args_t *)args)->args);
 
-	sentdval_args = ((ZBX_THREAD_SENDVAL_ARGS *)args);
+	sentdval_args = (ZBX_THREAD_SENDVAL_ARGS *)((zbx_thread_args_t *)args)->args;
 
 #if !defined(_WINDOWS)
 	signal(SIGINT,  send_signal_handler);
@@ -239,13 +221,12 @@ static	ZBX_THREAD_ENTRY(send_value, args)
 					ret = SUCCEED;
 			}
 		}
+
+		zbx_tcp_close(&sock);
 	}
-	zbx_tcp_close(&sock);
 
 	if (FAIL == tcp_ret)
-	{
 		zabbix_log(LOG_LEVEL_DEBUG, "Send value error: %s", zbx_tcp_strerror());
-	}
 
 	zbx_thread_exit(ret);
 }
@@ -400,6 +381,7 @@ int main(int argc, char **argv)
 
 	const char	*p;
 
+	zbx_thread_args_t	thread_args;
 	ZBX_THREAD_SENDVAL_ARGS sentdval_args;
 
 	progname = get_program_name(argv[0]);
@@ -425,8 +407,11 @@ int main(int argc, char **argv)
 		goto exit;
 	}
 
-	sentdval_args.server	= ZABBIX_SERVER;
-	sentdval_args.port	= ZABBIX_SERVER_PORT;
+	thread_args.thread_num = 0;
+	thread_args.args = &sentdval_args;
+
+	sentdval_args.server = ZABBIX_SERVER;
+	sentdval_args.port = ZABBIX_SERVER_PORT;
 
 	zbx_json_init(&sentdval_args.json, ZBX_JSON_STAT_BUF_LEN);
 	zbx_json_addstring(&sentdval_args.json, ZBX_PROTO_TAG_REQUEST, ZBX_PROTO_VALUE_SENDER_DATA, ZBX_JSON_TYPE_STRING);
@@ -549,7 +534,7 @@ int main(int argc, char **argv)
 
 				last_send = zbx_time();
 
-				ret = zbx_thread_wait(zbx_thread_start(send_value, &sentdval_args));
+				ret = zbx_thread_wait(zbx_thread_start(send_value, &thread_args));
 
 				buffer_count = 0;
 				zbx_json_clean(&sentdval_args.json);
@@ -565,7 +550,7 @@ int main(int argc, char **argv)
 			if (1 == WITH_TIMESTAMPS)
 				zbx_json_adduint64(&sentdval_args.json, ZBX_PROTO_TAG_CLOCK, (int)time(NULL));
 
-			ret = zbx_thread_wait(zbx_thread_start(send_value, &sentdval_args));
+			ret = zbx_thread_wait(zbx_thread_start(send_value, &thread_args));
 		}
 
 		if (in != stdin)
@@ -601,7 +586,7 @@ int main(int argc, char **argv)
 
 			succeed_count++;
 
-			ret = zbx_thread_wait(zbx_thread_start(send_value, &sentdval_args));
+			ret = zbx_thread_wait(zbx_thread_start(send_value, &thread_args));
 		}
 		while(0); /* try block simulation */
 	}
