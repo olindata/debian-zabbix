@@ -69,6 +69,7 @@ insert into drules_tmp select druleid,0,name,iprange,delay,nextcheck,status from
 drop table drules;
 alter table drules_tmp rename to drules;
 CREATE INDEX dservices_1 on dservices (dhostid,type,key_,port);
+begin execute immediate 'drop table escalations'; exception when others then null; end;
 CREATE TABLE escalations (
 	escalationid	number(20)	DEFAULT '0'	NOT NULL,
 	actionid	number(20)	DEFAULT '0'	NOT NULL,
@@ -322,6 +323,7 @@ CREATE TABLE scripts (
 CREATE INDEX services_1 on services (triggerid);
 alter table sessions add status number(10) DEFAULT '0' NOT NULL;
 alter table sysmaps_elements add iconid_disabled number(20) DEFAULT '0' NOT NULL;
+update sysmaps_elements set iconid_disabled=iconid_off;
 CREATE TABLE sysmaps_link_triggers (
 	linktriggerid	number(20)	DEFAULT '0'	NOT NULL,
 	linkid		number(20)	DEFAULT '0'	NOT NULL,

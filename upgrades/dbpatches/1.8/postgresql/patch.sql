@@ -18,7 +18,7 @@ CREATE TABLE autoreg_host (
         host            varchar(64)             DEFAULT ''      NOT NULL,
         PRIMARY KEY (autoreg_hostid)
 ) with OIDS;
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);
 alter table config add dropdown_first_entry            integer         DEFAULT '1'     NOT NULL;
 alter table config add dropdown_first_remember         integer         DEFAULT '1'     NOT NULL;
 alter table config add discovery_groupid               bigint          DEFAULT '0'     NOT NULL;
@@ -303,6 +303,7 @@ ALTER TABLE hosts ALTER COLUMN inbytes SET NOT NULL;
 ALTER TABLE hosts ALTER COLUMN outbytes TYPE numeric(20);
 ALTER TABLE hosts ALTER COLUMN outbytes SET DEFAULT '0';
 ALTER TABLE hosts ALTER COLUMN outbytes SET NOT NULL;
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid);
 alter table httptest add authentication          integer         DEFAULT '0'     NOT NULL;
 alter table httptest add http_user               varchar(64)             DEFAULT ''      NOT NULL;
 alter table httptest add http_password           varchar(64)             DEFAULT ''      NOT NULL;

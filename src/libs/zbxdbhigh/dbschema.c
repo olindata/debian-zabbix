@@ -1125,7 +1125,7 @@ ZBX_TABLE	tables[]={
 	{"regexps",	"regexpid",	ZBX_SYNC,
 		{
 		{"regexpid",	ZBX_TYPE_ID,	ZBX_NOTNULL,	NULL},
-		{"name",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"name",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	NULL},
 		{"test_string",	ZBX_TYPE_BLOB,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
 		{0}
 		}
@@ -1150,11 +1150,11 @@ ZBX_TABLE	tables[]={
 	{"expressions",	"expressionid",	ZBX_SYNC,
 		{
 		{"expressionid",	ZBX_TYPE_ID,	ZBX_NOTNULL,	NULL},
-		{"regexpid",	ZBX_TYPE_ID,	ZBX_NOTNULL | ZBX_SYNC,	"regexps"},
-		{"expression",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
-		{"expression_type",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
-		{"exp_delimiter",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
-		{"case_sensitive",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"regexpid",	ZBX_TYPE_ID,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	"regexps"},
+		{"expression",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	NULL},
+		{"expression_type",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	NULL},
+		{"exp_delimiter",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	NULL},
+		{"case_sensitive",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC | ZBX_PROXY,	NULL},
 		{0}
 		}
 	},
@@ -1853,6 +1853,7 @@ CREATE TABLE hosts_templates (\
  PRIMARY KEY (hosttemplateid)\
 );\
 CREATE UNIQUE INDEX hosts_templates_1 on hosts_templates (hostid,templateid);\
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid);\
 CREATE TABLE housekeeper (\
  housekeeperid bigint DEFAULT '0' NOT NULL,\
  tablename varchar(64) DEFAULT '' NOT NULL,\
@@ -2242,7 +2243,7 @@ CREATE TABLE autoreg_host (\
  host varchar(64) DEFAULT '' NOT NULL,\
  PRIMARY KEY (autoreg_hostid)\
 );\
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);\
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host);\
 CREATE TABLE proxy_autoreg_host (\
  id integer NOT NULL PRIMARY KEY AUTOINCREMENT,\
  clock integer DEFAULT '0' NOT NULL,\

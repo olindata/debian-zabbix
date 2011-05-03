@@ -66,39 +66,34 @@
 		}
 	}
 
-/*
- * Function: item_type2str
- *
- * Description:
- *     Represent integer value of item type as string
- *
- * Author:
- *     Eugene Grigorjev (eugene.grigorjev@zabbix.com)
- *
- * Comments:
- *
- */
-	function item_type2str($type){
-		switch($type){
-			case ITEM_TYPE_ZABBIX:		$type = S_ZABBIX_AGENT;			break;
-			case ITEM_TYPE_SNMPV1:		$type = S_SNMPV1_AGENT;			break;
-			case ITEM_TYPE_TRAPPER:		$type = S_ZABBIX_TRAPPER;		break;
-			case ITEM_TYPE_SIMPLE:		$type = S_SIMPLE_CHECK;			break;
-			case ITEM_TYPE_SNMPV2C:		$type = S_SNMPV2_AGENT;			break;
-			case ITEM_TYPE_INTERNAL:	$type = S_ZABBIX_INTERNAL;		break;
-			case ITEM_TYPE_SNMPV3:		$type = S_SNMPV3_AGENT;			break;
-			case ITEM_TYPE_ZABBIX_ACTIVE:	$type = S_ZABBIX_AGENT_ACTIVE;		break;
-			case ITEM_TYPE_AGGREGATE:	$type = S_ZABBIX_AGGREGATE;		break;
-			case ITEM_TYPE_HTTPTEST:	$type = S_WEB_MONITORING;		break;
-			case ITEM_TYPE_EXTERNAL:	$type = S_EXTERNAL_CHECK;		break;
-			case ITEM_TYPE_DB_MONITOR:	$type = S_ZABBIX_DATABASE_MONITOR;	break;
-			case ITEM_TYPE_IPMI:		$type = S_IPMI_AGENT;			break;
-			case ITEM_TYPE_SSH:		$type = S_SSH_AGENT;			break;
-			case ITEM_TYPE_TELNET:		$type = S_TELNET_AGENT;			break;
-			case ITEM_TYPE_CALCULATED:	$type = S_CALCULATED;			break;
-			default:$type = S_UNKNOWN;			break;
+	function item_type2str($type=null){
+		$types = array(
+			ITEM_TYPE_ZABBIX => S_ZABBIX_AGENT,
+			ITEM_TYPE_ZABBIX_ACTIVE => S_ZABBIX_AGENT_ACTIVE,
+			ITEM_TYPE_SIMPLE => S_SIMPLE_CHECK,
+			ITEM_TYPE_SNMPV1 => S_SNMPV1_AGENT,
+			ITEM_TYPE_SNMPV2C => S_SNMPV2_AGENT,
+			ITEM_TYPE_SNMPV3 => S_SNMPV3_AGENT,
+			ITEM_TYPE_INTERNAL => S_ZABBIX_INTERNAL,
+			ITEM_TYPE_TRAPPER => S_ZABBIX_TRAPPER,
+			ITEM_TYPE_AGGREGATE => S_ZABBIX_AGGREGATE,
+			ITEM_TYPE_EXTERNAL => S_EXTERNAL_CHECK,
+			ITEM_TYPE_DB_MONITOR => S_ZABBIX_DATABASE_MONITOR,
+			ITEM_TYPE_IPMI => S_IPMI_AGENT,
+			ITEM_TYPE_SSH => S_SSH_AGENT,
+			ITEM_TYPE_TELNET => S_TELNET_AGENT,
+			ITEM_TYPE_CALCULATED => S_CALCULATED,
+			ITEM_TYPE_HTTPTEST => S_WEB_MONITORING,
+		);
+
+		if(is_null($type)){
+//			natsort($types);
+			return $types;
 		}
-	return $type;
+		else if(isset($types[$type]))
+			return $types[$type];
+		else
+			return S_UNKNOWN;
 	}
 
 	/*
@@ -159,7 +154,7 @@
 	 * Comments:
 	 *
 	 */
-	function	item_status2str($status){
+	function item_status2str($status){
 		switch($status){
 			case ITEM_STATUS_ACTIVE:	$status = S_ACTIVE;		break;
 			case ITEM_STATUS_DISABLED:	$status = S_DISABLED;		break;
@@ -195,8 +190,6 @@
 	# Update Item definition for selected group
 
 	function update_item_in_group($groupid,$itemid,$item){
-/*		$description,$key,$hostid,$delay,$history,$status,$type,$snmp_community,$snmp_oid,$value_type,$trapper_hosts,$snmp_port,$units,$multiplier,$delta,$snmpv3_securityname,$snmpv3_securitylevel,$snmpv3_authpassphrase,$snmpv3_privpassphrase,$formula,$trends,$logtimefmt,$valuemapid,$delay_flex,$params,$ipmi_sensor,$applications)
-//*/
 		$sql='SELECT i.itemid,i.hostid '.
 				' FROM hosts_groups hg,items i '.
 				' WHERE hg.groupid='.$groupid.
@@ -240,8 +233,6 @@
 	# Add Item definition to selected group
 
 	function add_item_to_group($groupid,$item){
-/*	$description,$key,$hostid,$delay,$history,$status,$type,$snmp_community,$snmp_oid,$value_type,$trapper_hosts,$snmp_port,$units,$multiplier,$delta,$snmpv3_securityname,$snmpv3_securitylevel,$snmpv3_authpassphrase,$snmpv3_privpassphrase,$formula,$trends,$logtimefmt,$valuemapid,$delay_flex,$params,$ipmi_sensor,$applications)
-//*/
 		$sql='SELECT hostid FROM hosts_groups WHERE groupid='.$groupid;
 		$result=DBSelect($sql);
 		while($row=DBfetch($result)){
@@ -257,13 +248,6 @@
 	 *                                                                            *
 	 ******************************************************************************/
 	function add_item($item){
-/*
-		$item = array('description','key','hostid','delay','history','status','type',
-		'snmp_community','snmp_oid','value_type','trapper_hosts','snmp_port','units','multiplier','delta',
-		'snmpv3_securityname','snmpv3_securitylevel','snmpv3_authpassphrase','snmpv3_privpassphrase',
-		'formula','trends','logtimefmt','valuemapid','delay_flex','params','ipmi_sensor','applications','templateid');
-//*/
-
 		$item_db_fields = array(
 				'description'		=> null,
 				'key_'			=> null,
@@ -276,7 +260,7 @@
 				'snmp_oid'		=> '',
 				'value_type'		=> ITEM_VALUE_TYPE_STR,
 				'data_type'		=> ITEM_DATA_TYPE_DECIMAL,
-				'trapper_hosts'		=> 'localhost',
+				'trapper_hosts'		=> '',
 				'snmp_port'		=> 161,
 				'units'			=> '',
 				'multiplier'		=> 0,
@@ -342,7 +326,7 @@
 		}
 
 		if($item['value_type'] == ITEM_VALUE_TYPE_STR){
-			$item['delta']=0;
+			$item['delta'] = 0;
 		}
 
 		if ($item['value_type'] != ITEM_VALUE_TYPE_UINT64) {
@@ -368,7 +352,7 @@
 				$g=$arr[6];
 				// Item function
 				$g=$arr[8];
-				if(!str_in_array($g,array('last', 'min', 'max', 'avg', 'sum','count'))){
+				if(!str_in_array($g,array('last', 'min', 'max', 'avg', 'sum', 'count'))){
 					error(S_ITEM_FUNCTION.SPACE.'['.$g.']'.SPACE.S_IS_NOT_ONE_OF.SPACE.'[last, min, max, avg, sum, count]');
 					return FALSE;
 				}
@@ -400,9 +384,9 @@
 		}
 
 		//validating item key
-		list($item_key_is_valid, $check_result) = check_item_key($item['key_']);
-		if(!$item_key_is_valid){
-			error(S_ERROR_IN_ITEM_KEY.SPACE.$check_result);
+		$checkResult = check_item_key($item['key_']);
+		if(!$checkResult['valid']){
+			error(S_ERROR_IN_ITEM_KEY.SPACE.$checkResult['description']);
 			return false;
 		}
 
@@ -614,15 +598,14 @@
 		}
 
 		//validating item key
-		list($item_key_is_valid, $check_result) = check_item_key($item['key_']);
-		if(!$item_key_is_valid){
-			error(S_ERROR_IN_ITEM_KEY.SPACE.$check_result);
+		$checkResult = check_item_key($item['key_']);
+		if(!$checkResult['valid']){
+			error(S_ERROR_IN_ITEM_KEY.SPACE.$checkResult['description']);
 			return false;
 		}
 
 		$item_old = get_item_by_itemid($itemid);
 		DBexecute('UPDATE items SET lastlogsize=0, mtime=0 WHERE itemid='.$itemid.' AND key_<>'.zbx_dbstr($item['key_']));
-
 
 		if($upd_app){
 			$result = DBexecute('DELETE FROM items_applications WHERE itemid='.$itemid);
@@ -654,8 +637,8 @@
 				'delta='.$item['delta'].','.
 				'snmpv3_securityname='.zbx_dbstr($item['snmpv3_securityname']).','.
 				'snmpv3_securitylevel='.$item['snmpv3_securitylevel'].','.
-				'snmpv3_authpassphrase='.zbx_dbstr($item['snmpv3_authpassphrase']).','.
-				'snmpv3_privpassphrase='.zbx_dbstr($item['snmpv3_privpassphrase']).','.
+				'snmpv3_authpassphrase='.($item['snmpv3_securitylevel'] == ITEM_SNMPV3_SECURITYLEVEL_AUTHPRIV || $item['snmpv3_securitylevel'] == ITEM_SNMPV3_SECURITYLEVEL_AUTHNOPRIV ? zbx_dbstr($item['snmpv3_authpassphrase']) : "''").','.
+				'snmpv3_privpassphrase='.($item['snmpv3_securitylevel'] == ITEM_SNMPV3_SECURITYLEVEL_AUTHPRIV ? zbx_dbstr($item['snmpv3_privpassphrase']) : "''").','.
 				'formula='.zbx_dbstr($item['formula']).','.
 				'trends='.$item['trends'].','.
 				'logtimefmt='.zbx_dbstr($item['logtimefmt']).','.
@@ -701,44 +684,41 @@
 		$item_data = get_item_by_itemid_limited($itemid);
 
 		$restore_rules= array(
-					'description'		=> array(),
-					'key_'			=> array(),
-					'hostid'		=> array(),
-					'delay'			=> array('template' => 1),
-					'history'		=> array('template' => 1 , 'httptest' => 1),
-					'status'		=> array('template' => 1 , 'httptest' => 1),
-					'type'			=> array(),
-					'snmp_community'	=> array('template' => 1),
-					'snmp_oid'		=> array(),
-					'snmp_port'		=> array('template' => 1),
-					'snmpv3_securityname'	=> array('template' => 1),
-					'snmpv3_securitylevel'	=> array('template' => 1),
-					'snmpv3_authpassphrase'	=> array('template' => 1),
-					'snmpv3_privpassphrase'	=> array('template' => 1),
-					'value_type'		=> array(),
-					'data_type'		=> array(),
-					'trapper_hosts'		=> array('template' =>1 ),
-					'units'			=> array(),
-					'multiplier'		=> array(),
-					'delta'			=> array('template' => 1 , 'httptest' => 1),
-					'formula'		=> array(),
-					'trends'		=> array('template' => 1 , 'httptest' => 1),
-					'logtimefmt'		=> array(),
-					'valuemapid'		=> array('httptest' => 1),
-					'authtype'		=> array('template' => 1),
-					'username'		=> array('template' => 1),
-					'password'		=> array('template' => 1),
-					'publickey'		=> array('template' => 1),
-					'privatekey'		=> array('template' => 1),
-					'params'		=> array('template' => 1),
-					'delay_flex'		=> array('template' => 1),
-					'ipmi_sensor'		=> array());
+			'description'		=> array(),
+			'key_'			=> array(),
+			'hostid'		=> array(),
+			'delay'			=> array('template' => 1),
+			'history'		=> array('template' => 1 , 'httptest' => 1),
+			'status'		=> array('template' => 1 , 'httptest' => 1),
+			'type'			=> array(),
+			'snmp_community'	=> array('template' => 1),
+			'snmp_oid'		=> array(),
+			'snmp_port'		=> array('template' => 1),
+			'snmpv3_securityname'	=> array('template' => 1),
+			'snmpv3_securitylevel'	=> array('template' => 1),
+			'snmpv3_authpassphrase'	=> array('template' => 1),
+			'snmpv3_privpassphrase'	=> array('template' => 1),
+			'value_type'		=> array(),
+			'data_type'		=> array(),
+			'trapper_hosts'		=> array('template' =>1 ),
+			'units'			=> array(),
+			'multiplier'		=> array(),
+			'delta'			=> array('template' => 1 , 'httptest' => 1),
+			'formula'		=> array(),
+			'trends'		=> array('template' => 1 , 'httptest' => 1),
+			'logtimefmt'		=> array(),
+			'valuemapid'		=> array('httptest' => 1),
+			'authtype'		=> array('template' => 1),
+			'username'		=> array('template' => 1),
+			'password'		=> array('template' => 1),
+			'publickey'		=> array('template' => 1),
+			'privatekey'		=> array('template' => 1),
+			'params'		=> array('template' => 1),
+			'delay_flex'		=> array('template' => 1),
+			'ipmi_sensor'		=> array()
+		);
 
 		foreach($restore_rules as $var_name => $info){
-/*			if(($item_data['type'] == ITEM_TYPE_HTTPTEST) && !isset($info['httptest'])){
-				$item[$var_name] = $item_data[$var_name];
-			}*/
-
 			if(!isset($info['template']) && (0 != $item_data['templateid'])){
 				$item[$var_name] = $item_data[$var_name];
 			}
@@ -748,10 +728,7 @@
 			}
 		}
 
-/*		if($item_data['type'] == ITEM_TYPE_HTTPTEST)
-			$item['applications'] = get_applications_by_itemid($itemid);*/
-
-	return update_item($itemid,$item);
+		return update_item($itemid,$item);
 	}
 
 	/*
@@ -1780,13 +1757,13 @@
 	}
 
 
-	/**
-	 * Check item key and return info about an error if one is present
-	 *
-	 * @param string $key item key, e.g. system.run[cat /etc/passwd | awk -F: '{ print $1 }']
-	 * @return array
-	 *
-	 */
+/**
+ * Check item key and return info about an error if one is present
+ *
+ * @param string $key item key, e.g. system.run[cat /etc/passwd | awk -F: '{ print $1 }']
+ * @return array
+ *
+ */
 	function check_item_key($key){
 		$key_strlen = zbx_strlen($key);
 
@@ -1823,12 +1800,12 @@
 		//no function specified?
 		if ($current_char == $key_strlen) {
 			return array(
-				true,   //is key valid?
-				S_KEY_IS_VALID //result description
+				'valid' => true,   //is key valid?
+				'description' => S_KEY_IS_VALID //result description
 			);
 		}
 		//function with parameter, e.g. system.run[...]
-		elseif($characters[$current_char] == '[') {
+		else if($characters[$current_char] == '[') {
 
 			$state = 0; //0 - initial, 1 - inside quoted param, 2 - inside unquoted param
 			$nest_level = 0;
@@ -1842,19 +1819,19 @@
 							//do nothing
 						}
 						//Zapcat: '][' is treated as ','
-						elseif($characters[$i] == ']' && isset($characters[$i+1]) && $characters[$i+1] == '[' && $nest_level == 0) {
+						else if($characters[$i] == ']' && isset($characters[$i+1]) && $characters[$i+1] == '[' && $nest_level == 0) {
 							$i++;
 						}
 						//entering quotes
-						elseif($characters[$i] == '"') {
+						else if($characters[$i] == '"') {
 							$state = 1;
 						}
 						//next nesting level
-						elseif($characters[$i] == '[') {
+						else if($characters[$i] == '[') {
 							$nest_level++;
 						}
 						//one of the nested sets ended
-						elseif($characters[$i] == ']' && $nest_level != 0) {
+						else if($characters[$i] == ']' && $nest_level != 0) {
 							$nest_level--;
 							//skipping spaces
 							while(isset($characters[$i+1]) && $characters[$i+1] == ' ') {
@@ -1863,34 +1840,34 @@
 							//all nestings are closed correctly
 							if ($nest_level == 0 && isset($characters[$i+1]) && $characters[$i+1] == ']' && !isset($characters[$i+2])) {
 								return array(
-									true,   //is key valid?
-									S_KEY_IS_VALID //result description
+									'valid' => true,   //is key valid?
+									'description' => S_KEY_IS_VALID //result description
 								);
 							}
 
 							if((!isset($characters[$i+1]) || $characters[$i+1] != ',')
 								&& !($nest_level !=0 && isset($characters[$i+1]) && $characters[$i+1] == ']')) {
 								return array(
-									false,   //is key valid?
-									sprintf(S_INCORRECT_SYNTAX_NEAR, $characters[$current_char], $current_char) //result description
+									'valid' => false,   //is key valid?
+									'description' => sprintf(S_INCORRECT_SYNTAX_NEAR, $characters[$current_char], $current_char) //result description
 								);
 							}
 						}
-						elseif($characters[$i] == ']' && $nest_level == 0) {
+						else if($characters[$i] == ']' && $nest_level == 0) {
 							if (isset($characters[$i+1])){
 								return array(
-									false,   //is key valid?
-									sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+1]) //result description
+									'valid' => false,   //is key valid?
+									'description' => sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+1]) //result description
 								);
 							}
 							else {
 								return array(
-									true,   //is key valid?
-									S_KEY_IS_VALID //result description
+									'valid' => true,   //is key valid?
+									'description' => S_KEY_IS_VALID //result description
 								);
 							}
 						}
-						elseif($characters[$i] != ' ') {
+						else if($characters[$i] != ' ') {
 							$state = 2;
 						}
 
@@ -1899,31 +1876,28 @@
 					//quoted
 					case 1:
 						//ending quote is reached
-						if($characters[$i] == '"')
-						{
+						if($characters[$i] == '"'){
 							//skipping spaces
 							while(isset($characters[$i+1]) && $characters[$i+1] == ' ') {
 								$i++;
 							}
 
 							//Zapcat
-							if ($nest_level == 0 && isset($characters[$i+1]) && isset($characters[$i+2]) && $characters[$i+1] == ']' && $characters[$i+2] == '[')
-							{
+							if($nest_level == 0 && isset($characters[$i+1]) && isset($characters[$i+2]) && $characters[$i+1] == ']' && $characters[$i+2] == '['){
 								$state = 0;
 								break;
 							}
 
-							if ($nest_level == 0 && isset($characters[$i+1]) && $characters[$i+1] == ']' && !isset($characters[$i+2]))
-							{
+							if ($nest_level == 0 && isset($characters[$i+1]) && $characters[$i+1] == ']' && !isset($characters[$i+2])){
 								return array(
-									true,   //is key valid?
-									S_KEY_IS_VALID //result description
+									'valid' => true,   //is key valid?
+									'description' => S_KEY_IS_VALID //result description
 								);
 							}
-							elseif($nest_level == 0 && $characters[$i+1] == ']' && isset($characters[$i+2])){
+							else if($nest_level == 0 && $characters[$i+1] == ']' && isset($characters[$i+2])){
 								return array(
-									false,   //is key valid?
-									sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+2]) //result description
+									'valid' => false,   //is key valid?
+									'description' => sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+2]) //result description
 								);
 							}
 
@@ -1931,15 +1905,15 @@
 								&& !($nest_level != 0 && isset($characters[$i+1]) && $characters[$i+1] == ']'))
 							{
 								return array(
-									false,   //is key valid?
-									sprintf(S_INCORRECT_SYNTAX_NEAR, $characters[$current_char], $current_char) //result description
+									'valid' => false,   //is key valid?
+									'description' => sprintf(S_INCORRECT_SYNTAX_NEAR, $characters[$current_char], $current_char) //result description
 								);
 							}
 
 							$state = 0;
 						}
 						//escaped quote (\")
-						elseif($characters[$i] == '\\' && isset($characters[$i+1]) && $characters[$i+1] == '"') {
+						else if($characters[$i] == '\\' && isset($characters[$i+1]) && $characters[$i+1] == '"') {
 							$i++;
 						}
 
@@ -1948,26 +1922,25 @@
 					//unquoted
 					case 2:
 						//Zapcat
-						if($nest_level == 0 && $characters[$i] == ']' && isset($characters[$i+1]) && $characters[$i+1] =='[' )
-						{
+						if($nest_level == 0 && $characters[$i] == ']' && isset($characters[$i+1]) && $characters[$i+1] =='[' ){
 							$i--;
 							$state = 0;
 						}
-						elseif($characters[$i] == ',' || ($characters[$i] == ']' && $nest_level != 0)) {
+						else if($characters[$i] == ',' || ($characters[$i] == ']' && $nest_level != 0)) {
 							$i--;
 							$state = 0;
 						}
-						elseif($characters[$i] == ']' && $nest_level == 0) {
+						else if($characters[$i] == ']' && $nest_level == 0) {
 							if (isset($characters[$i+1])){
 								return array(
-									false,   //is key valid?
-									sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+1]) //result description
+									'valid' => false,   //is key valid?
+									'description' => sprintf(S_INCORRECT_USAGE_OF_BRACKETS, $characters[$i+1]) //result description
 								);
 							}
 							else {
 								return array(
-									true,   //is key valid?
-									S_KEY_IS_VALID //result description
+									'valid' => true,   //is key valid?
+									'description' => S_KEY_IS_VALID //result description
 								);
 							}
 						}
@@ -1976,15 +1949,15 @@
 			}
 
 			return array(
-				false,   //is key valid?
-				S_INVALID_KEY_FORMAT //result description
+				'valid' => false,   //is key valid?
+				'description' => S_INVALID_KEY_FORMAT //result description
 			);
 
 		}
 		else {
 			return array(
-				false,   //is key valid?
-				sprintf(S_INVALID_CHARACTER_AT_POSITION, $characters[$current_char], $current_char) //result description
+				'valid' => false,   //is key valid?
+				'description' => sprintf(S_INVALID_CHARACTER_AT_POSITION, $characters[$current_char], $current_char) //result description
 			);
 		}
 

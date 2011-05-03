@@ -46,6 +46,7 @@ alter table dhosts modify ip varchar(39) NOT NULL default '';
 CREATE INDEX dhosts_1 on dhosts (druleid,ip);
 alter table drules add proxy_hostid bigint(20) unsigned NOT NULL default '0' after druleid;
 CREATE INDEX dservices_1 on dservices (dhostid,type,key_,port);
+DROP TABLE IF EXISTS escalations;
 CREATE TABLE escalations (
         escalationid            bigint unsigned         DEFAULT '0'     NOT NULL,
         actionid                bigint unsigned         DEFAULT '0'     NOT NULL,
@@ -279,6 +280,7 @@ alter table services modify         goodsla         double(16,4)            DEFA
 CREATE INDEX services_1 on services (triggerid);
 alter table sessions add status          integer         DEFAULT '0'     NOT NULL;
 alter table sysmaps_elements add iconid_disabled bigint unsigned DEFAULT '0' NOT NULL;
+update sysmaps_elements set iconid_disabled=iconid_off;
 CREATE TABLE sysmaps_link_triggers (
 	linktriggerid bigint unsigned DEFAULT '0'      NOT NULL,
 	linkid        bigint unsigned DEFAULT '0'      NOT NULL,

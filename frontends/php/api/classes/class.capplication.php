@@ -441,7 +441,18 @@ COpt::memoryPick();
 		try{
 			self::BeginTransaction(__METHOD__);
 
+			$dbHosts = CHost::get(array(
+				'output' => API_OUTPUT_SHORTEN,
+				'hostids' => zbx_objectValues($applications, 'hostid'),
+				'templated_hosts' => true,
+				'editable' => true,
+				'preservekeys' => true
+			));
+
 			foreach($applications as $anum => $application){
+				if(!isset($dbHosts[$application['hostid']]))
+					self::exception(ZBX_API_ERROR_PARAMETERS, S_NO_PERMISSIONS);
+
 				$result = add_application($application['name'], $application['hostid']);
 
 				if(!$result)
@@ -492,12 +503,14 @@ COpt::memoryPick();
 
 			foreach($applications as $anum => $application){
 				$application_db_fields = $upd_applications[$application['applicationid']];
+				$host = reset($application_db_fields['hosts']);
 
 				if(!check_db_fields($application_db_fields, $application)){
 					self::exception(ZBX_API_ERROR_PARAMETERS, S_INCORRECT_FIELDS_FOR_APPLICATIONS);
 				}
 
-				$result = update_application($application['applicationid'], $application['name'], $application['hostid']);
+				$result = update_application($application['applicationid'], $application['name'], $host['hostid']);
+
 				if(!$result)
 					self::exception(ZBX_API_ERROR_PARAMETERS, S_CANNOT_UPDATE_APPLICATION);
 			}
@@ -630,18 +643,19 @@ COpt::memoryPick();
 
 			DB::insert('items_applications', $apps_insert);
 
-
-			$child_applications = array();
 			foreach($itemids as $inum => $itemid){
 				$db_childs = DBselect('SELECT itemid, hostid FROM items WHERE templateid=' . $itemid);
 
-				if($child = DBfetch($db_childs)){
+				while($child = DBfetch($db_childs)){
 					$sql = 'SELECT a1.applicationid ' .
 							' FROM applications a1, applications a2 ' .
 							' WHERE a1.name=a2.name ' .
 								' AND a1.hostid=' . $child['hostid'] .
 								' AND ' . DBcondition('a2.applicationid', $applicationids);
 					$db_apps = DBselect($sql);
+
+					$child_applications = array();
+
 					while($app = DBfetch($db_apps)){
 						$child_applications[] = $app;
 					}

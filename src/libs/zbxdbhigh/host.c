@@ -21,7 +21,6 @@
 
 #include "db.h"
 #include "log.h"
-#include "zlog.h"
 #include "dbcache.h"
 
 /******************************************************************************
@@ -33,7 +32,8 @@
  * Author: Eugene Grigorjev                                                   *
  *                                                                            *
  ******************************************************************************/
-typedef struct {
+typedef struct
+{
 	zbx_uint64_t	gitemid, itemid;
 	char		key[ITEM_KEY_LEN_MAX];
 	int		drawtype;
@@ -43,7 +43,8 @@ typedef struct {
 	int		calc_fnc;
 	int		type;
 	int		periods_cnt;
-} ZBX_GRAPH_ITEMS;
+}
+ZBX_GRAPH_ITEMS;
 
 /******************************************************************************
  *                                                                            *
@@ -51,7 +52,7 @@ typedef struct {
  *                                                                            *
  * Description: Check collisions between templates                            *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Parameters: templateids - array of templates identificators from database  *
  *             templateids_num - templates count in templateids array         *
@@ -355,7 +356,7 @@ clean:
  *                                                                            *
  * Return value: SUCCEED if no collisions found                               *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments: !!! Don't forget sync code with PHP !!!                          *
  *                                                                            *
@@ -670,12 +671,7 @@ static void	DBupdate_services_rec(zbx_uint64_t serviceid, int clock)
 				serviceupid);
 		}
 		else
-		{
-			zabbix_log( LOG_LEVEL_ERR, "Unknown calculation algorithm of service status [%d]",
-				algorithm);
-			zabbix_syslog("Unknown calculation algorithm of service status [%d]",
-				algorithm);
-		}
+			zabbix_log(LOG_LEVEL_ERR, "Unknown calculation algorithm of service status [%d]", algorithm);
 	}
 	DBfree_result(result);
 
@@ -955,7 +951,7 @@ static void	DBdelete_sysmaps_elements(int elementtype, zbx_uint64_t elementid)
  *                                                                            *
  * Return value:                                                              *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *
@@ -2903,7 +2899,7 @@ static int	DBcopy_template_graphs(zbx_uint64_t hostid, zbx_uint64_t templateid)
  *                                                                            *
  * Description: Retrieve already linked templates for specified host          *
  *                                                                            *
- * Author: Aleksander Vladishev                                               *
+ * Author: Alexander Vladishev                                                *
  *                                                                            *
  * Comments:                                                                  *
  *                                                                            *

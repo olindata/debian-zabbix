@@ -984,6 +984,9 @@ CREATE TABLE hosts_templates (
 CREATE UNIQUE INDEX hosts_templates_1 on hosts_templates (hostid,templateid)
 /
 
+CREATE INDEX hosts_templates_2 on hosts_templates (templateid)
+/
+
 CREATE TABLE housekeeper (
 	housekeeperid		number(20)		DEFAULT '0'	NOT NULL,
 	tablename		nvarchar2(64)		DEFAULT '',
@@ -1509,7 +1512,7 @@ CREATE TABLE autoreg_host (
 )
 /
 
-CREATE UNIQUE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host)
+CREATE INDEX autoreg_host_1 on autoreg_host (proxy_hostid,host)
 /
 
 CREATE TABLE proxy_autoreg_host (
