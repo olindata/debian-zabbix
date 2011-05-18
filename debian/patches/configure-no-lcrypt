@@ -1,8 +1,8 @@
-Index: zabbix-1.8.3/configure
+Index: zabbix/configure
 ===================================================================
---- zabbix-1.8.3.orig/configure	2010-09-11 09:29:55.700236638 +0200
-+++ zabbix-1.8.3/configure	2010-09-11 09:30:20.583902195 +0200
-@@ -12323,7 +12323,7 @@
+--- zabbix.orig/configure	2011-05-18 23:45:05.076749800 +0200
++++ zabbix/configure	2011-05-18 23:45:26.757084741 +0200
+@@ -9334,7 +9334,7 @@
  			esac
  		done
  
@@ -11,19 +11,19 @@ Index: zabbix-1.8.3/configure
  		for i in $_full_libnetsnmp_libs; do
  			case $i in
  				-l*)
-@@ -12666,7 +12666,6 @@
-   echo $ECHO_N "(cached) $ECHO_C" >&6
+@@ -9590,7 +9590,6 @@
+   $as_echo_n "(cached) " >&6
  else
    ac_check_lib_save_LIBS=$LIBS
 -LIBS="-lcrypto  $LIBS"
- cat >conftest.$ac_ext <<_ACEOF
- /* confdefs.h.  */
- _ACEOF
-@@ -12715,9 +12714,6 @@
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
+@@ -9614,9 +9613,6 @@
  fi
- { echo "$as_me:$LINENO: result: $ac_cv_lib_crypto_main" >&5
- echo "${ECHO_T}$ac_cv_lib_crypto_main" >&6; }
--if test $ac_cv_lib_crypto_main = yes; then
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_crypto_main" >&5
+ $as_echo "$ac_cv_lib_crypto_main" >&6; }
+-if test "x$ac_cv_lib_crypto_main" = x""yes; then :
 -  SNMP_LIBS="$SNMP_LIBS -lcrypto"
 -fi
  
