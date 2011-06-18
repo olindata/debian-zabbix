@@ -1,3 +1,12 @@
+zabbix (1:1.8.5-2) unstable; urgency=low
+
+  * Updated nb.po (closes: #619730)
+  * Updated nl.po (closes: #623573)
+  * init.d script for zabbix-agent now obeys pidfile (closes: #623691)
+  * FTBFS fixed for binutils-gold (closes: #556770)
+
+ -- Christoph Haas <haas@debian.org>  Sat, 18 Jun 2011 23:01:09 +0200
+
 zabbix (1:1.8.5-1) unstable; urgency=low
 
   * New upstream release
