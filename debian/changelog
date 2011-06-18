@@ -7,6 +7,7 @@ zabbix (1:1.8.5-2) unstable; urgency=low
   * Moved "prepare" target in debian/rules to proper place to remedy FTBFS
     (closes: #630016)
   * Fixed path to fping binary
+  * Removed barely used zabbix_agent.conf (closes: #571419)
 
  -- Christoph Haas <haas@debian.org>  Sat, 18 Jun 2011 23:01:09 +0200
 
