@@ -107,7 +107,7 @@ prepare-stamp:
 
 # Copy the source directory (without the 'debian' directory) to other locations
 # to configure and compile the sources there for each database flavor.
-extract: prepare $(foreach s,$(VARIANTS),extract-$(s)-stamp)
+extract: $(foreach s,$(VARIANTS),extract-$(s)-stamp)
 extract-%-stamp:
 	@echo "--------------------------"
 	@echo "Copying source directory to $(BUILDDIR)-$(*) for building the $(*) variant there"
@@ -127,7 +127,7 @@ configure-%-stamp: extract-%-stamp
 	touch $@
 
 # Compile the flavors
-build: $(foreach s,$(VARIANTS),build-$(s)-stamp)
+build: prepare $(foreach s,$(VARIANTS),build-$(s)-stamp)
 build-%-stamp: configure-%-stamp
 	@echo "--------------------------"
 	@echo "Compiling the $(*) flavor in $(BUILDDIR)-$(*)"
