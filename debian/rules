@@ -1,6 +1,11 @@
 #!/usr/bin/make -f
 
-# (1) prepare
+# (1) extract
+#
+#     Copies the source directory into debian/tmp... to compile the
+#     files there.
+#
+# (2) prepare
 #
 #     Apply Quilt patches.
 #
@@ -8,11 +13,6 @@
 #     up-to-date versions from the autotools-dev package. And some black
 #     magic so that our patch to remove -lcrypto is actually doing something.
 #     
-# (2) extract
-#
-#     Copies the source directory into debian/tmp... to compile the
-#     files there.
-#
 # (3) configure
 #
 #     Configure the copied source tree for each database backend flavor.
