@@ -118,10 +118,11 @@ AlertScriptsPath=/etc/zabbix/alert.d/
 # Location of fping. Default is /usr/sbin/fping
 # Make sure that fping binary has root permissions and SUID flag set
 #FpingLocation=/usr/sbin/fping
+FpingLocation=/usr/bin/fping
 
 # Location of fping6. Default is /usr/sbin/fping6
 # Make sure that fping binary has root permissions and SUID flag set
-#Fping6Location=/usr/sbin/fping6
+#Fping6Location=/usr/bin/fping6
 
 # Temporary directory. Default is /tmp
 #TmpDir=/tmp
