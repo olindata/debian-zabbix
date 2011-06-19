@@ -4,6 +4,7 @@ zabbix (1:1.8.5-2) unstable; urgency=low
   * Updated nl.po (closes: #623573)
   * init.d script for zabbix-agent now obeys pidfile (closes: #623691)
   * FTBFS fixed for binutils-gold (closes: #556770)
+    (also reported upstream as https://support.zabbix.com/browse/ZBX-3898)
   * Moved "prepare" target in debian/rules to proper place to remedy FTBFS
     (closes: #630016)
   * Fixed path to fping binary
