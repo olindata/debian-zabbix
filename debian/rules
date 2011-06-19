@@ -204,7 +204,6 @@ binary-arch: build
 	dh_install -a
 	# Rename during install
 	# zabbix-agent
-	cp debian/templates/zabbix_agent.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agent.conf
 	cp debian/templates/zabbix_agentd.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agentd.conf
 	# zabbix-server-mysql
 	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/$(PKG_SERVER_MYSQL)/zabbix_server.conf
