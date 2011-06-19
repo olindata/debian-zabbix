@@ -34,8 +34,22 @@ if [ "$1" = "configure" ]; then
         # Yes, user 'zabbix' exists. 
         # Change the home directory from /var/run/zabbix-server 
         # to /var/run/zabbix (relates to bug #593458)
-        getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server \
-            && usermod -m -d /var/run/zabbix zabbix
+        if ! getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server; then
+            # All processes run by the 'zabbix' user must be stopped
+            for software in server proxy agent; do
+                if [ -e /etc/init.d/zabbix-$software ]; then
+                    /etc/init.d/zabbix-$software stop
+                fi
+            done
+            # Move the home directory
+            usermod -m -d /var/run/zabbix zabbix
+            # Start the processes again
+            for software in server proxy agent; do
+                if [ -e /etc/init.d/zabbix-$software ]; then
+                    /etc/init.d/zabbix-$software start
+                fi
+            done
+        fi
     fi
     chown zabbix:zabbix /var/log/zabbix-agent -R
 fi
