@@ -21,7 +21,7 @@ case "$1" in
     ;;
     purge)
         rm -fr /var/log/zabbix-server
-        rm -fr /var/run/zabbix-server
+        rm -fr /var/run/zabbix
         rm -f /etc/zabbix/zabbix_server.conf
         ucf --purge /etc/zabbix/zabbix_server.conf || true
     ;;

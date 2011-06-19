@@ -16,11 +16,19 @@ if [ "$1" = "configure" ]; then
     addgroup --system --quiet zabbix
     fi
 
+    # Does the user 'zabbix' exist?
     if ! getent passwd zabbix > /dev/null 2>&1 ; then
-    adduser --quiet \
-        --system --disabled-login --ingroup zabbix \
-        --home /var/run/zabbix-proxy/ --no-create-home \
-        zabbix
+        # Not yet. Create it.
+        adduser --quiet \
+            --system --disabled-login --ingroup zabbix \
+            --home /var/run/zabbix/ --no-create-home \
+            zabbix
+    else
+        # Yes, user 'zabbix' exists. 
+        # Change the home directory from /var/run/zabbix-server 
+        # to /var/run/zabbix (relates to bug #593458)
+        getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server \
+            && usermod -m -d /var/run/zabbix zabbix
     fi
     chown zabbix:zabbix /var/log/zabbix-proxy -R
 fi

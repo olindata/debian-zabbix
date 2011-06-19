@@ -15,7 +15,7 @@ case "$1" in
         rm -f /etc/zabbix/zabbix_agentd.conf
 
         rm -fr /var/log/zabbix-agent
-        rm -fr /var/run/zabbix-agent
+        rm -fr /var/run/zabbix
     ;;
 
     *)

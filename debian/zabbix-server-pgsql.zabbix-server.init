@@ -18,7 +18,7 @@ DESC="Zabbix server"
 
 test -x $DAEMON || exit 0
 
-DIR=/var/run/zabbix-server
+DIR=/var/run/zabbix
 PID=$DIR/$NAME.pid
 RETRY=15
 

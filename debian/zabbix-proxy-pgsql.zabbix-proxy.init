@@ -16,7 +16,7 @@ DESC="Zabbix proxy daemon"
 
 test -x $DAEMON || exit 0
 
-DIR=/var/run/zabbix-proxy
+DIR=/var/run/zabbix
 PID=$DIR/$NAME.pid
 RETRY=15
 
