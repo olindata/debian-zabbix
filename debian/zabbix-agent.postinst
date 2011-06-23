@@ -35,7 +35,8 @@ if [ "$1" = "configure" ]; then
         # Change the home directory from /var/run/zabbix-server 
         # to /var/run/zabbix (relates to bug #593458).
         # Check current home directory of the 'zabbix' user.
-        if ! getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server; then
+        getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server
+        if [ $? -eq 0 ]; then
             # Home directory is still the old /var/run/zabbix-server directory.
             # All processes run by the 'zabbix' user must be stopped
             # before usermod can change the home directory.
@@ -44,6 +45,8 @@ if [ "$1" = "configure" ]; then
                     /etc/init.d/zabbix-$component stop
                 fi
             done
+            # Remove an existing /var/run/zabbix directory just in case
+            rm -rf /var/run/zabbix
             # Move the home directory
             usermod -m -d /var/run/zabbix zabbix
             # Start the processes again
