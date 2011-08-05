@@ -37,6 +37,7 @@ if [ "$1" = "configure" ]; then
             zabbix
     else
         # Yes, user 'zabbix' exists. 
+        # [This entire fix can be removed after the Wheezy release.]
         # Change the home directory from /var/run/zabbix-server 
         # to /var/run/zabbix (relates to bug #593458).
         # Check current home directory of the 'zabbix' user.
@@ -60,12 +61,8 @@ if [ "$1" = "configure" ]; then
                 mkdir /var/run/zabbix
                 chown zabbix:zabbix /var/run/zabbix
             fi
-            # Remove old/wrong home directory.
-            if [ -d /var/run/zabbix-agent ]; then
-                rm -rf /var/run/zabbix-agent
-            fi
-            # Change the location of the PID file in the config file
-            sed -i "s/^[# ]*PidFile=.*/PidFile=\/var\/run\/zabbix\/zabbix_agentd.pid/g" $CONFFILE_DEST1
+            # Change the location of the PID file in the config files
+            sed -i 's#/var/run/zabbix-.*/#/var/run/zabbix/#' /etc/zabbix/zabbix_*.conf
             # Start the processes again
             for component in server proxy; do
                 if [ -x /etc/init.d/zabbix-$component ]; then
@@ -74,6 +71,12 @@ if [ "$1" = "configure" ]; then
             done
         fi
     fi
+
+    # Remove old/wrong home directory before 1.8.5-2
+    if [ -d /var/run/zabbix-agent ]; then
+        rm -rf /var/run/zabbix-agent
+    fi
+
     chown zabbix:zabbix /var/log/zabbix-agent -R
 fi
 
