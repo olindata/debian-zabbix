@@ -123,7 +123,7 @@ Timeout=5
 #UnavailableDelay=60
 
 # Name of PID file
-PidFile=/var/run/zabbix-proxy/zabbix_proxy.pid
+PidFile=/var/run/zabbix/zabbix_proxy.pid
 
 # Name of log file
 # If not set, syslog is used
