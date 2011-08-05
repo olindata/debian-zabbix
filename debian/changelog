@@ -9,7 +9,9 @@ zabbix (1:1.8.5-2) unstable; urgency=low
     (closes: #630016)
   * Fixed path to fping binary
   * Removed barely used zabbix_agent.conf (closes: #571419)
-  * Moved 'zabbix' user's home directory to /var/run/zabbix (closes: #593458)
+  * Postinst scripts move 'zabbix' user's home directory to /var/run/zabbix
+    (closes: #593458)
+  * Hostname= is not set any more in the zabbix_agentd.conf file (closes: #606160)
 
  -- Christoph Haas <haas@debian.org>  Sat, 18 Jun 2011 23:01:09 +0200
 

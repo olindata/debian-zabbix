@@ -18,7 +18,7 @@ Server=@zabbixserver@
 
 # Unique hostname. Required for active checks.
 
-Hostname=localhost
+#Hostname=localhost
 
 # Listen port. Default is 10050
 
