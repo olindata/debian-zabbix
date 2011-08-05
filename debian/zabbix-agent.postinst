@@ -41,10 +41,9 @@ if [ "$1" = "configure" ]; then
             # All processes run by the 'zabbix' user must be stopped
             # before usermod can change the home directory.
             for component in server proxy agent; do
-                #if [ -e /etc/init.d/zabbix-$component ]; then
-                #    /etc/init.d/zabbix-$component stop
-                #fi
-                invoke-rc.d zabbix-$component stop
+                if [ -x /etc/init.d/zabbix-$component ]; then
+                    invoke-rc.d zabbix-$component stop
+                fi
             done
             # Remove an existing /var/run/zabbix directory just in case
             rm -rf /var/run/zabbix
@@ -52,10 +51,9 @@ if [ "$1" = "configure" ]; then
             usermod -m -d /var/run/zabbix zabbix
             # Start the processes again
             for component in server proxy agent; do
-                #if [ -e /etc/init.d/zabbix-$component ]; then
-                #    /etc/init.d/zabbix-$component start
-                #fi
-                invoke-rc.d zabbix-$component start
+                if [ -x /etc/init.d/zabbix-$component ]; then
+                    invoke-rc.d zabbix-$component start
+                fi
             done
         fi
     fi
