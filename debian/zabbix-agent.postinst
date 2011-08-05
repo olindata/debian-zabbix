@@ -1,9 +1,9 @@
 #!/bin/sh -e
 
 # If /tmp/ZABBIX_PACKAGE_DEBUG file exists then enable debugging of this script.
-if [ -e /tmp/ZABBIX_PACKAGE_DEBUG ]; then
-    set -x
-fi
+#if [ -e /tmp/ZABBIX_PACKAGE_DEBUG ]; then
+#    set -x
+#fi
 
 CONFFILE1="/usr/share/zabbix-agent/zabbix_agentd.conf"
 CONFFILE_DEST1="/etc/zabbix/zabbix_agentd.conf"
