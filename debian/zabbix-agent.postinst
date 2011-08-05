@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# If /tmp/ZABBIX_PACKAGE_DEBUG file exists then enable debugging of this script.
+if [ -e /tmp/ZABBIX_PACKAGE_DEBUG ]; then
+    set -x
+fi
+
 CONFFILE1="/usr/share/zabbix-agent/zabbix_agentd.conf"
 CONFFILE_DEST1="/etc/zabbix/zabbix_agentd.conf"
 
@@ -20,7 +25,7 @@ if [ "$1" = "configure" ]; then
     rm -f $CONFFILE_DEST1.new
 
     if ! getent group zabbix > /dev/null 2>&1 ; then
-    addgroup --system --quiet zabbix
+        addgroup --system --quiet zabbix
     fi
 
     # Does the user 'zabbix' exist?
@@ -35,8 +40,7 @@ if [ "$1" = "configure" ]; then
         # Change the home directory from /var/run/zabbix-server 
         # to /var/run/zabbix (relates to bug #593458).
         # Check current home directory of the 'zabbix' user.
-        getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server
-        if [ $? -eq 0 ]; then
+        if getent passwd zabbix | cut -d: -f6 | grep -q /var/run/zabbix-server; then
             # Home directory is still the old /var/run/zabbix-server directory.
             # All processes run by the 'zabbix' user must be stopped
             # before usermod can change the home directory.
