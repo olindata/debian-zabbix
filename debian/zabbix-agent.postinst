@@ -44,7 +44,8 @@ if [ "$1" = "configure" ]; then
             # Home directory is still the old /var/run/zabbix-server directory.
             # All processes run by the 'zabbix' user must be stopped
             # before usermod can change the home directory.
-            for component in server proxy agent; do
+            # "zabbix-agent" gets stopped by zabbix-agent.preinst automatically.
+            for component in server proxy; do
                 if [ -x /etc/init.d/zabbix-$component ]; then
                     invoke-rc.d zabbix-$component stop
                 fi
@@ -66,7 +67,7 @@ if [ "$1" = "configure" ]; then
             # Change the location of the PID file in the config file
             sed -i "s/^[# ]*PidFile=.*/PidFile=\/var\/run\/zabbix\/zabbix_agentd.pid/g" $CONFFILE_DEST1
             # Start the processes again
-            for component in server proxy agent; do
+            for component in server proxy; do
                 if [ -x /etc/init.d/zabbix-$component ]; then
                     invoke-rc.d zabbix-$component start
                 fi
