@@ -53,7 +53,8 @@ if [ "$1" = "configure" ]; then
                 rm -rf /var/run/zabbix-server
             fi
             # Change the location of the PID file in the config file
-            sed -i "s/^[# ]*PidFile=.*/PidFile=\/var\/run\/zabbix\/zabbix_server.pid/g" $CONFFILE_DEST1
+            sed -i "s/^[# ]*PidFile=.*/PidFile=\/var\/run\/zabbix\/zabbix_server.pid/g" \
+                /etc/zabbix/zabbix_server.conf
             # Start the processes again
             for component in proxy agent; do
                 if [ -x /etc/init.d/zabbix-$component ]; then
