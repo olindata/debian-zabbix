@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 CONFFILE1="/usr/share/zabbix-agent/zabbix_agentd.conf"
 CONFFILE_DEST1="/etc/zabbix/zabbix_agentd.conf"
@@ -54,6 +54,10 @@ if [ "$1" = "configure" ]; then
             if [ ! -d /var/run/zabbix ]; then
                 mkdir /var/run/zabbix
                 chown zabbix:zabbix /var/run/zabbix
+            fi
+            # Remove old/wrong home directory.
+            if [ -d /var/run/zabbix-agent ]; then
+                rm -rf /var/run/zabbix-agent
             fi
             # Change the location of the PID file in the config file
             sed -i "s/^[# ]*PidFile=.*/PidFile=\/var\/run\/zabbix\/zabbix_agentd.pid/g" $CONFFILE_DEST1
