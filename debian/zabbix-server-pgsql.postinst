@@ -42,6 +42,7 @@ if [ "$1" = "configure" ]; then
             # All processes run by the 'zabbix' user must be stopped
             # before usermod can change the home directory.
             # "zabbix-server" gets stopped by zabbix-server.preinst automatically.
+            echo Moving home directory of user zabbix to /var/run/zabbix/
             for component in proxy agent; do
                 if [ -x /etc/init.d/zabbix-$component ]; then
                     invoke-rc.d zabbix-$component stop
