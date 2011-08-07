@@ -223,13 +223,14 @@ int	get_diskstat(const char *devname, zbx_uint64_t *dstat);
 /* flags for process */
 #define PROCESS_TEST		1
 #define PROCESS_USE_TEST_PARAM	2
+#define PROCESS_LOCAL_COMMAND	4
 
 void	init_metrics();
 void	free_metrics();
 
 int	process(const char *in_command, unsigned flags, AGENT_RESULT *result);
 
-int	add_user_parameter(char *key, char *command);
+int	add_user_parameter(const char *key, char *command);
 void	test_parameters();
 void	test_parameter(const char *key, unsigned flags);
 

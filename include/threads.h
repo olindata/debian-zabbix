@@ -24,10 +24,10 @@
 
 #if defined(_WINDOWS)
 
-	#define ZBX_THREAD_ERROR 0
+	#define ZBX_THREAD_ERROR	0
 
-	#define ZBX_THREAD_HANDLE HANDLE
-	#define ZBX_THREAD_HANDLE_NULL NULL
+	#define ZBX_THREAD_HANDLE	HANDLE
+	#define ZBX_THREAD_HANDLE_NULL	NULL
 
 	#define ZBX_THREAD_ENTRY_POINTER(pointer_name) \
 		unsigned (__stdcall *pointer_name)(void *)
@@ -43,14 +43,15 @@
 
 	#define zbx_thread_kill(h) TerminateThread(h, SUCCEED);
 
-#else /* not _WINDOWS */
+#else	/* not _WINDOWS */
 
 	int	zbx_fork();
+	int	zbx_child_fork();
 
-	#define ZBX_THREAD_ERROR (-1)
+	#define ZBX_THREAD_ERROR	-1
 
-	#define ZBX_THREAD_HANDLE pid_t
-	#define ZBX_THREAD_HANDLE_NULL 0
+	#define ZBX_THREAD_HANDLE	pid_t
+	#define ZBX_THREAD_HANDLE_NULL	0
 
 	#define ZBX_THREAD_ENTRY_POINTER(pointer_name) \
 		unsigned (* pointer_name)(void *)
@@ -66,7 +67,7 @@
 
 	#define zbx_thread_kill(h) kill(h, SIGTERM);
 
-#endif /* _WINDOWS */
+#endif	/* _WINDOWS */
 
 typedef struct
 {
@@ -80,4 +81,4 @@ int			zbx_thread_wait(ZBX_THREAD_HANDLE thread);
 /* zbx_thread_exit(status) -- declared as define !!! */
 long int		zbx_get_thread_id();
 
-#endif /* ZABBIX_THREADS_H */
+#endif	/* ZABBIX_THREADS_H */

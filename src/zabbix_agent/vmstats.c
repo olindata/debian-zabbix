@@ -85,26 +85,26 @@ static void	update_vmstat(ZBX_VMSTAT_DATA *vmstat)
 #ifdef _AIXVERSION_530
 	if (-1 == perfstat_partition_total(NULL, &lparstats, sizeof(lparstats), 1))
 	{
-		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_partition_total: %s", strerror(errno));
+		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_partition_total: %s", zbx_strerror(errno));
 		return;
 	}
 #endif
 
 	if (-1 == perfstat_cpu_total(NULL, &cpustats, sizeof(cpustats), 1))
 	{
-		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_cpu_total: %s", strerror(errno));
+		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_cpu_total: %s", zbx_strerror(errno));
 		return;
 	}
 
 	if (-1 == perfstat_memory_total(NULL, &memstats, sizeof(memstats), 1))
 	{
-		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_memory_total: %s", strerror(errno));
+		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_memory_total: %s", zbx_strerror(errno));
 		return;
 	}
 
 	if (-1 == perfstat_disk_total(NULL, &diskstats, sizeof(diskstats), 1))
 	{
-		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_disk_total: %s", strerror(errno));
+		zabbix_log(LOG_LEVEL_DEBUG, "perfstat_disk_total: %s", zbx_strerror(errno));
 		return;
 	}
 
@@ -228,10 +228,10 @@ static void	update_vmstat(ZBX_VMSTAT_DATA *vmstat)
 		vmstat->disk_tps = (double)(diskstats.xfers - last_xfers) / (double)(now - last_clock);
 
 		/* -- memory -- */
-#ifdef _AIXVERSION_520
+#ifdef HAVE_AIXOSLEVEL_520004
 		vmstat->mem_avm = (zbx_uint64_t)memstats.virt_active;	/* Active virtual pages. Virtual pages are considered
 									   active if they have been accessed */
-#endif	/* _AIXVERSION_520 */
+#endif
 		vmstat->mem_fre = (zbx_uint64_t)memstats.real_free;	/* free real memory (in 4KB pages) */
 	}
 	else
@@ -239,10 +239,10 @@ static void	update_vmstat(ZBX_VMSTAT_DATA *vmstat)
 #ifdef _AIXVERSION_530
 		vmstat->shared_enabled = (unsigned char)lparstats.type.b.shared_enabled;
 		vmstat->pool_util_authority = (unsigned char)lparstats.type.b.pool_util_authority;
-#endif	/* _AIXVERSION_530 */
-#ifdef _AIXVERSION_520
+#endif
+#ifdef HAVE_AIXOSLEVEL_520004
 		vmstat->aix52stats = 1;
-#endif	/* _AIXVERSION_520 */
+#endif
 	}
 
 	/* saving last values */

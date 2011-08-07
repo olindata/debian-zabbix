@@ -3,7 +3,10 @@
 /* Define to OS name for code managing */
 #undef ARCH
 
-/* Define to 1 if AIX OS level 5300-06 exists. */
+/* Define to 1 if libperfstat 5.2.0.40 fileset exists. */
+#undef HAVE_AIXOSLEVEL_520004
+
+/* Define to 1 if libperfstat 5.3.0.60 fileset exists. */
 #undef HAVE_AIXOSLEVEL_530006
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
@@ -11,9 +14,6 @@
 
 /* Define to 1 if you have the <arpa/nameser.h> header file. */
 #undef HAVE_ARPA_NAMESER_H
-
-/* Define to 1 if you have the `asprintf' function. */
-#undef HAVE_ASPRINTF
 
 /* Define to 1 if you have the <assert.h> header file. */
 #undef HAVE_ASSERT_H
@@ -83,12 +83,6 @@
 
 /* Define to 1 if you have the `getloadavg' function. */
 #undef HAVE_GETLOADAVG
-
-/* Define to 1 if you have the <getopt.h> header file. */
-#undef HAVE_GETOPT_H
-
-/* Define to 1 if you have the `getopt_long' function. */
-#undef HAVE_GETOPT_LONG
 
 /* Define to 1 if you have the <grp.h> header file. */
 #undef HAVE_GRP_H
@@ -279,17 +273,17 @@
 /* Define to 1 if you have the <signal.h> header file. */
 #undef HAVE_SIGNAL_H
 
+/* Define to 1 if you have the `sigqueue' function. */
+#undef HAVE_SIGQUEUE
+
 /* Define to 1 if SNMP should be enabled. */
 #undef HAVE_SNMP
 
 /* Define to 1 if 'session.localname' exist. */
 #undef HAVE_SNMP_SESSION_LOCALNAME
 
-/* Define to 1 if you have the `snprintf' function. */
-#undef HAVE_SNPRINTF
-
-/* Define to 1 if you have the `socket' function. */
-#undef HAVE_SOCKET
+/* Define to 1 if 'sockaddr_storage.ss_family' exists. */
+#undef HAVE_SOCKADDR_STORAGE_SS_FAMILY
 
 /* Define to 1 if SQLite libraries are available */
 #undef HAVE_SQLITE3
@@ -314,9 +308,6 @@
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
-
-/* Define to 1 if you have the `strtod' function. */
-#undef HAVE_STRTOD
 
 /* Define to 1 if 'sysinfo.bufferram' exists. */
 #undef HAVE_SYSINFO_BUFFERRAM
@@ -477,14 +468,8 @@
 /* Define to 1 if struct 'uvmexp_sysctl' exists. */
 #undef HAVE_UVM_UVMEXP2
 
-/* Define to 1 if you have the `vasprintf' function. */
-#undef HAVE_VASPRINTF
-
 /* Define to 1 if you have the <vm/vm_param.h> header file. */
 #undef HAVE_VM_VM_PARAM_H
-
-/* Define to 1 if you have the `vsnprintf' function. */
-#undef HAVE_VSNPRINTF
 
 /* Define to 1 if you have the <Winber.h> header file. */
 #undef HAVE_WINBER_H

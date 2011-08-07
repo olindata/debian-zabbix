@@ -86,7 +86,7 @@
 		OCIServer	*srvhp;
 	}
 	zbx_oracle_db_handle_t;
-	
+
 	extern zbx_oracle_db_handle_t	oracle;
 
 #	define DB_ROW		char **
@@ -101,9 +101,8 @@
 	}
 	ZBX_OCI_DB_RESULT;
 
-	void		OCI_DBfree_result(DB_RESULT result);
-	ub4		OCI_DBserver_status();
-	const char	*zbx_oci_error(sword status);
+	void	OCI_DBfree_result(DB_RESULT result);
+	ub4	OCI_DBserver_status();
 
 #elif defined(HAVE_POSTGRESQL)
 
@@ -156,7 +155,7 @@
 #endif	/* HAVE_SQLITE3 */
 
 #ifdef HAVE_SQLITE3
-	/* We have to put double % here for sprintf */
+	/* we have to put double % here for sprintf */
 #	define ZBX_SQL_MOD(x, y) #x "%%" #y
 #else
 #	define ZBX_SQL_MOD(x, y) "mod(" #x "," #y ")"
