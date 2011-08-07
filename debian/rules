@@ -1,23 +1,30 @@
 #!/usr/bin/make -f
 
-# (1) extract
+# The Zabbix sources are compiled once for each VARIANT. The proxy and server
+# packages always contain one kind of database support. The zabbix-agent and
+# zabbix-frontend-php package do not have any kind of database support and
+# are created from one of the above mentioned builds.
+
+# extract
 #
 #     Copies the source directory into debian/tmp... to compile the
 #     files there.
 #
-# (2) prepare
+# patch
 #
 #     Apply Quilt patches.
+#
+# prepare
 #
 #     Magic autotools stuff (replacing config.auto and config.guess with
 #     up-to-date versions from the autotools-dev package. And some black
 #     magic so that our patch to remove -lcrypto is actually doing something.
 #     
-# (3) configure
+# configure
 #
 #     Configure the copied source tree for each database backend flavor.
 #
-# (4) build
+# build
 #
 #     Compile the actual sources for each database backend flavor.
 #
@@ -36,17 +43,21 @@ include /usr/share/quilt/quilt.make
 PKG_AGENT = zabbix-agent
 PKG_SERVER_MYSQL = zabbix-server-mysql
 PKG_SERVER_PGSQL = zabbix-server-pgsql
+PKG_SERVER_SQLITE3 = zabbix-server-sqlite3
 PKG_FRONTEND = zabbix-frontend-php
 PKG_PROXY_MYSQL = zabbix-proxy-mysql
 PKG_PROXY_PGSQL = zabbix-proxy-pgsql
+PKG_PROXY_SQLITE3 = zabbix-proxy-sqlite3
 
 # Define the directories where the binary packages' files are assembled
 TMP_AGENT = $(CURDIR)/debian/$(PKG_AGENT)
 TMP_SERVER_MYSQL = $(CURDIR)/debian/$(PKG_SERVER_MYSQL)
 TMP_SERVER_PGSQL = $(CURDIR)/debian/$(PKG_SERVER_PGSQL)
+TMP_SERVER_SQLITE3 = $(CURDIR)/debian/$(PKG_SERVER_SQLITE3)
 TMP_FRONTEND = $(CURDIR)/debian/$(PKG_FRONTEND)
 TMP_PROXY_MYSQL = $(CURDIR)/debian/$(PKG_PROXY_MYSQL)
 TMP_PROXY_PGSQL = $(CURDIR)/debian/$(PKG_PROXY_PGSQL)
+TMP_PROXY_SQLITE3 = $(CURDIR)/debian/$(PKG_PROXY_SQLITE3)
 
 # Deprecated: formerly this script didn't use dh_install
 INSTALL = install
@@ -67,7 +78,7 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 endif
 
 # Zabbix server and proxy packages will be built for these database backends
-VARIANTS := PGSQL MYSQL
+VARIANTS := PGSQL MYSQL SQLITE3
 
 CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
                     --build=$(DEB_BUILD_GNU_TYPE) \
@@ -87,6 +98,7 @@ CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
 
 CONFFLAGS_SERVER_MYSQL = $(CONFFLAGS_COMMON) --with-mysql
 CONFFLAGS_SERVER_PGSQL = $(CONFFLAGS_COMMON) --with-pgsql
+CONFFLAGS_SERVER_SQLITE3 = $(CONFFLAGS_COMMON) --with-sqlite3
 
 # The source package will be compiled for each database flavor in
 # subdirectories of this directory:
@@ -211,12 +223,17 @@ binary-arch: build
 	# zabbix-server-pgsql
 	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/$(PKG_SERVER_PGSQL)/zabbix_server.conf
 	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
+	# zabbix-server-sqlite3
+	cp debian/templates/zabbix_server_sqlite3.conf.in $(TMP_SERVER_SQLITE3)/usr/share/$(PKG_SERVER_SQLITE3)/zabbix_server.conf
+	cat create/schema/sqlite.sql create/data/data.sql create/data/images_sqlite3.sql > $(TMP_SERVER_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_SERVER_SQLITE3)/install/sqlite3
 	# zabbix-proxy-mysql
 	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
 	cp create/schema/mysql.sql $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
 	# zabbix-proxy-pgsql
 	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_PGSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
 	cp create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
+	# zabbix-proxy-sqlite3
+	cp debian/templates/zabbix_proxy_sqlite3.conf.in $(TMP_PROXY_SQLITE3)/usr/share/zabbix-proxy/zabbix_proxy.conf
 	# --------------------------------
 	dh_installdocs -a
 	dh_installchangelogs -a ChangeLog
