@@ -14,8 +14,8 @@ _Description: Configure Apache?
  The Zabbix web frontend runs on any web server that supportes PHP5.
  However only Apache (2.x) can be configured automatically at this point.
  .
- Do you want to reconfigure Apache so that the Zabbix web frontend is
- available at the URL http://.../zabbix?
+ Please choose whether you want to reconfigure Apache so that the Zabbix web
+ frontend is made available at the URL http://.../zabbix
 
 Template: zabbix-frontend-php/restart-webserver
 Type: boolean

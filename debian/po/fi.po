@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2011-08-07 13:07+0200\n"
+"POT-Creation-Date: 2011-08-07 17:31+0200\n"
 "PO-Revision-Date: 2009-10-05 22:10+0300\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
@@ -56,8 +56,8 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Do you want to reconfigure Apache so that the Zabbix web frontend is "
-"available at the URL http://.../zabbix?"
+"Please choose whether you want to reconfigure Apache so that the Zabbix web "
+"frontend is made available at the URL http://.../zabbix"
 msgstr ""
 
 #. Type: boolean
