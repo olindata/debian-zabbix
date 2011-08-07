@@ -1,0 +1,9 @@
+Things to fix in the Debian package:
+
+- Zabbix server packages install both /usr/share/zabbix (for dbconfig-common
+  SQL) and /usr/share/zabbix-(my|pg)sql. Move it both to the latter place.
+
+- For proxy packages only an empty database has to be created. The step
+  of sending SQL into it can be spared. The Zabbix proxy process handles
+  that.
+
