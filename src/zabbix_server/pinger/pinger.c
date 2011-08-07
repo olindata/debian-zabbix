@@ -74,8 +74,7 @@ static void	process_value(zbx_uint64_t itemid, zbx_uint64_t *value_ui64, double 
 
 	if (NOTSUPPORTED == ping_result)
 	{
-		dc_add_history(item.itemid, item.value_type, NULL, now,
-				ITEM_STATUS_NOTSUPPORTED, error, 0, NULL, 0, 0, 0, 0);
+		DCadd_nextcheck(item.itemid, now, error);
 		DCrequeue_reachable_item(item.itemid, ITEM_STATUS_NOTSUPPORTED, now);
 	}
 	else
@@ -87,8 +86,7 @@ static void	process_value(zbx_uint64_t itemid, zbx_uint64_t *value_ui64, double 
 		else
 			SET_DBL_RESULT(&value, *value_dbl);
 
-		dc_add_history(item.itemid, item.value_type, &value, now,
-				ITEM_STATUS_ACTIVE, NULL, 0, NULL, 0, 0, 0, 0);
+		dc_add_history(item.itemid, item.value_type, &value, now, 0, NULL, 0, 0, 0, 0);
 
 		DCrequeue_reachable_item(item.itemid, ITEM_STATUS_ACTIVE, now);
 
@@ -122,6 +120,8 @@ static void	process_values(icmpitem_t *items, int first_index, int last_index, Z
 	double		value_dbl;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+	DCinit_nextchecks();
 
 	for (h = 0; h < hosts_count; h++)
 	{
@@ -162,6 +162,8 @@ static void	process_values(icmpitem_t *items, int first_index, int last_index, Z
 			}
 		}
 	}
+
+	DCflush_nextchecks();
 
 	zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
 }
@@ -356,6 +358,8 @@ static void	get_pinger_hosts(icmpitem_t **icmp_items, int *icmp_items_alloc, int
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
+	DCinit_nextchecks();
+
 	num = DCconfig_get_poller_items(ZBX_POLLER_TYPE_PINGER, items, MAX_ITEMS);
 
 	for (i = 0; i < num; i++)
@@ -372,15 +376,12 @@ static void	get_pinger_hosts(icmpitem_t **icmp_items, int *icmp_items_alloc, int
 					timeout, items[i].itemid, addr, icmpping, type);
 		}
 		else
-		{
-			dc_add_history(items[i].itemid, items[i].value_type, NULL, now,
-					ITEM_STATUS_NOTSUPPORTED, error, 0, NULL, 0, 0, 0, 0);
-
-			DCrequeue_reachable_item(items[i].itemid, ITEM_STATUS_NOTSUPPORTED, now);
-		}
+			DCadd_nextcheck(items[i].itemid, now, error);
 
 		zbx_free(items[i].key);
 	}
+
+	DCflush_nextchecks();
 
 	zabbix_log(LOG_LEVEL_DEBUG, "End of %s():%d", __function_name, *icmp_items_count);
 }
@@ -503,6 +504,8 @@ void	main_pinger_loop()
 	int			items_count = 0;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_pinger_loop() process_num:%d", process_num);
+
+	set_child_signal_handler();
 
 	if (NULL == items)
 		items = zbx_malloc(items, sizeof(icmpitem_t) * items_alloc);

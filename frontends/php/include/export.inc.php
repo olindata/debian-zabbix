@@ -431,7 +431,7 @@ class zbxXML{
 				unset($screen['screenid']);
 				$exists = CScreen::exists(array('name' => $screen['name']));
 
-				if($exists && isset($rules['screen']['exist'])){
+				if($exists && isset($rules['screens']['exist'])){
 					$db_screens = CScreen::getObjects(array('name' => $screen['name']));
 					if(empty($db_screens)) throw new Exception(S_NO_PERMISSIONS_FOR_SCREEN.' "'.$screen['name'].'" import');
 
@@ -439,7 +439,7 @@ class zbxXML{
 
 					$screen['screenid'] = $db_screen['screenid'];
 				}
-				else if($exists || !isset($rules['screen']['missed'])){
+				else if($exists || !isset($rules['screens']['missed'])){
 					info('Screen ['.$screen['name'].'] skipped - user rule');
 					unset($importScreens[$mnum]);
 					continue; // break if not update exist
@@ -1217,7 +1217,7 @@ class zbxXML{
 
 								$current_trigger = false;
 								foreach($ctriggers as $tnum => $ct){
-									$tmp_exp = explode_exp($ct['expression']);
+									$tmp_exp = explode_exp($ct['expression'], false);
 									if(strcmp($trigger_db['expression'], $tmp_exp) == 0){
 										$current_trigger = $ct;
 										break;

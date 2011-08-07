@@ -68,9 +68,8 @@
 		'hide_unknown'=>	array(T_ZBX_INT, O_OPT,	P_SYS,	IN(array(0,1)),	NULL),
 //ajax
 		'favobj'=>		array(T_ZBX_STR, O_OPT, P_ACT,	NULL,			NULL),
-		'favref'=>		array(T_ZBX_STR, O_OPT, P_ACT,  NOT_EMPTY,		'isset({favobj}) && ("filter"=={favobj})'),
-		'state'=>		array(T_ZBX_INT, O_OPT, P_ACT,  NOT_EMPTY,		'isset({favobj}) && ("filter"=={favobj})'),
-		'favid'=>		array(T_ZBX_INT, O_OPT, P_ACT,  null,			null),
+		'favref'=>		array(T_ZBX_STR, O_OPT, P_ACT,  NOT_EMPTY,		'isset({favobj})'),
+		'state'=>		array(T_ZBX_INT, O_OPT, P_ACT,  NOT_EMPTY,		'isset({favobj})'),
 	);
 
 	check_fields($fields);
@@ -79,12 +78,6 @@
 	if(isset($_REQUEST['favobj'])){
 		if('filter' == $_REQUEST['favobj']){
 			CProfile::update('web.events.filter.state',$_REQUEST['state'], PROFILE_TYPE_INT);
-		}
-		// saving fixed/dynamic setting to profile
-		if('timelinefixedperiod' == $_REQUEST['favobj']){
-			if(isset($_REQUEST['favid'])){
-				CProfile::update('web.events.timelinefixed', $_REQUEST['favid'], PROFILE_TYPE_INT);
-			}
 		}
 	}
 
@@ -143,12 +136,12 @@
 				$found = false;
 				foreach($newTrigger['functions'] as $fnum => $function){
 					foreach($oldTrigger['functions'] as $ofnum => $oldFunction){;
-						// compare functions
+// compare functions
 						if(($function['function'] != $oldFunction['function']) || ($function['parameter'] != $oldFunction['parameter'])) continue;
-						// compare that functions uses same item keys
+// compare that functions uses same item keys
 						if($newTrigger['items'][$function['itemid']]['key_'] != $oldTrigger['items'][$oldFunction['itemid']]['key_']) continue;
-						// rewrite itemid so we could compare expressions
-						// of two triggers form different hosts
+// rewrite itemid so we could compare expressions
+// of two triggers form different hosts
 						$newTrigger['functions'][$fnum]['itemid'] = $oldFunction['itemid'];
 						$found = true;
 
@@ -159,7 +152,7 @@
 				}
 				if(!$found) continue;
 
-				// if we found same trigger we overwriting it's hosts and items for expression compare
+// if we found same trigger we overwriting it's hosts and items for expression compare
 				$newTrigger['hosts'] = $oldTrigger['hosts'];
 				$newTrigger['items'] = $oldTrigger['items'];
 
@@ -196,6 +189,9 @@
 // HEADER {{{
 	$r_form = new CForm(null, 'get');
 	$r_form->addVar('fullscreen',$_REQUEST['fullscreen']);
+	$r_form->addVar('triggerid', get_request('triggerid'));
+	$r_form->addVar('stime', get_request('stime'));
+	$r_form->addVar('period', get_request('period'));
 
 	if(EVENT_SOURCE_TRIGGERS == $source){
 
@@ -252,12 +248,7 @@
 		$filterForm->addVar('period', get_request('period'));
 
 		if(isset($_REQUEST['triggerid']) && ($_REQUEST['triggerid']>0)){
-			// trigger description
 			$trigger = expand_trigger_description($_REQUEST['triggerid']);
-			// prepending host name to trigger description
-			$triggerHostDB = get_hosts_by_triggerid($_REQUEST['triggerid']);
-			$triggerHost = DBfetch($triggerHostDB);
-			$trigger = $triggerHost['host'].':'.$trigger;
 		}
 		else{
 			$trigger = '';
@@ -580,8 +571,7 @@
 		'loadImage' => 0,
 		'loadScroll' => 1,
 		'dynamic' => 0,
-		'mainObject' => 1,
-		'periodFixed' => CProfile::get('web.events.timelinefixed', 1)
+		'mainObject' => 1
 	);
 
 	zbx_add_post_js('timeControl.addObject("'.$dom_graph_id.'",'.zbx_jsvalue($timeline).','.zbx_jsvalue($objData).');');

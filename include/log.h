@@ -57,7 +57,6 @@ void __zbx_zabbix_log(int level, const char *fmt, ...);
 void zabbix_close_log(void);
 void zabbix_set_log_level(int level);
 
-char *zbx_strerror(int errnum);
 char *strerror_from_system(unsigned long error);
 #ifdef _WINDOWS
 char *strerror_from_module(unsigned long error, LPCTSTR module);

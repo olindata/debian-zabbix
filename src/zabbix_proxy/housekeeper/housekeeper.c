@@ -142,6 +142,8 @@ void	main_housekeeper_loop()
 	int	start, sleeptime;
 	double	sec;
 
+	set_child_signal_handler();
+
 	for (;;)
 	{
 		start = time(NULL);

@@ -28,7 +28,6 @@ $page['title']	= 'S_ACKNOWLEDGES';
 $page['file']	= 'acknow.php';
 $page['hist_arg'] = array('eventid');
 
-ob_start();
 include_once('include/page_header.php');
 
 ?>
@@ -53,11 +52,10 @@ include_once('include/page_header.php');
 	);
 	check_fields($fields);
 
-	$_REQUEST['backurl'] = get_request('backurl', 'tr_status.php');
-
 	if(isset($_REQUEST['cancel'])){
-		ob_end_clean();
-		redirect($_REQUEST['backurl']);
+		$url = new CUrl(urldecode($_REQUEST['backurl']));
+		jsRedirect($url->getUrl());
+		exit();
 	}
 
 	if(!isset($_REQUEST['events']) && !isset($_REQUEST['eventid']) && !isset($_REQUEST['triggers'])){
@@ -66,6 +64,7 @@ include_once('include/page_header.php');
 	}
 
 	$bulk = !isset($_REQUEST['eventid']);
+	$_REQUEST['backurl'] = get_request('backurl', 'tr_status.php');
 ?>
 <?php
 	if(!$bulk){
@@ -114,12 +113,11 @@ include_once('include/page_header.php');
 		}
 
 		if(isset($_REQUEST['saveandreturn'])){
-			ob_end_clean();
-			redirect($_REQUEST['backurl']);
+			$url = new CUrl(urldecode($_REQUEST['backurl']));
+			jsRedirect($url->getUrl());
+			exit();
 		}
  	}
-
-ob_end_flush();
 
 ?>
 <?php
@@ -189,10 +187,13 @@ ob_end_flush();
 	$frmMsg->addRow(S_MESSAGE, new CTextArea('message', '', 80, 6));
 	$frmMsg->addItemToBottomRow(new CButton('saveandreturn', $btn_txt2));
 	$bulk ? '' : $frmMsg->addItemToBottomRow(new CButton('save', $btn_txt));
-	$frmMsg->addItemToBottomRow(new CButtonCancel('&backurl='.urlencode($_REQUEST['backurl'])));
+	$frmMsg->addItemToBottomRow(new CButtonCancel('&backurl='.$_REQUEST['backurl']));
 
 	$frmMsg->show(false);
 
+?>
+<?php
 
 include_once('include/page_footer.php');
+
 ?>

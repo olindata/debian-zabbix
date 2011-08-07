@@ -21,7 +21,7 @@
 #include "sysinfo.h"
 
 /* Solaris. */
-#if !defined(HAVE_SYSINFO_FREESWAP)
+#ifndef HAVE_SYSINFO_FREESWAP
 #ifdef HAVE_SYS_SWAP_SWAPTABLE
 static void	get_swapinfo(double *total, double *fr)
 {

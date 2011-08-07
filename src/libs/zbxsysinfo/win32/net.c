@@ -71,9 +71,6 @@ static int	get_if_stats(const char *if_name, MIB_IFROW *pIfRow)
 
 	for (i = 0; i < pIfTable->dwNumEntries; i++)
 	{
-		LPTSTR	wdescr;
-		LPSTR	utf8_descr;
-
 		pIfRow->dwIndex = pIfTable->table[i].dwIndex;
 		if (NO_ERROR != (dwRetVal = GetIfEntry(pIfRow)))
 		{
@@ -82,15 +79,15 @@ static int	get_if_stats(const char *if_name, MIB_IFROW *pIfRow)
 			continue;
 		}
 
-		wdescr = zbx_acp_to_unicode(pIfRow->bDescr);
-		utf8_descr = zbx_unicode_to_utf8(wdescr);
-		if (0 == strcmp(if_name, utf8_descr))
-			ret = SUCCEED;
-		zbx_free(utf8_descr);
-		zbx_free(wdescr);
+		for (j = 0; j < pIfRow->dwDescrLen; j++)
+			if ((char)pIfRow->bDescr[j] != if_name[j])
+				break;
 
-		if (SUCCEED == ret)
+		if (j == pIfRow->dwDescrLen)
+		{
+			ret = SUCCEED;
 			break;
+		}
 
 		for (j = 0; j < pIPAddrTable->dwNumEntries; j++)
 		{
@@ -372,9 +369,6 @@ int	NET_IF_LIST(const char *cmd, const char *param, unsigned flags, AGENT_RESULT
 	{
 		for (i = 0; i < (int)pIfTable->dwNumEntries; i++)
 		{
-			LPTSTR	wdescr;
-			LPSTR	utf8_descr;
-
 			pIfRow.dwIndex = pIfTable->table[i].dwIndex;
 			if (NO_ERROR != (dwRetVal = GetIfEntry(&pIfRow)))
 			{
@@ -401,11 +395,13 @@ int	NET_IF_LIST(const char *cmd, const char *param, unsigned flags, AGENT_RESULT
 			if (j == pIPAddrTable->dwNumEntries)
 				zbx_snprintf_alloc(&buf, &buf_alloc, &buf_offset, 3, " -");
 
-			wdescr = zbx_acp_to_unicode(pIfRow.bDescr);
-			utf8_descr = zbx_unicode_to_utf8(wdescr);
-			zbx_snprintf_alloc(&buf, &buf_alloc, &buf_offset, strlen(utf8_descr) + 3, " %s\n", utf8_descr);
-			zbx_free(utf8_descr);
-			zbx_free(wdescr);
+			zbx_snprintf_alloc(&buf, &buf_alloc, &buf_offset, 2, " ");
+			for (j = 0; j < pIfRow.dwDescrLen; j++)
+				if ('\0' != pIfRow.bDescr[j])
+					zbx_snprintf_alloc(&buf, &buf_alloc, &buf_offset, 4,
+							"%c", pIfRow.bDescr[j]);
+
+			zbx_snprintf_alloc(&buf, &buf_alloc, &buf_offset, 2, "\n");
 		}
 	}
 

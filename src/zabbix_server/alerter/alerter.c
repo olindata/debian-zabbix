@@ -46,6 +46,8 @@ extern unsigned char	process_type;
  *                                                                            *
  * Author: Alexei Vladishev                                                   *
  *                                                                            *
+ * Comments:                                                                  *
+ *                                                                            *
  ******************************************************************************/
 int	execute_action(DB_ALERT *alert, DB_MEDIATYPE *mediatype, char *error, int max_error_len)
 {
@@ -85,11 +87,8 @@ int	execute_action(DB_ALERT *alert, DB_MEDIATYPE *mediatype, char *error, int ma
 	}
 	else if (MEDIA_TYPE_EXEC == mediatype->type)
 	{
-		if (-1 == (pid = zbx_fork()))
-		{
-			zabbix_log(LOG_LEVEL_ERR, "%s(): failed to fork(): %s", __function_name, zbx_strerror(errno));
-		}
-		else if (0 != pid)
+		pid = zbx_fork();
+		if (0 != pid)
 		{
 			waitpid(pid, NULL, 0);
 			res = SUCCEED;
@@ -99,25 +98,37 @@ int	execute_action(DB_ALERT *alert, DB_MEDIATYPE *mediatype, char *error, int ma
 			zbx_snprintf(full_path, sizeof(full_path), "%s/%s",
 					CONFIG_ALERT_SCRIPTS_PATH, mediatype->exec_path);
 
-			zabbix_log(LOG_LEVEL_DEBUG, "before executing [%s]", full_path);
+			zabbix_log(LOG_LEVEL_DEBUG, "Before executing [%s]", full_path);
 
-			execl(full_path, mediatype->exec_path, alert->sendto,
-					alert->subject, alert->message, (char *)NULL);
-
-			/* execl() returns only when an error occurs */
-			zabbix_log(LOG_LEVEL_ERR, "error executing [%s]: %s", full_path, zbx_strerror(errno));
-			zabbix_syslog("error executing [%s]: %s", full_path, zbx_strerror(errno));
-			exit(0);
+			if (-1 == execl(full_path, mediatype->exec_path, alert->sendto,
+						alert->subject, alert->message, (char *)NULL))
+			{
+				zabbix_log(LOG_LEVEL_ERR, "Error executing [%s] [%s]",
+					full_path,
+					strerror(errno));
+				zabbix_syslog("Error executing [%s] [%s]",
+					full_path,
+					strerror(errno));
+				exit(FAIL);
+			}
+			else
+				THIS_SHOULD_NEVER_HAPPEN;
 		}
 	}
 	else
 	{
-		zbx_snprintf(error, max_error_len, "unsupported media type [%d]", mediatype->type);
-		zabbix_log(LOG_LEVEL_ERR, "alert ID [" ZBX_FS_UI64 "]: %s", alert->alertid, error);
-		zabbix_syslog("alert ID [" ZBX_FS_UI64 "]: %s", alert->alertid, error);
+		zabbix_log(LOG_LEVEL_ERR, "Unsupported media type [%d] for alert ID [" ZBX_FS_UI64 "]",
+			mediatype->type,
+			alert->alertid);
+		zabbix_syslog("Unsupported media type [%d] for alert ID [" ZBX_FS_UI64 "]",
+			mediatype->type,
+			alert->alertid);
+		zbx_snprintf(error, max_error_len, "Unsupported media type [%d]",
+			mediatype->type);
+		res = FAIL;
 	}
 
-	zabbix_log(LOG_LEVEL_DEBUG, "End of %s():%s", __function_name, zbx_result_string(res));
+	zabbix_log(LOG_LEVEL_DEBUG, "End of %s(): %d", __function_name, zbx_result_string(res));
 
 	return res;
 }
@@ -128,6 +139,10 @@ int	execute_action(DB_ALERT *alert, DB_MEDIATYPE *mediatype, char *error, int ma
  *                                                                            *
  * Purpose: periodically check table alerts and send notifications if needed  *
  *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value:                                                              *
+ *                                                                            *
  * Author: Alexei Vladishev                                                   *
  *                                                                            *
  * Comments: never returns                                                    *
@@ -136,11 +151,13 @@ int	execute_action(DB_ALERT *alert, DB_MEDIATYPE *mediatype, char *error, int ma
 void	main_alerter_loop()
 {
 	char			error[MAX_STRING_LEN], *error_esc;
-	int			res;
+	int			res, now;
 	DB_RESULT		result;
 	DB_ROW			row;
 	DB_ALERT		alert;
 	DB_MEDIATYPE		mediatype;
+
+	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 
@@ -149,6 +166,8 @@ void	main_alerter_loop()
 	for (;;)
 	{
 		zbx_setproctitle("%s [sending alerts]", get_process_type_string(process_type));
+
+		now = time(NULL);
 
 		result = DBselect("select a.alertid,a.mediatypeid,a.sendto,a.subject,a.message,a.status,mt.mediatypeid"
 				",mt.type,mt.description,mt.smtp_server,mt.smtp_helo,mt.smtp_email,mt.exec_path"
@@ -202,7 +221,6 @@ void	main_alerter_loop()
 				error_esc = DBdyn_escape_string_len(error, ALERT_ERROR_LEN);
 
 				alert.retries++;
-
 				if (alert.retries < ALERT_MAX_RETRIES)
 				{
 					DBexecute("update alerts set retries=%d,error='%s' where alertid=" ZBX_FS_UI64,

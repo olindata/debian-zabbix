@@ -24,9 +24,7 @@
 function redirect($url){
 	zbx_flush_post_cookies();
 
-	$curl = new Curl($url);
-	$curl->setArgument('sid', null);
-	header('Location: '.$curl->getUrl());
+	header('Location: '.$url);
 	exit();
 }
 
@@ -41,6 +39,25 @@ function jsRedirect($url,$timeout=null){
 		$script.='window.location.replace("'.$url.'");';
 	}
 	insert_js($script);
+}
+
+function resetGetParams($params, $newURL=null){
+	zbx_value2array($params);
+
+	$redirect = false;
+	$url = new CUrl($newURL);
+
+	foreach($params as $num => $param){
+		if(!isset($_GET[$param])) continue;
+
+		$redirect = true;
+		$url->setArgument($param, null);
+	}
+
+	if($redirect){
+		jsRedirect($url->getUrl());
+		include_once('include/page_footer.php');
+	}
 }
 
 function get_request($name, $def=NULL){
@@ -244,16 +261,58 @@ return $output;
  *
  * author: Aly
  */
-function zbx_date2age($start_date, $end_date = 0, $utime = false){
+function zbx_date2age($start_date,$end_date=0,$utime = false){
+
 	if(!$utime){
-		$start_date = date('U', $start_date);
+		$start_date=date('U',$start_date);
 		if($end_date)
-			$end_date = date('U', $end_date);
+			$end_date=date('U',$end_date);
 		else
 			$end_date = time();
 	}
 
-	return convertUnitsS(abs($end_date - $start_date));
+	$original_time = $time = abs($end_date-$start_date);
+//SDI($start_date.' - '.$end_date.' = '.$time);
+
+	$years = (int) ($time / (365*86400));
+	$time -= $years*365*86400;
+
+	$months = 0;
+	$months = (int ) ($time / (30*86400));
+	$time -= $months*30*86400;
+
+	$weeks = (int ) ($time / (7*86400));
+	$time -= $weeks*7*86400;
+
+	$days = (int) ($time / 86400);
+	$time -= $days*86400;
+
+	$hours = (int) ($time / 3600);
+	$time -= $hours*3600;
+
+	$minutes = (int) ($time / 60);
+	$time -= $minutes*60;
+
+	if($time >= 1){
+		$seconds = round($time,2);
+		$ms = 0;
+	}
+	else{
+		$seconds = 0;
+		$ms = round($time,3) * 1000;
+	}
+
+	$str =  (($years)?$years.S_YEAR_SHORT.' ':'').
+			(($months)?$months.S_MONTH_SHORT.' ':'').
+			(($weeks)?$weeks.S_WEEK_SHORT.' ':'').
+			(($days && !$years)?$days.S_DAY_SHORT.' ':'').
+			(($hours && !$years && !$months)?$hours.S_HOUR_SHORT.' ':'').
+			(($minutes && !$years && !$months && !$weeks)?$minutes.S_MINUTE_SHORT.' ':'').
+			((!$years && !$months && !$weeks && !$days && ($ms || $seconds))?$seconds.S_SECOND_SHORT.' ':'').
+			((($ms && !$years && !$months && !$weeks && !$days && !$hours) || $original_time == 0) ?$ms.S_MILLISECOND_SHORT:'').
+			((!$ms && ($original_time > 0) && ($original_time < 0.001)) ? '< 1'.S_MILLISECOND_SHORT:'');
+
+return trim($str,' ');
 }
 
 function getmicrotime(){
@@ -357,103 +416,21 @@ function mem2str($size){
 	return round($size, 6).$prefix;
 }
 
-function convertUnitsUptime($value){
-	if(($secs = round($value)) < 0){
-		$value = '-';
-		$secs = -$secs;
-	}
-	else
-		$value = '';
-
-	$days = floor($secs / SEC_PER_DAY);
-	$secs -= $days * SEC_PER_DAY;
-
-	$hours = floor($secs / SEC_PER_HOUR);
-	$secs -= $hours * SEC_PER_HOUR;
-
-	$mins = floor($secs / SEC_PER_MIN);
-	$secs -= $mins * SEC_PER_MIN;
-
-	if($days != 0)
-		$value .= $days.' '.S_DAYS_SMALL.', ';
-	$value .= sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
-
-	return $value;
-}
-
-function convertUnitsS($value){
-	if(floor(abs($value) * 1000) == 0){
-		$value = ($value == 0 ? '0'.S_SECOND_SHORT : '< 1'.S_MILLISECOND_SHORT);
-		return $value;
-	}
-
-	if(($secs = round($value * 1000) / 1000) < 0){
-		$value = '-';
-		$secs = -$secs;
-	}
-	else
-		$value = '';
-	$n_unit = 0;
-
-	if(($n = floor($secs / SEC_PER_YEAR)) != 0){
-		$value .= $n.S_YEAR_SHORT.' ';
-		$secs -= $n * SEC_PER_YEAR;
-		if (0 == $n_unit)
-			$n_unit = 4;
-	}
-
-	if(($n = floor($secs / SEC_PER_MONTH)) != 0){
-		$value .= $n.S_MONTH_SHORT.' ';
-		$secs -= $n * SEC_PER_MONTH;
-		if (0 == $n_unit)
-			$n_unit = 3;
-	}
-
-	if(($n = floor($secs / SEC_PER_DAY)) != 0){
-		$value .= $n.S_DAY_SHORT.' ';
-		$secs -= $n * SEC_PER_DAY;
-		if (0 == $n_unit)
-			$n_unit = 2;
-	}
-
-	if($n_unit < 4 && ($n = floor($secs / SEC_PER_HOUR)) != 0){
-		$value .= $n.S_HOUR_SHORT.' ';
-		$secs -= $n * SEC_PER_HOUR;
-		if (0 == $n_unit)
-			$n_unit = 1;
-	}
-
-	if($n_unit < 3 && ($n = floor($secs / SEC_PER_MIN)) != 0){
-		$value .= $n.S_MINUTE_SHORT.' ';
-		$secs -= $n * SEC_PER_MIN;
-	}
-
-	if($n_unit < 2 && ($n = floor($secs)) != 0){
-		$value .= $n.S_SECOND_SHORT.' ';
-		$secs -= $n;
-	}
-
-	if($n_unit < 1 && ($n = round($secs * 1000)) != 0)
-		$value .= $n.S_MILLISECOND_SHORT;
-
-	return rtrim($value);
-}
-
 // convert:
 function convert_units($value, $units, $convert=ITEM_CONVERT_WITH_UNITS){
 
 // Special processing for unix timestamps
-	if($units == 'unixtime'){
+	if($units=='unixtime'){
 		$ret=zbx_date2str(S_FUNCT_UNIXTIMESTAMP_DATE_FORMAT,$value);
 		return $ret;
 	}
 //Special processing of uptime
-	if($units == 'uptime'){
-		return convertUnitsUptime($value);
+	if($units=='uptime'){
+		return zbx_date2age(time() - $value);
 	}
 // Special processing for seconds
-	if($units == 's'){
-		return convertUnitsS($value);
+	if($units=='s'){
+		return zbx_date2age(0,$value,true);
 	}
 
 	$u='';
@@ -461,9 +438,9 @@ function convert_units($value, $units, $convert=ITEM_CONVERT_WITH_UNITS){
 // Any other unit
 //-------------------
 // black list wich do not require units metrics..
-	$blackList = array('%','ms','rpm','RPM');
+	$blackList = array('%','ms','rpm');
 
-	if(in_array($units, $blackList) || (zbx_empty($units) && (($convert == ITEM_CONVERT_WITH_UNITS) || ($value < 1)))){
+	if(in_array(strtolower($units), $blackList) || (zbx_empty($units) && (($convert == ITEM_CONVERT_WITH_UNITS) || ($value < 1)))){
 		if(abs($value) >= ZBX_UNITS_ROUNDOFF_THRESHOLD)
 			$value = round($value, ZBX_UNITS_ROUNDOFF_UPPER_LIMIT);
 		$value = sprintf('%.'.ZBX_UNITS_ROUNDOFF_LOWER_LIMIT.'f', $value);
@@ -583,30 +560,6 @@ function zbx_is_int($var){
 return preg_match("/^\-?[0-9]+$/", $var);
 }
 
-/**
- * Find if array has any duplicate values and return an array with info about them.
- * In case of no duplicates, empty array is returned.
- * Example of usage:
- *     $result = zbx_arrayFindDuplicates(
- *         array('a', 'b', 'c', 'c', 'd', 'd', 'd', 'e')
- *     );
- *     array(
- *         'd' => 3,
- *         'c' => 2,
- *     )
- * @param array $array
- * @return array
- */
-function zbx_arrayFindDuplicates(array $array){
-	$countValues = array_count_values($array); // counting occurrences of every value in array
-	foreach($countValues as $value => $count){
-		if($count <= 1){
-			unset($countValues[$value]);
-		}
-	}
-	arsort($countValues); // sorting, so that the most duplicates would be at the top
-	return $countValues;
-}
 
 // STRING FUNCTIONS {{{
 if(!function_exists('zbx_stripslashes')){
@@ -778,7 +731,6 @@ function zbx_strrpos($haystack, $needle){
 		return strrpos($haystack, $needle);
 	}
 }
-
 // }}} STRING FUNCTIONS
 
 

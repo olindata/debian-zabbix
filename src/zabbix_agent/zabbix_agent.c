@@ -29,98 +29,52 @@
 const char	*progname = NULL;
 const char	title_message[] = "Zabbix Agent";
 const char	usage_message[] = "[-Vhp] [-c <file>] [-t <item>]";
-
+#ifndef HAVE_GETOPT_LONG
+const char	*help_message[] = {
+	"Options:",
+	"  -c <file>     absolute path to the configuration file",
+	"  -h            give this help",
+	"  -V            display version number",
+	"  -p            print supported items and exit",
+	"  -t <item>     test specified item and exit",
+	0 /* end of text */
+};
+#else
 const char	*help_message[] = {
 	"Options:",
 	"  -c --config <file>  absolute path to the configuration file",
 	"  -h --help           give this help",
 	"  -V --version        display version number",
-	"  -p --print          print known items and exit",
+	"  -p --print          print supported items and exit",
 	"  -t --test <item>    test specified item and exit",
-	NULL	/* end of text */
+	0 /* end of text */
+};
+#endif
+
+struct zbx_option longopts[] =
+{
+	{"config",	1,	0,	'c'},
+	{"help",	0,	0,	'h'},
+	{"version",	0,	0,	'V'},
+	{"print",	0,	0,	'p'},
+	{"test",	1,	0,	't'},
+	{0,0,0,0}
 };
 
-static struct zbx_option	longopts[] =
+void	child_signal_handler( int sig )
 {
-	{"config",	1,	NULL,	'c'},
-	{"help",	0,	NULL,	'h'},
-	{"version",	0,	NULL,	'V'},
-	{"print",	0,	NULL,	'p'},
-	{"test",	1,	NULL,	't'},
-	{NULL}
-};
+	if( SIGALRM == sig )
+	{
+		signal( SIGALRM, child_signal_handler );
+	}
 
-void	child_signal_handler(int sig)
-{
-	if (SIGALRM == sig)
-		signal(SIGALRM, child_signal_handler);
-
-	exit(FAIL);
+	if( SIGQUIT == sig || SIGINT == sig || SIGTERM == sig )
+	{
+	}
+	exit( FAIL );
 }
 
 static char	DEFAULT_CONFIG_FILE[] = "/etc/zabbix/zabbix_agent.conf";
-
-/******************************************************************************
- *                                                                            *
- * Function: zbx_load_config                                                  *
- *                                                                            *
- * Purpose: load configuration from config file                               *
- *                                                                            *
- * Parameters: optional - do not produce error if config file missing         *
- *                                                                            *
- * Return value:                                                              *
- *                                                                            *
- * Author: Vladimir Levijev                                                   *
- *                                                                            *
- * Comments:                                                                  *
- *                                                                            *
- ******************************************************************************/
-static void	zbx_load_config(int optional)
-{
-	struct cfg_line	cfg[] =
-	{
-		/* PARAMETER,			VAR,					TYPE,
-			MANDATORY,	MIN,			MAX */
-		{"Server",			&CONFIG_HOSTS_ALLOWED,			TYPE_STRING,
-			PARM_MAND,	0,			0},
-		{"Timeout",			&CONFIG_TIMEOUT,			TYPE_INT,
-			PARM_OPT,	1,			30},
-		{"UnsafeUserParameters",	&CONFIG_UNSAFE_USER_PARAMETERS,		TYPE_INT,
-			PARM_OPT,	0,			1},
-		{"Alias",			&CONFIG_ALIASES,			TYPE_MULTISTRING,
-			PARM_OPT,	0,			0},
-		{"UserParameter",		&CONFIG_USER_PARAMETERS,		TYPE_MULTISTRING,
-			PARM_OPT,	0,			0},
-		{NULL}
-	};
-
-	/* initialize multistrings */
-	zbx_strarr_init(&CONFIG_ALIASES);
-	zbx_strarr_init(&CONFIG_USER_PARAMETERS);
-
-	parse_cfg_file(CONFIG_FILE, cfg, optional, ZBX_CFG_STRICT);
-}
-
-/******************************************************************************
- *                                                                            *
- * Function: zbx_free_config                                                  *
- *                                                                            *
- * Purpose: free configuration memory                                         *
- *                                                                            *
- * Parameters:                                                                *
- *                                                                            *
- * Return value:                                                              *
- *                                                                            *
- * Author: Vladimir Levijev                                                   *
- *                                                                            *
- * Comments:                                                                  *
- *                                                                            *
- ******************************************************************************/
-static void	zbx_free_config()
-{
-	zbx_strarr_free(CONFIG_ALIASES);
-	zbx_strarr_free(CONFIG_USER_PARAMETERS);
-}
 
 int	main(int argc, char **argv)
 {
@@ -135,11 +89,12 @@ int	main(int argc, char **argv)
 
 	AGENT_RESULT	result;
 
+	memset(&result, 0, sizeof(AGENT_RESULT));
+
 	progname = get_program_name(argv[0]);
 
-	/* parse the command-line */
-	while ((char)EOF != (ch = (char)zbx_getopt_long(argc, argv, "c:hVpt:", longopts, NULL)))
-	{
+/* Parse the command-line. */
+	while ((ch = (char)zbx_getopt_long(argc, argv, "c:hVpt:", longopts, NULL)) != (char)EOF)
 		switch (ch)
 		{
 			case 'c':
@@ -147,14 +102,14 @@ int	main(int argc, char **argv)
 				break;
 			case 'h':
 				help();
-				exit(FAIL);
+				exit(-1);
 				break;
 			case 'V':
 				version();
 #ifdef _AIX
 				tl_version();
-#endif
-				exit(FAIL);
+#endif /* _AIX */
+				exit(-1);
 				break;
 			case 'p':
 				if (task == ZBX_TASK_START)
@@ -168,50 +123,39 @@ int	main(int argc, char **argv)
 				}
 				break;
 			default:
-				usage();
-				exit(FAIL);
+				task = ZBX_TASK_SHOW_USAGE;
 				break;
 		}
-	}
 
-	if (NULL == CONFIG_FILE)
+	if (CONFIG_FILE == NULL)
 		CONFIG_FILE = DEFAULT_CONFIG_FILE;
 
-	/* load configuration */
-	if (ZBX_TASK_PRINT_SUPPORTED == task || ZBX_TASK_TEST_METRIC == task)
-		zbx_load_config(ZBX_CFG_FILE_OPTIONAL);
-	else
-		zbx_load_config(ZBX_CFG_FILE_REQUIRED);
-
-	/* metrics should be initialized befor loading user parameters */
 	init_metrics();
 
-	/* user parameters */
-	load_user_parameters(CONFIG_USER_PARAMETERS);
+	if (ZBX_TASK_START == task)
+	{
+		load_config();
+		load_user_parameters(0);
+	}
 
-	/* aliases */
-	load_aliases(CONFIG_ALIASES);
-
-	zbx_free_config();
-
-	/* do not create debug files */
+	/* Do not create debug files */
 	zabbix_open_log(LOG_TYPE_SYSLOG, LOG_LEVEL_EMPTY, NULL);
 
 	switch (task)
 	{
-		case ZBX_TASK_TEST_METRIC:
 		case ZBX_TASK_PRINT_SUPPORTED:
-			if (ZBX_TASK_TEST_METRIC == task)
-				test_parameter(TEST_METRIC, PROCESS_TEST);
-			else
-				test_parameters();
-			zabbix_close_log();
-			free_metrics();
-			alias_list_free();
-			exit(SUCCEED);
+			load_user_parameters(1);
+			test_parameters();
+			exit(-1);
 			break;
-		default:
-			/* do nothing */
+		case ZBX_TASK_TEST_METRIC:
+			load_user_parameters(1);
+			test_parameter(TEST_METRIC, PROCESS_TEST);
+			exit(-1);
+			break;
+		case ZBX_TASK_SHOW_USAGE:
+			usage();
+			exit(-1);
 			break;
 	}
 
@@ -225,9 +169,9 @@ int	main(int argc, char **argv)
 	zbx_tcp_init(&s_in, (ZBX_SOCKET)fileno(stdin));
 	zbx_tcp_init(&s_out, (ZBX_SOCKET)fileno(stdout));
 
-	if (SUCCEED == (ret = zbx_tcp_check_security(&s_in, CONFIG_HOSTS_ALLOWED, 0)))
+	if( SUCCEED == (ret = zbx_tcp_check_security(&s_in, CONFIG_HOSTS_ALLOWED, 0)) )
 	{
-		if (SUCCEED == (ret = zbx_tcp_recv(&s_in, &command)))
+		if( SUCCEED == (ret = zbx_tcp_recv(&s_in, &command)) )
 		{
 			zbx_rtrim(command, "\r\n");
 
@@ -237,10 +181,10 @@ int	main(int argc, char **argv)
 
 			process(command, 0, &result);
 
-			if (NULL == (value = GET_TEXT_RESULT(&result)))
+			if( NULL == (value = GET_TEXT_RESULT(&result)) )
 				value = GET_MSG_RESULT(&result);
 
-			if (NULL != value)
+			if(value)
 			{
 				zabbix_log(LOG_LEVEL_DEBUG, "Sending back [%s]", *value);
 
@@ -250,18 +194,20 @@ int	main(int argc, char **argv)
 			free_result(&result);
 		}
 
-		if (FAIL == ret)
+		if( FAIL == ret )
+		{
 			zabbix_log(LOG_LEVEL_DEBUG, "Processing error: %s", zbx_tcp_strerror());
+		}
 	}
 
 	fflush(stdout);
 
+	free_metrics();
+	alias_list_free();
+
 	alarm(0);
 
 	zabbix_close_log();
-
-	free_metrics();
-	alias_list_free();
 
 	return SUCCEED;
 }

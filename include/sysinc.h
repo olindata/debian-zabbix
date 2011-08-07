@@ -22,13 +22,8 @@
 
 #include "config.h"
 
-#ifdef HAVE_STDIO_H
-#	include <stdio.h>
-#endif
-
-#ifdef HAVE_STDLIB_H
-#	include <stdlib.h>
-#endif
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifdef HAVE_ASSERT_H
 #	include <assert.h>
@@ -330,6 +325,15 @@
 #	include <lber.h>
 #endif
 
+#ifdef HAVE_GETOPT_H
+#	ifdef HAVE_GETOPT_LONG
+#		if !defined(_GNU_SOURCE)
+#			define _GNU_SOURCE
+#		endif
+#		include <getopt.h>
+#	endif
+#endif
+
 #ifdef HAVE_SYS_IPC_H
 #	include <sys/ipc.h>
 #endif
@@ -414,6 +418,10 @@
 
 #ifdef HAVE_IO_H
 #	include <io.h>
+#endif
+
+#ifdef HAVE_FCNTL_H
+#	include <fcntl.h>
 #endif
 
 #endif

@@ -21,75 +21,112 @@
 #include "alias.h"
 #include "log.h"
 
-static ALIAS	*aliasList = NULL;
+/* Static data */
+
+static ALIAS *aliasList=NULL;
+
+
+/*
+ * Add alias to the list
+ * Returns 1 on success or 0 if alias with that name already exists
+*/
+int	add_alias_from_config(char *line)
+{
+	char	*name = NULL,
+		*value = NULL;
+
+	name = line;
+	value = strchr(line,':');
+	if(NULL == value)
+		return FAIL;
+
+	*value = '\0';
+	value++;
+
+	return add_alias(name, value);
+}
 
 int	add_alias(const char *name, const char *value)
 {
-	ALIAS	*alias = NULL;
+	ALIAS *alias = NULL;
 
 	assert(name);
 	assert(value);
 
-	for (alias = aliasList; ; alias = alias->next)
+	for(alias = aliasList; ; alias=alias->next)
 	{
-		/* add new Alias */
-		if (NULL == alias)
+		/* Add new parameters */
+		if ( NULL == alias )
 		{
 			alias = (ALIAS *)zbx_malloc(alias, sizeof(ALIAS));
-			memset(alias, 0, sizeof(ALIAS));
+			memset(alias,0,sizeof(ALIAS));
 
-			zbx_strlcpy(alias->name, name, MAX_ALIAS_NAME - 1);
+			zbx_strlcpy(alias->name, name, MAX_ALIAS_NAME-1);
 
 			alias->value = strdup(value);
-			alias->next = aliasList;
-			aliasList = alias;
 
-			zabbix_log(LOG_LEVEL_DEBUG, "Alias added: \"%s\" -> \"%s\"", name, value);
+			alias->next=aliasList;
+
+			aliasList=alias;
+
+			zabbix_log( LOG_LEVEL_DEBUG, "Alias added. [%s] -> [%s]", name, value);
 			return SUCCEED;
 		}
 
-		/* treat duplicate Alias as error */
-		if (0 == strcmp(alias->name, name))
+		/* Replace existing parameters */
+		if (strcmp(alias->name, name) == 0)
 		{
-			zabbix_log(LOG_LEVEL_CRIT, "failed to add Alias \"%s\": duplicate name", name);
-			exit(FAIL);
+			zbx_free(alias->value);
+
+			memset(alias, 0, sizeof(ALIAS));
+
+			zbx_strlcpy(alias->name, name, MAX_ALIAS_NAME-1);
+
+			alias->value = strdup(value);
+
+			alias->next = aliasList;
+
+			aliasList = alias;
+
+			zabbix_log( LOG_LEVEL_DEBUG, "Alias replaced. [%s] -> [%s]", name, value);
+			return SUCCEED;
 		}
 	}
-
-	zabbix_log(LOG_LEVEL_WARNING, "Alias handling FAILED: \"%s\" -> \"%s\"", name, value);
-
+	zabbix_log( LOG_LEVEL_WARNING, "Alias FAILED. [%s] -> [%s]", name, value);
 	return FAIL;
 }
 
-void	alias_list_free()
+void	alias_list_free(void)
 {
-	ALIAS	*curr, *next;
+	ALIAS	*curr;
+	ALIAS	*next;
 
 	next = aliasList;
-
-	while (NULL != next)
+	while(next!=NULL)
 	{
 		curr = next;
 		next = curr->next;
 		zbx_free(curr->value);
 		zbx_free(curr);
 	}
-
 	aliasList = NULL;
 }
 
+/*
+ * Checks parameter and expands it if aliased
+ */
+
 void	alias_expand(const char *orig, char *expanded, int exp_buf_len)
 {
-	ALIAS	*alias;
+	ALIAS *alias;
 
-	for (alias = aliasList; NULL != alias; alias = alias->next)
+	for(alias = aliasList; alias!=NULL; alias = alias->next)
 	{
-		if (0 == strcmp(alias->name, orig))
+		if (!strcmp(alias->name,orig))
 		{
 			zbx_strlcpy(expanded, alias->value, exp_buf_len);
 			return;
 		}
 	}
-
 	zbx_strlcpy(expanded, orig, exp_buf_len);
 }

@@ -484,6 +484,8 @@
 			unset_request($field,'P_UNSET_EMPTY');
 		}
 
+//SDI("Field: $field");
+
 		if($exception==NULL)
 			$except=FALSE;
 		else

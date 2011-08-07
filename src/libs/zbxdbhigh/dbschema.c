@@ -851,17 +851,17 @@ ZBX_TABLE	tables[]={
 		{0}
 		}
 	},
-	{"profiles",	"profileid",	0,
+	{"profiles",	"profileid",	ZBX_SYNC,
 		{
 		{"profileid",	ZBX_TYPE_ID,	ZBX_NOTNULL,	NULL},
-		{"userid",	ZBX_TYPE_ID,	ZBX_NOTNULL,	"users"},
-		{"idx",	ZBX_TYPE_CHAR,	ZBX_NOTNULL,	NULL},
-		{"idx2",	ZBX_TYPE_ID,	ZBX_NOTNULL,	NULL},
-		{"value_id",	ZBX_TYPE_ID,	ZBX_NOTNULL,	NULL},
-		{"value_int",	ZBX_TYPE_INT,	ZBX_NOTNULL,	NULL},
-		{"value_str",	ZBX_TYPE_CHAR,	ZBX_NOTNULL,	NULL},
-		{"source",	ZBX_TYPE_CHAR,	ZBX_NOTNULL,	NULL},
-		{"type",	ZBX_TYPE_INT,	ZBX_NOTNULL,	NULL},
+		{"userid",	ZBX_TYPE_ID,	ZBX_NOTNULL | ZBX_SYNC,	"users"},
+		{"idx",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"idx2",	ZBX_TYPE_ID,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"value_id",	ZBX_TYPE_ID,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"value_int",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"value_str",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"source",	ZBX_TYPE_CHAR,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
+		{"type",	ZBX_TYPE_INT,	ZBX_NOTNULL | ZBX_SYNC,	NULL},
 		{0}
 		}
 	},

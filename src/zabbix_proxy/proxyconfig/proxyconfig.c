@@ -62,13 +62,6 @@ static void	process_configuration_sync()
 			ZBX_PROTO_VALUE_PROXY_CONFIG, &data))
 		goto exit;
 
-	if ('\0' != *data)
-		zabbix_log(LOG_LEVEL_WARNING, "Received configuration data from server. Datalen " ZBX_FS_SIZE_T,
-				(zbx_fs_size_t)strlen(data));
-	else
-		zabbix_log(LOG_LEVEL_WARNING, "Cannot obtain configuration data from server. "
-				"Proxy host name might not be matching that on the server.");
-
 	if (FAIL == zbx_json_open(data, &jp))
 		goto exit;
 
@@ -97,6 +90,8 @@ exit:
 void	main_proxyconfig_loop()
 {
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_proxyconfig_loop()");
+
+	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 
