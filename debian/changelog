@@ -1,3 +1,11 @@
+zabbix (1:1.8.6-1) unstable; urgency=low
+
+  * New upstream release.
+  * Updated configuration file templates.
+  * Added SQLite support for server and proxy packages.
+
+ -- Christoph Haas <haas@debian.org>  Sun, 07 Aug 2011 17:45:48 +0200
+
 zabbix (1:1.8.5-2) unstable; urgency=low
 
   * Updated nb.po (closes: #619730)
