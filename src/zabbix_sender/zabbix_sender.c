@@ -30,7 +30,6 @@ const char	*progname = NULL;
 const char	title_message[] = "Zabbix Sender";
 const char	usage_message[] = "[-Vhv] {[-zpsI] -ko | [-zpI] -T -i <file> -r} [-c <file>]";
 
-#ifdef HAVE_GETOPT_LONG
 const char	*help_message[] = {
 	"Options:",
 	"  -c --config <file>                   Specify absolute path to the configuration file",
@@ -54,46 +53,16 @@ const char	*help_message[] = {
 	"",
 	"  -v --verbose                         Verbose mode, -vv for more details",
 	"",
-	" Other options:",
+	"Other options:",
 	"  -h --help                            Give this help",
 	"  -V --version                         Display version number",
-	0 /* end of text */
+	NULL	/* end of text */
 };
-#else
-const char	*help_message[] = {
-	"Options:",
-	"  -c <file>                    Specify absolute path to the configuration file",
-	"",
-	"  -z <server>                  Hostname or IP address of Zabbix Server",
-	"  -p <server port>             Specify port number of server trapper running on the server. Default is 10051",
-	"  -s <hostname>                Specify hostname or IP address of a host",
-	"  -I <IP address>              Specify source IP address",
-	"",
-	"  -k <key>                     Specify item key",
-	"  -o <key value>               Specify value",
-	"",
-	"  -i <input file>              Load values from input file. Specify - for standard input",
-	"                               Each line of file contains whitespace delimited: <hostname> <key> <value>",
-	"                               Specify - in <hostname> to use hostname from configuration file or --host argument",
-	"  -T                           Each line of file contains whitespace delimited: <hostname> <key> <timestamp> <value>",
-	"                               This can be used with -i option",
-	"  -r                           Send metrics one by one as soon as they are received",
-	"                               This can be used when reading from standard input",
-	"",
-	"  -v                           Verbose mode, -vv for more details",
-	"",
-	" Other options:",
-	"  -h                           Give this help",
-	"  -V                           Display version number",
-	0 /* end of text */
-};
-#endif
 
 /* COMMAND LINE OPTIONS */
 
 /* long options */
-
-static struct zbx_option longopts[] =
+static struct zbx_option	longopts[] =
 {
 	{"config",		1,	NULL,	'c'},
 	{"zabbix-server",	1,	NULL,	'z'},
@@ -108,27 +77,26 @@ static struct zbx_option longopts[] =
 	{"verbose",		0,	NULL,	'v'},
 	{"help",		0,	NULL,	'h'},
 	{"version",		0,	NULL,	'V'},
-	{0,0,0,0}
+	{NULL}
 };
 
 /* short options */
-
 static char	shortopts[] = "c:I:z:p:s:k:o:Ti:rvhV";
 
 /* end of COMMAND LINE OPTIONS */
 
 static int	CONFIG_LOG_LEVEL = LOG_LEVEL_CRIT;
 
-static char*	INPUT_FILE = NULL;
+static char	*INPUT_FILE = NULL;
 static int	WITH_TIMESTAMPS = 0;
 static int	REAL_TIME = 0;
 
-static char*	CONFIG_SOURCE_IP = NULL;
-static char*	ZABBIX_SERVER = NULL;
+static char	*CONFIG_SOURCE_IP = NULL;
+static char	*ZABBIX_SERVER = NULL;
 unsigned short	ZABBIX_SERVER_PORT = 0;
-static char*	ZABBIX_HOSTNAME = NULL;
-static char*	ZABBIX_KEY = NULL;
-static char*	ZABBIX_KEY_VALUE = NULL;
+static char	*ZABBIX_HOSTNAME = NULL;
+static char	*ZABBIX_KEY = NULL;
+static char	*ZABBIX_KEY_VALUE = NULL;
 
 #if !defined(_WINDOWS)
 
@@ -212,10 +180,10 @@ static	ZBX_THREAD_ENTRY(send_value, args)
 		{
 			if (SUCCEED == (tcp_ret = zbx_tcp_recv(&sock, &answer)))
 			{
-				zabbix_log(LOG_LEVEL_DEBUG, "Answer [%s]", answer);
+				zabbix_log(LOG_LEVEL_DEBUG, "answer [%s]", answer);
 				if (NULL == answer || SUCCEED != check_response(answer))
 				{
-					zabbix_log(LOG_LEVEL_WARNING, "Incorrect answer from server [%s]", answer);
+					zabbix_log(LOG_LEVEL_WARNING, "incorrect answer from server [%s]", answer);
 				}
 				else
 					ret = SUCCEED;
@@ -226,81 +194,86 @@ static	ZBX_THREAD_ENTRY(send_value, args)
 	}
 
 	if (FAIL == tcp_ret)
-		zabbix_log(LOG_LEVEL_DEBUG, "Send value error: %s", zbx_tcp_strerror());
+		zabbix_log(LOG_LEVEL_DEBUG, "send value error: %s", zbx_tcp_strerror());
 
 	zbx_thread_exit(ret);
 }
 
-static void    init_config(const char* config_file)
+static void    zbx_load_config(const char *config_file)
 {
-	char*	config_source_ip_from_conf = NULL;
-	char*	zabbix_server_from_conf = NULL;
-	int	zabbix_server_port_from_conf = 0;
-	char*	zabbix_hostname_from_conf = NULL;
-	char*	c = NULL;
+	char	*cfg_source_ip = NULL, *cfg_server = NULL, *cfg_hostname = NULL, *c = NULL;
+	int	cfg_server_port = 0;
 
-	struct cfg_line cfg[]=
+	struct cfg_line	cfg[] =
 	{
-		/* PARAMETER	,VAR				,FUNC	,TYPE(0i,1s)	,MANDATORY	,MIN			,MAX		*/
-		{"SourceIP"	,&config_source_ip_from_conf	,0	,TYPE_STRING	,PARM_OPT	,0			,0		},
-		{"Server"	,&zabbix_server_from_conf	,0	,TYPE_STRING	,PARM_OPT	,0			,0		},
-		{"ServerPort"	,&zabbix_server_port_from_conf	,0	,TYPE_INT	,PARM_OPT	,MIN_ZABBIX_PORT	,MAX_ZABBIX_PORT},
-		{"Hostname"	,&zabbix_hostname_from_conf	,0	,TYPE_STRING	,PARM_OPT	,0			,0		},
-		{0}
+		/* PARAMETER,			VAR,					TYPE,
+			MANDATORY,	MIN,			MAX */
+		{"SourceIP",			&cfg_source_ip,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"Server",			&cfg_server,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"ServerPort",			&cfg_server_port,			TYPE_INT,
+			PARM_OPT,	MIN_ZABBIX_PORT,	MAX_ZABBIX_PORT},
+		{"Hostname",			&cfg_hostname,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{NULL}
 	};
 
-	if( config_file )
+	if (NULL != config_file)
 	{
-		parse_cfg_file(config_file, cfg);
+		/* do not complain about unknown parameters */
+		parse_cfg_file(config_file, cfg, ZBX_CFG_FILE_REQUIRED, ZBX_CFG_NOT_STRICT);
 
-		if (NULL != config_source_ip_from_conf)
+		if (NULL != cfg_source_ip)
 		{
-			if (NULL == CONFIG_SOURCE_IP)	/* apply parameter only if unset */
+			if (NULL == CONFIG_SOURCE_IP)
 			{
-				CONFIG_SOURCE_IP = strdup(config_source_ip_from_conf);
+				CONFIG_SOURCE_IP = zbx_strdup(CONFIG_SOURCE_IP, cfg_source_ip);
 			}
-			zbx_free(config_source_ip_from_conf);
+			zbx_free(cfg_source_ip);
 		}
 
-		if( zabbix_server_from_conf )
+		if (NULL != cfg_server)
 		{
-			if( !ZABBIX_SERVER )
-			{ /* apply parameter only if unset */
-				if( (c = strchr(zabbix_server_from_conf, ',')) )
-				{ /* get only first server */
+			if (NULL == ZABBIX_SERVER)
+			{
+				/* get only first server */
+				if (NULL != (c = strchr(cfg_server, ',')))
+				{
 					*c = '\0';
 				}
-				ZABBIX_SERVER = strdup(zabbix_server_from_conf);
+				ZABBIX_SERVER = zbx_strdup(ZABBIX_SERVER, cfg_server);
 			}
-			zbx_free(zabbix_server_from_conf);
+			zbx_free(cfg_server);
 		}
 
-		if( !ZABBIX_SERVER_PORT && zabbix_server_port_from_conf )
-		{ /* apply parameter only if unset */
-			ZABBIX_SERVER_PORT = zabbix_server_port_from_conf;
-		}
-
-		if( zabbix_hostname_from_conf )
+		if (0 == ZABBIX_SERVER_PORT && 0 != cfg_server_port)
 		{
-			if( !ZABBIX_HOSTNAME )
-			{ /* apply parameter only if unset */
-				ZABBIX_HOSTNAME = strdup(zabbix_hostname_from_conf);
+			ZABBIX_SERVER_PORT = cfg_server_port;
+		}
+
+		if (NULL != cfg_hostname)
+		{
+			if (NULL == ZABBIX_HOSTNAME)
+			{
+				ZABBIX_HOSTNAME = zbx_strdup(ZABBIX_HOSTNAME, cfg_hostname);
 			}
-			zbx_free(zabbix_hostname_from_conf);
+			zbx_free(cfg_hostname);
 		}
 	}
 }
 
-static zbx_task_t parse_commandline(int argc, char **argv)
+static void	parse_commandline(int argc, char **argv)
 {
-	zbx_task_t      task    = ZBX_TASK_START;
-	char    ch      = '\0';
+	char	ch = '\0';
 
 	/* Parse the command-line. */
 	while ((ch = (char)zbx_getopt_long(argc, argv, shortopts, longopts, NULL)) != (char)EOF)
-		switch (ch) {
+	{
+		switch (ch)
+		{
 			case 'c':
-				CONFIG_FILE = strdup(zbx_optarg);
+				CONFIG_FILE = zbx_strdup(CONFIG_FILE, zbx_optarg);
 				break;
 			case 'h':
 				help();
@@ -311,25 +284,25 @@ static zbx_task_t parse_commandline(int argc, char **argv)
 				exit(-1);
 				break;
 			case 'I':
-				CONFIG_SOURCE_IP = strdup(zbx_optarg);
+				CONFIG_SOURCE_IP = zbx_strdup(CONFIG_SOURCE_IP, zbx_optarg);
 				break;
 			case 'z':
-				ZABBIX_SERVER = strdup(zbx_optarg);
+				ZABBIX_SERVER = zbx_strdup(ZABBIX_SERVER, zbx_optarg);
 				break;
 			case 'p':
 				ZABBIX_SERVER_PORT = (unsigned short)atoi(zbx_optarg);
 				break;
 			case 's':
-				ZABBIX_HOSTNAME = strdup(zbx_optarg);
+				ZABBIX_HOSTNAME = zbx_strdup(ZABBIX_HOSTNAME, zbx_optarg);
 				break;
 			case 'k':
-				ZABBIX_KEY = strdup(zbx_optarg);
+				ZABBIX_KEY = zbx_strdup(ZABBIX_KEY, zbx_optarg);
 				break;
 			case 'o':
-				ZABBIX_KEY_VALUE = strdup(zbx_optarg);
+				ZABBIX_KEY_VALUE = zbx_strdup(ZABBIX_KEY_VALUE, zbx_optarg);
 				break;
 			case 'i':
-				INPUT_FILE = strdup(zbx_optarg);
+				INPUT_FILE = zbx_strdup(INPUT_FILE, zbx_optarg);
 				break;
 			case 'T':
 				WITH_TIMESTAMPS = 1;
@@ -348,47 +321,35 @@ static zbx_task_t parse_commandline(int argc, char **argv)
 				exit(FAIL);
 				break;
 		}
+	}
 
 	if (NULL == ZABBIX_SERVER && NULL == CONFIG_FILE)
 	{
 		usage();
 		exit(FAIL);
 	}
-
-	return task;
 }
 
+/* sending a huge amount of values in a single connection is likely to */
+/* take long and hit timeout, so we limit values to 250 per connection */
 #define VALUES_MAX	250
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	FILE	*in;
-
-	char	in_line[MAX_BUFFER_LEN],
-		hostname[MAX_STRING_LEN],
-		key[MAX_STRING_LEN],
-		key_value[MAX_BUFFER_LEN],
-		clock[32];
-
-	int	task = ZBX_TASK_START,
-		total_count = 0,
-		succeed_count = 0,
-		buffer_count = 0,
-		read_more = 0,
-		ret = SUCCEED;
-
-	double	last_send = 0;
-
-	const char	*p;
-
+	FILE			*in;
+	char			in_line[MAX_BUFFER_LEN], hostname[MAX_STRING_LEN], key[MAX_STRING_LEN],
+				key_value[MAX_BUFFER_LEN], clock[32];
+	int			total_count = 0, succeed_count = 0, buffer_count = 0, read_more = 0, ret = SUCCEED;
+	double			last_send = 0;
+	const char		*p;
 	zbx_thread_args_t	thread_args;
 	ZBX_THREAD_SENDVAL_ARGS sentdval_args;
 
 	progname = get_program_name(argv[0]);
 
-	task = parse_commandline(argc, argv);
+	parse_commandline(argc, argv);
 
-	init_config(CONFIG_FILE);
+	zbx_load_config(CONFIG_FILE);
 
 	zabbix_open_log(LOG_TYPE_UNDEFINED, CONFIG_LOG_LEVEL, NULL);
 
@@ -430,7 +391,7 @@ int main(int argc, char **argv)
 		}
 		else if (NULL == (in = fopen(INPUT_FILE, "r")) )
 		{
-			zabbix_log(LOG_LEVEL_WARNING, "Cannot open [%s] [%s]", INPUT_FILE, strerror(errno));
+			zabbix_log(LOG_LEVEL_WARNING, "cannot open [%s]: %s", INPUT_FILE, zbx_strerror(errno));
 			ret = FAIL;
 			goto exit;
 		}
@@ -513,8 +474,7 @@ int main(int argc, char **argv)
 
 				if (-1 == (read_more = select(1, &read_set, NULL, NULL, &tv)))
 				{
-					zabbix_log(LOG_LEVEL_WARNING, "select() failed with errno:%d error:[%s]",
-							errno, strerror(errno));
+					zabbix_log(LOG_LEVEL_WARNING, "select() failed: %s", zbx_strerror(errno));
 				}
 				else if (1 <= read_more)
 				{

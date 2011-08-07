@@ -26,7 +26,7 @@
 
 	$page['title'] = 'S_CUSTOM_SCREENS';
 	$page['file'] = 'screens.php';
-	$page['hist_arg'] = array('elementid');
+	$page['hist_arg'] = array('elementid', 'screenname');
 	$page['scripts'] = array('effects.js','dragdrop.js','class.calendar.js','gtlc.js');
 
 	$page['type'] = detect_page_type(PAGE_TYPE_HTML);
@@ -106,6 +106,13 @@
 				print('switchElementsClass("addrm_fav","iconminus","iconplus");');
 			}
 		}
+
+		// saving fixed/dynamic setting to profile
+		if('timelinefixedperiod' == $_REQUEST['favobj']){
+			if(isset($_REQUEST['favid'])){
+				CProfile::update('web.screens.timelinefixed', $_REQUEST['favid'], PROFILE_TYPE_INT);
+			}
+		}
 	}
 
 	if((PAGE_TYPE_JS == $page['type']) || (PAGE_TYPE_HTML_BLOCK == $page['type'])){
@@ -119,7 +126,7 @@
 	$use_screen_name = isset($_REQUEST['screenname']);
 
 	//getiing element id from GET paramters
-	$elementid = $_REQUEST['elementid'] = get_request('elementid', false);
+	$elementid = get_request('elementid', false);
 	//if none is provided
 	if($elementid === false && !$use_screen_name){
 		//get element id saved in profile from the last visit
@@ -177,18 +184,18 @@
 		show_error_message($error_msg);
 	}
 	else{
-		if (!isset($screens[$elementIdentifier])) {
+		if(!isset($screens[$elementIdentifier])){
 			//this means id was fetched from profile and this screen does not exist
 			//in this case we need to show the first one
 			$screen = reset($screens);
 		}
-		else {
+		else{
 			$screen = $screens[$elementIdentifier];
 		}
 
 		//if elementid is used to fetch an element, saving it in profile
-		if(2 != $_REQUEST['fullscreen'] && !$use_screen_name) {
-			CProfile::update('web.screens.elementid',$screen['screenid'] , PROFILE_TYPE_ID);
+		if(2 != $_REQUEST['fullscreen'] && !$use_screen_name){
+			CProfile::update('web.screens.elementid', $screen['screenid'], PROFILE_TYPE_ID);
 		}
 
 		$effectiveperiod = navigation_bar_calc('web.screens', $screen['screenid'], true);
@@ -279,7 +286,8 @@
 				'loadScroll' => 1,
 				'scrollWidthByImage' => 0,
 				'dynamic' => 0,
-				'mainObject' => 1
+				'mainObject' => 1,
+				'periodFixed' => CProfile::get('web.screens.timelinefixed', 1)
 			);
 
 			zbx_add_post_js('timeControl.addObject("'.$dom_graph_id.'",'.zbx_jsvalue($timeline).','.zbx_jsvalue($objData).');');

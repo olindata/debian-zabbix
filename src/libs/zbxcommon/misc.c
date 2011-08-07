@@ -167,7 +167,8 @@ void    *zbx_malloc2(const char *filename, int line, void *old, size_t size)
 	if (NULL != ptr)
 		return ptr;
 
-	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_malloc: out of memory. Requested %lu bytes.", filename, line, size);
+	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_malloc: out of memory. Requested " ZBX_FS_SIZE_T " bytes.",
+			filename, line, (zbx_fs_size_t)size);
 	exit(FAIL);
 
 	/* Program will never reach this point. */
@@ -204,7 +205,8 @@ void    *zbx_realloc2(const char *filename, int line, void *src, size_t size)
 	if (NULL != ptr)
 		return ptr;
 
-	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_realloc: out of memory. Requested %lu bytes.", filename, line, size);
+	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_realloc: out of memory. Requested " ZBX_FS_SIZE_T " bytes.",
+			filename, line, (zbx_fs_size_t)size);
 	exit(FAIL);
 
 	/* Program will never reach this point. */
@@ -224,7 +226,8 @@ char    *zbx_strdup2(const char *filename, int line, char *old, const char *str)
 	if (NULL != ptr)
 		return ptr;
 
-	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_strdup: out of memory. Requested %lu bytes.", filename, line, strlen(str) + 1);
+	zabbix_log(LOG_LEVEL_CRIT, "[file:%s,line:%d] zbx_strdup: out of memory. Requested " ZBX_FS_SIZE_T " bytes.",
+			filename, line, (zbx_fs_size_t)(strlen(str) + 1));
 	exit(FAIL);
 
 	/* Program will never reach this point. */
@@ -249,11 +252,10 @@ void	__zbx_zbx_setproctitle(const char *fmt, ...)
 #ifdef HAVE_FUNCTION_SETPROCTITLE
 
 	char	title[MAX_STRING_LEN];
-
 	va_list args;
 
 	va_start(args, fmt);
-	vsnprintf(title, MAX_STRING_LEN - 1, fmt, args);
+	zbx_vsnprintf(title, sizeof(title), fmt, args);
 	va_end(args);
 
 	setproctitle(title);
@@ -480,7 +482,7 @@ static int	get_next_delay_interval(const char *flex_intervals, time_t now, time_
 								s, day, tm->tm_hour, tm->tm_min, tm->tm_sec);
 						day_diff = (-1);
 					}
-					
+
 					if (day_diff != (-1))
 						if (next == 0 || next > now - sec + SEC_PER_DAY * day_diff + sec1)
 							next = now - sec + SEC_PER_DAY * day_diff + sec1;
@@ -558,7 +560,7 @@ int	calculate_item_nextcheck(zbx_uint64_t itemid, int item_type, int delay,
 				/* as soon as item check in the interval is not forbidden with delay=0, use it */
 				if (SEC_PER_YEAR != current_delay)
 					break;
-				
+
 				get_next_delay_interval(flex_intervals, next_interval + 1, &next_interval);
 			}
 			while (next_interval - now < SEC_PER_WEEK); /* checking the nearest week for delay!=0 */
@@ -572,7 +574,7 @@ int	calculate_item_nextcheck(zbx_uint64_t itemid, int item_type, int delay,
 		while (nextcheck <= now)
 			nextcheck += delay;
 	}
-	
+
 	if (NULL != effective_delay)
 		*effective_delay = delay;
 
@@ -2063,10 +2065,10 @@ int	is_key_char(char c)
 	if (c >= 'a' && c <= 'z')
 		return SUCCEED;
 
-	if (c >= 'A' && c <= 'Z')
+	if (c == '.' || c == ',' || c == '_' || c == '-')
 		return SUCCEED;
 
-	if (c == '.' || c == ',' || c == '_' || c == '-')
+	if (c >= 'A' && c <= 'Z')
 		return SUCCEED;
 
 	if (c >= '0' && c <= '9')
@@ -2149,7 +2151,7 @@ int	calculate_sleeptime(int nextcheck, int max_sleeptime)
 	if (FAIL == nextcheck)
 		return max_sleeptime;
 
-	sleeptime = nextcheck - time(NULL);
+	sleeptime = nextcheck - (int)time(NULL);
 
 	if (sleeptime < 0)
 		return 0;
