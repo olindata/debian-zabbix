@@ -6,4 +6,7 @@ zabbix for Debian
  "zabbix". To prevent other Persons from viewing your data, change this
  password immediately after logging in.
 
- -- Fabio Tranchitella <kobold@debian.org> Tue, 09 May 2006 12:45:01 +0200
+ If you are using PostgreSQL as a database backend and just see a blank page
+ in your browser then please make sure that the 'php5-pgsql' package is
+ installed.
+
