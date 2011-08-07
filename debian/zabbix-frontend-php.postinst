@@ -27,7 +27,7 @@ dbc_go zabbix-frontend-php $@
 if [ "$1" = "configure" ]; then
     # Has the user decided to have us configure apache2?
     db_get zabbix-frontend-php/configure-apache || true
-    if [ "$res" = "true" ]; then
+    if [ "$RET" = "true" ]; then
         test -x /usr/sbin/apache2 || continue
 	
         if [ ! -f /etc/apache2/conf.d/zabbix ] && [ ! -h /etc/apache2/conf.d/zabbix ]; then
