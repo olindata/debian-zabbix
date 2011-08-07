@@ -84,6 +84,8 @@ void	main_heart_loop()
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_heart_loop()");
 
+	set_child_signal_handler();
+
 	for (;;)
 	{
 		start = time(NULL);

@@ -57,7 +57,6 @@ const char	*get_signal_name(int sig)
 		case SIGINT:	return "SIGINT";
 		case SIGTERM:	return "SIGTERM";
 		case SIGPIPE:	return "SIGPIPE";
-		case SIGUSR1:	return "SIGUSR1";
 		default:	return "unknown";
 	}
 }
@@ -286,7 +285,7 @@ void	print_fatal_info(int sig, siginfo_t *siginfo, void *context)
 
 	if (NULL == bcktrc_syms)
 	{
-		zabbix_log(LOG_LEVEL_CRIT, "error in backtrace_symbols(): %s", zbx_strerror(errno));
+		zabbix_log(LOG_LEVEL_CRIT, "error in backtrace_symbols(): [%s]", strerror(errno));
 
 		for (i = 0; i < bcktrc_sz; i++)
 			zabbix_log(LOG_LEVEL_CRIT, "%d: %p", bcktrc_sz - i - 1, bcktrc[i]);

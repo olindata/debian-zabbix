@@ -66,7 +66,7 @@ static int	check_perm2system(zbx_uint64_t userid)
 	DB_ROW		row;
 	int		res = SUCCEED;
 
-	result = DBselect( "select count(*) from usrgrp g,users_groups ug where ug.userid=" ZBX_FS_UI64
+	result = DBselect( "select count(g.usrgrpid) from usrgrp g,users_groups ug where ug.userid=" ZBX_FS_UI64
 			" and g.usrgrpid = ug.usrgrpid and g.users_status=%d",
 			userid,
 			GROUP_STATUS_DISABLED);
@@ -1002,6 +1002,8 @@ void	main_escalator_loop()
 	double	sec;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_escalator_loop()");
+
+	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 

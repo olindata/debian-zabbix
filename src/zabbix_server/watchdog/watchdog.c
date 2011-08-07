@@ -52,7 +52,13 @@ extern unsigned char	process_type;
  *                                                                            *
  * Purpose: send warning message to all interested                            *
  *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value:                                                              *
+ *                                                                            *
  * Author: Alexei Vladishev                                                   *
+ *                                                                            *
+ * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
 static void	send_alerts()
@@ -79,7 +85,13 @@ static void	send_alerts()
  *                                                                            *
  * Purpose: init list of medias to send notifications in case if DB is down   *
  *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value:                                                              *
+ *                                                                            *
  * Author: Alexei Vladishev                                                   *
+ *                                                                            *
+ * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
 static void	init_config()
@@ -139,7 +151,13 @@ static void	init_config()
  *                                                                            *
  * Purpose: check availability of database                                    *
  *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value:                                                              *
+ *                                                                            *
  * Author: Alexei Vladishev                                                   *
+ *                                                                            *
+ * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
 static void	ping_database()
@@ -148,7 +166,7 @@ static void	ping_database()
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
-	if (FAIL == DBping())	/* check whether a connection to the database can be made */
+	if (FAIL == DBping()) /* check whether a connection to the database can be made */
 	{
 		zabbix_log(LOG_LEVEL_WARNING, "Watchdog: Database is down");
 		send_alerts();
@@ -166,6 +184,10 @@ static void	ping_database()
  * Purpose: periodically checks availability of database and alerts admins if *
  *          down                                                              *
  *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value:                                                              *
+ *                                                                            *
  * Author: Alexei Vladishev                                                   *
  *                                                                            *
  * Comments: check database availability every 60 seconds (hardcoded)         *
@@ -174,6 +196,8 @@ static void	ping_database()
 void	main_watchdog_loop()
 {
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_watchdog_loop()");
+
+	set_child_signal_handler();
 
 	/* disable writing to database in zabbix_syslog() */
 	CONFIG_ENABLE_LOG = 0;

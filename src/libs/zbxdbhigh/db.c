@@ -514,9 +514,6 @@ int	DBupdate_trigger_value(zbx_uint64_t triggerid, int trigger_type, int trigger
 		if (trigger_value != new_value ||
 				(trigger_type == TRIGGER_TYPE_MULTIPLE_TRUE && new_value == TRIGGER_VALUE_TRUE))
 		{
-			zabbix_log(LOG_LEVEL_DEBUG, "%s() triggerid:" ZBX_FS_UI64 " value:%d-->%d, reason:'%s'",
-					__function_name, triggerid, trigger_value, new_value, reason ? reason : "");
-
 			if (reason == NULL)
 			{
 				DBexecute("update triggers"
@@ -1720,7 +1717,7 @@ static char	buf_string[640];
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-const char	*zbx_host_string(zbx_uint64_t hostid)
+char	*zbx_host_string(zbx_uint64_t hostid)
 {
 	DB_RESULT	result;
 	DB_ROW		row;
@@ -1756,20 +1753,17 @@ const char	*zbx_host_string(zbx_uint64_t hostid)
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-const char	*zbx_host_key_string(zbx_uint64_t itemid)
+char	*zbx_host_key_string(zbx_uint64_t itemid)
 {
 	DB_RESULT	result;
 	DB_ROW		row;
 
-	result = DBselect(
-			"select h.host,i.key_"
-			" from hosts h,items i"
-			" where h.hostid=i.hostid"
-				" and i.itemid=" ZBX_FS_UI64,
+	result = DBselect("select i.itemid,h.host,i.key_ from items i,hosts h"
+			" where i.hostid=h.hostid and i.itemid=" ZBX_FS_UI64,
 			itemid);
 
-	if (NULL != (row = DBfetch(result)))
-		zbx_snprintf(buf_string, sizeof(buf_string), "%s:%s", row[0], row[1]);
+	if (NULL != (row = DBfetch(result)) && SUCCEED != DBis_null(row[0]))
+		zbx_snprintf(buf_string, sizeof(buf_string), "%s:%s", row[1], row[2]);
 	else
 		zbx_snprintf(buf_string, sizeof(buf_string), "???");
 
@@ -1793,7 +1787,7 @@ const char	*zbx_host_key_string(zbx_uint64_t itemid)
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-const char	*zbx_host_key_string_by_item(DB_ITEM *item)
+char	*zbx_host_key_string_by_item(DB_ITEM *item)
 {
 	zbx_snprintf(buf_string, sizeof(buf_string), "%s:%s", item->host_name, item->key);
 
@@ -1815,7 +1809,7 @@ const char	*zbx_host_key_string_by_item(DB_ITEM *item)
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-const char	*zbx_user_string(zbx_uint64_t userid)
+char	*zbx_user_string(zbx_uint64_t userid)
 {
 	DB_RESULT	result;
 	DB_ROW		row;
@@ -1824,9 +1818,50 @@ const char	*zbx_user_string(zbx_uint64_t userid)
 			userid);
 
 	if (NULL != (row = DBfetch(result)))
-		zbx_snprintf(buf_string, sizeof(buf_string), "%s %s (%s)", row[0], row[1], row[2]);
+	{
+		zbx_snprintf(buf_string, sizeof(buf_string), "%s %s (%s)",
+				row[0],
+				row[1],
+				row[2]);
+	}
 	else
 		zbx_snprintf(buf_string, sizeof(buf_string), "unknown");
+
+	DBfree_result(result);
+
+	return buf_string;
+}
+
+/******************************************************************************
+ *                                                                            *
+ * Function: zbx_host_key_function_string                                     *
+ *                                                                            *
+ * Purpose:                                                                   *
+ *                                                                            *
+ * Parameters:                                                                *
+ *                                                                            *
+ * Return value: function name in format:                                     *
+ *                                    <host>:<key>.<function>(<parameters>)   *
+ *                             or "???" if function not found                 *
+ *                                                                            *
+ * Author: Alexander Vladishev                                                *
+ *                                                                            *
+ * Comments:                                                                  *
+ *                                                                            *
+ ******************************************************************************/
+char	*zbx_host_key_function_string(zbx_uint64_t functionid)
+{
+	DB_RESULT	result;
+	DB_ROW		row;
+
+	result = DBselect("select f.functionid,h.host,i.key_,f.function,f.parameter from items i,hosts h,functions f"
+			" where i.hostid=h.hostid and f.itemid=i.itemid and f.functionid=" ZBX_FS_UI64,
+			functionid);
+
+	if (NULL != (row = DBfetch(result)) && SUCCEED != DBis_null(row[0]))
+		zbx_snprintf(buf_string, sizeof(buf_string), "%s:%s.%s(%s)", row[1], row[2], row[3], row[4]);
+	else
+		zbx_snprintf(buf_string, sizeof(buf_string), "???");
 
 	DBfree_result(result);
 

@@ -25,8 +25,7 @@
 static void	apply_diskstat(ZBX_SINGLE_DISKDEVICE_DATA *device, time_t now, zbx_uint64_t *dstat)
 {
 	register int	i;
-	time_t		clock[ZBX_AVG_COUNT], sec;
-	int		index[ZBX_AVG_COUNT];
+	int		clock[ZBX_AVG_COUNT], index[ZBX_AVG_COUNT], sec;
 
 	assert(device);
 

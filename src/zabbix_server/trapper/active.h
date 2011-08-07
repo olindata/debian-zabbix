@@ -17,6 +17,7 @@
 ** Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 **/
 
+
 #ifndef ZABBIX_TRAPPER_ACTIVE_H
 #define ZABBIX_TRAPPER_ACTIVE_H
 
@@ -27,7 +28,7 @@
 
 extern int	CONFIG_TIMEOUT;
 
-int	send_list_of_active_checks(zbx_sock_t *sock, char *request);
-int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *json);
+int	send_list_of_active_checks(zbx_sock_t *sock, char *request, unsigned char zbx_process);
+int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *json, unsigned char zbx_process);
 
 #endif

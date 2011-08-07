@@ -19,9 +19,14 @@
 
 #include "common.h"
 #include "stats.h"
+
 #include "log.h"
 #include "zbxconf.h"
+
 #include "diskdevices.h"
+#include "cpustat.h"
+#include "perfstat.h"
+#include "log.h"
 #include "cfg.h"
 
 #if defined(_WINDOWS)
@@ -33,7 +38,7 @@
 
 ZBX_COLLECTOR_DATA	*collector = NULL;
 
-#if !defined(_WINDOWS)
+#ifndef _WINDOWS
 static int	shm_id;
 #endif
 
@@ -66,12 +71,12 @@ static int	zbx_get_cpu_num()
 		goto return_one;
 
 	return (int)psd.psd_proc_cnt;
-#elif defined(_SC_NPROCESSORS_CONF)
+#elif defined(_SC_NPROCESSORS_ONLN)
 	/* FreeBSD 7.0 x86 */
 	/* Solaris 10 x86 */
 	int	ncpu;
 
-	if (-1 == (ncpu = sysconf(_SC_NPROCESSORS_CONF)))
+	if (-1 == (ncpu = sysconf(_SC_NPROCESSORS_ONLN)))
 		goto return_one;
 
 	return ncpu;
@@ -143,25 +148,26 @@ void	init_collector_data()
 {
 	int	cpu_count;
 	size_t	sz, sz_cpu;
-#if !defined(_WINDOWS)
+#ifndef _WINDOWS
 	key_t	shm_key;
 #endif
 
 	cpu_count = zbx_get_cpu_num();
+
 	sz = sizeof(ZBX_COLLECTOR_DATA);
+	sz_cpu = sizeof(ZBX_SINGLE_CPU_STAT_DATA) * (cpu_count + 1);
 
 #ifdef _WINDOWS
-	sz_cpu = sizeof(PERF_COUNTER_DATA *) * (cpu_count + 1);
 
 	collector = zbx_malloc(collector, sz + sz_cpu);
 	memset(collector, 0, sz + sz_cpu);
 
-	collector->cpus.cpu_counter = (PERF_COUNTER_DATA **)(collector + 1);
+	collector->cpus.cpu = (ZBX_SINGLE_CPU_STAT_DATA *)(collector + 1);
 	collector->cpus.count = cpu_count;
 
 	init_perf_collector(&collector->perfs);
-#else
-	sz_cpu = sizeof(ZBX_SINGLE_CPU_STAT_DATA) * (cpu_count + 1);
+
+#else	/* not _WINDOWS */
 
 	if (-1 == (shm_key = zbx_ftok(CONFIG_FILE, ZBX_IPC_COLLECTOR_ID)))
 	{
@@ -177,7 +183,7 @@ void	init_collector_data()
 
 	if ((void *)(-1) == (collector = shmat(shm_id, NULL, 0)))
 	{
-		zabbix_log(LOG_LEVEL_CRIT, "cannot attach shared memory for collector: %s", zbx_strerror(errno));
+		zabbix_log(LOG_LEVEL_CRIT, "cannot attach shared memory for collector [%s]", strerror(errno));
 		exit(FAIL);
 	}
 
@@ -217,7 +223,7 @@ void	free_collector_data()
 		return;
 
 	if (-1 == shmctl(shm_id, IPC_RMID, 0))
-		zabbix_log(LOG_LEVEL_WARNING, "cannot remove shared memory for collector: %s", zbx_strerror(errno));
+		zabbix_log(LOG_LEVEL_WARNING, "cannot remove shared memory for collector [%s]", strerror(errno));
 
 #endif	/* _WINDOWS */
 
@@ -247,7 +253,11 @@ ZBX_THREAD_ENTRY(collector_thread, args)
 
 	zbx_free(args);
 
-	if (SUCCEED != init_cpu_collector(&(collector->cpus)))
+#if defined(ZABBIX_DAEMON)
+	set_child_signal_handler();
+#endif
+
+	if (0 != init_cpu_collector(&(collector->cpus)))
 		free_cpu_collector(&(collector->cpus));
 
 	collector_diskdevice_add("");
@@ -255,12 +265,13 @@ ZBX_THREAD_ENTRY(collector_thread, args)
 	while (ZBX_IS_RUNNING())
 	{
 		zbx_setproctitle("collector [processing data]");
-#ifdef _WINDOWS
-		collect_perfstat();
-#else
+
 		if (CPU_COLLECTOR_STARTED(collector))
 			collect_cpustat(&(collector->cpus));
+#ifdef _WINDOWS
+		collect_perfstat();
 #endif
+
 		collect_stats_diskdevices(&(collector->diskdevices));
 #ifdef _AIX
 		collect_vmstat_data(&collector->vmstat);
@@ -269,12 +280,11 @@ ZBX_THREAD_ENTRY(collector_thread, args)
 		zbx_sleep(1);
 	}
 
+#ifdef _WINDOWS
+	free_perf_collector();
+#endif
 	if (CPU_COLLECTOR_STARTED(collector))
 		free_cpu_collector(&(collector->cpus));
-
-#ifdef _WINDOWS
-	free_perf_collector();	/* cpu_collector must be freed before perf_collector is freed */
-#endif
 
 	zabbix_log(LOG_LEVEL_INFORMATION, "zabbix_agentd collector stopped");
 

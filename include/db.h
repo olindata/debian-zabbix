@@ -93,13 +93,13 @@ typedef enum {
 #define TRIGGER_ERROR_LEN		128
 #define TRIGGER_ERROR_LEN_MAX		TRIGGER_ERROR_LEN+1
 
-#define HOST_HOST_LEN			MAX_ZBX_HOSTNAME_LEN
+#define HOST_HOST_LEN			64
 #define HOST_HOST_LEN_MAX		HOST_HOST_LEN+1
 #define HOST_DNS_LEN			64
 #define HOST_DNS_LEN_MAX		HOST_DNS_LEN+1
 #define HOST_IP_LEN			39
 #define HOST_IP_LEN_MAX			HOST_IP_LEN+1
-#define HOST_ADDR_LEN			64	/* MAX(HOST_DNS_LEN,HOST_IP_LEN) */
+#define HOST_ADDR_LEN			64 /* MAX(HOST_DNS_LEN,HOST_IP_LEN) */
 #define HOST_ADDR_LEN_MAX		HOST_ADDR_LEN+1
 #define HOST_ERROR_LEN			128
 #define HOST_ERROR_LEN_MAX		HOST_ERROR_LEN+1
@@ -207,7 +207,6 @@ typedef enum {
 				"i.prevorgvalue,i.lastclock,i.units,i.multiplier,i.formula,i.status,"	\
 				"i.valuemapid,h.dns,i.trends,i.lastlogsize,i.data_type,i.mtime"
 #define ZBX_SQL_ITEM_TABLES	"hosts h,items i"
-#define ZBX_SQL_TIME_FUNCTIONS	"'nodata','date','dayofmonth','dayofweek','time','now'"
 #define ZBX_SQL_ITEM_FIELDS_NUM	27
 #define ZBX_SQL_ITEM_SELECT	ZBX_SQL_ITEM_FIELDS " from " ZBX_SQL_ITEM_TABLES
 
@@ -354,8 +353,6 @@ typedef struct
 	int	mtime;
 
 	zbx_uint64_t	valuemapid;
-
-	char	*error;
 }
 DB_ITEM;
 
@@ -591,11 +588,11 @@ int	DBadd_trend(zbx_uint64_t itemid, double value, int clock);
 int	DBadd_trend_uint(zbx_uint64_t itemid, zbx_uint64_t value, int clock);
 
 void	DBadd_condition_alloc(char **sql, int *sql_alloc, int *sql_offset, const char *fieldname, const zbx_uint64_t *values, const int num);
-
-const char	*zbx_host_string(zbx_uint64_t hostid);
-const char	*zbx_host_key_string(zbx_uint64_t itemid);
-const char	*zbx_host_key_string_by_item(DB_ITEM *item);
-const char	*zbx_user_string(zbx_uint64_t userid);
+char	*zbx_host_string(zbx_uint64_t hostid);
+char	*zbx_host_key_string(zbx_uint64_t itemid);
+char	*zbx_host_key_string_by_item(DB_ITEM *item);
+char	*zbx_host_key_function_string(zbx_uint64_t functionid);
+char	*zbx_user_string(zbx_uint64_t userid);
 
 double	DBmultiply_value_float(DB_ITEM *item, double value);
 zbx_uint64_t	DBmultiply_value_uint64(DB_ITEM *item, zbx_uint64_t value);

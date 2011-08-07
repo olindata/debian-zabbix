@@ -473,8 +473,6 @@ class CScript extends CZBXAPI{
 	public static function delete($scriptids){
 		global $USER_DETAILS;
 
-		$scriptids = zbx_toArray($scriptids);
-
 		try{
 			self::BeginTransaction(__METHOD__);
 
@@ -489,11 +487,10 @@ class CScript extends CZBXAPI{
 			$options = array(
 				'scriptids' => $scriptids,
 				'editable' => 1,
-				'output' => array('scriptid'),
+				'output' => API_OUTPUT_EXTEND,
 				'preservekeys' => 1
 			);
 			$del_scripts = self::get($options);
-
 			foreach($scriptids as $snum => $scriptid){
 				if(!isset($del_scripts[$scriptid])){
 					self::exception(ZBX_API_ERROR_PERMISSIONS, S_NO_PERMISSION);

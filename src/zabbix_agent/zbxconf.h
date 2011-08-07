@@ -22,7 +22,6 @@
 
 extern char	*CONFIG_HOSTS_ALLOWED;
 extern char	*CONFIG_HOSTNAME;
-extern char	*CONFIG_HOSTNAME_ITEM;
 extern int	CONFIG_DISABLE_ACTIVE;
 extern int	CONFIG_DISABLE_PASSIVE;
 extern int	CONFIG_ENABLE_REMOTE_COMMANDS;
@@ -33,20 +32,12 @@ extern int	CONFIG_REFRESH_ACTIVE_CHECKS;
 extern char	*CONFIG_LISTEN_IP;
 extern int	CONFIG_LOG_LEVEL;
 extern int	CONFIG_MAX_LINES_PER_SECOND;
-extern char	**CONFIG_ALIASES;
-extern char	**CONFIG_USER_PARAMETERS;
-#ifdef _WINDOWS
-extern char	**CONFIG_PERF_COUNTERS;
-#endif
 
-void	load_aliases(char **lines);
-void	load_user_parameters(char **lines);
-#ifdef _WINDOWS
-void	load_perf_counters(const char **lines);
-#endif
+void    load_config();
+void    load_user_parameters(int optional);
 
 #ifdef _AIX
 void	tl_version();
-#endif
+#endif /* _AIX */
 
 #endif /* ZABBIX_ZBXCONF_H */

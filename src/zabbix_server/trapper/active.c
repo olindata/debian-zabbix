@@ -24,15 +24,13 @@
 
 #include "active.h"
 
-extern unsigned char	daemon_type;
-
 /******************************************************************************
  *                                                                            *
  * Function: get_hostid_by_host                                               *
  *                                                                            *
  * Purpose: check for host name and return hostid                             *
  *                                                                            *
- * Parameters: host - [IN] require size 'HOST_HOST_LEN_MAX'                   *
+ * Parameters: host - host name                                               *
  *                                                                            *
  * Return value:  SUCCEED - host is found                                     *
  *                FAIL - an error occurred or host not found                  *
@@ -42,7 +40,7 @@ extern unsigned char	daemon_type;
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *error)
+static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *error, unsigned char zbx_process)
 {
 	char		*host_esc;
 	DB_RESULT	result;
@@ -53,7 +51,7 @@ static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *erro
 
 	if (FAIL == zbx_check_hostname(host))
 	{
-		zbx_snprintf(error, MAX_STRING_LEN, "invalid host name [%s]", host);
+		zbx_snprintf(error, MAX_STRING_LEN, "host name [%s] contains invalid characters", host);
 		return res;
 	}
 
@@ -87,11 +85,11 @@ static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *erro
 
 		DBbegin();
 
-		if (0 != (daemon_type & ZBX_DAEMON_TYPE_SERVER))
+		if (0 != (zbx_process & ZBX_PROCESS_SERVER))
 		{
 			DBregister_host(0, host, (int)time(NULL));
 		}
-		else if (0 != (daemon_type & ZBX_DAEMON_TYPE_PROXY))
+		else if (0 != (zbx_process & ZBX_PROCESS_PROXY))
 		{
 			DBproxy_register_host(host);
 		}
@@ -124,7 +122,7 @@ static int	get_hostid_by_host(const char *host, zbx_uint64_t *hostid, char *erro
  *           format of the list: key:delay:last_log_size                      *
  *                                                                            *
  ******************************************************************************/
-int	send_list_of_active_checks(zbx_sock_t *sock, char *request)
+int	send_list_of_active_checks(zbx_sock_t *sock, char *request, unsigned char zbx_process)
 {
 	char		*host = NULL, *p;
 	DB_RESULT	result;
@@ -148,11 +146,11 @@ int	send_list_of_active_checks(zbx_sock_t *sock, char *request)
 	}
 	else
 	{
-		zbx_snprintf(error, sizeof(error), "host is null");
+		zbx_snprintf(error, MAX_STRING_LEN, "host is null");
 		goto out;
 	}
 
-	if (FAIL == get_hostid_by_host(host, &hostid, error))
+	if (FAIL == get_hostid_by_host(host, &hostid, error, zbx_process))
 		goto out;
 
 	buffer = zbx_malloc(buffer, buffer_alloc);
@@ -166,15 +164,12 @@ int	send_list_of_active_checks(zbx_sock_t *sock, char *request)
 			ITEM_TYPE_ZABBIX_ACTIVE,
 			hostid);
 
-	if (0 != CONFIG_REFRESH_UNSUPPORTED)
-	{
+	if (0 != CONFIG_REFRESH_UNSUPPORTED) {
 		zbx_snprintf_alloc(&buffer, &buffer_alloc, &buffer_offset, 256,
 				" and (i.status=%d or (i.status=%d and i.lastclock+%d<=%d))",
 				ITEM_STATUS_ACTIVE, ITEM_STATUS_NOTSUPPORTED,
 				CONFIG_REFRESH_UNSUPPORTED, time(NULL));
-	}
-	else
-	{
+	} else {
 		zbx_snprintf_alloc(&buffer, &buffer_alloc, &buffer_offset, 256,
 				" and i.status=%d",
 				ITEM_STATUS_ACTIVE);
@@ -256,7 +251,7 @@ static void	add_regexp_name(char ***regexp, int *regexp_alloc, int *regexp_num, 
  * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
-int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *jp)
+int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *jp, unsigned char zbx_process)
 {
 	char		host[HOST_HOST_LEN_MAX], *name_esc, params[MAX_STRING_LEN],
 			pattern[MAX_STRING_LEN], tmp[32],
@@ -286,7 +281,7 @@ int	send_list_of_active_checks_json(zbx_sock_t *sock, struct zbx_json_parse *jp)
 		goto error;
 	}
 
-	if (FAIL == get_hostid_by_host(host, &hostid, error))
+	if (FAIL == get_hostid_by_host(host, &hostid, error, zbx_process))
 		goto error;
 
 	sql = zbx_malloc(sql, sql_alloc);

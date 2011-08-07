@@ -50,7 +50,6 @@ function __autoload($class_name){
 		'ctemplate' => 1,
 		'ctrigger' => 1,
 		'ctriggerexpression' => 1,
-		'citemkey' => 1,
 		'cuser' => 1,
 		'cusergroup' => 1,
 		'cusermacro' => 1,
@@ -133,13 +132,9 @@ function __autoload($class_name){
 	require_once('include/validate.inc.php');
 
 	function zbx_err_handler($errno, $errstr, $errfile, $errline){
-		$pathLength = strlen(__FILE__);
-
-		// strlen(include/config.inc.php) = 22
-		$pathLength -= 22;
-		$errfile = substr($errfile, $pathLength);
-
-		error($errstr.' ['.$errfile.':'.$errline.']');
+		error($errstr.'['.$errfile.':'.$errline.']');
+//		show_messages();
+//		die();
 	}
 
 	/********** START INITIALIZATION *********/

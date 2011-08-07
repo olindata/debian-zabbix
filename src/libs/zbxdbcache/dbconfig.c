@@ -1175,6 +1175,8 @@ void	DCsync_configuration()
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
 
+	sync_num++;
+
 	sec = zbx_time();
 	item_result = DBselect(
 			"select i.itemid,i.hostid,h.proxy_hostid,i.type,i.data_type,i.value_type,i.key_,"
@@ -1208,8 +1210,6 @@ void	DCsync_configuration()
 	hsec = zbx_time() - sec;
 
 	LOCK_CACHE;
-
-	sync_num++;
 
 	sec = zbx_time();
 	DCsync_items(item_result);

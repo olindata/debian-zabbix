@@ -26,21 +26,21 @@
 #include "logfiles.h"
 #if defined (_WINDOWS)
 #	include "eventlog.h"
-#endif
+#endif	/* _WINDOWS */
 #include "comms.h"
 #include "threads.h"
 #include "zbxjson.h"
 
 #if defined(ZABBIX_SERVICE)
 #	include "service.h"
-#elif defined(ZABBIX_DAEMON)
+#elif defined(ZABBIX_DAEMON)	/* ZABBIX_SERVICE */
 #	include "daemon.h"
-#endif
+#endif	/* ZABBIX_DAEMON */
 
-static ZBX_ACTIVE_METRIC	*active_metrics = NULL;
-static ZBX_ACTIVE_BUFFER	buffer;
-static ZBX_REGEXP		*regexps = NULL;
-static int			regexps_alloc = 0, regexps_num = 0;
+static ZBX_ACTIVE_METRIC *active_metrics = NULL;
+static ZBX_ACTIVE_BUFFER buffer;
+static ZBX_REGEXP	*regexps = NULL;
+static int		regexps_alloc = 0, regexps_num = 0;
 
 static void	init_active_metrics()
 {
@@ -175,7 +175,7 @@ static void	add_check(const char *key, const char *key_orig, int refresh, long l
  *                                                                            *
  * Comments:                                                                  *
  *    String represented as "ZBX_EOF" termination list                        *
- *    With '\n' delimiter between elements.                                   *
+ *    With '\n' delimeter between elements.                                   *
  *    Each element represented as:                                            *
  *           <key>:<refresh time>:<last log size>:<modification time>         *
  *                                                                            *
@@ -1064,6 +1064,10 @@ ZBX_THREAD_ENTRY(active_checks_thread, args)
 	activechk_args.port = ((ZBX_THREAD_ACTIVECHK_ARGS *)((zbx_thread_args_t *)args)->args)->port;
 
 	zbx_free(args);
+
+#ifdef ZABBIX_DAEMON
+	set_child_signal_handler();
+#endif
 
 	if (NULL != (p = strchr(activechk_args.host, ',')))
 		*p = '\0';

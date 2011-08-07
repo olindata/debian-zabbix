@@ -45,6 +45,7 @@
 #define MAX_REACHABLE_ITEMS	64
 #define MAX_UNREACHABLE_ITEMS	1	/* must not be greater than MAX_REACHABLE_ITEMS to avoid buffer overflow */
 
+static unsigned char	zbx_process;
 extern unsigned char	process_type;
 extern int		process_num;
 
@@ -163,8 +164,7 @@ static void	update_key_status(zbx_uint64_t hostid, int host_status, time_t now)
 		init_result(&agent);
 		SET_UI64_RESULT(&agent, host_status);
 
-		dc_add_history(items[i].itemid, items[i].value_type, &agent, now,
-				ITEM_STATUS_ACTIVE, NULL, 0, NULL, 0, 0, 0, 0);
+		dc_add_history(items[i].itemid, items[i].value_type, &agent, now, 0, NULL, 0, 0, 0, 0);
 
 		free_result(&agent);
 	}
@@ -172,7 +172,7 @@ static void	update_key_status(zbx_uint64_t hostid, int host_status, time_t now)
 	zbx_free(items);
 }
 
-static void	update_triggers_status_to_unknown(zbx_uint64_t hostid, zbx_item_type_t type, int now, char *reason)
+static void	update_triggers_status_to_unknown(zbx_uint64_t hostid, int now, char *reason)
 {
 	const char	*__function_name = "update_triggers_status_to_unknown";
 	DB_RESULT	result;
@@ -180,96 +180,26 @@ static void	update_triggers_status_to_unknown(zbx_uint64_t hostid, zbx_item_type
 	zbx_uint64_t	triggerid;
 	int		trigger_type, trigger_value;
 	const char	*trigger_error;
-	char		failed_type_buf[8];
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s() hostid:" ZBX_FS_UI64,
 			__function_name, hostid);
 
-	/* determine failed item type */
-	switch (type)
-	{
-		case ITEM_TYPE_ZABBIX:
-			zbx_snprintf(failed_type_buf, sizeof(failed_type_buf), "%d", ITEM_TYPE_ZABBIX);
-			break;
-		case ITEM_TYPE_SNMPv1:
-		case ITEM_TYPE_SNMPv2c:
-		case ITEM_TYPE_SNMPv3:
-			zbx_snprintf(failed_type_buf, sizeof(failed_type_buf), "%d,%d,%d",
-					ITEM_TYPE_SNMPv1, ITEM_TYPE_SNMPv2c, ITEM_TYPE_SNMPv3);
-			break;
-		case ITEM_TYPE_IPMI:
-			zbx_snprintf(failed_type_buf, sizeof(failed_type_buf), "%d", ITEM_TYPE_IPMI);
-			break;
-		default:
-			/* we should never end up here */
-			assert(0);
-	}
-
-	/******************************************************************************
-	 * Set trigger status to UNKNOWN if all are true:                             *
-	 * - trigger's item status ACTIVE                                             *
-	 * - trigger's item type same as failed one                                   *
-	 * - trigger does not reference time-based functions- trigger status ENABLED  *
-	 * - trigger's host same as failed one                                        *
-	 * - trigger's host status MONITORED                                          *
-	 * - trigger does not reference "active" item                                 *
-	 *                                                                            *
-	 * An item is considered "active" if all are true:                            *
-	 * - item status ACTIVE                                                       *
-	 * - item's host status MONITORED                                             *
-	 * - item's trigger references time-based functions                           *
-	 *   OR                                                                       *
-	 *   item is of different type AND it's host is AVAILABLE                     *
-	 ******************************************************************************/
 	result = DBselect(
 			"select distinct t.triggerid,t.type,t.value,t.error"
-			" from items i,functions f,triggers t,hosts h"
-			" where i.itemid=f.itemid"
+			" from hosts h,items i,functions f,triggers t"
+			" where h.hostid=i.hostid"
+				" and i.itemid=f.itemid"
 				" and f.triggerid=t.triggerid"
-				" and i.hostid=h.hostid"
+				" and t.status=%d"
 				" and i.status=%d"
 				" and not i.key_ like '%s'"
-				" and i.type in (%s)"
-				" and f.function not in (" ZBX_SQL_TIME_FUNCTIONS ")"
-				" and t.status=%d"
-				" and h.hostid=" ZBX_FS_UI64
-				" and h.status=%d"
-			" and not exists ("
-				"select 1"
-				" from functions f2,items i2,hosts h2"
-				" where f2.triggerid=f.triggerid"
-					" and f2.itemid=i2.itemid"
-					" and i2.hostid=h2.hostid"
-					" and ("
-						"f2.function in (" ZBX_SQL_TIME_FUNCTIONS ")"
-						" or ("
-							"i2.type not in (%s)"
-							" and ("
-								"i2.type not in (%d,%d,%d,%d,%d)"
-								" or (i2.type in (%d) and h2.available=%d)"
-								" or (i2.type in (%d,%d,%d) and h2.snmp_available=%d)"
-								" or (i2.type in (%d) and h2.ipmi_available=%d)"
-							")"
-						")"
-					")"
-					" and i2.status=%d"
-					" and not i2.key_ like '%s'"
-					" and h2.status=%d"
-			")",
-			ITEM_STATUS_ACTIVE,
-			SERVER_STATUS_KEY,
-			failed_type_buf,
+				" and not i.key_ like '%s%%'"
+				" and h.hostid=" ZBX_FS_UI64,
 			TRIGGER_STATUS_ENABLED,
-			hostid,
-			HOST_STATUS_MONITORED,
-			failed_type_buf,
-			ITEM_TYPE_ZABBIX, ITEM_TYPE_SNMPv1, ITEM_TYPE_SNMPv2c, ITEM_TYPE_SNMPv3, ITEM_TYPE_IPMI,
-			ITEM_TYPE_ZABBIX, HOST_AVAILABLE_TRUE,
-			ITEM_TYPE_SNMPv1, ITEM_TYPE_SNMPv2c, ITEM_TYPE_SNMPv3, HOST_AVAILABLE_TRUE,
-			ITEM_TYPE_IPMI, HOST_AVAILABLE_TRUE,
 			ITEM_STATUS_ACTIVE,
 			SERVER_STATUS_KEY,
-			HOST_STATUS_MONITORED);
+			SERVER_ICMPPING_KEY,
+			hostid);
 
 	while (NULL != (row = DBfetch(result)))
 	{
@@ -277,9 +207,6 @@ static void	update_triggers_status_to_unknown(zbx_uint64_t hostid, zbx_item_type
 		trigger_type = atoi(row[1]);
 		trigger_value = atoi(row[2]);
 		trigger_error = row[3];
-
-		zabbix_log(LOG_LEVEL_DEBUG, "In %s() setting trigger (id:" ZBX_FS_UI64 ") status to UNKNOWN",
-				__function_name, triggerid);
 
 		DBupdate_trigger_value(triggerid, trigger_type, trigger_value,
 				trigger_error, TRIGGER_VALUE_UNKNOWN, now, reason);
@@ -468,7 +395,7 @@ static void	deactivate_host(DC_ITEM *item, int now, const char *error)
 				if (available == &item->host.available)
 					update_key_status(item->host.hostid, HOST_AVAILABLE_FALSE, now); /* 2 */
 
-				update_triggers_status_to_unknown(item->host.hostid, item->type, now, "Agent is unavailable.");
+				update_triggers_status_to_unknown(item->host.hostid, now, "Host is unavailable.");
 			}
 
 			error_esc = DBdyn_escape_string_len(error, HOST_ERROR_LEN);
@@ -523,6 +450,8 @@ static int	get_values(unsigned char poller_type)
 			*snmpv3_privpassphrase = NULL;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s()", __function_name);
+
+	DCinit_nextchecks();
 
 	num = DCconfig_get_poller_items(poller_type, items, ZBX_POLLER_TYPE_UNREACHABLE != poller_type
 								? MAX_REACHABLE_ITEMS : MAX_UNREACHABLE_ITEMS);
@@ -683,18 +612,23 @@ static int	get_values(unsigned char poller_type)
 		{
 			activate_host(&items[i], now);
 
-			dc_add_history(items[i].itemid, items[i].value_type, &agent, now,
-					ITEM_STATUS_ACTIVE, NULL, 0, NULL, 0, 0, 0, 0);
+			dc_add_history(items[i].itemid, items[i].value_type, &agent, now, 0, NULL, 0, 0, 0, 0);
 
 			DCrequeue_reachable_item(items[i].itemid, ITEM_STATUS_ACTIVE, now);
 		}
 		else if (res == NOTSUPPORTED || res == AGENT_ERROR)
 		{
+			if (ITEM_STATUS_NOTSUPPORTED != items[i].status)
+			{
+				zabbix_log(LOG_LEVEL_WARNING, "Item [%s:%s] is not supported",
+						items[i].host.host, items[i].key_orig);
+				zabbix_syslog("Item [%s:%s] is not supported",
+						items[i].host.host, items[i].key_orig);
+			}
+
 			activate_host(&items[i], now);
 
-			dc_add_history(items[i].itemid, items[i].value_type, NULL, now,
-					ITEM_STATUS_NOTSUPPORTED, agent.msg, 0, NULL, 0, 0, 0, 0);
-
+			DCadd_nextcheck(items[i].itemid, now, agent.msg);	/* update error & status field in items table */
 			DCrequeue_reachable_item(items[i].itemid, ITEM_STATUS_NOTSUPPORTED, now);
 		}
 		else if (res == NETWORK_ERROR)
@@ -746,18 +680,24 @@ static int	get_values(unsigned char poller_type)
 	zbx_free(snmpids);
 	zbx_free(ipmiids);
 
+	DCflush_nextchecks();
+
 	zabbix_log(LOG_LEVEL_DEBUG, "End of %s()", __function_name);
 
 	return num;
 }
 
-void	main_poller_loop(unsigned char poller_type)
+void	main_poller_loop(unsigned char p, unsigned char poller_type)
 {
-	int	nextcheck, sleeptime, processed;
-	double	sec;
+	int		nextcheck, sleeptime, processed;
+	double		sec;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_poller_loop() process_type:'%s' process_num:%d",
 			get_process_type_string(process_type), process_num);
+
+	set_child_signal_handler();
+
+	zbx_process = p;
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 

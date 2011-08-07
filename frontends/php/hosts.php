@@ -254,7 +254,7 @@ include_once('include/page_header.php');
 		);
 		$triggers = CTrigger::get($params);
 		foreach($triggers as $tnum => $trigger){
-			$triggers[$trigger['triggerid']]['expression'] = explode_exp($trigger['expression']);
+			$triggers[$trigger['triggerid']]['expression'] = explode_exp($trigger['expression'], false);
 		}
 
 // SELECT TRIGGER DEPENDENCIES
@@ -494,13 +494,12 @@ include_once('include/page_header.php');
 // START SAVE TRANSACTION {{{
 		DBstart();
 
-			// create new group
-			if(!zbx_empty($_REQUEST['newgroup'])){
-				$newGroup = CHostGroup::create(array('name' => $_REQUEST['newgroup']));
-				if(!$newGroup){
-					throw new Exception();
-				}
-				$groups[] = reset($newGroup['groupids']);
+		if(!empty($_REQUEST['newgroup'])){
+				$group = CHostGroup::create(array('name' => $_REQUEST['newgroup']));
+				if($group){
+					$groups = array_merge($groups, $group['groupids']);
+			}
+				else throw new Exception();
 			}
 			$groups = zbx_toObject($groups, 'groupid');
 
@@ -575,7 +574,6 @@ include_once('include/page_header.php');
 				$sql = 'SELECT DISTINCT i.itemid, i.description '.
 						' FROM items i '.
 						' WHERE i.hostid='.$clone_hostid.
-							' AND i.type<>'.ITEM_TYPE_HTTPTEST.
 							' AND i.templateid=0 '.
 						' ORDER BY i.description';
 
@@ -592,19 +590,12 @@ include_once('include/page_header.php');
 					'inherited' => 0,
 					'hostids' => $clone_hostid,
 					'select_hosts' => API_OUTPUT_REFER,
-					'select_items' => API_OUTPUT_EXTEND,
 					'output' => API_OUTPUT_EXTEND,
 				);
 				$graphs = CGraph::get($options);
 				foreach($graphs as $gnum => $graph){
-					if(count($graph['hosts']) > 1)
-						continue;
-
-					if (httpitemExists($graph['items']))
-						continue;
-
-					if(!copy_graph_to_host($graph['graphid'], $hostid, true))
-						throw new Exception();
+					if(count($graph['hosts']) > 1) continue;
+						if(!copy_graph_to_host($graph['graphid'], $hostid, true)) throw new Exception();
 				}
 			}
 

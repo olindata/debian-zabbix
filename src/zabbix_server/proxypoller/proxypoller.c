@@ -214,8 +214,9 @@ static int	process_proxy()
 
 			get_proxyconfig_data(host.hostid, &j);
 
-			zabbix_log(LOG_LEVEL_WARNING, "Sending configuration data to proxy '%s'. Datalen " ZBX_FS_SIZE_T,
-					host.host, (zbx_fs_size_t)j.buffer_size);
+			zabbix_log(LOG_LEVEL_WARNING, "Sending configuration"
+					" data to proxy '%s'. Datalen %d",
+					host.host, (int)j.buffer_size);
 
 			if (SUCCEED == (ret = connect_to_proxy(&host, &s, CONFIG_TRAPPER_TIMEOUT)))
 			{
@@ -329,6 +330,8 @@ void	main_proxypoller_loop()
 	double		sec;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In %s() process_num:%d", __function_name, process_num);
+
+	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 

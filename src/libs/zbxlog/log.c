@@ -19,129 +19,169 @@
 
 #include "common.h"
 #include "log.h"
+
 #include "mutexs.h"
 #include "threads.h"
-#ifdef _WINDOWS
-#	include "messages.h"
-#	include "service.h"
-static HANDLE		system_log_handle = INVALID_HANDLE_VALUE;
-#endif
 
-static char		log_filename[MAX_STRING_LEN];
-static int		log_type = LOG_TYPE_UNDEFINED;
-static ZBX_MUTEX	log_file_access;
-#ifdef DEBUG
-static int		log_level = LOG_LEVEL_DEBUG;
+static	char log_filename[MAX_STRING_LEN];
+
+static	int log_type = LOG_TYPE_UNDEFINED;
+static	int log_level =
+#if defined(DEBUG)
+	LOG_LEVEL_DEBUG;
 #else
-static int		log_level = LOG_LEVEL_WARNING;
-#endif
+	LOG_LEVEL_WARNING;
+#endif /* DEBUG */
 
-#define ZBX_MESSAGE_BUF_SIZE	1024
+static ZBX_MUTEX log_file_access;
+
+#if defined(_WINDOWS)
+
+#include "messages.h"
+
+#include "service.h"
+
+static HANDLE system_log_handle = INVALID_HANDLE_VALUE;
+
+#endif /* _WINDOWS */
 
 #if !defined(_WINDOWS)
-void	redirect_std(const char *filename)
+
+void redirect_std(const char *filename)
 {
-	int		fd;
-	const char	default_file[] = "/dev/null";
-	const char	*out_file = default_file;
-	int		open_flags = O_WRONLY;
+	int fd;
+	const char default_file[] = "/dev/null";
+	const char *out_file = default_file;
+	int open_flags = O_WRONLY;
 
-	close(STDIN_FILENO);
-	open(default_file, O_RDONLY);	/* stdin, normally fd==0 */
+	close(fileno(stdin));
+	open(default_file, O_RDONLY);    /* stdin, normally fd==0 */
 
-	if (NULL != filename && '\0' != *filename)
+	if( filename && *filename)
 	{
 		out_file = filename;
 		open_flags |= O_CREAT | O_APPEND;
 	}
 
-	if (-1 != (fd = open(out_file, open_flags, 0666)))
+	if ( -1 != (fd = open(out_file, open_flags, 0666)) )
 	{
-		if (-1 == dup2(fd, STDERR_FILENO))
-			zbx_error("cannot redirect stderr to [%s]", filename);
+		if(-1 == dup2(fd, fileno(stderr)))
+			zbx_error("Cannot redirect stderr to [%s]", filename);
 
-		if (-1 == dup2(fd, STDOUT_FILENO))
-			zbx_error("cannot redirect stdout to [%s]", filename);
-
+		if(-1 == dup2(fd, fileno(stdout)))
+			zbx_error("Cannot redirect stdout to [%s]", filename);
 		close(fd);
 	}
 	else
 	{
-		zbx_error("cannot open [%s]: %s", filename, zbx_strerror(errno));
+		zbx_error("Cannot open [%s] [%s]", filename, strerror(errno));
 		exit(FAIL);
 	}
 }
-#endif	/* not _WINDOWS */
+
+#endif /* not _WINDOWS */
 
 int zabbix_open_log(int type, int level, const char *filename)
 {
 	FILE	*log_file = NULL;
-#ifdef _WINDOWS
+#if defined(_WINDOWS)
 	LPTSTR	wevent_source;
 #endif
 
 	log_level = level;
 
-	if (LOG_LEVEL_EMPTY == level)
-		return SUCCEED;
+	if(LOG_LEVEL_EMPTY == level)
+	{
+		return	SUCCEED;
+	}
 
-	if (LOG_TYPE_FILE == type && NULL == filename)
+	if(LOG_TYPE_FILE == type && NULL == filename)
+	{
 		type = LOG_TYPE_SYSLOG;
+	}
 
-	if (LOG_TYPE_SYSLOG == type)
+	if(LOG_TYPE_SYSLOG == type)
 	{
 		log_type = LOG_TYPE_SYSLOG;
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS)
 		wevent_source = zbx_utf8_to_unicode(ZABBIX_EVENT_SOURCE);
 		system_log_handle = RegisterEventSource(NULL, wevent_source);
 		zbx_free(wevent_source);
-#else
+#else /* not _WINDOWS */
+
 		openlog(title_message, LOG_PID, LOG_DAEMON);
-#endif
+
+#endif /* _WINDOWS */
 	}
-	else if (LOG_TYPE_FILE == type)
+
+	else if(LOG_TYPE_FILE == type)
 	{
-		if (MAX_STRING_LEN <= strlen(filename))
+		if(strlen(filename) >= MAX_STRING_LEN)
 		{
-			zbx_error("too long path for logfile");
+			zbx_error("Too long path for logfile.");
 			exit(FAIL);
 		}
 
-		if (ZBX_MUTEX_ERROR == zbx_mutex_create_force(&log_file_access, ZBX_MUTEX_LOG))
+		if(ZBX_MUTEX_ERROR == zbx_mutex_create_force(&log_file_access, ZBX_MUTEX_LOG))
 		{
-			zbx_error("unable to create mutex for log file");
+			zbx_error("Unable to create mutex for log file");
 			exit(FAIL);
 		}
 
-		if (NULL == (log_file = fopen(filename, "a+")))
+		if(NULL == (log_file = fopen(filename,"a+")))
 		{
-			zbx_error("unable to open log file [%s]: %s", filename, zbx_strerror(errno));
+			zbx_error("Unable to open log file [%s] [%s]", filename, strerror(errno));
 			exit(FAIL);
 		}
 
 		log_type = LOG_TYPE_FILE;
-		strscpy(log_filename, filename);
+		strscpy(log_filename,filename);
 		zbx_fclose(log_file);
 	}
+	else /* LOG_TYPE_UNDEFINED == type */
+	{
+		/* Not supported logging type */
+		/*
+		if(ZBX_MUTEX_ERROR == zbx_mutex_create_force(&log_file_access, ZBX_MUTEX_LOG))
+		{
+			zbx_error("Unable to create mutex for log file");
+			return	FAIL;
+		}
 
-	return SUCCEED;
+		zbx_error("Not supported loggin type [%d]", type);
+		return	FAIL;
+		*/
+	}
+
+	return	SUCCEED;
 }
 
 void zabbix_close_log(void)
 {
-	if (LOG_TYPE_SYSLOG == log_type)
+	if(LOG_TYPE_SYSLOG == log_type)
 	{
-#ifdef _WINDOWS
-		if (NULL != system_log_handle)
+#if defined(_WINDOWS)
+
+		if(system_log_handle)
 			DeregisterEventSource(system_log_handle);
-#else
+
+#else /* not _WINDOWS */
+
 		closelog();
-#endif
+
+#endif /* _WINDOWS */
 	}
-	else if (LOG_TYPE_FILE == log_type)
+	else if(log_type == LOG_TYPE_FILE)
 	{
 		zbx_mutex_destroy(&log_file_access);
+	}
+	else
+	{
+		/* Not supported logging type */
+		/*
+		zbx_mutex_destroy(&log_file_access);
+		*/
 	}
 }
 
@@ -156,28 +196,14 @@ void zabbix_errlog(zbx_err_codes_t err, ...)
 	char		*s = NULL;
 	va_list		ap;
 
-	switch (err)
-	{
-		case ERR_Z3001:
-			msg = "connection to database '%s' failed: [%d] %s";
-			break;
-		case ERR_Z3002:
-			msg = "cannot create database '%s': [%d] %s";
-			break;
-		case ERR_Z3003:
-			msg = "no connection to the database";
-			break;
-		case ERR_Z3004:
-			msg = "cannot close database: [%d] %s";
-			break;
-		case ERR_Z3005:
-			msg = "query failed: [%d] %s [%s]";
-			break;
-		case ERR_Z3006:
-			msg = "fetch failed: [%d] %s";
-			break;
-		default:
-			msg = "unknown error";
+	switch (err) {
+	case ERR_Z3001: msg = "Connection to database '%s' failed: [%d] %s"; break;
+	case ERR_Z3002: msg = "Cannot create database '%s': [%d] %s"; break;
+	case ERR_Z3003: msg = "No connection to the database."; break;
+	case ERR_Z3004: msg = "Cannot close database: [%d] %s"; break;
+	case ERR_Z3005: msg = "Query failed: [%d] %s [%s]"; break;
+	case ERR_Z3006: msg = "Fetch failed: [%d] %s"; break;
+	default: msg = "Unknown error";
 	}
 
 	va_start(ap, err);
@@ -191,46 +217,63 @@ void zabbix_errlog(zbx_err_codes_t err, ...)
 
 void __zbx_zabbix_log(int level, const char *fmt, ...)
 {
-	FILE			*log_file = NULL;
-	char			message[MAX_BUFFER_LEN], filename_old[MAX_STRING_LEN];
-	long			milliseconds;
+	FILE *log_file = NULL;
+
+	char	message[MAX_BUFFER_LEN];
+
+	struct	tm	*tm;
+	va_list		args;
+
+	long		milliseconds;
+
+	struct	stat	buf;
+
 	static zbx_uint64_t	old_size = 0;
-	va_list			args;
-	struct tm		*tm;
-	struct stat		buf;
-#ifdef _WINDOWS
-	struct _timeb		current_time;
-	WORD			wType;
-	wchar_t			thread_id[20], *strings[2];
-#else
-	struct timeval		current_time;
-#endif
 
-	if (LOG_LEVEL_INFORMATION != level && (level > log_level || LOG_LEVEL_EMPTY == level))
+	char	filename_old[MAX_STRING_LEN];
+#if defined(_WINDOWS)
+        struct _timeb current_time;
+
+	WORD	wType;
+	wchar_t	thread_id[20], *strings[2];
+
+#else /* not _WINDOWS */
+	struct timeval	current_time;
+#endif /* _WINDOWS */
+
+	if( (level != LOG_LEVEL_INFORMATION) && ((level > log_level) || (LOG_LEVEL_EMPTY == level)) )
+	{
 		return;
+	}
 
-	if (LOG_TYPE_FILE == log_type)
+	if(LOG_TYPE_FILE == log_type)
 	{
 		zbx_mutex_lock(&log_file_access);
 
 		log_file = fopen(log_filename,"a+");
 
-		if (NULL != log_file)
+		if(NULL != log_file)
 		{
-#ifdef _WINDOWS
+
+#if defined(_WINDOWS)
 		        _ftime(&current_time);
+
 			tm = localtime(&current_time.time);
 			milliseconds = current_time.millitm;
-#else
+#else /* not _WINDOWS */
+
 			gettimeofday(&current_time,NULL);
+
 			tm = localtime(&current_time.tv_sec);
-			milliseconds = current_time.tv_usec / 1000;
-#endif
+
+			milliseconds = current_time.tv_usec/1000;
+#endif /* _WINDOWS */
+
 			fprintf(log_file,
 				"%6li:%.4d%.2d%.2d:%.2d%.2d%.2d.%03ld ",
 				zbx_get_thread_id(),
-				tm->tm_year + 1900,
-				tm->tm_mon + 1,
+				tm->tm_year+1900,
+				tm->tm_mon+1,
 				tm->tm_mday,
 				tm->tm_hour,
 				tm->tm_min,
@@ -238,30 +281,32 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 				milliseconds
 				);
 
-			va_start(args, fmt);
-			vfprintf(log_file, fmt, args);
+			va_start(args,fmt);
+
+			vfprintf(log_file,fmt, args);
+
 			va_end(args);
 
-			fprintf(log_file, "\n");
+			fprintf(log_file,"\n");
 			zbx_fclose(log_file);
 
-			if (0 != CONFIG_LOG_FILE_SIZE && 0 == stat(log_filename, &buf))
+			if(CONFIG_LOG_FILE_SIZE != 0 && stat(log_filename,&buf) == 0)
 			{
-				if (CONFIG_LOG_FILE_SIZE * ZBX_MEBIBYTE < buf.st_size)
+				if(buf.st_size > CONFIG_LOG_FILE_SIZE*1024*1024)
 				{
-					strscpy(filename_old, log_filename);
-					zbx_strlcat(filename_old, ".old", MAX_STRING_LEN);
+					strscpy(filename_old,log_filename);
+					zbx_strlcat(filename_old,".old",MAX_STRING_LEN);
 					remove(filename_old);
-
-					if (0 != rename(log_filename, filename_old))
+					if(rename(log_filename,filename_old) != 0)
 					{
-						zbx_error("cannot rename log file [%s] to [%s]: %s",
-								log_filename, filename_old, zbx_strerror(errno));
+						zbx_error("Can't rename log file [%s] to [%s] [%s]", log_filename, filename_old, strerror(errno));
 					}
 				}
 
 				if (old_size > (zbx_uint64_t)buf.st_size)
+				{
 					redirect_std(log_filename);
+				}
 
 				old_size = (zbx_uint64_t)buf.st_size;
 			}
@@ -270,16 +315,17 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 		zbx_mutex_unlock(&log_file_access);
 
 		return;
-	}	/* LOG_TYPE_FILE */
+	}
 
+	memset(message, 0, sizeof(message));
 	va_start(args, fmt);
-	zbx_vsnprintf(message, sizeof(message), fmt, args);
+	vsnprintf(message, sizeof(message)-1, fmt, args);
 	va_end(args);
 
-	if (LOG_TYPE_SYSLOG == log_type)
+	if(LOG_TYPE_SYSLOG == log_type)
 	{
-#ifdef _WINDOWS
-		switch (level)
+#if defined(_WINDOWS)
+		switch(level)
 		{
 			case LOG_LEVEL_CRIT:
 			case LOG_LEVEL_ERR:
@@ -293,7 +339,8 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 				break;
 		}
 
-		zbx_wsnprintf(thread_id, sizeof(thread_id) / sizeof(wchar_t), TEXT("[%li]: "), zbx_get_thread_id());
+		zbx_wsnprintf(thread_id, sizeof(thread_id)/sizeof(wchar_t), TEXT("[%li]: "),
+				zbx_get_thread_id());
 		strings[0] = thread_id;
 		strings[1] = zbx_utf8_to_unicode(message);
 
@@ -310,10 +357,10 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 
 		zbx_free(strings[1]);
 		
-#else	/* not _WINDOWS */
+#else /* not _WINDOWS */
 		
 		/* for nice printing into syslog */		
-		switch (level)
+		switch(level)
 		{
 			case LOG_LEVEL_CRIT:
 				syslog(LOG_CRIT, "%s", message);
@@ -335,13 +382,13 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 				break;			
 		}
 
-#endif	/* _WINDOWS */
-	}	/* LOG_TYPE_SYSLOG */
-	else	/* LOG_TYPE_UNDEFINED == log_type */
+#endif /* _WINDOWS */
+	}
+	else /* LOG_TYPE_UNDEFINED == log_type */
 	{
 		zbx_mutex_lock(&log_file_access);
 
-		switch (level)
+		switch(level)
 		{
 			case LOG_LEVEL_CRIT:
 				zbx_error("ERROR: %s", message);
@@ -364,55 +411,49 @@ void __zbx_zabbix_log(int level, const char *fmt, ...)
 	}
 }
 
-/******************************************************************************
- *                                                                            *
- * Comments: replace strerror to print also the error number                  *
- *                                                                            *
- ******************************************************************************/
-char *zbx_strerror(int errnum)
-{
-	static char	utf8_string[ZBX_MESSAGE_BUF_SIZE];	/* !!! Attention: static !!! Not thread-safe for Win32 */
-
-	zbx_snprintf(utf8_string, sizeof(utf8_string), "[%d] %s", errnum, strerror(errnum));
-
-	return utf8_string;
-}
+/*
+ * Get system error string by call to FormatMessage
+ */
+ #define ZBX_MESSAGE_BUF_SIZE	1024
 
 char *strerror_from_system(unsigned long error)
 {
-#ifdef _WINDOWS
-	int		offset = 0;
-	TCHAR		wide_string[ZBX_MESSAGE_BUF_SIZE];
-	static char	utf8_string[ZBX_MESSAGE_BUF_SIZE];	/* !!! Attention: static !!! Not thread-safe for Win32 */
+#if defined(_WINDOWS)
 
-	offset += zbx_snprintf(utf8_string, sizeof(utf8_string), "[0x%08lX] ", error);
+	TCHAR		wide_string[ZBX_MESSAGE_BUF_SIZE];
+	static char	utf8_string[ZBX_MESSAGE_BUF_SIZE];  /* !!! Attention static !!! not thread safely - Win32*/
 
 	if (0 == FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error,
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), wide_string, sizeof(wide_string), NULL))
 	{
-		zbx_snprintf(utf8_string + offset, sizeof(utf8_string) - offset,
-				"unable to find message text [0x%08lX]", GetLastError());
-
+		zbx_snprintf(utf8_string, sizeof(utf8_string), "3. MSG 0x%08X - Unable to find message text [0x%X]",
+				error, GetLastError());
 		return utf8_string;
 	}
 
-	if (FAIL == zbx_unicode_to_utf8_static(wide_string, utf8_string + offset, sizeof(utf8_string) - offset))
-		utf8_string[offset] = '\0';
+	if (FAIL == zbx_unicode_to_utf8_static(wide_string, utf8_string, sizeof(utf8_string)))
+		*utf8_string = '\0';
 
 	zbx_rtrim(utf8_string, "\r\n ");
 
 	return utf8_string;
-#else
-	return zbx_strerror(errno);
-#endif	/* _WINDOWS */
+
+#else /* not _WINDOWS */
+
+	return strerror(errno);
+
+#endif /* _WINDOWS */
 }
 
-#ifdef _WINDOWS
+/*
+ * Get system error string by call to FormatMessage
+ */
+
+#if defined(_WINDOWS)
 char *strerror_from_module(unsigned long error, LPCTSTR module)
 {
-	int		offset = 0;
 	TCHAR		wide_string[ZBX_MESSAGE_BUF_SIZE];
-	static char	utf8_string[ZBX_MESSAGE_BUF_SIZE];	/* !!! Attention: static !!! not thread-safe for Win32 */
+	static char	utf8_string[ZBX_MESSAGE_BUF_SIZE];  /* !!! Attention static !!! not thread safely - Win32*/
 	char		*strings[2];
 	HMODULE		hmodule;
 
@@ -420,22 +461,19 @@ char *strerror_from_module(unsigned long error, LPCTSTR module)
 	*utf8_string = '\0';
 	hmodule = GetModuleHandle(module);
 
-	offset += zbx_snprintf(utf8_string, sizeof(utf8_string), "[0x%08lX] ", error);
-
 	if (0 == FormatMessage(FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_ARGUMENT_ARRAY, hmodule, error,
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), wide_string, sizeof(wide_string), strings))
 	{
-		zbx_snprintf(utf8_string + offset, sizeof(utf8_string) - offset,
-				"unable to find message text: %s", strerror_from_system(GetLastError()));
-
+		zbx_snprintf(utf8_string, sizeof(utf8_string), "3. MSG 0x%08X - Unable to find message text [%s]",
+				error, strerror_from_system(GetLastError()));
 		return utf8_string;
 	}
 
-	if (FAIL == zbx_unicode_to_utf8_static(wide_string, utf8_string + offset, sizeof(utf8_string) - offset))
-		utf8_string[offset] = '\0';
+	if (FAIL == zbx_unicode_to_utf8_static(wide_string, utf8_string, sizeof(utf8_string)))
+		*utf8_string = '\0';
 
 	zbx_rtrim(utf8_string, "\r\n ");
 
 	return utf8_string;
 }
-#endif	/* _WINDOWS */
+#endif /* _WINDOWS */

@@ -693,7 +693,7 @@
 	'S_CANNOT_DELETE_GRAPHS'=>		'Cannot delete graphs',
 	'S_CANNOT_ADD_GRAPH'=>			'Cannot add graph',
 	'S_ANOTHER_ITEM_SUM'=>			'Cannot add more than one item with type "Graph sum"',
-	'S_ID'=>				'ID',
+	'S_ID'=>				'Id',
 	'S_NO_GRAPHS_DEFINED'=>			'No graphs defined',
 	'S_NO_GRAPH_DEFINED'=>			'No graph defined',
 	'S_DELETE_GRAPH_Q'=>			'Delete graph?',
@@ -895,7 +895,7 @@
 	'S_DELETED'=>					'Deleted',
 	'S_UNKNOWN'=>					'Unknown',
 	'S_GROUPS'=>					'Groups',
-	'S_MINUS_ALL_GROUPS_MINUS'=>			'- all groups -',
+	'S_MINUS_ALL_GROUPS_MINUS'=>			' - all groups - ',
 	'S_ALL_GROUPS'=>				'All groups',
 	'S_NO_GROUPS_DEFINED'=>				'No groups defined',
 	'S_NEW_GROUP'=>					'New group',
@@ -2141,6 +2141,13 @@
 	'S_UNKNOWN_VALUE_TYPE'=>			'Unknown value type',
 	'S_ITEMS_CHECK_KEY_DEFAULT_EXAMPLE_PASSED'=>	'Check the key, please. Default example was passed',
 	'S_ERROR_IN_ITEM_KEY' => 'Error in item key:',
+	'S_KEY_IS_VALID' => 'Key is valid',
+	'S_INCORRECT_SYNTAX_NEAR' => 'incorrect syntax near \'%1$s\' at position %2$d',
+	'S_INCORRECT_USAGE_OF_BRACKETS' => 'incorrect usage of bracket symbols. \'%s\' found after final bracket.',
+	'S_INVALID_CHARACTER_AT_POSITION' => 'invalid character \'%1$s\' at position %2$d',
+	'S_INVALID_KEY_FORMAT' => 'Invalid key format',
+	'S_KEY_CANNOT_BE_EMPTY' => 'Key cannot be empty',
+	'S_KEY_TOO_LARGE' => 'Key is too large: maximum %d characters',
 	'S_ITEM_UNLINKED' => 'Item "%s" unlinked',
 
 //	httptest.inc.php
@@ -2447,7 +2454,6 @@
 // class.cusergroup
 	'S_GROUP_IS_USED_IN_SCRIPT' =>	'User group [%1$s] is used in script [%2$s].',
 	'S_ONLY_SUPERADMIN_CAN_DELETE_USERGROUP' => 'Only Super Admins can delete User Groups.',
-	'S_GROUP_IS_USED_IN_CONFIGURATION' => 'User group [%1$s] is used in configuration for database down messages.',
 
 // class.cgraph.php
 	'S_GRAPH_ALREADY_EXISTS_ON' => 'Graph "%1$s" already exists on "%2$s".',
@@ -2456,8 +2462,6 @@
 
 // class.ctemplate.php
 	'S_CANNOT_SYNC_TEMPLATE' => 'Cannot sync template',
-	'S_TEMPLATE_ID_X_IS_PASSED_N_TIMES' => 'template ID "%1$s" is passed %2$s times',
-	'S_CANNOT_PASS_DUPLICATE_TEMPLATE_IDS' => 'Cannot pass duplicate template IDs for the linkage: %s.',
 
 // class.chost.php
 	'S_YOU_DO_NOT_HAVE_ENOUGH_RIGHTS' => 'You do not have enough rights for operation',
@@ -2469,19 +2473,7 @@
 	'S_SECOND_IN_PARENTHESES' => '(seconds)',
 
 // class.cscreen.php
-	'S_INCORRECT_RESOURCE_PROVIDED_FOR_SCREEN_ITEM' => 'Incorrect resource provided for screen item',
+	'S_INCORRECT_RESOURCE_PROVIDED_FOR_SCREEN_ITEM' => 'Incorrect resource provided for screen item'
 
-// class.cbuttonqmessage.php
-	'S_ARE_YOU_SURE_YOU_WANT_TO_PERFORM_THIS_ACTION' => 'Are you sure you want perform this action?',
-	'S_INCORRECT_VALUE_FOR_SETMESSAGE' => 'Incorrect value for setMessage(): "%s".',
-
-// class.citemkey.php
-	'S_KEY_CANNOT_BE_EMPTY' => 'Key cannot be empty.',
-	'S_NO_KEY_ID_PROVIDED' => 'No key id provided.',
-	'S_NO_ITEM_KEY_PROVIDED' => 'Invalid item key format.',
-	'S_SIMPLE_CHECK_KEY_CANNOT_CONTAIN' => 'Simple check key cannot have parameters in [].',
-	'S_INCORRECT_SYNTAX_NEAR' => 'Incorrect syntax near \'%1$s\'',
-	'S_INCORRECT_USAGE_OF_BRACKET_SYMBOLS' => 'Incorrect usage of bracket symbols. \'%s\' found after final bracket.',
-	'S_INVALID_KEY_FORMAT' => 'Invalid item key format.',
 );
 ?>
