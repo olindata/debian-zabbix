@@ -25,32 +25,26 @@ dbc_generate_include_args="-U -o template_infile=/usr/share/doc/zabbix-frontend-
 dbc_go zabbix-frontend-php $@
 
 if [ "$1" = "configure" ]; then
-    db_get zabbix-frontend-php/reconfigure-webserver || true
-    webservers="$RET"
-    restart=""
-
-    for webserver in $webservers; do
-        webserver=${webserver%,}
-        test -x /usr/sbin/$webserver || continue
+    # Has the user decided to have us configure apache2?
+    db_get zabbix-frontend-php/configure-apache || true
+    if [ "$res" = "true" ]; then
+        test -x /usr/sbin/apache2 || continue
 	
-        if [ ! -f /etc/$webserver/conf.d/zabbix ] && [ ! -h /etc/$webserver/conf.d/zabbix ]; then
-            ln -s /etc/zabbix/apache.conf /etc/$webserver/conf.d/zabbix
-            restart="$restart $webserver"
+        if [ ! -f /etc/apache2/conf.d/zabbix ] && [ ! -h /etc/apache2/conf.d/zabbix ]; then
+            ln -s /etc/zabbix/apache.conf /etc/apache2/conf.d/zabbix
         fi
-	done
+    fi
 
+    # Has the user decided to restart apache2?
 	db_get zabbix-frontend-php/restart-webserver || true
     res="$RET"
     db_stop || true
     if [ "$res" = "true" ]; then
-        for webserver in $restart; do
-            webserver=${webserver%,}
-            if [ -x /usr/sbin/invoke-rc.d ]; then
-                invoke-rc.d $webserver restart
-            else
-                /etc/init.d/$webserver restart
-            fi
-        done
+        if [ -x /usr/sbin/invoke-rc.d ]; then
+            invoke-rc.d apache2 restart
+        else
+            /etc/init.d/apache2 restart
+        fi
     fi
 fi
 

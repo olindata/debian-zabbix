@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1:1.6.6-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2010-04-11 11:13+0200\n"
+"POT-Creation-Date: 2011-08-07 13:07+0200\n"
 "PO-Revision-Date: 2009-09-28 07:26+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
@@ -29,35 +29,40 @@ msgid ""
 "connect to."
 msgstr "接続先の Zabbix サーバのホスト名か IP アドレスを入力してください。"
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for Zabbix:"
-msgstr "Zabbix のため、ウェブサーバの再設定:"
+msgid "Configure Apache?"
+msgstr ""
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
+#, fuzzy
+#| msgid ""
+#| "Zabbix supports any web server supported by PHP5, however only Apache can "
+#| "be configured automatically."
 msgid ""
-"Zabbix supports any web server supported by PHP5, however only Apache can be "
-"configured automatically."
+"The Zabbix web frontend runs on any web server that supportes PHP5. However "
+"only Apache (2.x) can be configured automatically at this point."
 msgstr ""
 "Zabbix は PHP5 をサポートしているウェブサーバであれば動作しますが、自動的に設"
 "定できるのは Apache のみです。"
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Please select which Apache version you want to configure the Zabbix frontend "
-"for."
+"Do you want to reconfigure Apache so that the Zabbix web frontend is "
+"available at the URL http://.../zabbix?"
 msgstr ""
-"Zabbix のフロントエンドに設定する Apache のバージョンを選んでください。"
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "Restart the web server(s) now?"
+#, fuzzy
+#| msgid "Restart the web server(s) now?"
+msgid "Restart Apache now?"
 msgstr "今すぐウェブサーバを再起動しますか?"
 
 #. Type: boolean
@@ -97,3 +102,36 @@ msgstr "Zabbix サーバのポート番号:"
 #: ../zabbix-frontend-php.templates:5001
 msgid "Please enter the port used by the Zabbix server."
 msgstr "接続先の Zabbix サーバが使うポート番号を入力してください。"
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
+msgid "The SQL database must be upgraded manually"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-pgsql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#~ msgid "Web server to reconfigure for Zabbix:"
+#~ msgstr "Zabbix のため、ウェブサーバの再設定:"
+
+#~ msgid ""
+#~ "Please select which Apache version you want to configure the Zabbix "
+#~ "frontend for."
+#~ msgstr ""
+#~ "Zabbix のフロントエンドに設定する Apache のバージョンを選んでください。"

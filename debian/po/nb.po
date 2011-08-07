@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2010-04-11 11:13+0200\n"
+"POT-Creation-Date: 2011-08-07 13:07+0200\n"
 "PO-Revision-Date: 2011-03-26 15:52+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -36,28 +36,26 @@ msgid ""
 msgstr ""
 "Skriv inn vertsnavn eller adressen til Zabbix-tjeneren du vil koble til."
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#, fuzzy
-#| msgid "Webserver Reconfiguration:"
-msgid "Web server to reconfigure for Zabbix:"
-msgstr "Nyoppsett for nett-tjener:"
-
-#. Type: multiselect
-#. Description
-#: ../zabbix-frontend-php.templates:2001
-msgid ""
-"Zabbix supports any web server supported by PHP5, however only Apache can be "
-"configured automatically."
+msgid "Configure Apache?"
 msgstr ""
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Please select which Apache version you want to configure the Zabbix frontend "
-"for."
+"The Zabbix web frontend runs on any web server that supportes PHP5. However "
+"only Apache (2.x) can be configured automatically at this point."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../zabbix-frontend-php.templates:2001
+msgid ""
+"Do you want to reconfigure Apache so that the Zabbix web frontend is "
+"available at the URL http://.../zabbix?"
 msgstr ""
 
 #. Type: boolean
@@ -65,7 +63,7 @@ msgstr ""
 #: ../zabbix-frontend-php.templates:3001
 #, fuzzy
 #| msgid "Would you like to restart your webserver(s) now?"
-msgid "Restart the web server(s) now?"
+msgid "Restart Apache now?"
 msgstr "Vil du starte nett-tjener(ne) på  nytt nå?"
 
 #. Type: boolean
@@ -115,6 +113,35 @@ msgstr "Vertsadresse til Zabbix-tjeneren"
 msgid "Please enter the port used by the Zabbix server."
 msgstr ""
 "Skriv inn vertsnavn eller adressen til Zabbix-tjeneren du vil koble til."
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
+msgid "The SQL database must be upgraded manually"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-pgsql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#, fuzzy
+#~| msgid "Webserver Reconfiguration:"
+#~ msgid "Web server to reconfigure for Zabbix:"
+#~ msgstr "Nyoppsett for nett-tjener:"
 
 #~ msgid "apache, apache-ssl, apache-perl, apache2"
 #~ msgstr "apache, apache-ssl, apache-perl, apache2"

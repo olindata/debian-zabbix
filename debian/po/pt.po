@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabbix 1.1.3-1\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
-"POT-Creation-Date: 2010-04-11 11:13+0200\n"
+"POT-Creation-Date: 2011-08-07 13:07+0200\n"
 "PO-Revision-Date: 2009-10-07 10:00+0100\n"
 "Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -33,36 +33,40 @@ msgid ""
 msgstr ""
 "Por favor, insira o nome ou endereço do servidor Zabbix ao qual deseja ligar."
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "Web server to reconfigure for Zabbix:"
-msgstr "Servidor web a reconfigurar para o Zabbix:"
+msgid "Configure Apache?"
+msgstr ""
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
+#, fuzzy
+#| msgid ""
+#| "Zabbix supports any web server supported by PHP5, however only Apache can "
+#| "be configured automatically."
 msgid ""
-"Zabbix supports any web server supported by PHP5, however only Apache can be "
-"configured automatically."
+"The Zabbix web frontend runs on any web server that supportes PHP5. However "
+"only Apache (2.x) can be configured automatically at this point."
 msgstr ""
 "O Zabbix suporta qualquer servidor web suportado por PHP5, contudo apenas o "
 "Apache poderá ser configurado automaticamente."
 
-#. Type: multiselect
+#. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid ""
-"Please select which Apache version you want to configure the Zabbix frontend "
-"for."
+"Do you want to reconfigure Apache so that the Zabbix web frontend is "
+"available at the URL http://.../zabbix?"
 msgstr ""
-"Por favor, seleccione a versão do Apache para a qual deseja configurar o "
-"interface web do Zabbix."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "Restart the web server(s) now?"
+#, fuzzy
+#| msgid "Restart the web server(s) now?"
+msgid "Restart Apache now?"
 msgstr "Reiniciar o(s) servidor(es) web agora?"
 
 #. Type: boolean
@@ -104,3 +108,37 @@ msgstr "Porta do servidor Zabbix:"
 #: ../zabbix-frontend-php.templates:5001
 msgid "Please enter the port used by the Zabbix server."
 msgstr "Por favor, insira a porta utilizada pelo servidor Zabbix."
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
+msgid "The SQL database must be upgraded manually"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-mysql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../zabbix-server-pgsql.templates:2001
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+
+#~ msgid "Web server to reconfigure for Zabbix:"
+#~ msgstr "Servidor web a reconfigurar para o Zabbix:"
+
+#~ msgid ""
+#~ "Please select which Apache version you want to configure the Zabbix "
+#~ "frontend for."
+#~ msgstr ""
+#~ "Por favor, seleccione a versão do Apache para a qual deseja configurar o "
+#~ "interface web do Zabbix."
