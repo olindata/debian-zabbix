@@ -73,23 +73,22 @@ void	add_metric(ZBX_METRIC *new)
 	}
 }
 
-int	add_user_parameter(char *key, char *command)
+int	add_user_parameter(const char *key, char *command)
 {
-	register int	i;
-	char		usr_cmd[MAX_STRING_LEN];
-	char		usr_param[MAX_STRING_LEN];
+	int		i;
+	char		usr_cmd[MAX_STRING_LEN], usr_param[MAX_STRING_LEN];
 	unsigned	flag = 0;
 
-	if (0 == (i = parse_command(key, usr_cmd, MAX_STRING_LEN, usr_param, MAX_STRING_LEN)))
+	if (0 == (i = parse_command(key, usr_cmd, sizeof(usr_cmd), usr_param, sizeof(usr_param))))
 	{
-		zabbix_log(LOG_LEVEL_WARNING, "Can't add user specified key \"%s\". Can't parse key!", key);
+		zabbix_log(LOG_LEVEL_WARNING, "failed to add UserParameter \"%s\": parsing error", key);
 		return FAIL;
 	}
 	else if (2 == i)				/* with specified parameters */
 	{
 		if (0 != strcmp(usr_param, "*"))	/* must be '*' parameters */
 		{
-			zabbix_log(LOG_LEVEL_WARNING, "Can't add user specified key \"%s\". Incorrect key!", key);
+			zabbix_log(LOG_LEVEL_WARNING, "failed to add UserParameter \"%s\": invalid key", key);
 			return FAIL;
 		}
 		flag |= CF_USEUPARAM;
@@ -97,32 +96,25 @@ int	add_user_parameter(char *key, char *command)
 
 	for (i = 0; ; i++)
 	{
-		/* Add new parameters */
+		/* add new parameters */
 		if (NULL == commands[i].key)
 		{
-			commands[i].key = strdup(usr_cmd);
+			commands[i].key = zbx_strdup(NULL, usr_cmd);
 			commands[i].flags = flag;
 			commands[i].function = &EXECUTE_STR;
-			commands[i].main_param = strdup(command);
+			commands[i].main_param = zbx_strdup(NULL, command);
 			commands[i].test_param = 0;
+
 			commands = zbx_realloc(commands, (i + 2) * sizeof(ZBX_METRIC));
 			commands[i + 1].key = NULL;
 			break;
 		}
 
-		/* Replace existing parameters */
-		if (0 == strcmp(commands[i].key, key))
+		/* treat duplicate UserParameters as error */
+		if (0 == strcmp(commands[i].key, usr_cmd))
 		{
-			if (commands[i].main_param)
-				zbx_free(commands[i].main_param);
-			if (commands[i].test_param)
-				zbx_free(commands[i].test_param);
-
-			commands[i].flags = flag;
-			commands[i].function = &EXECUTE_STR;
-			commands[i].main_param = strdup(command);
-			commands[i].test_param = 0;
-			break;
+			zabbix_log(LOG_LEVEL_CRIT, "failed to add UserParameter \"%s\": duplicate key", key);
+			exit(FAIL);
 		}
 	}
 
@@ -230,8 +222,7 @@ void	free_result(AGENT_RESULT *result)
  *               1 - command without parameters;
  *               2 - command with parameters
  */
-int	parse_command(const char *command, char *cmd, int cmd_max_len,
-		char *param, int param_max_len)
+int	parse_command(const char *command, char *cmd, size_t cmd_max_len, char *param, size_t param_max_len)
 {
 	char	*pl, *pr;
 	size_t	sz;
@@ -497,8 +488,7 @@ int	process(const char *in_command, unsigned flags, AGENT_RESULT *result)
 		{
 			err = NOTSUPPORTED;
 			if ('\0' != *error)
-				zabbix_log(LOG_LEVEL_WARNING, "Item [%s] error: %s",
-						in_command, error);
+				zabbix_log(LOG_LEVEL_WARNING, "item [%s] error: %s", in_command, error);
 		}
 	}
 	else

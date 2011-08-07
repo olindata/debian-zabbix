@@ -47,50 +47,51 @@
 #include "heart/heart.h"
 #include "../zabbix_server/selfmon/selfmon.h"
 
+#define INIT_PROXY(type, count)									\
+	process_type = type;									\
+	process_num = proxy_num - proxy_count + count;						\
+	zabbix_log(LOG_LEVEL_INFORMATION, "proxy #%d started [%s #%d]",				\
+			proxy_num, get_process_type_string(process_type), process_num)
+
 const char	*progname = NULL;
 const char	title_message[] = "Zabbix Proxy";
-const char	usage_message[] = "[-hV] [-c <file>]";
+const char	usage_message[] = "[-hV] [-c <file>] [-R <option>]";
 
-#ifndef HAVE_GETOPT_LONG
 const char	*help_message[] = {
 	"Options:",
-	"  -c <file>       absolute path to the configuration file",
-	"  -h              give this help",
-	"  -V              display version number",
-	0 /* end of text */
+	"  -c --config <file>              absolute path to the configuration file",
+	"  -R --runtime-control <option>   perform administrative functions",
+	"",
+	"Runtime control options:",
+	"  " ZBX_CONFIG_CACHE_RELOAD "             reload configuration cache",
+	"",
+	"Other options:",
+	"  -h --help                       give this help",
+	"  -V --version                    display version number",
+	NULL	/* end of text */
 };
-#else
-const char	*help_message[] = {
-	"Options:",
-	"  -c --config <file>       absolute path to the configuration file",
-	"  -h --help                give this help",
-	"  -V --version             display version number",
-	0 /* end of text */
-};
-#endif
 
 /* COMMAND LINE OPTIONS */
 
 /* long options */
-
-static struct zbx_option longopts[] =
+static struct zbx_option	longopts[] =
 {
-	{"config",	1,	0,	'c'},
-	{"help",	0,	0,	'h'},
-	{"version",	0,	0,	'V'},
-	{0,0,0,0}
+	{"config",		1,	NULL,	'c'},
+	{"runtime-control",	1,	NULL,	'R'},
+	{"help",		0,	NULL,	'h'},
+	{"version",		0,	NULL,	'V'},
+	{NULL}
 };
 
 /* short options */
-
-static char	shortopts[] = "c:n:hV";
+static char	shortopts[] = "c:n:hVR:";
 
 /* end of COMMAND LINE OPTIONS */
 
 int	threads_num = 0;
 pid_t	*threads = NULL;
 
-static unsigned char	zbx_process = ZBX_PROCESS_PROXY_ACTIVE;
+unsigned char	daemon_type		= ZBX_DAEMON_TYPE_PROXY_ACTIVE;
 
 int		process_num		= 0;
 unsigned char	process_type		= ZBX_PROCESS_TYPE_UNKNOWN;
@@ -102,7 +103,7 @@ int	CONFIG_HOUSEKEEPER_FORKS	= 1;
 int	CONFIG_PINGER_FORKS		= 1;
 int	CONFIG_POLLER_FORKS		= 5;
 int	CONFIG_UNREACHABLE_POLLER_FORKS	= 1;
-int	CONFIG_HTTPPOLLER_FORKS		= 1;
+int	CONFIG_HTTPPOLLER_FORKS		= 0;
 int	CONFIG_IPMIPOLLER_FORKS		= 0;
 int	CONFIG_TRAPPER_FORKS		= 5;
 int	CONFIG_SELFMON_FORKS		= 0;
@@ -147,7 +148,7 @@ char	*CONFIG_TMPDIR			= NULL;
 char	*CONFIG_FPING_LOCATION		= NULL;
 #ifdef HAVE_IPV6
 char	*CONFIG_FPING6_LOCATION		= NULL;
-#endif /* HAVE_IPV6 */
+#endif
 char	*CONFIG_DBHOST			= NULL;
 char	*CONFIG_DBNAME			= NULL;
 char	*CONFIG_DBSCHEMA		= NULL;
@@ -162,6 +163,7 @@ int	CONFIG_UNSAFE_USER_PARAMETERS	= 0;
 char	*CONFIG_SERVER			= NULL;
 int	CONFIG_SERVER_PORT		= 10051;
 char	*CONFIG_HOSTNAME		= NULL;
+char	*CONFIG_HOSTNAME_ITEM		= NULL;
 int	CONFIG_NODEID			= -1;
 int	CONFIG_MASTER_NODEID		= 0;
 int	CONFIG_NODE_NOHISTORY		= 0;
@@ -183,209 +185,62 @@ ZBX_MUTEX	node_sync_access;
 
 /******************************************************************************
  *                                                                            *
- * Function: init_config                                                      *
+ * Function: zbx_set_defaults                                                 *
  *                                                                            *
- * Purpose: parse config file and update configuration parameters             *
+ * Purpose: set configuration defaults                                        *
  *                                                                            *
- * Parameters:                                                                *
- *                                                                            *
- * Return value:                                                              *
- *                                                                            *
- * Author: Alexei Vladishev                                                   *
- *                                                                            *
- * Comments: will terminate process if parsing fails                          *
+ * Author: Rudolfs Kreicbergs                                                 *
  *                                                                            *
  ******************************************************************************/
-static void	init_config()
+static void	zbx_set_defaults()
 {
 	AGENT_RESULT	result;
 	char		**value = NULL;
 
-	static struct cfg_line	cfg[] =
+	if (NULL == CONFIG_HOSTNAME)
 	{
-		/* PARAMETER,			VAR,					FUNC,
-			TYPE,		MANDATORY,	MIN,			MAX */
-		{"ProxyMode",			&CONFIG_PROXYMODE,			NULL,
-			TYPE_INT,	PARM_OPT,	ZBX_PROXYMODE_ACTIVE,	ZBX_PROXYMODE_PASSIVE},
-		{"Server",			&CONFIG_SERVER,				NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"ServerPort",			&CONFIG_SERVER_PORT,			NULL,
-			TYPE_INT,	PARM_OPT,	1024,			32767},
-		{"Hostname",			&CONFIG_HOSTNAME,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"StartDBSyncers",		&CONFIG_HISTSYNCER_FORKS,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			100},
-		{"StartDiscoverers",		&CONFIG_DISCOVERER_FORKS,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			250},
-		{"StartHTTPPollers",		&CONFIG_HTTPPOLLER_FORKS,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"StartPingers",		&CONFIG_PINGER_FORKS,			NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"StartPollers",		&CONFIG_POLLER_FORKS,			NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"StartPollersUnreachable",	&CONFIG_UNREACHABLE_POLLER_FORKS,	NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"StartIPMIPollers",		&CONFIG_IPMIPOLLER_FORKS,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"StartTrappers",		&CONFIG_TRAPPER_FORKS,			NULL,
-			TYPE_INT,	PARM_OPT,	0,			1000},
-		{"CacheSize",			&CONFIG_CONF_CACHE_SIZE,		NULL,
-			TYPE_INT,	PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
-		{"HistoryCacheSize",		&CONFIG_HISTORY_CACHE_SIZE,		NULL,
-			TYPE_INT,	PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
-		{"TrendCacheSize",		&CONFIG_TRENDS_CACHE_SIZE,		NULL,
-			TYPE_INT,	PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
-		{"HistoryTextCacheSize",	&CONFIG_TEXT_CACHE_SIZE,		NULL,
-			TYPE_INT,	PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
-		{"CacheUpdateFrequency",	&CONFIG_CONFSYNCER_FREQUENCY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_HOUR},
-		{"HousekeepingFrequency",	&CONFIG_HOUSEKEEPING_FREQUENCY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			24},
-		{"ProxyLocalBuffer",		&CONFIG_PROXY_LOCAL_BUFFER,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			720},
-		{"ProxyOfflineBuffer",		&CONFIG_PROXY_OFFLINE_BUFFER,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			720},
-		{"HeartbeatFrequency",		&CONFIG_HEARTBEAT_FREQUENCY,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			SEC_PER_HOUR},
-		{"ConfigFrequency",		&CONFIG_PROXYCONFIG_FREQUENCY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_WEEK},
-		{"DataSenderFrequency",		&CONFIG_PROXYDATA_FREQUENCY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_HOUR},
-		{"TmpDir",			&CONFIG_TMPDIR,				NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"FpingLocation",		&CONFIG_FPING_LOCATION,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-#ifdef HAVE_IPV6
-		{"Fping6Location",		&CONFIG_FPING6_LOCATION,		NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-#endif	/* HAVE_IPV6 */
-		{"Timeout",			&CONFIG_TIMEOUT,			NULL,
-			TYPE_INT,	PARM_OPT,	1,			30},
-		{"TrapperTimeout",		&CONFIG_TRAPPER_TIMEOUT,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			300},
-		{"UnreachablePeriod",		&CONFIG_UNREACHABLE_PERIOD,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_HOUR},
-		{"UnreachableDelay",		&CONFIG_UNREACHABLE_DELAY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_HOUR},
-		{"UnavailableDelay",		&CONFIG_UNAVAILABLE_DELAY,		NULL,
-			TYPE_INT,	PARM_OPT,	1,			SEC_PER_HOUR},
-		{"ListenIP",			&CONFIG_LISTEN_IP,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"ListenPort",			&CONFIG_LISTEN_PORT,			NULL,
-			TYPE_INT,	PARM_OPT,	1024,			32767},
-		{"SourceIP",			&CONFIG_SOURCE_IP,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DebugLevel",			&CONFIG_LOG_LEVEL,			NULL,
-			TYPE_INT,	PARM_OPT,	0,			4},
-		{"PidFile",			&CONFIG_PID_FILE,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"LogFile",			&CONFIG_LOG_FILE,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"LogFileSize",			&CONFIG_LOG_FILE_SIZE,			NULL,
-			TYPE_INT,	PARM_OPT,	0,			1024},
-		{"ExternalScripts",		&CONFIG_EXTERNALSCRIPTS,		NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBHost",			&CONFIG_DBHOST,				NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBName",			&CONFIG_DBNAME,				NULL,
-			TYPE_STRING,	PARM_MAND,	0,			0},
-		{"DBSchema",			&CONFIG_DBSCHEMA,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBUser",			&CONFIG_DBUSER,				NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBPassword",			&CONFIG_DBPASSWORD,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBSocket",			&CONFIG_DBSOCKET,			NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"DBPort",			&CONFIG_DBPORT,				NULL,
-			TYPE_INT,	PARM_OPT,	1024,			65535},
-		{"SSHKeyLocation",		&CONFIG_SSH_KEY_LOCATION,		NULL,
-			TYPE_STRING,	PARM_OPT,	0,			0},
-		{"LogSlowQueries",		&CONFIG_LOG_SLOW_QUERIES,		NULL,
-			TYPE_INT,	PARM_OPT,	0,			3600000},
-		{NULL}
-	};
+		if (NULL == CONFIG_HOSTNAME_ITEM)
+			CONFIG_HOSTNAME_ITEM = zbx_strdup(CONFIG_HOSTNAME_ITEM, "system.hostname");
 
-	CONFIG_SERVER_STARTUP_TIME = time(NULL);
+		init_result(&result);
 
-	parse_cfg_file(CONFIG_FILE, cfg);
-
-	if (ZBX_PROXYMODE_ACTIVE == CONFIG_PROXYMODE &&
-			(NULL == CONFIG_SERVER || '\0' == *CONFIG_SERVER))
-	{
-		zbx_error("Missing mandatory parameter [Server].");
-	}
-
-	if (ZBX_PROXYMODE_PASSIVE == CONFIG_PROXYMODE)
-	{
-		CONFIG_CONFSYNCER_FORKS = CONFIG_DATASENDER_FORKS = 0;
-		zbx_process = ZBX_PROCESS_PROXY_PASSIVE;
-	}
-	else
-		zbx_process = ZBX_PROCESS_PROXY_ACTIVE;
-
-	if (NULL == CONFIG_HOSTNAME || '\0' == *CONFIG_HOSTNAME)
-	{
-		if (NULL != CONFIG_HOSTNAME)
-			zbx_free(CONFIG_HOSTNAME);
-
-		if (SUCCEED == process("system.hostname", 0, &result))
+		if (SUCCEED == process(CONFIG_HOSTNAME_ITEM, PROCESS_LOCAL_COMMAND, &result) &&
+				NULL != (value = GET_STR_RESULT(&result)))
 		{
-			if (NULL != (value = GET_STR_RESULT(&result)))
+			assert(*value);
+
+			if (MAX_ZBX_HOSTNAME_LEN < strlen(*value))
 			{
-				CONFIG_HOSTNAME = zbx_strdup(CONFIG_HOSTNAME, *value);
-				if (strlen(CONFIG_HOSTNAME) > HOST_HOST_LEN)
-					CONFIG_HOSTNAME[HOST_HOST_LEN] = '\0';
+				(*value)[MAX_ZBX_HOSTNAME_LEN] = '\0';
+				zabbix_log(LOG_LEVEL_WARNING, "proxy name truncated to [%s])", *value);
 			}
+
+			CONFIG_HOSTNAME = zbx_strdup(CONFIG_HOSTNAME, *value);
 		}
+		else
+			zabbix_log(LOG_LEVEL_WARNING, "failed to get proxy name from [%s])", CONFIG_HOSTNAME_ITEM);
+
 		free_result(&result);
-
-		if (NULL == CONFIG_HOSTNAME)
-		{
-			zabbix_log(LOG_LEVEL_CRIT, "Hostname is not defined");
-			exit(1);
-		}
 	}
-	else
-	{
-		if (strlen(CONFIG_HOSTNAME) > HOST_HOST_LEN)
-		{
-			zabbix_log(LOG_LEVEL_CRIT, "Hostname too long");
-			exit(1);
-		}
-	}
-
-	if (NULL == CONFIG_DBNAME)
-	{
-		zabbix_log(LOG_LEVEL_CRIT, "DBName not in config file");
-		exit(1);
-	}
+	else if (NULL != CONFIG_HOSTNAME_ITEM)
+		zabbix_log(LOG_LEVEL_WARNING, "both Hostname and HostnameItem defined, using [%s]", CONFIG_HOSTNAME);
 
 	if (NULL == CONFIG_PID_FILE)
-	{
 		CONFIG_PID_FILE = zbx_strdup(CONFIG_PID_FILE, "/tmp/zabbix_proxy.pid");
-	}
 
 	if (NULL == CONFIG_TMPDIR)
-	{
 		CONFIG_TMPDIR = zbx_strdup(CONFIG_TMPDIR, "/tmp");
-	}
 
 	if (NULL == CONFIG_FPING_LOCATION)
-	{
 		CONFIG_FPING_LOCATION = zbx_strdup(CONFIG_FPING_LOCATION, "/usr/sbin/fping");
-	}
+
 #ifdef HAVE_IPV6
 	if (NULL == CONFIG_FPING6_LOCATION)
-	{
 		CONFIG_FPING6_LOCATION = zbx_strdup(CONFIG_FPING6_LOCATION, "/usr/sbin/fping6");
-	}
-#endif /* HAVE_IPV6 */
+#endif
 
 	if (NULL == CONFIG_EXTERNALSCRIPTS)
-	{
 		CONFIG_EXTERNALSCRIPTS = zbx_strdup(CONFIG_EXTERNALSCRIPTS, "/etc/zabbix/externalscripts");
-	}
 
 	if (ZBX_PROXYMODE_ACTIVE != CONFIG_PROXYMODE || 0 == CONFIG_HEARTBEAT_FREQUENCY)
 		CONFIG_HEARTBEAT_FORKS = 0;
@@ -393,32 +248,221 @@ static void	init_config()
 
 /******************************************************************************
  *                                                                            *
+ * Function: zbx_validate_config                                              *
+ *                                                                            *
+ * Purpose: validate configuration parameters                                 *
+ *                                                                            *
+ * Author: Alexei Vladishev, Rudolfs Kreicbergs                               *
+ *                                                                            *
+ ******************************************************************************/
+static void	zbx_validate_config()
+{
+	if (ZBX_PROXYMODE_ACTIVE == CONFIG_PROXYMODE &&	NULL == CONFIG_SERVER)
+	{
+		zabbix_log(LOG_LEVEL_CRIT, "missing active proxy mandatory parameter [Server] in config file [%s]", CONFIG_FILE);
+		exit(FAIL);
+	}
+
+	if (NULL == CONFIG_HOSTNAME)
+	{
+		zabbix_log(LOG_LEVEL_CRIT, "hostname is not defined");
+		exit(FAIL);
+	}
+
+	if (FAIL == zbx_check_hostname(CONFIG_HOSTNAME))
+	{
+		zabbix_log(LOG_LEVEL_CRIT, "invalid host name: [%s]", CONFIG_HOSTNAME);
+		exit(FAIL);
+	}
+}
+
+/******************************************************************************
+ *                                                                            *
+ * Function: zbx_load_config                                                  *
+ *                                                                            *
+ * Purpose: parse config file and update configuration parameters             *
+ *                                                                            *
+ * Author: Alexei Vladishev                                                   *
+ *                                                                            *
+ * Comments: will terminate process if parsing fails                          *
+ *                                                                            *
+ ******************************************************************************/
+static void	zbx_load_config()
+{
+	static struct cfg_line	cfg[] =
+	{
+		/* PARAMETER,			VAR,					TYPE,
+			MANDATORY,	MIN,			MAX */
+		{"ProxyMode",			&CONFIG_PROXYMODE,			TYPE_INT,
+			PARM_OPT,	ZBX_PROXYMODE_ACTIVE,	ZBX_PROXYMODE_PASSIVE},
+		{"Server",			&CONFIG_SERVER,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"ServerPort",			&CONFIG_SERVER_PORT,			TYPE_INT,
+			PARM_OPT,	1024,			32767},
+		{"Hostname",			&CONFIG_HOSTNAME,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"HostnameItem",		&CONFIG_HOSTNAME_ITEM,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"StartDBSyncers",		&CONFIG_HISTSYNCER_FORKS,		TYPE_INT,
+			PARM_OPT,	1,			100},
+		{"StartDiscoverers",		&CONFIG_DISCOVERER_FORKS,		TYPE_INT,
+			PARM_OPT,	0,			250},
+		{"StartHTTPPollers",		&CONFIG_HTTPPOLLER_FORKS,		TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"StartPingers",		&CONFIG_PINGER_FORKS,			TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"StartPollers",		&CONFIG_POLLER_FORKS,			TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"StartPollersUnreachable",	&CONFIG_UNREACHABLE_POLLER_FORKS,	TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"StartIPMIPollers",		&CONFIG_IPMIPOLLER_FORKS,		TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"StartTrappers",		&CONFIG_TRAPPER_FORKS,			TYPE_INT,
+			PARM_OPT,	0,			1000},
+		{"CacheSize",			&CONFIG_CONF_CACHE_SIZE,		TYPE_INT,
+			PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
+		{"HistoryCacheSize",		&CONFIG_HISTORY_CACHE_SIZE,		TYPE_INT,
+			PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
+		{"TrendCacheSize",		&CONFIG_TRENDS_CACHE_SIZE,		TYPE_INT,
+			PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
+		{"HistoryTextCacheSize",	&CONFIG_TEXT_CACHE_SIZE,		TYPE_INT,
+			PARM_OPT,	128 * ZBX_KIBIBYTE,	ZBX_GIBIBYTE},
+		{"CacheUpdateFrequency",	&CONFIG_CONFSYNCER_FREQUENCY,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_HOUR},
+		{"HousekeepingFrequency",	&CONFIG_HOUSEKEEPING_FREQUENCY,		TYPE_INT,
+			PARM_OPT,	1,			24},
+		{"ProxyLocalBuffer",		&CONFIG_PROXY_LOCAL_BUFFER,		TYPE_INT,
+			PARM_OPT,	0,			720},
+		{"ProxyOfflineBuffer",		&CONFIG_PROXY_OFFLINE_BUFFER,		TYPE_INT,
+			PARM_OPT,	1,			720},
+		{"HeartbeatFrequency",		&CONFIG_HEARTBEAT_FREQUENCY,		TYPE_INT,
+			PARM_OPT,	0,			SEC_PER_HOUR},
+		{"ConfigFrequency",		&CONFIG_PROXYCONFIG_FREQUENCY,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_WEEK},
+		{"DataSenderFrequency",		&CONFIG_PROXYDATA_FREQUENCY,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_HOUR},
+		{"TmpDir",			&CONFIG_TMPDIR,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"FpingLocation",		&CONFIG_FPING_LOCATION,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+#ifdef HAVE_IPV6
+		{"Fping6Location",		&CONFIG_FPING6_LOCATION,		TYPE_STRING,
+			PARM_OPT,	0,			0},
+#endif
+		{"Timeout",			&CONFIG_TIMEOUT,			TYPE_INT,
+			PARM_OPT,	1,			30},
+		{"TrapperTimeout",		&CONFIG_TRAPPER_TIMEOUT,		TYPE_INT,
+			PARM_OPT,	1,			300},
+		{"UnreachablePeriod",		&CONFIG_UNREACHABLE_PERIOD,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_HOUR},
+		{"UnreachableDelay",		&CONFIG_UNREACHABLE_DELAY,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_HOUR},
+		{"UnavailableDelay",		&CONFIG_UNAVAILABLE_DELAY,		TYPE_INT,
+			PARM_OPT,	1,			SEC_PER_HOUR},
+		{"ListenIP",			&CONFIG_LISTEN_IP,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"ListenPort",			&CONFIG_LISTEN_PORT,			TYPE_INT,
+			PARM_OPT,	1024,			32767},
+		{"SourceIP",			&CONFIG_SOURCE_IP,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DebugLevel",			&CONFIG_LOG_LEVEL,			TYPE_INT,
+			PARM_OPT,	0,			4},
+		{"PidFile",			&CONFIG_PID_FILE,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"LogFile",			&CONFIG_LOG_FILE,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"LogFileSize",			&CONFIG_LOG_FILE_SIZE,			TYPE_INT,
+			PARM_OPT,	0,			1024},
+		{"ExternalScripts",		&CONFIG_EXTERNALSCRIPTS,		TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBHost",			&CONFIG_DBHOST,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBName",			&CONFIG_DBNAME,				TYPE_STRING,
+			PARM_MAND,	0,			0},
+		{"DBSchema",			&CONFIG_DBSCHEMA,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBUser",			&CONFIG_DBUSER,				TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBPassword",			&CONFIG_DBPASSWORD,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBSocket",			&CONFIG_DBSOCKET,			TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"DBPort",			&CONFIG_DBPORT,				TYPE_INT,
+			PARM_OPT,	1024,			65535},
+		{"SSHKeyLocation",		&CONFIG_SSH_KEY_LOCATION,		TYPE_STRING,
+			PARM_OPT,	0,			0},
+		{"LogSlowQueries",		&CONFIG_LOG_SLOW_QUERIES,		TYPE_INT,
+			PARM_OPT,	0,			3600000},
+		{NULL}
+	};
+
+	CONFIG_SERVER_STARTUP_TIME = time(NULL);
+
+	parse_cfg_file(CONFIG_FILE, cfg, ZBX_CFG_FILE_REQUIRED, ZBX_CFG_STRICT);
+
+	if (ZBX_PROXYMODE_PASSIVE == CONFIG_PROXYMODE)
+	{
+		CONFIG_CONFSYNCER_FORKS = CONFIG_DATASENDER_FORKS = 0;
+		daemon_type = ZBX_DAEMON_TYPE_PROXY_PASSIVE;
+	}
+	else
+		daemon_type = ZBX_DAEMON_TYPE_PROXY_ACTIVE;
+
+	zbx_set_defaults();
+
+	zbx_validate_config();
+}
+
+#ifdef HAVE_SIGQUEUE
+void	zbx_sigusr_handler(zbx_task_t task)
+{
+	switch (task)
+	{
+		case ZBX_TASK_CONFIG_CACHE_RELOAD:
+			if (ZBX_PROCESS_TYPE_CONFSYNCER == process_type)
+			{
+				zabbix_log(LOG_LEVEL_WARNING, "forced reloading of the configuration cache");
+				zbx_wakeup();
+			}
+			break;
+		default:
+			break;
+	}
+}
+#endif
+
+/******************************************************************************
+ *                                                                            *
  * Function: main                                                             *
  *                                                                            *
- * Purpose: executes server processes                                         *
- *                                                                            *
- * Parameters:                                                                *
- *                                                                            *
- * Return value:                                                              *
+ * Purpose: executes proxy processes                                          *
  *                                                                            *
  * Author: Eugene Grigorjev                                                   *
- *                                                                            *
- * Comments:                                                                  *
  *                                                                            *
  ******************************************************************************/
 int	main(int argc, char **argv)
 {
-	char	ch;
+	zbx_task_t	task = ZBX_TASK_START;
+	char		ch;
 
 	progname = get_program_name(argv[0]);
 
 	/* Parse the command-line. */
-	while ((ch = (char)zbx_getopt_long(argc, argv, shortopts, longopts,NULL)) != (char)EOF)
+	while ((char)EOF != (ch = (char)zbx_getopt_long(argc, argv, shortopts, longopts, NULL)))
 	{
 		switch (ch)
 		{
 			case 'c':
 				CONFIG_FILE = zbx_strdup(CONFIG_FILE, zbx_optarg);
+				break;
+			case 'R':
+				if (0 == strcmp(zbx_optarg, ZBX_CONFIG_CACHE_RELOAD))
+					task = ZBX_TASK_CONFIG_CACHE_RELOAD;
+				else
+				{
+					printf("invalid runtime control option: %s\n", zbx_optarg);
+					exit(EXIT_FAILURE);
+				}
 				break;
 			case 'h':
 				help();
@@ -441,7 +485,10 @@ int	main(int argc, char **argv)
 	/* Required for simple checks */
 	init_metrics();
 
-	init_config();
+	zbx_load_config();
+
+	if (ZBX_TASK_CONFIG_CACHE_RELOAD == task)
+		exit(SUCCEED == zbx_sigusr_send(ZBX_TASK_CONFIG_CACHE_RELOAD) ? EXIT_SUCCESS : EXIT_FAILURE);
 
 #ifdef HAVE_OPENIPMI
 	init_ipmi_handler();
@@ -452,21 +499,14 @@ int	main(int argc, char **argv)
 
 int	MAIN_ZABBIX_ENTRY()
 {
-	int	i;
-	pid_t	pid;
-
+	int		i, proxy_num = 0, proxy_count = 0;
+	pid_t		pid;
 	zbx_sock_t	listen_sock;
 
-	int		server_num = 0;
-
 	if (NULL == CONFIG_LOG_FILE || '\0' == *CONFIG_LOG_FILE)
-	{
-		zabbix_open_log(LOG_TYPE_SYSLOG,CONFIG_LOG_LEVEL,NULL);
-	}
+		zabbix_open_log(LOG_TYPE_SYSLOG, CONFIG_LOG_LEVEL, NULL);
 	else
-	{
-		zabbix_open_log(LOG_TYPE_FILE,CONFIG_LOG_LEVEL,CONFIG_LOG_FILE);
-	}
+		zabbix_open_log(LOG_TYPE_FILE, CONFIG_LOG_LEVEL, CONFIG_LOG_FILE);
 
 #ifdef	HAVE_SNMP
 #	define SNMP_FEATURE_STATUS "YES"
@@ -494,8 +534,9 @@ int	MAIN_ZABBIX_ENTRY()
 #	define IPV6_FEATURE_STATUS " NO"
 #endif
 
-	zabbix_log(LOG_LEVEL_INFORMATION, "Starting Zabbix Proxy. Zabbix %s (revision %s).",
-			ZABBIX_VERSION, ZABBIX_REVISION);
+	zabbix_log(LOG_LEVEL_INFORMATION, "Starting Zabbix Proxy (%s) [%s]. Zabbix %s (revision %s).",
+			ZBX_PROXYMODE_PASSIVE == CONFIG_PROXYMODE ? "passive" : "active",
+			CONFIG_HOSTNAME, ZABBIX_VERSION, ZABBIX_REVISION);
 
 	zabbix_log(LOG_LEVEL_INFORMATION, "**** Enabled features ****");
 	zabbix_log(LOG_LEVEL_INFORMATION, "SNMP monitoring:       " SNMP_FEATURE_STATUS);
@@ -507,7 +548,7 @@ int	MAIN_ZABBIX_ENTRY()
 
 	DBinit();
 
-	init_database_cache(zbx_process);
+	init_database_cache();
 	init_configuration_cache();
 	init_selfmon_collector();
 
@@ -515,243 +556,140 @@ int	MAIN_ZABBIX_ENTRY()
 	DCsync_configuration();
 	DBclose();
 
-	threads_num = 1 + CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS + CONFIG_POLLER_FORKS
-			+ CONFIG_UNREACHABLE_POLLER_FORKS + CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS + CONFIG_DISCOVERER_FORKS
-			+ CONFIG_HISTSYNCER_FORKS + CONFIG_IPMIPOLLER_FORKS + CONFIG_SELFMON_FORKS;
+	threads_num = CONFIG_CONFSYNCER_FORKS + CONFIG_HEARTBEAT_FORKS + CONFIG_DATASENDER_FORKS
+			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS + CONFIG_TRAPPER_FORKS
+			+ CONFIG_PINGER_FORKS + CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
+			+ CONFIG_DISCOVERER_FORKS + CONFIG_HISTSYNCER_FORKS + CONFIG_IPMIPOLLER_FORKS
+			+ CONFIG_SELFMON_FORKS;
 	threads = calloc(threads_num, sizeof(pid_t));
 
-	if (CONFIG_TRAPPER_FORKS > 0)
+	if (0 < CONFIG_TRAPPER_FORKS)
 	{
 		if (FAIL == zbx_tcp_listen(&listen_sock, CONFIG_LISTEN_IP, (unsigned short)CONFIG_LISTEN_PORT))
 		{
-			zabbix_log(LOG_LEVEL_CRIT, "Listener failed with error: %s.", zbx_tcp_strerror());
+			zabbix_log(LOG_LEVEL_CRIT, "listener failed: %s", zbx_tcp_strerror());
 			exit(1);
 		}
 	}
 
-	for (i = 1; i <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS + CONFIG_POLLER_FORKS
-			+ CONFIG_UNREACHABLE_POLLER_FORKS + CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS + CONFIG_DISCOVERER_FORKS
-			+ CONFIG_HISTSYNCER_FORKS + CONFIG_IPMIPOLLER_FORKS + CONFIG_SELFMON_FORKS;
-		i++)
+	for (i = 0; i < threads_num; i++)
 	{
-		if (0 == (pid = zbx_fork()))
+		if (0 == (pid = zbx_child_fork()))
 		{
-			server_num = i;
+			proxy_num = i + 1;	/* child processes are numbered starting from 1 */
 			break;
 		}
 		else
 			threads[i] = pid;
 	}
 
-	/* Main process */
-	if (server_num == 0)
+	if (0 == proxy_num)
 	{
-		set_parent_signal_handler();
+		zabbix_log(LOG_LEVEL_INFORMATION, "proxy #0 started [main process]");
 
-		if (0 != CONFIG_HEARTBEAT_FORKS)
+		while (-1 == wait(&i))	/* wait for any child to exit */
 		{
-			process_type = ZBX_PROCESS_TYPE_HEARTBEAT;
-			process_num = 1;
-
-			zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-					server_num, get_process_type_string(process_type));
-
-			main_heart_loop();
+			if (EINTR != errno)
+			{
+				zabbix_log(LOG_LEVEL_ERR, "failed to wait on child processes: %s", zbx_strerror(errno));
+				break;
+			}
 		}
-		else
-		{
-			zabbix_log(LOG_LEVEL_WARNING, "server #%d started");
 
-			for (;;)
-				zbx_sleep(SEC_PER_HOUR);
-		}
+		/* all exiting child processes should be caught by signal handlers */
+		THIS_SHOULD_NEVER_HAPPEN;
+
+		zbx_on_exit();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_CONFSYNCER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_CONFSYNCER;
-		process_num = server_num;
+		/* !!! configuration syncer must be proxy #1 - child_signal_handler() uses threads[0] !!! */
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_CONFSYNCER, CONFIG_CONFSYNCER_FORKS);
 
-		main_proxyconfig_loop(server_num);
+		main_proxyconfig_loop(proxy_num);
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_HEARTBEAT_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_DATASENDER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_HEARTBEAT, CONFIG_HEARTBEAT_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		main_heart_loop();
+	}
+	else if (proxy_num <= (proxy_count += CONFIG_DATASENDER_FORKS))
+	{
+		INIT_PROXY(ZBX_PROCESS_TYPE_DATASENDER, CONFIG_DATASENDER_FORKS);
 
 		main_datasender_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_POLLER_FORKS))
 	{
 #ifdef HAVE_SNMP
-		init_snmp("zabbix_server");
-#endif	/* HAVE_SNMP */
+		init_snmp("zabbix_proxy");
+#endif
 
-		process_type = ZBX_PROCESS_TYPE_POLLER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_POLLER, CONFIG_POLLER_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
-
-		main_poller_loop(zbx_process, ZBX_POLLER_TYPE_NORMAL);
+		main_poller_loop(ZBX_POLLER_TYPE_NORMAL);
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_UNREACHABLE_POLLER_FORKS))
 	{
 #ifdef HAVE_SNMP
-		init_snmp("zabbix_server");
-#endif	/* HAVE_SNMP */
+		init_snmp("zabbix_proxy");
+#endif
 
-		process_type = ZBX_PROCESS_TYPE_UNREACHABLE;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_UNREACHABLE, CONFIG_UNREACHABLE_POLLER_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
-
-		main_poller_loop(zbx_process, ZBX_POLLER_TYPE_UNREACHABLE);
+		main_poller_loop(ZBX_POLLER_TYPE_UNREACHABLE);
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_TRAPPER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_TRAPPER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_TRAPPER, CONFIG_TRAPPER_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
-
-		main_trapper_loop(zbx_process, &listen_sock);
+		main_trapper_loop(&listen_sock);
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_PINGER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_PINGER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS;
-
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_PINGER, CONFIG_PINGER_FORKS);
 
 		main_pinger_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_HOUSEKEEPER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_HOUSEKEEPER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS;
-
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_HOUSEKEEPER, CONFIG_HOUSEKEEPER_FORKS);
 
 		main_housekeeper_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_HTTPPOLLER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_HTTPPOLLER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS
-				- CONFIG_HOUSEKEEPER_FORKS;
-
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_HTTPPOLLER, CONFIG_HTTPPOLLER_FORKS);
 
 		main_httppoller_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
-			+ CONFIG_DISCOVERER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_DISCOVERER_FORKS))
 	{
 #ifdef HAVE_SNMP
-		init_snmp("zabbix_server");
-#endif	/* HAVE_SNMP */
+		init_snmp("zabbix_proxy");
+#endif
 
-		process_type = ZBX_PROCESS_TYPE_DISCOVERER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS
-				- CONFIG_HOUSEKEEPER_FORKS - CONFIG_HTTPPOLLER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_DISCOVERER, CONFIG_DISCOVERER_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
-
-		main_discoverer_loop(zbx_process);
+		main_discoverer_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
-			+ CONFIG_DISCOVERER_FORKS + CONFIG_HISTSYNCER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_HISTSYNCER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_HISTSYNCER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS
-				- CONFIG_HOUSEKEEPER_FORKS - CONFIG_HTTPPOLLER_FORKS
-				- CONFIG_DISCOVERER_FORKS;
-
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_HISTSYNCER, CONFIG_HISTSYNCER_FORKS);
 
 		main_dbsyncer_loop();
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
-			+ CONFIG_DISCOVERER_FORKS + CONFIG_HISTSYNCER_FORKS
-			+ CONFIG_IPMIPOLLER_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_IPMIPOLLER_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_IPMIPOLLER;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS
-				- CONFIG_HOUSEKEEPER_FORKS - CONFIG_HTTPPOLLER_FORKS
-				- CONFIG_DISCOVERER_FORKS - CONFIG_HISTSYNCER_FORKS;
+		INIT_PROXY(ZBX_PROCESS_TYPE_IPMIPOLLER, CONFIG_IPMIPOLLER_FORKS);
 
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
-
-		main_poller_loop(zbx_process, ZBX_POLLER_TYPE_IPMI);
+		main_poller_loop(ZBX_POLLER_TYPE_IPMI);
 	}
-	else if (server_num <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-			+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-			+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-			+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
-			+ CONFIG_DISCOVERER_FORKS + CONFIG_HISTSYNCER_FORKS
-			+ CONFIG_IPMIPOLLER_FORKS + CONFIG_SELFMON_FORKS)
+	else if (proxy_num <= (proxy_count += CONFIG_SELFMON_FORKS))
 	{
-		process_type = ZBX_PROCESS_TYPE_SELFMON;
-		process_num = server_num - CONFIG_CONFSYNCER_FORKS - CONFIG_DATASENDER_FORKS
-				- CONFIG_POLLER_FORKS - CONFIG_UNREACHABLE_POLLER_FORKS
-				- CONFIG_TRAPPER_FORKS - CONFIG_PINGER_FORKS
-				- CONFIG_HOUSEKEEPER_FORKS - CONFIG_HTTPPOLLER_FORKS
-				- CONFIG_DISCOVERER_FORKS - CONFIG_HISTSYNCER_FORKS
-				- CONFIG_IPMIPOLLER_FORKS;
-
-		zabbix_log(LOG_LEVEL_WARNING, "server #%d started [%s]",
-				server_num, get_process_type_string(process_type));
+		INIT_PROXY(ZBX_PROCESS_TYPE_SELFMON, CONFIG_SELFMON_FORKS);
 
 		main_selfmon_loop();
 	}
@@ -765,14 +703,15 @@ void	zbx_on_exit()
 
 	if (NULL != threads)
 	{
-		int	i;
+		int		i;
+		sigset_t	set;
 
-		for (i = 1; i <= CONFIG_CONFSYNCER_FORKS + CONFIG_DATASENDER_FORKS
-				+ CONFIG_POLLER_FORKS + CONFIG_UNREACHABLE_POLLER_FORKS
-				+ CONFIG_TRAPPER_FORKS + CONFIG_PINGER_FORKS
-				+ CONFIG_HOUSEKEEPER_FORKS + CONFIG_HTTPPOLLER_FORKS
-				+ CONFIG_DISCOVERER_FORKS + CONFIG_HISTSYNCER_FORKS
-				+ CONFIG_IPMIPOLLER_FORKS + CONFIG_SELFMON_FORKS; i++)
+		/* ignore SIGCHLD signals in order for zbx_sleep() to work  */
+		sigemptyset(&set);
+		sigaddset(&set, SIGCHLD);
+		sigprocmask(SIG_BLOCK, &set, NULL);
+
+		for (i = 0; i < threads_num; i++)
 		{
 			if (threads[i])
 			{
@@ -785,14 +724,12 @@ void	zbx_on_exit()
 	}
 
 #ifdef USE_PID_FILE
-
 	daemon_stop();
-
-#endif /* USE_PID_FILE */
+#endif
 
 	free_metrics();
 
-	zbx_sleep(2); /* wait for all threads closing */
+	zbx_sleep(2);	/* wait for all child processes to exit */
 
 	DBconnect(ZBX_DB_CONNECT_EXIT);
 	free_database_cache();
@@ -805,7 +742,7 @@ void	zbx_on_exit()
 
 #ifdef HAVE_SQLITE3
 	php_sem_remove(&sqlite_access);
-#endif	/* HAVE_SQLITE3 */
+#endif
 
 	free_selfmon_collector();
 
