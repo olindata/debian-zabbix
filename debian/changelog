@@ -11,8 +11,10 @@ zabbix (1:1.8.5-2) unstable; urgency=low
   * Removed barely used zabbix_agent.conf (closes: #571419)
   * Postinst scripts move 'zabbix' user's home directory to /var/run/zabbix
     (closes: #593458)
-  * Hostname= is not set any more in the zabbix_agentd.conf file (closes: #606160)
-  * zabbix-frontend-php package no longer installs database server (closes: #607810)
+  * Hostname= is not set any more in the zabbix_agentd.conf file 
+    (closes: #606160)
+  * zabbix-frontend-php package no longer installs database server 
+    (closes: #607810)
 
  -- Christoph Haas <haas@debian.org>  Sat, 18 Jun 2011 23:01:09 +0200
 
