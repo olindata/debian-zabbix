@@ -244,13 +244,11 @@ static void	autoreg_host_sender(struct zbx_json *j, int *records)
  ******************************************************************************/
 void	main_datasender_loop()
 {
-	int		now, records, r;
+	int		records, r;
 	double		sec;
 	struct zbx_json	j;
 
 	zabbix_log(LOG_LEVEL_DEBUG, "In main_datasender_loop()");
-
-	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 
@@ -260,7 +258,6 @@ void	main_datasender_loop()
 
 	for (;;)
 	{
-		now = time(NULL);
 		sec = zbx_time();
 
 		zbx_setproctitle("%s [sending data]", get_process_type_string(process_type));

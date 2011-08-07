@@ -1685,7 +1685,7 @@
 			new CTextBox('host',$host,32,true),
 			new CButton('btn_host', S_SELECT,
 				"return PopUp('popup.php?dstfrm=".$frmItem->getName().
-				"&dstfld1=host&dstfld2=form_hostid&srctbl=hosts_and_templates&srcfld1=host&srcfld2=hostid',450,450);",
+				"&dstfld1=host&dstfld2=form_hostid&srctbl=hosts_and_templates&srcfld1=host&srcfld2=hostid&noempty=1',450,450);",
 				'H')
 			));
 
@@ -2119,7 +2119,7 @@ ITEM_TYPE_CALCULATED $key = ''; $params = '';
 		$cmbAction->addItem('add to group',S_ADD_TO_GROUP);
 		if(isset($_REQUEST['itemid'])){
 			$cmbAction->addItem('update in group',S_UPDATE_IN_GROUP);
-			$cmbAction->addItem('delete FROM group',S_DELETE_FROM_GROUP);
+			$cmbAction->addItem('delete from group',S_DELETE_FROM_GROUP);
 		}
 		$frmItem->addItemToBottomRow(array($cmbAction, SPACE, new CButton('register',S_DO)));
 
@@ -2599,7 +2599,7 @@ ITEM_TYPE_CALCULATED $key = ''; $params = '';
 		if((isset($_REQUEST['triggerid']) && !isset($_REQUEST['form_refresh']))  || isset($limited)){
 			$description	= $trigger['description'];
 
-			$expression	= explode_exp($trigger['expression'],0);
+			$expression	= explode_exp($trigger['expression']);
 
 			if(!isset($limited) || !isset($_REQUEST['form_refresh'])){
 				$type = $trigger['type'];
@@ -4399,12 +4399,11 @@ JAVASCRIPT;
 		}
 
 		if($_REQUEST['form'] == 'full_clone'){
-// Host items
+			// host items
 			$options = array(
 				'inherited' => 0,
 				'hostids' => $_REQUEST['hostid'],
 				'output' => API_OUTPUT_EXTEND,
-				'webitems' => 1,
 			);
 			$host_items = CItem::get($options);
 
@@ -4417,13 +4416,15 @@ JAVASCRIPT;
 					$items_lbx->addItem($hitem['itemid'], item_description($hitem));
 				}
 				$host_tbl->addRow(array(S_ITEMS, $items_lbx));
+				unset($items_lbx);
 			}
 
-// Host triggers
+			// host triggers
 			$options = array(
 				'inherited' => 0,
 				'hostids' => $_REQUEST['hostid'],
-				'output' => API_OUTPUT_EXTEND,
+				'output' => array('triggerid', 'description'),
+				'select_items' => API_OUTPUT_EXTEND,
 				'expandDescription' => true,
 			);
 			$host_triggers = CTrigger::get($options);
@@ -4434,15 +4435,23 @@ JAVASCRIPT;
 
 				order_result($host_triggers, 'description');
 				foreach($host_triggers as $htrigger){
+					if (httpitemExists($htrigger['items']))
+						continue;
+
 					$trig_lbx->addItem($htrigger['triggerid'], $htrigger['description']);
 				}
-				$host_tbl->addRow(array(S_TRIGGERS, $trig_lbx));
+
+				if($trig_lbx->itemsCount())
+					$host_tbl->addRow(array(S_TRIGGERS, $trig_lbx));
+				unset($trig_lbx);
 			}
-// Host graphs
+
+			// host graphs
 			$options = array(
 				'inherited' => 0,
 				'hostids' => $_REQUEST['hostid'],
 				'select_hosts' => API_OUTPUT_REFER,
+				'select_items' => API_OUTPUT_EXTEND,
 				'output' => API_OUTPUT_EXTEND,
 			);
 			$host_graphs = CGraph::get($options);
@@ -4453,12 +4462,18 @@ JAVASCRIPT;
 
 				order_result($host_graphs, 'name');
 				foreach($host_graphs as $hgraph){
-					if(count($hgraph['hosts']) > 1) continue;
+					if(count($hgraph['hosts']) > 1)
+						continue;
+
+					if (httpitemExists($hgraph['items']))
+						continue;
+
 					$graphs_lbx->addItem($hgraph['graphid'], $hgraph['name']);
 				}
 
-				if($graphs_lbx->ItemsCount() > 1)
+				if($graphs_lbx->itemsCount())
 					$host_tbl->addRow(array(S_GRAPHS, $graphs_lbx));
+				unset($graphs_lbx);
 			}
 		}
 

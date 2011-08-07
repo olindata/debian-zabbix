@@ -59,15 +59,15 @@ void	__zbx_zabbix_syslog(const char *fmt, ...)
 	now = (int)time(NULL);
 
 	va_start(ap,fmt);
-	vsnprintf(value_str, sizeof(value_str), fmt, ap);
-	value_str[MAX_STRING_LEN - 1] = '\0';
+	zbx_vsnprintf(value_str, sizeof(value_str), fmt, ap);
 	va_end(ap);
 
 	SET_STR_RESULT(&agent, strdup(value_str));
 
 	num = DCconfig_get_items(0, SERVER_ZABBIXLOG_KEY, &items);
 	for (i = 0; i < num; i++)
-		dc_add_history(items[i].itemid, items[i].value_type, &agent, now, 0, NULL, 0, 0, 0, 0);
+		dc_add_history(items[i].itemid, items[i].value_type, &agent, now,
+				ITEM_STATUS_ACTIVE, NULL, 0, NULL, 0, 0, 0, 0);
 
 	zbx_free(items);
 	free_result(&agent);

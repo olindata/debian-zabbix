@@ -70,11 +70,12 @@ static void	process_time_functions()
 				" and f.itemid=i.itemid"
 				" and i.hostid=h.hostid"
 				" and t.status=%d"
-				" and f.function in ('nodata','date','dayofmonth','dayofweek','time','now')"
+				" and f.function in (" ZBX_SQL_TIME_FUNCTIONS ")"
 				" and i.status=%d"
 				" and h.status=%d"
 				" and (h.maintenance_status=%d or h.maintenance_type=%d)"
-				DB_NODE,
+				DB_NODE
+				" order by t.triggerid",
 			TRIGGER_STATUS_ENABLED,
 			ITEM_STATUS_ACTIVE,
 			HOST_STATUS_MONITORED,
@@ -93,8 +94,7 @@ static void	process_time_functions()
 
 		if (SUCCEED != evaluate_expression(&exp_value, &exp, time(NULL), triggerid, trigger_value, error, sizeof(error)))
 		{
-			zabbix_log(LOG_LEVEL_WARNING, "Expression [%s] cannot be evaluated: %s", exp, error);
-			zabbix_syslog("Expression [%s] cannot be evaluated: %s", exp, error);
+			zabbix_log(LOG_LEVEL_DEBUG, "expression [%s] cannot be evaluated: %s", exp, error);
 
 			DBupdate_trigger_value(triggerid, trigger_type, trigger_value,
 					trigger_error, TRIGGER_VALUE_UNKNOWN, time(NULL), error);
@@ -760,8 +760,6 @@ static void	process_maintenance()
 void	main_timer_loop()
 {
 	int	now, nextcheck, sleeptime, maintenance = 1;
-
-	set_child_signal_handler();
 
 	zbx_setproctitle("%s [connecting to the database]", get_process_type_string(process_type));
 
