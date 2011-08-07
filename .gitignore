@@ -1,0 +1,17 @@
+autom4te.cache/
+*-stamp
+config.guess.dh-orig
+config.sub.dh-orig
+debian/files
+debian/stamp-*
+debian/tmp-build-*/
+debian/*.log
+debian/zabbix-agent/
+debian/zabbix-server-mysql/
+debian/zabbix-server-pgsql/
+debian/zabbix-proxy-mysql/
+debian/zabbix-proxy-pgsql/
+debian/zabbix-frontend-php/
+debian/*.substvars
+debian/*.debhelper
+
