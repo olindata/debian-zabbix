@@ -17,17 +17,19 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
-#: ../zabbix-frontend-php.templates:4001
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
 msgid "Zabbix server host address:"
 msgstr "Host-Adresse des Zabbix-Server:"
 
 #. Type: string
 #. Description
-#: ../zabbix-agent.templates:2001
-#: ../zabbix-frontend-php.templates:4001
-msgid "Please enter the host name or IP address of the Zabbix server you want to connect to."
-msgstr "Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, zu dem Sie sich verbinden wollen."
+#: ../zabbix-agent.templates:2001 ../zabbix-frontend-php.templates:4001
+msgid ""
+"Please enter the host name or IP address of the Zabbix server you want to "
+"connect to."
+msgstr ""
+"Bitte geben Sie den Hostnamen oder die IP-Adresse des Zabbix-Servers an, zu "
+"dem Sie sich verbinden wollen."
 
 #. Type: boolean
 #. Description
@@ -38,17 +40,22 @@ msgstr "Apache konfigurieren?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-msgid "The Zabbix web frontend runs on any web server that supportes PHP5. However only Apache (2.x) can be configured automatically at this point."
-msgstr "Zabbix unterstützt jeden Webserver, der auch von PHP5 unterstützt wird, allerdings kann nur Apache automatisch konfiguriert werden."
+msgid ""
+"The Zabbix web frontend runs on any web server that supportes PHP5. However "
+"only Apache (2.x) can be configured automatically at this point."
+msgstr ""
+"Zabbix unterstützt jeden Webserver, der auch von PHP5 unterstützt wird, "
+"allerdings kann nur Apache automatisch konfiguriert werden."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#| msgid ""
-#| "Do you want to configure Apache to provide the Zabbix web frontend at the "
-#| "URL http://.../zabbix?"
-msgid "Do you want to reconfigure Apache so that the Zabbix web frontend is available at the URL http://.../zabbix?"
-msgstr "Möchten Sie den Apache so konfigurieren, dass das Zabbix Web-Frontend unter der URL http://.../zabbix erreichbar ist?"
+msgid ""
+"Do you want to reconfigure Apache so that the Zabbix web frontend is "
+"available at the URL http://.../zabbix?"
+msgstr ""
+"Möchten Sie den Apache so konfigurieren, dass das Zabbix Web-Frontend unter "
+"der URL http://.../zabbix erreichbar ist?"
 
 #. Type: boolean
 #. Description
@@ -59,23 +66,32 @@ msgstr "Apache neu starten?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "In order to apply the changes needed for Zabbix configuration, the web server needs to be restarted."
-msgstr "Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, muss der Webserver neu gestartet werden."
+msgid ""
+"In order to apply the changes needed for Zabbix configuration, the web "
+"server needs to be restarted."
+msgstr ""
+"Damit die Änderungen an der Konfiguration von Zabbix aktiviert werden, muss "
+"der Webserver neu gestartet werden."
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-msgid "Please choose whether you prefer doing it automatically now or manually later."
-msgstr "Bitte wählen Sie aus, ob dies jetzt automatisch erfolgen soll oder später manuell."
+msgid ""
+"Please choose whether you prefer doing it automatically now or manually "
+"later."
+msgstr ""
+"Bitte wählen Sie aus, ob dies jetzt automatisch erfolgen soll oder später "
+"manuell."
 
 #. Type: string
 #. Description
 #. Type: string
 #. Description
-#: ../zabbix-frontend-php.templates:4001
-#: ../zabbix-frontend-php.templates:5001
+#: ../zabbix-frontend-php.templates:4001 ../zabbix-frontend-php.templates:5001
 msgid "This is needed for some advanced frontend functionalities."
-msgstr "Dieser wird für bestimmte Funktionen der fortgeschrittenen Oberfläche benötigt.."
+msgstr ""
+"Dieser wird für bestimmte Funktionen der fortgeschrittenen Oberfläche "
+"benötigt.."
 
 #. Type: string
 #. Description
@@ -91,22 +107,37 @@ msgstr "Bitte geben Sie den Port Ihres Zabbix-Servers an."
 
 #. Type: note
 #. Description
-#: ../zabbix-server-mysql.templates:2001
-#: ../zabbix-server-pgsql.templates:2001
+#: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
 msgid "The SQL database must be upgraded manually"
-msgstr "Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst werden."
+msgstr ""
+"Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst "
+"werden."
 
 #. Type: note
 #. Description
 #: ../zabbix-server-mysql.templates:2001
-msgid "The SQL database used by Zabbix must be upgraded manually using the scripts available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work properly until the database upgrade is completed."
-msgstr "Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst werden. Nutzen Sie dazu bitte die Skripte im Verzeichnis /usr/share/doc/zabbix-server-mysql. Zabbix wird ohne die Änderungen nicht korrekt funktionieren."
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+"Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst "
+"werden. Nutzen Sie dazu bitte die Skripte im Verzeichnis /usr/share/doc/"
+"zabbix-server-mysql. Zabbix wird ohne die Änderungen nicht korrekt "
+"funktionieren."
 
 #. Type: note
 #. Description
 #: ../zabbix-server-pgsql.templates:2001
-msgid "The SQL database used by Zabbix must be upgraded manually using the scripts available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work properly until the database upgrade is completed."
-msgstr "Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst werden. Nutzen Sie dazu bitte die Skripte im Verzeichnis /usr/share/doc/zabbix-server-pgsql. Zabbix wird ohne die Änderungen nicht korrekt funktionieren."
+msgid ""
+"The SQL database used by Zabbix must be upgraded manually using the scripts "
+"available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
+"properly until the database upgrade is completed."
+msgstr ""
+"Die SQL-Datenbank von Zabbix muss manuell für die neue Version angepasst "
+"werden. Nutzen Sie dazu bitte die Skripte im Verzeichnis /usr/share/doc/"
+"zabbix-server-pgsql. Zabbix wird ohne die Änderungen nicht korrekt "
+"funktionieren."
 
 #~ msgid "Web server to reconfigure for Zabbix:"
 #~ msgstr "Webserver, der fÃ¼r Zabbix neu konfiguriert werden soll:"
