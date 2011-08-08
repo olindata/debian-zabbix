@@ -1,7 +1,7 @@
-Index: b/m4/netsnmp.m4
+Index: zabbix/m4/netsnmp.m4
 ===================================================================
---- a/m4/netsnmp.m4	2011-08-08 22:18:33.268997669 +0200
-+++ b/m4/netsnmp.m4	2011-08-08 22:44:32.177667766 +0200
+--- zabbix.orig/m4/netsnmp.m4	2011-08-08 22:52:22.245477675 +0200
++++ zabbix/m4/netsnmp.m4	2011-08-08 22:57:02.079709781 +0200
 @@ -58,7 +58,7 @@
  			esac
  		done
@@ -11,9 +11,9 @@ Index: b/m4/netsnmp.m4
  		for i in $_full_libnetsnmp_libs; do
  			case $i in
  				-l*)
-Index: b/m4/ucdsnmp.m4
+Index: zabbix/m4/ucdsnmp.m4
 ===================================================================
---- a/m4/ucdsnmp.m4	2011-08-08 22:44:32.229668203 +0200
+--- zabbix.orig/m4/ucdsnmp.m4	2011-08-08 22:52:22.257477771 +0200
 +++ /dev/null	1970-01-01 00:00:00.000000000 +0000
 @@ -1,116 +0,0 @@
 -# LIBSNMP_CHECK_CONFIG ([DEFAULT-ACTION])
@@ -132,3 +132,38 @@ Index: b/m4/ucdsnmp.m4
 -
 -  unset _libsnmp_with
 -])dnl
+Index: zabbix/configure.in
+===================================================================
+--- zabbix.orig/configure.in	2011-08-08 22:57:12.143790017 +0200
++++ zabbix/configure.in	2011-08-08 22:58:20.092331664 +0200
+@@ -1177,18 +1177,18 @@
+ 	PROXY_LIBS="${PROXY_LIBS} ${SNMP_LIBS}"
+ 
+ 	dnl Check for UCD-SNMP [by default - skip]
+-	LIBSNMP_CHECK_CONFIG([no])
+-	if test "x$want_snmp" = "xyes"; then
+-		if test "x$found_snmp" != "xyes"; then
+-			AC_MSG_ERROR([Invalid UCD-SNMP directory - unable to find ucd-snmp-config.h])
+-		else
+-			have_snmp="ucd-snmp"
+-		fi
+-
+-		if test  "x$found_netsnmp" = "xyes"; then
+-			AC_MSG_ERROR([You can configure for only one SNMP library.])
+-		fi
+-	fi
++dnl 	LIBSNMP_CHECK_CONFIG([no])
++dnl 	if test "x$want_snmp" = "xyes"; then
++dnl 		if test "x$found_snmp" != "xyes"; then
++dnl 			AC_MSG_ERROR([Invalid UCD-SNMP directory - unable to find ucd-snmp-config.h])
++dnl 		else
++dnl 			have_snmp="ucd-snmp"
++dnl 		fi
++dnl 
++dnl 		if test  "x$found_netsnmp" = "xyes"; then
++dnl 			AC_MSG_ERROR([You can configure for only one SNMP library.])
++dnl 		fi
++dnl 	fi
+ 	CFLAGS="${CFLAGS} ${SNMP_CPPFLAGS}"
+ 	SERVER_LDFLAGS="${SERVER_LDFLAGS} ${SNMP_LDFLAGS}"
+ 
