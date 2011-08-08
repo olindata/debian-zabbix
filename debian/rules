@@ -110,11 +110,7 @@ prepare: patch prepare-stamp
 prepare-stamp:
 	dh_autotools-dev_updateconfig
 	# we removed -lcrypto stuff so lets re-run autotools:
-	aclocal -I m4
-	autoconf
-	autoheader
-	automake -a
-	automake
+	autoreconf
 	touch prepare-stamp
 
 # Copy the source directory (without the 'debian' directory) to other locations
@@ -125,7 +121,7 @@ extract-%-stamp:
 	@echo "Copying source directory to $(BUILDDIR)-$(*) for building the $(*) variant there"
 	@echo "--------------------------"
 	mkdir $(BUILDDIR)-$(*)
-	tar -cSf - --exclude=./.svn --exclude=./debian --exclude zbxclock.swf . | tar -xSpf - -C $(BUILDDIR)-$(*)
+	tar -cSf - --exclude=./.svn --exclude=./debian --exclude zbxclock.swf --exclude ucdsnmp.m4 . | tar -xSpf - -C $(BUILDDIR)-$(*)
 	touch $@
 
 # Configure the flavors

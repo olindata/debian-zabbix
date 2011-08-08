@@ -11,29 +11,3 @@ Index: zabbix/m4/netsnmp.m4
  		for i in $_full_libnetsnmp_libs; do
  			case $i in
  				-l*)
-Index: zabbix/m4/ucdsnmp.m4
-===================================================================
---- zabbix.orig/m4/ucdsnmp.m4	2011-08-08 20:10:27.952954552 +0200
-+++ zabbix/m4/ucdsnmp.m4	2011-08-08 20:19:47.865783459 +0200
-@@ -74,7 +74,7 @@
- 		found_snmp="yes"
-                 AC_MSG_RESULT(yes)
- 
--                AC_CHECK_LIB(crypto, main,  SNMP_LIBS="$SNMP_LIBS -lcrypto")
-+                AC_CHECK_LIB(crypto, main,  SNMP_LIBS="$SNMP_LIBS")
- 
-                 SNMP_CPPFLAGS=-I$SNMP_INCDIR
-                 SNMP_LDFLAGS="-L$SNMP_LIBDIR $SNMP_LFLAGS -lsnmp $SNMP_LIBS"
-Index: zabbix/aclocal.m4
-===================================================================
---- zabbix.orig/aclocal.m4	2011-08-08 20:19:56.205852980 +0200
-+++ zabbix/aclocal.m4	2011-08-08 20:20:37.194193984 +0200
-@@ -1063,4 +1063,7 @@
- m4_include([m4/netsnmp.m4])
- m4_include([m4/openipmi.m4])
- m4_include([m4/resolv.m4])
--m4_include([m4/ucdsnmp.m4])
-+# Removed for the Debian package. Otherwise brings in -lcrypto into ./configure
-+# which is not desired in Debian.
-+#m4_include([m4/ucdsnmp.m4])
-+
