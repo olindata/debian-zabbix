@@ -1,7 +1,7 @@
-Index: trunk/m4/netsnmp.m4
+Index: zabbix/m4/netsnmp.m4
 ===================================================================
---- trunk.orig/m4/netsnmp.m4	2010-04-11 11:12:27.907343950 +0200
-+++ trunk/m4/netsnmp.m4	2010-04-11 11:12:32.283687408 +0200
+--- zabbix.orig/m4/netsnmp.m4	2011-08-08 20:03:23.784640957 +0200
++++ zabbix/m4/netsnmp.m4	2011-08-08 20:03:47.916840952 +0200
 @@ -58,7 +58,7 @@
  			esac
  		done
@@ -11,3 +11,16 @@ Index: trunk/m4/netsnmp.m4
  		for i in $_full_libnetsnmp_libs; do
  			case $i in
  				-l*)
+Index: zabbix/m4/ucdsnmp.m4
+===================================================================
+--- zabbix.orig/m4/ucdsnmp.m4	2011-08-08 20:03:58.224926082 +0200
++++ zabbix/m4/ucdsnmp.m4	2011-08-08 20:04:19.585101931 +0200
+@@ -74,7 +74,7 @@
+ 		found_snmp="yes"
+                 AC_MSG_RESULT(yes)
+ 
+-                AC_CHECK_LIB(crypto, main,  SNMP_LIBS="$SNMP_LIBS -lcrypto")
++                AC_CHECK_LIB(crypto, main,  SNMP_LIBS="$SNMP_LIBS")
+ 
+                 SNMP_CPPFLAGS=-I$SNMP_INCDIR
+                 SNMP_LDFLAGS="-L$SNMP_LIBDIR $SNMP_LFLAGS -lsnmp $SNMP_LIBS"
