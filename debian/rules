@@ -243,8 +243,10 @@ binary-arch: build
 	#dh_installinit -a
 	dh_installinit -p $(PKG_SERVER_MYSQL) --name zabbix-server
 	dh_installinit -p $(PKG_SERVER_PGSQL) --name zabbix-server
+	dh_installinit -p $(PKG_SERVER_SQLITE3) --name zabbix-server
 	dh_installinit -p $(PKG_PROXY_MYSQL) --name zabbix-proxy
 	dh_installinit -p $(PKG_PROXY_PGSQL) --name zabbix-proxy
+	dh_installinit -p $(PKG_PROXY_SQLITE3) --name zabbix-proxy
 	dh_installinit -p $(PKG_AGENT)
 	dh_installlogrotate -a
 	dh_link -a
