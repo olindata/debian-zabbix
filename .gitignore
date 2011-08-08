@@ -9,8 +9,10 @@ debian/*.log
 debian/zabbix-agent/
 debian/zabbix-server-mysql/
 debian/zabbix-server-pgsql/
+debian/zabbix-server-sqlite3/
 debian/zabbix-proxy-mysql/
 debian/zabbix-proxy-pgsql/
+debian/zabbix-proxy-sqlite3/
 debian/zabbix-frontend-php/
 debian/*.substvars
 debian/*.debhelper
