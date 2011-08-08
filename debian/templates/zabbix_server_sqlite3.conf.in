@@ -136,7 +136,7 @@ FpingLocation=/usr/bin/fping
 
 # Database name
 # SQLite3 note: path to database file must be provided. DBUser and DBPassword are ignored.
-DBName=_DBC_DBNAME_
+DBName=/var/lib/zabbix/zabbix.db
 
 # Database user
 
