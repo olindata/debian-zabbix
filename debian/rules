@@ -104,15 +104,6 @@ CONFFLAGS_SERVER_SQLITE3 = $(CONFFLAGS_COMMON) --with-sqlite3
 # subdirectories of this directory:
 BUILDDIR := $(CURDIR)/debian/tmp-build
 
-# Replace config.auto and config.guess from the current autotools-dev package
-# and reconfigure the autoconf magic to have the "-lcrypto" linking removed.
-prepare: patch prepare-stamp
-prepare-stamp:
-	dh_autotools-dev_updateconfig
-	# we removed -lcrypto stuff so lets re-run autotools:
-	autoreconf
-	touch prepare-stamp
-
 # Copy the source directory (without the 'debian' directory) to other locations
 # to configure and compile the sources there for each database flavor.
 extract: $(foreach s,$(VARIANTS),extract-$(s)-stamp)
@@ -122,6 +113,9 @@ extract-%-stamp:
 	@echo "--------------------------"
 	mkdir $(BUILDDIR)-$(*)
 	tar -cSf - --exclude=./.svn --exclude=./debian --exclude zbxclock.swf --exclude ucdsnmp.m4 . | tar -xSpf - -C $(BUILDDIR)-$(*)
+	dh_autotools-dev_updateconfig
+	# we removed -lcrypto stuff so lets re-run autotools:
+	autoreconf
 	touch $@
 
 # Configure the flavors
@@ -135,7 +129,7 @@ configure-%-stamp: extract-%-stamp
 	touch $@
 
 # Compile the flavors
-build: prepare $(foreach s,$(VARIANTS),build-$(s)-stamp)
+build: $(foreach s,$(VARIANTS),build-$(s)-stamp)
 build-%-stamp: configure-%-stamp
 	@echo "--------------------------"
 	@echo "Compiling the $(*) flavor in $(BUILDDIR)-$(*)"
