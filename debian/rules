@@ -121,7 +121,7 @@ extract-%-stamp:
 	@echo "Copying source directory to $(BUILDDIR)-$(*) for building the $(*) variant there"
 	@echo "--------------------------"
 	mkdir $(BUILDDIR)-$(*)
-	tar -cSf - --exclude=./.svn --exclude=./debian --exclude zbxclock.swf --exclude ucdsnmp.m4 . | tar -xSpf - -C $(BUILDDIR)-$(*)
+	tar -cSf - --exclude=./.svn --exclude=./debian --exclude zbxclock.swf . | tar -xSpf - -C $(BUILDDIR)-$(*)
 	touch $@
 
 # Configure the flavors
