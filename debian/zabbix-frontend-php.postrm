@@ -5,7 +5,7 @@ if [ -e /usr/share/debconf/confmodule ]; then
 fi
 
 if [ -f /usr/share/dbconfig-common/dpkg/frontend.postrm ]; then
-    dbc_dbtypes="mysql, pgsql"
+    dbc_dbtypes="mysql, pgsql, sqlite3"
     . /usr/share/dbconfig-common/dpkg/frontend.postrm
     dbc_go zabbix-frontend-php $@
 fi
