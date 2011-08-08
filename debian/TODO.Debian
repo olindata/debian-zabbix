@@ -7,3 +7,7 @@ Things to fix in the Debian package:
   of sending SQL into it can be spared. The Zabbix proxy process handles
   that.
 
+- This package cannot be built twice in a row without "git reset --hard"
+  and removing ".pc". The "unpatch" action fails as the configure script
+  was changed during the build process and revoking the patch fails after that.
+
