@@ -8,17 +8,6 @@
 . /usr/share/debconf/confmodule
 db_version 2.0 || [ $? -lt 30 ]
 	
-. /usr/share/dbconfig-common/dpkg/postinst.sqlite3 
-
-dbc_generate_include=template:/etc/zabbix/zabbix_server.conf
-dbc_generate_include_owner=zabbix
-dbc_generate_include_perms=640
-dbc_generate_include_args="-U -o template_infile=/usr/share/zabbix-server-sqlite3/zabbix_server.conf"
-dbc_dbfile_owner=zabbix:zabbix
-dbc_dbfile_perms=0600
-
-dbc_go zabbix-server-sqlite3 $@
-
 if [ "$1" = "configure" ]; then
     if ! getent group zabbix > /dev/null 2>&1 ; then
         addgroup --system --quiet zabbix
@@ -40,6 +29,19 @@ if [ "$1" = "configure" ]; then
 
     chown zabbix:zabbix /var/log/zabbix-server -R
     chown zabbix:zabbix /var/lib/zabbix
+
+    # dbconfig-common configuration to set up database
+    . /usr/share/dbconfig-common/dpkg/postinst.sqlite3 
+
+    dbc_generate_include=template:/etc/zabbix/zabbix_server.conf
+    dbc_generate_include_owner=zabbix
+    dbc_generate_include_perms=640
+    dbc_generate_include_args="-U -o template_infile=/usr/share/zabbix-server-sqlite3/zabbix_server.conf"
+    dbc_dbfile_owner=zabbix:zabbix
+    dbc_dbfile_perms=0600
+
+    dbc_go zabbix-server-sqlite3 $@
+
 fi
 
 db_stop
