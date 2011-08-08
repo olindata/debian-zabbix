@@ -20,5 +20,8 @@ if($DB["TYPE"] == "mysql")
 
 if($DB["TYPE"] == "pgsql")
 	$DB["TYPE"] = "POSTGRESQL";
+
+if($DB["TYPE"] == "sqlite3")
+	$DB["TYPE"] = "SQLITE3";
 ##
 ?>
