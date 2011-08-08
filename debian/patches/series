@@ -1,5 +1,4 @@
 binutils-gold
-configure-no-lcrypt
 nocrypto
 no-swf-clock
 sql-transaction
