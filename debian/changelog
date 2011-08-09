@@ -1,7 +1,7 @@
 zabbix (1:1.8.6-1) unstable; urgency=low
 
   * New upstream release.
-  * Updated configuration file templates.
+  * Updated configuration file templates (closes: #636803)
   * Added SQLite support for server and proxy packages.
   * Server and proxy packages now conflict. zabbix_get included
     in zabbix-proxy-* packages (formerly only shipping with zabbix-server-*
