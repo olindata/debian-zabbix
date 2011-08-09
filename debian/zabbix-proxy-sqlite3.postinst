@@ -8,15 +8,6 @@
 . /usr/share/debconf/confmodule
 db_version 2.0 || [ $? -lt 30 ]
 	
-. /usr/share/dbconfig-common/dpkg/postinst.sqlite3 
-
-dbc_generate_include=template:/etc/zabbix/zabbix_proxy.conf
-dbc_generate_include_owner="zabbix"
-dbc_generate_include_perms="640"
-dbc_generate_include_args="-U -o template_infile=/usr/share/zabbix-proxy/zabbix_proxy.conf"
-
-dbc_go zabbix-proxy-sqlite3 $@
-
 if [ "$1" = "configure" ]; then
     if ! getent group zabbix > /dev/null 2>&1 ; then
         addgroup --system --quiet zabbix
@@ -37,7 +28,17 @@ if [ "$1" = "configure" ]; then
     fi
 
     chown zabbix:zabbix /var/log/zabbix-proxy -R
-    chown zabbix:zabbix /var/lib/zabbix
+    chown -R zabbix:www-data /var/lib/zabbix
+
+    # dbconfig-common configuration to set up database
+    . /usr/share/dbconfig-common/dpkg/postinst.sqlite3 
+
+    dbc_generate_include=template:/etc/zabbix/zabbix_proxy.conf
+    dbc_generate_include_owner="zabbix"
+    dbc_generate_include_perms="640"
+    dbc_generate_include_args="-U -o template_infile=/usr/share/zabbix-proxy/zabbix_proxy.conf"
+
+    dbc_go zabbix-proxy-sqlite3 $@
 fi
 
 db_stop
