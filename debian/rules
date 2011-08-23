@@ -227,10 +227,7 @@ binary-arch: build
 	cp create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
 	# zabbix-proxy-sqlite3
 	cp debian/templates/zabbix_proxy_sqlite3.conf.in $(TMP_PROXY_SQLITE3)/usr/share/zabbix-proxy/zabbix_proxy.conf
-	# (Wrap the database initialisation SQL statements in a BEGIN/COMMIT transaction.
-	# Otherwise SQLite3 will run fsync() after every of the 12.000 lines which can take
-	# up to hone hour when installing this package.)
-	(echo "BEGIN;" ; cat create/schema/sqlite.sql create/data/data.sql ; echo "COMMIT;") > \
+	cat create/schema/sqlite.sql create/data/data.sql > \
 		$(TMP_PROXY_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_PROXY_SQLITE3)/install/sqlite3
 	# --------------------------------
 	dh_installdocs -a
