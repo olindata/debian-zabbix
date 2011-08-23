@@ -96,6 +96,7 @@ CONFFLAGS_COMMON  = --host=$(DEB_HOST_GNU_TYPE) \
 
 CONFFLAGS_SERVER_MYSQL = $(CONFFLAGS_COMMON) --with-mysql
 CONFFLAGS_SERVER_PGSQL = $(CONFFLAGS_COMMON) --with-pgsql
+CONFFLAGS_SERVER_SQLITE3 = $(CONFFLAGS_COMMON) --with-sqlite3
 
 # The source package will be compiled for each database flavor in
 # subdirectories of this directory:
