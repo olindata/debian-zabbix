@@ -1,6 +1,6 @@
 Things to fix in the Debian package:
 
-Serious (prevents upload):
+Should be fixed upstream:
 
 - zabbix-frontend-php does not work. This error message appears in the
   Apache error logs:
@@ -9,6 +9,21 @@ Serious (prevents upload):
   to undefined function sqlite3_open() in /var/www/info.php on line 1
 
   Although the package php5-sqlite is installed.
+
+  => Found the cause!
+
+      The SQLite3 server/frontend support in the upstream code is bad
+      currently. Upstream is using an outdated third-party module
+      (http://php-sqlite3.sourceforge.net/pmwiki/pmwiki.php instead of the)
+      SQLite3 functionality built into PHP >=5.3
+      (http://it.php.net/manual/en/sqlite3.open.php). The third-party module
+      isn't available in Debian so the frontend won't work.
+                              
+      Upstream knows about that and will deal with it in a later version. So
+      far only the SQLite3-based proxy is a good idea.
+
+Probably fixed:
+(as it concerned the frontend when used with zabbix-server-sqlite3)
 
 - The user gets asked for a database name when installing zabbix-frontend-php.
   This should not happen as dbc_dbname is set. The origin of this debconf
@@ -23,7 +38,7 @@ Should be fixed:
 
 Wishlist:
 
-- Zabbix server packages install both /usr/share/zabbix (for dbconfig-common
+- Zabbix server packages create both /usr/share/zabbix (for dbconfig-common
   SQL) and /usr/share/zabbix-(my|pg)sql. Move it both to the latter place.
 
 - For proxy packages only an empty database has to be created. The step
