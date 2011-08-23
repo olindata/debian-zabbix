@@ -212,10 +212,12 @@ binary-arch: build
 	cp debian/templates/zabbix_agentd.conf.in $(TMP_AGENT)/usr/share/$(PKG_AGENT)/zabbix_agentd.conf
 	# zabbix-server-mysql
 	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_MYSQL)/usr/share/$(PKG_SERVER_MYSQL)/zabbix_server.conf
-	cat create/schema/mysql.sql create/data/data.sql create/data/images_mysql.sql > $(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
+	cat create/schema/mysql.sql create/data/data.sql create/data/images_mysql.sql > \
+		$(TMP_SERVER_MYSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_MYSQL)/install/mysql
 	# zabbix-server-pgsql
 	cp debian/templates/zabbix_server.conf.in $(TMP_SERVER_PGSQL)/usr/share/$(PKG_SERVER_PGSQL)/zabbix_server.conf
-	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > $(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
+	cat create/schema/postgresql.sql create/data/data.sql create/data/images_pgsql.sql > \
+		$(TMP_SERVER_PGSQL)/usr/share/dbconfig-common/data/$(PKG_SERVER_PGSQL)/install/pgsql
 	# zabbix-proxy-mysql
 	cp debian/templates/zabbix_proxy.conf.in $(TMP_PROXY_MYSQL)/usr/share/zabbix-proxy/zabbix_proxy.conf
 	cp create/schema/mysql.sql $(TMP_PROXY_MYSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_MYSQL)/install/mysql
@@ -224,7 +226,11 @@ binary-arch: build
 	cp create/schema/postgresql.sql $(TMP_PROXY_PGSQL)/usr/share/dbconfig-common/data/$(PKG_PROXY_PGSQL)/install/pgsql
 	# zabbix-proxy-sqlite3
 	cp debian/templates/zabbix_proxy_sqlite3.conf.in $(TMP_PROXY_SQLITE3)/usr/share/zabbix-proxy/zabbix_proxy.conf
-	cp create/schema/sqlite.sql $(TMP_PROXY_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_PROXY_SQLITE3)/install/sqlite3
+	# (Wrap the database initialisation SQL statements in a BEGIN/COMMIT transaction.
+	# Otherwise SQLite3 will run fsync() after every of the 12.000 lines which can take
+	# up to hone hour when installing this package.)
+	(echo "BEGIN;" ; cat create/schema/sqlite.sql create/data/data.sql ; echo "COMMIT;") > \
+		$(TMP_PROXY_SQLITE3)/usr/share/dbconfig-common/data/$(PKG_PROXY_SQLITE3)/install/sqlite3
 	# --------------------------------
 	dh_installdocs -a
 	dh_installchangelogs -a ChangeLog
