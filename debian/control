@@ -30,7 +30,7 @@ Package: zabbix-server-mysql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), lsb-base
 Pre-Depends: debconf
-Recommends: mysql-server (>= 4.0.16-2), snmpd
+Recommends: mysql-server (>= 5.0), snmpd
 Suggests: zabbix-frontend-php, logrotate
 Conflicts: zabbix-server-pgsql, zabbix-proxy-mysql, zabbix-proxy-pgsql, zabbix-proxy-sqlite3
 Description: network monitoring solution - server (using MySQL)
@@ -111,7 +111,7 @@ Description: network monitoring solution - proxy (using PostgreSQL)
 Package: zabbix-proxy-mysql
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, fping, adduser, dbconfig-common (>= 1.8.19), lsb-base
-Recommends: mysql-server (>= 4.0.16-2)
+Recommends: mysql-server (>= 5.0)
 Suggests: logrotate
 Conflicts: zabbix-proxy-pgsql, zabbix-proxy-sqite3, zabbix-server-mysql, zabbix-server-pgsql
 Description: network monitoring solution - proxy (using MySQL)
