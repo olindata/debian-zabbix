@@ -387,6 +387,9 @@
 /* Define to 1 if you have the <sys/socket.h> header file. */
 #undef HAVE_SYS_SOCKET_H
 
+/* Define to 1 if struct 'statvfs64' exists. */
+#undef HAVE_SYS_STATVFS64
+
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
 #undef HAVE_SYS_STATVFS_H
 
