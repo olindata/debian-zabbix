@@ -40,6 +40,10 @@ if [ "$1" = "configure" ]; then
     res="$RET"
     db_stop || true
     if [ "$res" = "true" ]; then
+        # Using another web server than Apache?
+        test -x /usr/sbin/apache2 || continue
+
+        # Restart Apache
         if [ -x /usr/sbin/invoke-rc.d ]; then
             invoke-rc.d apache2 restart
         else

@@ -1,6 +1,8 @@
 zabbix (1:1.8.7-1) unstable; urgency=low
 
   * New upstream release.
+  * zabbix-frontend-php.postinst fixed for non-Apache installations
+    (closes: #641666)
 
  -- Christoph Haas <haas@debian.org>  Thu, 15 Sep 2011 13:52:55 +0200
 
