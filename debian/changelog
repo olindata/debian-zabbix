@@ -6,6 +6,8 @@ zabbix (1:1.8.7-1) unstable; urgency=low
   * French translation updated (closes: #638908)
   * Dutch translation updated (closes: #639131)
   * Swedish translation updated (closes: #640050)
+  * Jabber SRV resolve bug resolved by upstream version 1.8.6 (closes: #635761)
+    See also: https://support.zabbix.com/browse/ZBX-1029
 
  -- Christoph Haas <haas@debian.org>  Thu, 15 Sep 2011 13:52:55 +0200
 
