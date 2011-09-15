@@ -45,9 +45,6 @@ msgstr "Ska inställningar för Apache installeras?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#| msgid ""
-#| "Zabbix supports any web server supported by PHP5, however only Apache can "
-#| "be configured automatically."
 msgid ""
 "The Zabbix web frontend runs on any web server that supportes PHP5. However "
 "only Apache (2.x) can be configured automatically at this point."
@@ -68,7 +65,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#| msgid "Restart the web server(s) now?"
 msgid "Restart Apache now?"
 msgstr "Ska Apache startas om nu?"
 

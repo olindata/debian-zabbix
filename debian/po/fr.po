@@ -31,8 +31,7 @@ msgstr "Adresse du serveur Zabbix :"
 msgid ""
 "Please enter the host name or IP address of the Zabbix server you want to "
 "connect to."
-msgstr ""
-"Veuillez indiquer le nom ou l'adresse du serveur Zabbix à utiliser."
+msgstr "Veuillez indiquer le nom ou l'adresse du serveur Zabbix à utiliser."
 
 #. Type: boolean
 #. Description
@@ -43,9 +42,6 @@ msgstr "Faut-il configurer Apache ?"
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#| msgid ""
-#| "Zabbix supports any web server supported by PHP5, however only Apache can "
-#| "be configured automatically."
 msgid ""
 "The Zabbix web frontend runs on any web server that supportes PHP5. However "
 "only Apache (2.x) can be configured automatically at this point."
@@ -66,7 +62,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#| msgid "Restart the web server(s) now?"
 msgid "Restart Apache now?"
 msgstr "Faut-il redémarrer Apache maintenant ?"
 
@@ -124,9 +119,9 @@ msgid ""
 "available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
 "properly until the database upgrade is completed."
 msgstr ""
-"La base de données SQL utilisée par Zabbix doit être mise à jour avec les"
-"scripts situés dans /usr/share/doc/zabbix-server-mysql. Zabbix ne pourra pas "
-"fonctionner correctement sans cela."
+"La base de données SQL utilisée par Zabbix doit être mise à jour avec "
+"lesscripts situés dans /usr/share/doc/zabbix-server-mysql. Zabbix ne pourra "
+"pas fonctionner correctement sans cela."
 
 #. Type: note
 #. Description
