@@ -1,17 +1,17 @@
 # Swedish translation of zabbix debconf template.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2011 Martin Bagge <brother@bsnet.se>
 # This file is distributed under the same license as the zabbix package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2006.
-# Martin Bagge <brother@bsnet.se>, 2009.
+# Martin Bagge <brother@bsnet.se>, 2009, 2011
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: zabbix debconf\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2011-08-07 17:31+0200\n"
-"PO-Revision-Date: 2009-09-28 22:13+0100\n"
-"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
+"PO-Revision-Date: 2011-09-01 20:51+0100\n"
+"Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -40,12 +40,11 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Configure Apache?"
-msgstr ""
+msgstr "Ska inställningar för Apache installeras?"
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#, fuzzy
 #| msgid ""
 #| "Zabbix supports any web server supported by PHP5, however only Apache can "
 #| "be configured automatically."
@@ -54,7 +53,7 @@ msgid ""
 "only Apache (2.x) can be configured automatically at this point."
 msgstr ""
 "Zabbix kan användas med webbservrar som har stöd för PHP5 men automatiska "
-"inställningarna kan endast göras för Apache."
+"inställningarna kan endast göras för Apache (2.x)."
 
 #. Type: boolean
 #. Description
@@ -63,14 +62,15 @@ msgid ""
 "Please choose whether you want to reconfigure Apache so that the Zabbix web "
 "frontend is made available at the URL http://.../zabbix"
 msgstr ""
+"Ange om du vill aktivera inställningar för Apache så att Zabbix webbframdel "
+"är tillgänglig via http://.../zabbix"
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#, fuzzy
 #| msgid "Restart the web server(s) now?"
 msgid "Restart Apache now?"
-msgstr "Vill du starta om din webbserver nu?"
+msgstr "Ska Apache startas om nu?"
 
 #. Type: boolean
 #. Description
@@ -116,7 +116,7 @@ msgstr "Ange porten som används av den Zabbix-servern."
 #. Description
 #: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
 msgid "The SQL database must be upgraded manually"
-msgstr ""
+msgstr "SQL-databasen måste uppgraderas manuellt"
 
 #. Type: note
 #. Description
@@ -126,6 +126,9 @@ msgid ""
 "available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
 "properly until the database upgrade is completed."
 msgstr ""
+"SQL-databasen som används av Zabbix måste uppgraderas manuellt genom att "
+"använda skript i /usr/share/doc/zabbix-server-mysql. Zabbix kommer inte att "
+"fungera som tänkt innan databasuppgraderigen är genomförd."
 
 #. Type: note
 #. Description
@@ -135,6 +138,9 @@ msgid ""
 "available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
 "properly until the database upgrade is completed."
 msgstr ""
+"SQL-databasen som används av Zabbix måste uppgraderas manuellt genom att "
+"använda skript i /usr/share/doc/zabbix-server-pgsql. Zabbix kommer inte att "
+"fungera som tänkt innan databasuppgraderigen är genomförd."
 
 #~ msgid "Web server to reconfigure for Zabbix:"
 #~ msgstr "Omkonfiguration av webbserver för Zabbix:"

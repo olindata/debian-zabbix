@@ -6,13 +6,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: zabbix_1:1.8.4\n"
+"Project-Id-Version: zabbix 1:1.8.5-2\n"
 "Report-Msgid-Bugs-To: zabbix@packages.debian.org\n"
 "POT-Creation-Date: 2011-08-07 17:31+0200\n"
-"PO-Revision-Date: 2011-04-21 12:28+0200\n"
+"PO-Revision-Date: 2011-08-15 09:26+0200\n"
 "Last-Translator: Jeroen Schot <schot@a-eskwadraat.nl>\n"
 "Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
-"Language: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,21 +37,17 @@ msgstr ""
 #. Description
 #: ../zabbix-frontend-php.templates:2001
 msgid "Configure Apache?"
-msgstr ""
+msgstr "Apache configureren?"
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:2001
-#, fuzzy
-#| msgid ""
-#| "Zabbix supports any web server supported by PHP5, however only Apache can "
-#| "be configured automatically."
 msgid ""
 "The Zabbix web frontend runs on any web server that supportes PHP5. However "
 "only Apache (2.x) can be configured automatically at this point."
 msgstr ""
-"Zabbix ondersteunt dezelfde webservers als PHP5, maar alleen Apache kan "
-"automatisch worden geconfigureerd."
+"Het Zabbix webfrontend werkt op elke webserver die PHP5 ondersteund. Maar op "
+"dit moment kan alleen Apache (2.x) automatisch worden geconfigureerd."
 
 #. Type: boolean
 #. Description
@@ -60,14 +56,14 @@ msgid ""
 "Please choose whether you want to reconfigure Apache so that the Zabbix web "
 "frontend is made available at the URL http://.../zabbix"
 msgstr ""
+"Geef aan of u Apache zo wilt instellen dat het Zabbix webfrontend "
+"beschikbaar wordt gemaakt op de URL http://.../zabbix"
 
 #. Type: boolean
 #. Description
 #: ../zabbix-frontend-php.templates:3001
-#, fuzzy
-#| msgid "Restart the web server(s) now?"
 msgid "Restart Apache now?"
-msgstr "De webserver(s) nu herstarten?"
+msgstr "Apache nu herstarten?"
 
 #. Type: boolean
 #. Description
@@ -111,7 +107,7 @@ msgstr "Welk poortnummer gebruikt de Zabbix-server?"
 #. Description
 #: ../zabbix-server-mysql.templates:2001 ../zabbix-server-pgsql.templates:2001
 msgid "The SQL database must be upgraded manually"
-msgstr ""
+msgstr "De SQL-database moet handmatig worden opgewaardeerd"
 
 #. Type: note
 #. Description
@@ -121,6 +117,9 @@ msgid ""
 "available in /usr/share/doc/zabbix-server-mysql. Zabbix will not work "
 "properly until the database upgrade is completed."
 msgstr ""
+"De door Zabbix gebruikte SQL-database moet handmatig worden opgewaardeerd "
+"met behulp van de scripts in /usr/share/doc/zabbix-server-mysql. Zabbix zal "
+"niet goed werken totdat het opwaarderen van de database is voltooid."
 
 #. Type: note
 #. Description
@@ -130,12 +129,6 @@ msgid ""
 "available in /usr/share/doc/zabbix-server-pgsql. Zabbix will not work "
 "properly until the database upgrade is completed."
 msgstr ""
-
-#~ msgid "Web server to reconfigure for Zabbix:"
-#~ msgstr "Te herconfigureren webserver:"
-
-#~ msgid ""
-#~ "Please select which Apache version you want to configure the Zabbix "
-#~ "frontend for."
-#~ msgstr ""
-#~ "Voor welke versie van Apache wilt u het Zabbix-frontend configureren?"
+"De door Zabbix gebruikte SQL-database moet handmatig worden opgewaardeerd "
+"met behulp van de scripts in /usr/share/doc/zabbix-server-pgsql. Zabbix zal "
+"niet goed werken totdat het opwaarderen van de database is voltooid."
