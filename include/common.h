@@ -121,9 +121,9 @@
 #define OFF	0
 
 #define	APPLICATION_NAME	"Zabbix Agent"
-#define	ZABBIX_REVDATE		"1 September 2011"
-#define	ZABBIX_VERSION		"1.8.7"
-#define	ZABBIX_REVISION		"21394"
+#define	ZABBIX_REVDATE		"22 November 2011"
+#define	ZABBIX_VERSION		"1.8.9"
+#define	ZABBIX_REVISION		"{ZABBIX_REVISION}"
 
 #if defined(_WINDOWS)
 #	define	ZBX_SERVICE_NAME_LEN	64
@@ -732,14 +732,14 @@ void	ltrim_spaces(char *c);
 void	rtrim_spaces(char *c);
 void	lrtrim_spaces(char *c);
 void	del_zeroes(char *s);
-int	get_param(const char *param, int num, char *buf, int maxlen);
+int	get_param(const char *param, int num, char *buf, size_t max_len);
 int	num_param(const char *param);
 char	*get_param_dyn(const char *param, int num);
 void	remove_param(char *param, int num);
 const char	*get_string(const char *p, char *buf, size_t bufsize);
-int	get_key_param(char *param, int num, char *buf, int maxlen);
+int	get_key_param(char *param, int num, char *buf, size_t max_len);
 int	num_key_param(char *param);
-char	*dyn_escape_param(const char *src);
+char	*zbx_dyn_escape_string(const char *src, const char *charlist);
 int	calculate_item_nextcheck(zbx_uint64_t itemid, int item_type, int delay,
 		const char *delay_flex, time_t now, int *effective_delay);
 time_t	calculate_proxy_nextcheck(zbx_uint64_t hostid, unsigned int delay, time_t now);
@@ -764,7 +764,7 @@ void	zbx_strarr_free(char **arr);
 #	define zbx_setproctitle(fmt, ...) __zbx_zbx_setproctitle(ZBX_CONST_STRING(fmt), ##__VA_ARGS__)
 #else
 #	define zbx_setproctitle __zbx_zbx_setproctitle
-#endif /* HAVE___VA_ARGS__ */
+#endif
 void	__zbx_zbx_setproctitle(const char *fmt, ...);
 
 #define ZBX_KIBIBYTE		1024
@@ -851,8 +851,6 @@ int	regexp_match_ex(ZBX_REGEXP *regexps, int regexps_num, const char *string, co
 
 /* misc functions */
 int	is_ip4(const char *ip);
-
-int	cmp_double(double a,double b);
 
 void	zbx_on_exit(); /* calls exit() at the end! */
 
